@@ -6622,18 +6622,18 @@ button.close {
   border-color: #ce464a;
 }
 .lzm-tab.lzm-tab-yellow .lzm-tab-heading a::before {
-  background: #e39799;
-  border-color: #ce464a;
+  background: #fef88d;
+  border-color: #fef127;
 }
 .lzm-tab.lzm-tab-yellow .lzm-tab-heading a.selected {
-  color: #ce464a;
+  color: #fef127;
 }
 .lzm-tab.lzm-tab-yellow .lzm-tab-heading a.selected::before {
-  background: #ce464a;
-  border-color: #ce464a;
+  background: #fef127;
+  border-color: #fef127;
 }
 .lzm-tab.lzm-tab-yellow .lzm-tab-body {
-  border-color: #ce464a;
+  border-color: #fef127;
 }
 @font-face {
   font-family: 'PT Sans Narrow';
