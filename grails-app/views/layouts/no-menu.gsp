@@ -18,7 +18,6 @@
 
         <style type="text/css">
         body {
-            padding-top   : 85px;
             margin-bottom : 30px;
         }
         </style>

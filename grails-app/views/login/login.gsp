@@ -19,7 +19,7 @@
 
         <div class="row">
             <div class="col-md-3 col-md-offset-9">
-                <div class="lzm-tab lzm-tab-left lzm-tab-warning " style="background: none">
+                <div class="lzm-tab lzm-tab-left lzm-tab-warning " style="background: none;width: 262px">
                     <div class="lzm-tab-heading" style="background: none">
                         <a href="#" class="selected">Entrada</a>
                     </div>
