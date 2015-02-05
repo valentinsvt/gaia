@@ -7,50 +7,6 @@
 }
 
 .banner-top {
-    position   : fixed;
-    top        : 0;
-    left       : 0;
-    height     : 50px;
-    width      : 100%;
-    z-index    : 1030;
-    background : #006EB7;
-}
-
-.banner-top div {
-    float  : left;
-    height : 50px;
-}
-
-.banner-esquina {
-    width      : 47px;
-    background : url("../../images/barras/esquina-left.png") no-repeat;
-}
-
-.banner-esquina.der {
-    background : url("../../images/barras/esquina-right.png") no-repeat;
-    position          : absolute;
-    right             : 0;
-}
-
-.banner-title {
-    font-family : "PT Sans Narrow", sans-serif;
-    font-size   : 20pt;
-    font-weight : bold;
-    color       : #fff;
-    margin-left : 70px;
-}
-
-.banner-search {
-    float        : right !important;
-    margin-right : 60px;
-    width        : 200px;
-}
-
-.banner-search input {
-    margin-top : 8px;
-}
-
-.banner-top-lg {
     height     : 75px;
 
     background : rgba(0, 110, 183, 1);
@@ -63,20 +19,36 @@
     filter     : progid:DXImageTransform.Microsoft.gradient(startColorstr='#006eb7', endColorstr='#6ec7ff', GradientType=0);
 }
 
-.banner-top-lg div {
+.banner-top div {
+    float  : left;
     height : 75px;
 }
 
-.banner-top-lg .banner-esquina {
-    width      : 79px;
+.banner-esquina {
     background : url("../../images/barras/esquina-left.png") no-repeat;
 }
 
-.banner-top-lg .banner-esquina.der {
-    width      : 79px;
+.banner-esquina.der {
     background : url("../../images/barras/esquina-right.png") no-repeat;
+    position   : absolute;
+    right      : 0;
 }
 
-.banner-top-lg .banner-title {
-    margin-top : 15px;
+.banner-title {
+    font-family : "PT Sans Narrow", sans-serif;
+    font-size   : 20pt;
+    font-weight : bold;
+    color       : #fff;
+    margin-left : 70px;
+    margin-top  : 15px;
+}
+
+.banner-search {
+    float        : right !important;
+    margin-right : 60px;
+    width        : 200px;
+}
+
+.banner-search input {
+    margin-top : 8px;
 }
