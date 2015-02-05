@@ -19,7 +19,7 @@
 
         <div class="row">
             <div class="col-md-3 col-md-offset-9">
-                <div class="lzm-tab lzm-tab-left lzm-tab-primary " style="background: none">
+                <div class="lzm-tab lzm-tab-left lzm-tab-warning " style="background: none">
                     <div class="lzm-tab-heading" style="background: none">
                         <a href="#" class="selected">Entrada</a>
                     </div>
@@ -39,7 +39,7 @@
                             </div>
 
                             <div class="text-right">
-                                <a href="#" id="btn-login" class="btn btn-primary">Validar <i class="fa fa-unlock"></i>
+                                <a href="#" id="btn-login" class="btn btn-warning" style="color: #000000;">Validar <i class="fa fa-unlock"></i>
                                 </a>
                             </div>
                         </g:form>

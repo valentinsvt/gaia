@@ -13,7 +13,7 @@
     height     : 50px;
     width      : 100%;
     z-index    : 1030;
-    background : url("../../images/barras/bg.jpg") repeat-x;
+    background : #006EB7;
 }
 
 .banner-top div {
@@ -57,7 +57,7 @@
 
 .banner-top-lg {
     height     : 75px;
-    background : url("../../images/barras/bg-lg.jpg") repeat-x;
+    background : #006EB7;
 }
 
 .banner-top-lg div {

@@ -12,7 +12,7 @@ class MenuTagLib {
         def html = ""
         html += "<footer class='footer'>"
         html += "<div class='container text-center'>"
-        html += "<strong>HIDALGO NARANJO INGENIEROS & ARQUITECTOS S.A.</strong>&nbsp;&nbsp;&nbsp;&nbsp;2014 Todos los derechos reservados"
+        html += "2015 Todos los derechos reservados"
         html += "</div>"
         html += "</footer>"
         out << html
@@ -26,7 +26,7 @@ class MenuTagLib {
         html += "<div class='banner-top ${large}'>"
         html += "<div class='banner-esquina'>"
         html += "</div>"
-        html += "<div class='banner-title'>HIDALGO NARANJO INGENIEROS & ARQUITECTOS S.A.</div>"
+        html += "<div class='banner-title'>PETRÓLEOS Y SERVICIOS - Sistema documental de gestión ambiental integral</div>"
         if (large != "") {
             html += "<div class='banner-logo'>"
             html += "</div>"
