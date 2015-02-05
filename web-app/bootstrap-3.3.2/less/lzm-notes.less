@@ -1,0 +1,94 @@
+//
+// Notes
+// --------------------------------------------------
+
+.lzm-note {
+  border-bottom-right-radius : @alert-border-radius;
+  border-top-right-radius    : @alert-border-radius;
+  border-bottom-left-radius  : @alert-border-radius;
+  border-top-left-radius     : 0;
+  background                 : @btn-default-bg;
+  position                   : relative;
+  margin-left                : (-((@grid-gutter-width)));
+  padding-left               : (@alert-padding * 3);
+
+  &:before {
+    content      : "";
+    position     : absolute;
+    top          : (-(@grid-gutter-width / 2));
+    left         : 0;
+    border-color : transparent @alert-success-border @alert-success-border transparent;
+    border-style : solid;
+    border-width : (@grid-gutter-width / 4);
+    width        : 0;
+    height       : 0;
+  }
+}
+
+.lzm-note.alert-success:before {
+  border-color : transparent @alert-success-border @alert-success-border transparent;
+}
+
+.lzm-note.alert-info:before {
+  border-color : transparent @alert-info-border @alert-info-border transparent;
+}
+
+.lzm-note.alert-warning:before {
+  border-color : transparent @alert-warning-border @alert-warning-border transparent;
+}
+
+.lzm-note.alert-danger:before {
+  border-color : transparent @alert-danger-border @alert-danger-border transparent;
+}
+
+.lzm-note-right {
+  border-bottom-right-radius : @alert-border-radius;
+  border-top-left-radius     : @alert-border-radius;
+  border-bottom-left-radius  : @alert-border-radius;
+  border-top-right-radius    : 0;
+  background                 : @btn-default-bg;
+  position                   : relative;
+  margin-right               : (-((@grid-gutter-width)));
+  padding-right              : (@alert-padding * 3);
+
+  &:before {
+    content      : "";
+    position     : absolute;
+    top          : (-(@grid-gutter-width / 2));
+    right        : 0;
+    border-color : transparent transparent @alert-success-border @alert-success-border;
+    border-style : solid;
+    border-width : (@grid-gutter-width / 4);
+    width        : 0;
+    height       : 0;
+  }
+}
+
+.lzm-note-right.alert-success:before {
+  border-color : transparent transparent @alert-success-border @alert-success-border;
+}
+
+.lzm-note-right.alert-info:before {
+  border-color : transparent transparent @alert-info-border @alert-info-border;
+}
+
+.lzm-note-right.alert-warning:before {
+  border-color : transparent transparent @alert-warning-border @alert-warning-border;
+}
+
+.lzm-note-right.alert-danger:before {
+  border-color : transparent transparent @alert-danger-border @alert-danger-border;
+}
+
+.alert-dismissable.lzm-note-right, // The misspelled .alert-dismissable was deprecated in 3.2.0.
+.alert-dismissible.lzm-note-right {
+  padding-right : (@alert-padding + 40);
+
+  // Adjust close link position
+  .close {
+    position : relative;
+    top      : -2px;
+    right    : -10px;
+    color    : inherit;
+  }
+}

@@ -1,0 +1,131 @@
+//
+// Notes
+// --------------------------------------------------
+
+@prct-darken : 25%;
+
+.svt-note {
+  border-bottom-right-radius : @alert-border-radius;
+  border-top-right-radius    : @alert-border-radius;
+  border-top-left-radius     : @alert-border-radius;
+  border-bottom-left-radius  : 0;
+  background                 : @btn-default-bg;
+  position                   : relative;
+  padding-left               : 45px;
+  margin-left                : -50px;
+  font-weight                : bold;
+  font-size                  : 20px;
+  display                    : inline;
+  padding-right              : @alert-padding;
+
+  &:before {
+    content      : "";
+    position     : absolute;
+    bottom       : -14px;
+    left         : -2px;
+    border-color : @brand-primary @brand-primary transparent transparent;
+    border-style : solid;
+    border-width : (@grid-gutter-width / 4);
+    width        : 0;
+    height       : 0;
+    color        : white;
+  }
+}
+
+.svt-bg-default {
+  background-color : @brand-default;
+  color            : #000;
+  border           : 1px solid @gray-lighter;
+}
+
+.svt-bg-accent {
+  background-color : @brand-accent;
+  color            : #ffffff;
+  border           : 1px solid @brand-accent;
+}
+
+.svt-bg-primary {
+  background-color : @brand-primary;
+  color            : #ffffff;
+  border           : 1px solid @brand-primary;
+}
+
+.svt-bg-info {
+  background-color : @brand-info;
+  color            : #ffffff;
+  border           : 1px solid @brand-info;
+}
+
+.svt-bg-danger {
+  background-color : @brand-danger;
+  color            : #ffffff;
+  border           : 1px solid @brand-danger;
+}
+
+.svt-bg-success {
+  background-color : @brand-success;
+  color            : #ffffff;
+  border           : 1px solid @brand-success;
+}
+
+.svt-bg-warning {
+  background-color : @brand-warning;
+  color            : #ffffff;
+  border           : 1px solid @brand-warning;
+}
+
+.svt-border-default {
+  border : 1px solid @gray-lighter;
+}
+
+.svt-border-accent {
+  border : 1px solid darken(@brand-accent, @prct-darken);
+}
+
+.svt-border-primary {
+  border : 1px solid darken(@brand-primary, @prct-darken);
+}
+
+.svt-border-info {
+  border : 1px solid darken(@brand-info, @prct-darken);
+}
+
+.svt-border-danger {
+  border : 1px solid darken(@brand-danger, @prct-darken);
+}
+
+.svt-border-success {
+  border : 1px solid darken(@brand-success, @prct-darken);
+}
+
+.svt-border-warning {
+  border : 1px solid darken(@brand-warning, @prct-darken);
+}
+
+.svt-note.svt-bg-default:before {
+  border-color : darken(@brand-default, @prct-darken) darken(@brand-default, @prct-darken) transparent transparent;
+}
+
+.svt-note.svt-bg-accent:before {
+  border-color : darken(@brand-accent, @prct-darken) darken(@brand-accent, @prct-darken) transparent transparent;
+}
+
+.svt-note.svt-bg-primary:before {
+  border-color : darken(@brand-primary, @prct-darken) darken(@brand-primary, @prct-darken) transparent transparent;
+}
+
+.svt-note.svt-bg-success:before {
+  border-color : darken(@brand-success, @prct-darken) darken(@brand-success, @prct-darken) transparent transparent;
+}
+
+.svt-note.svt-bg-info:before {
+  border-color : darken(@brand-info, @prct-darken) darken(@brand-info, @prct-darken) transparent transparent;
+}
+
+.svt-note.svt-bg-warning:before {
+  border-color : darken(@brand-warning, @prct-darken) darken(@brand-warning,@prct-darken) transparent transparent;
+}
+
+.svt-note.svt-bg-danger:before {
+  border-color : darken(@brand-danger, @prct-darken) darken(@brand-danger,@prct-darken) transparent transparent;
+}
