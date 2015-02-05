@@ -10,7 +10,7 @@ class MenuTagLib {
 
     def stickyFooter = { attrs ->
         def html = ""
-        html += "<footer class='footer'>"
+        html += "<footer class='footer ${attrs['class']}'>"
         html += "<div class='container text-center'>"
         html += "2015 Todos los derechos reservados"
         html += "</div>"

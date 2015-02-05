@@ -42,13 +42,3 @@
     margin-left : 70px;
     margin-top  : 15px;
 }
-
-.banner-search {
-    float        : right !important;
-    margin-right : 60px;
-    width        : 200px;
-}
-
-.banner-search input {
-    margin-top : 8px;
-}

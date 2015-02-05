@@ -31,6 +31,6 @@
             <g:layoutBody/>
         </div>
 
-        <mn:stickyFooter/>
+        <mn:stickyFooter class="footer-login"/>
     </body>
 </html>
