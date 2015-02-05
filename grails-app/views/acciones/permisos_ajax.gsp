@@ -1,4 +1,4 @@
-<%@ page import="gaia.seguridad.Permiso; gaia.seguridad.Modulo; gaia.TipoAccion" %>
+<%@ page import="gaia.seguridad.Permiso; gaia.seguridad.Modulo; gaia.seguridad.TipoAccion" %>
 
 <script src="${resource(dir: 'js/plugins/fixed-header-table-1.3', file: 'jquery.fixedheadertable.js')}"></script>
 <link rel="stylesheet" type="text/css" href="${resource(dir: 'js/plugins/fixed-header-table-1.3/css', file: 'defaultTheme.css')}"/>

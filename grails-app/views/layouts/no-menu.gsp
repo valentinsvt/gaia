@@ -19,6 +19,7 @@
         <style type="text/css">
         body {
             margin-bottom : 30px;
+            padding-top: 0px;
         }
         </style>
     </head>

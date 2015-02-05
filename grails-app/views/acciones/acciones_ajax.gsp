@@ -37,7 +37,7 @@
                     ${accion.control.nombre}
                 </td>
                 <td>
-                    <g:select name="modulo" from="${gaia.Modulo.list([sort: 'nombre'])}" optionKey="id" optionValue="nombre" data-id="${accion.id}"
+                    <g:select name="modulo" from="${gaia.seguridad.Modulo.list([sort: 'nombre'])}" optionKey="id" optionValue="nombre" data-id="${accion.id}"
                               value="${accion.modulo.id}" class="form-control input-sm input-sm select-mod" data-original="${accion.modulo.id}"
                               tabindex="${i + 1 + acciones.size()}"/>
                 </td>

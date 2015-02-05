@@ -5,7 +5,7 @@
   Time: 04:10 PM
 --%>
 
-<%@ page import="gaia.Perfil" contentType="text/html;charset=UTF-8" %>
+<%@ page import="gaia.seguridad.Perfil" contentType="text/html;charset=UTF-8" %>
 <html>
     <head>
         <meta name="layout" content="main"/>
