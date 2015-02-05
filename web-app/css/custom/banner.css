@@ -23,16 +23,11 @@
 
 .banner-esquina {
     width      : 47px;
-    background : url("../../images/barras/esquina.png") no-repeat;
+    background : url("../../images/barras/esquina-left.png") no-repeat;
 }
 
 .banner-esquina.der {
-    -moz-transform    : scaleX(-1);
-    -o-transform      : scaleX(-1);
-    -webkit-transform : scaleX(-1);
-    transform         : scaleX(-1);
-    filter            : FlipH;
-    -ms-filter        : "FlipH";
+    background : url("../../images/barras/esquina-right.png") no-repeat;
     position          : absolute;
     right             : 0;
 }
@@ -74,7 +69,12 @@
 
 .banner-top-lg .banner-esquina {
     width      : 79px;
-    background : url("../../images/barras/esquina-lg.png") no-repeat;
+    background : url("../../images/barras/esquina-left.png") no-repeat;
+}
+
+.banner-top-lg .banner-esquina.der {
+    width      : 79px;
+    background : url("../../images/barras/esquina-right.png") no-repeat;
 }
 
 .banner-top-lg .banner-title {
