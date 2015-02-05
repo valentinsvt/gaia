@@ -6407,6 +6407,11 @@ button.close {
   background-color: #ffa324;
   border: 1px solid #ffa324;
 }
+.svt-bg-yellow {
+  color: #000;
+  background-color: #fef127;
+  border: 1px solid #fef127;
+}
 .svt-border-default {
   border: 1px solid #eee;
 }
@@ -6427,6 +6432,9 @@ button.close {
 }
 .svt-border-warning {
   border: 1px solid #a35f00;
+}
+.svt-border-yellow {
+  border: 1px solid #a59b01;
 }
 .svt-note.svt-bg-default:before {
   border-color: #bfbfbf #bfbfbf transparent transparent;
@@ -6611,6 +6619,20 @@ button.close {
   border-color: #ce464a;
 }
 .lzm-tab.lzm-tab-danger .lzm-tab-body {
+  border-color: #ce464a;
+}
+.lzm-tab.lzm-tab-yellow .lzm-tab-heading a::before {
+  background: #e39799;
+  border-color: #ce464a;
+}
+.lzm-tab.lzm-tab-yellow .lzm-tab-heading a.selected {
+  color: #ce464a;
+}
+.lzm-tab.lzm-tab-yellow .lzm-tab-heading a.selected::before {
+  background: #ce464a;
+  border-color: #ce464a;
+}
+.lzm-tab.lzm-tab-yellow .lzm-tab-body {
   border-color: #ce464a;
 }
 @font-face {
