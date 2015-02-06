@@ -6,7 +6,7 @@ class UrlMappings {
                 // apply constraints here
             }
         }
-        "/"(controller: "inicio", action: "index")
+        "/"(controller: "pruebas", action: "links")
 
         "401"(controller: 'shield', action: 'unauthorized_401')
         "404"(controller: 'shield', action: 'notFound_404')
