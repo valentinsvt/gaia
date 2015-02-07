@@ -199,7 +199,7 @@ class AccionesController extends Shield {
      * Acción llamada con ajax que muestra una lista de acciones filtrando por módulo y tipo para editar los permisos
      */
     def permisos_ajax() {
-        def perfil = Perfil.get(params.perf.toLong())
+        def perfil = Perfil.findByCodigo(params.perf)
         def modulo = Modulo.get(params.id)
         def acciones = Accion.withCriteria {
             eq("modulo", modulo)
@@ -216,7 +216,8 @@ class AccionesController extends Shield {
      * Acción llamada con ajax que guarda los permisos de un perfil
      */
     def guardarPermisos_ajax() {
-        def perfil = Perfil.get(params.perfil.toLong())
+        println "guardar "+params
+        def perfil = Perfil.findByCodigo(params.perfil)
         def modulo = Modulo.get(params.modulo.toLong())
 
         //todos los permisos actuales de este perfil en este modulo

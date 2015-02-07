@@ -10,7 +10,7 @@
 </style>
 
 <p>
-    Permisos asignados al perfil <strong>${perfil.nombre}</strong>
+    Permisos asignados al perfil <strong>${perfil.descripcion}</strong>
 </p>
 
 <table id="tblPermisos" class="table table-bordered table-condensed table-hover">
@@ -95,14 +95,14 @@
     });
 
     $(".btn-save-perm").click(function () {
-        var perfil = "${perfil.id}";
+        var perfil = "${perfil.codigo}";
         var data = {
             accion: ""
         };
         $(".checked").each(function () {
             data.accion += $(this).data("id") + ",";
         });
-        data.perfil = "${perfil.id}";
+        data.perfil = "${perfil.codigo}";
         data.modulo = "${modulo.id}";
         openLoader();
         $.ajax({

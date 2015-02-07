@@ -1,6 +1,7 @@
 package gaia.seguridad
 
 import gaia.alertas.Alerta
+import gaia.estaciones.Estacion
 
 class LoginController {
 
@@ -77,7 +78,6 @@ class LoginController {
             }
             session.usuario = user
             session.usuarioKerberos = user.login
-            session.time = new Date()
             if (perfiles.size() == 1) {
                 doLogin(perfiles.first().perfil)
             } else {
@@ -179,10 +179,10 @@ class LoginController {
             else {//
 //                redirect(controller: "retrasadosWeb", action: "reporteRetrasadosConsolidado", params: [dpto: Persona.get(session.usuario.id).departamento.id,inicio:"1"])
 
-                        redirect(controller: "inicio", action: "index")
+                redirect(controller: "inicio", action: "index")
 
 
-                }
+            }
 
 //            }
         } else {
@@ -220,4 +220,54 @@ class LoginController {
         session.permisos = hp
 //        println "permisos menu "+session.permisos
     }
+
+    def remoteLogin(){
+        if(!params.token)
+            response.sendError(403)
+        def data = params.token.split("\\|")
+        def usuario = null
+        def perfil = null
+        def perfilCliente = Perfil.findByDescripcion("Cliente")
+        def token = new Date().format("ddMMyyyy").encodeAsMD5()
+        println "data "+data
+        if(data.size()!=4)
+            response.sendError(403)
+        if(data[1]==perfilCliente.codigo.encodeAsMD5()){
+            /*cambiar por el pasword del cliente*/
+            usuario = Estacion.findByRucAndCodigo(data[0],data[3].trim())
+            if(!usuario)
+                response.sendError(403)
+            if(token==data[2]){
+                session.usuario = usuario
+                session.perfil = perfilCliente
+                session.usuarioKerberos = usuario.ruc
+                session.tipo="cliente"
+                redirect(controller: "inicio",action: "index")
+            }
+        }else{
+            usuario = Persona.findByLoginAndPassword(data[0].trim(),data[3].trim())
+            //println "usuario "+usuario.login
+            if(!usuario)
+                response.sendError(403)
+            Perfil.list().each {
+                if(it.codigo.encodeAsMD5()==data[1].trim()) {
+                    perfil = it
+                    return
+                }
+            }
+            if(!perfil)
+                response.sendError(403)
+            if(token==data[2]){
+                session.usuario = usuario
+                session.perfil = perfil
+                session.usuarioKerberos = usuario.login
+                session.tipo="usuario"
+                redirect(controller: "inicio",action: "index")
+            }
+
+
+        }
+
+    }
+
 }

@@ -1,3 +1,5 @@
+import gaia.documentos.Dashboard
+import gaia.estaciones.Estacion
 import gaia.seguridad.Modulo
 import gaia.seguridad.Persona
 import gaia.seguridad.Perfil
@@ -39,44 +41,18 @@ class BootStrap {
             }
         }
 
-        if (Persona.count() == 0) {
-            def admin = new Persona()
-
-            admin.cedula = "1715068159"
-            admin.nombre = "Valentin"
-            admin.apellido = "Zapata"
-            admin.sexo = "F"
-            admin.fechaNacimiento = new Date().parse("dd-MM-yyyy", "23-01-1987")
-            admin.mail = "valentinsvt@hotmail.com"
-            admin.login = "admin"
-            admin.password = "123".encodeAsMD5()
-            admin.autorizacion = "456".encodeAsMD5()
-            admin.activo = 1
-            if (admin.save(flush: true)) {
-                println "Creado el admin"
-            } else {
-                println "error al crear el admin: " + admin.errors
-            }
-
-            def perfil = new Perfil()
-            perfil.nombre = "Administrador"
-            perfil.descripcion = "Perfil de administración"
-            perfil.codigo = "ADM"
-            if (perfil.save(flush: true)) {
-                println "Creado el perfil admin"
-            } else {
-                println "error al crear el perfil admin: " + perfil.errors
-            }
-
-            def sesion = new Sesion()
-            sesion.usuario = admin
-            sesion.perfil = perfil
-            if (sesion.save(flush: true)) {
-                println "Creada la sesion para admin"
-            } else {
-                println "error al crear la sesion para admin: " + sesion.errors
+        if(Dashboard.count()==0){
+            Estacion.findAllByAplicacion(1,[sort:"nombre"]).each {
+                def dash = new Dashboard()
+                dash.estacion=it
+                dash.save(flush: true)
             }
         }
+
+
+
+
+
 
     }
     def destroy = {
