@@ -4,6 +4,7 @@
     <meta name="layout" content="main"/>
     <title>Estado documentación por estación</title>
     <link href="${g.resource(dir: 'css/custom/', file: 'dashboard.css')}" rel="stylesheet" type="text/css">
+    <imp:js src="${resource(dir: 'js/plugins/jquery-highlight',file: 'jquery-highlight1.js')}"></imp:js>
     <style>
     .td-semaforo{
         text-align: center;
@@ -12,12 +13,11 @@
     .circle-card{
         width: 22px ;
         height: 22px;
-        border: 1px solid #000000;
     }
     .circle-btn{
         cursor: pointer;
     }
-
+    .highlight { background-color: yellow; }
     </style>
 </head>
 <body>
@@ -31,7 +31,7 @@
                     <div class="col-md-5">
                         <div class="input-group" >
                             <input type="text" class="form-control input-sm" id="txt-buscar" placeholder="Buscar">
-                            <span class="input-group-addon svt-bg-primary btn-buscar" style="cursor: pointer" >
+                            <span class="input-group-addon svt-bg-primary " id="btn-buscar" style="cursor: pointer" >
                                 <i class="fa fa-search " ></i>
                             </span>
                         </div>
@@ -66,7 +66,7 @@
         <tbody>
         <g:each in="${dash}" var="d" status="">
             <tr class=" tr-info ${d.auditoria==1?'green-audt':'red-audt'} ${d.licencia==1?'green-lic':'red-lic'} ${d.docs==1?'green-doc':(d.docs==0)?'red-doc':'orange-doc'}">
-                <td>${d.estacion}</td>
+                <td class="desc">${d.estacion}</td>
                 <td class="td-semaforo">
                     <div class="circle-card ${d.licencia==1?'card-bg-green':'svt-bg-danger'}"></div>
                 </td>
@@ -101,7 +101,21 @@
         });
         $("#reset").click(function () {
             $(".tr-info").show()
+            $(".desc").removeHighlight();
         })
+
+        $("#btn-buscar").click(function(){
+            var buscar = $("#txt-buscar").val().trim()
+            $(".desc").removeHighlight();
+            $(".tr-info").hide()
+            if(buscar!=""){
+                $(".desc").highlight(buscar, true);
+                $(".highlight").parents("tr").show()
+            }else{
+                $(".tr-info").show()
+            }
+
+        });
     });
 </script>
 </body>
