@@ -6693,7 +6693,7 @@ button.close {
 }
 .navbar-nav > .active > a,
 .navbar-nav > .active > a:hover {
-  border-top: 3px solid #82a640;
+  border-top: 3px solid #dd3a1f;
   border-right: solid 1px #b3b3b3;
   border-left: solid 1px #b3b3b3;
 }
