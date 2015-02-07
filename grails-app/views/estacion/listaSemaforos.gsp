@@ -1,0 +1,108 @@
+<%@ page contentType="text/html;charset=UTF-8" %>
+<html>
+<head>
+    <meta name="layout" content="main"/>
+    <title>Estado documentación por estación</title>
+    <link href="${g.resource(dir: 'css/custom/', file: 'dashboard.css')}" rel="stylesheet" type="text/css">
+    <style>
+    .td-semaforo{
+        text-align: center;
+        width: 110px;
+    }
+    .circle-card{
+        width: 22px ;
+        height: 22px;
+        border: 1px solid #000000;
+    }
+    .circle-btn{
+        cursor: pointer;
+    }
+
+    </style>
+</head>
+<body>
+<elm:container tipo="horizontal" titulo="Estado de la documentación por estación">
+
+    <table class="table table-striped table-hover table-bordered" style="margin-top: 15px;font-size: 12px">
+        <thead>
+        <tr>
+            <th>
+                <div class="row" style="margin-top: 0px">
+                    <div class="col-md-5">
+                        <div class="input-group" >
+                            <input type="text" class="form-control input-sm" id="txt-buscar" placeholder="Buscar">
+                            <span class="input-group-addon svt-bg-primary btn-buscar" style="cursor: pointer" >
+                                <i class="fa fa-search " ></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        Estación
+                    </div>
+                    <div class="col-md-3 col-md-offset-2">
+                        <a href="#" class="btn btn-primary btn-sm" id="reset"><i class="fa fa-refresh"></i> Resetear filtros</a>
+                    </div>
+                </div>
+            </th>
+            <th class="td-semaforo">
+                Licencia<br>
+                <div class="circle-card card-bg-green circle-btn licencia-green" title="Filtrar por color verde" mostrar="green-lic"></div>
+                <div class="circle-card svt-bg-danger circle-btn licencia-red" title="Filtrar por color rojo" mostrar="red-lic"></div>
+            </th>
+            <th class="td-semaforo">
+                Auditoría<br>
+                <div class="circle-card card-bg-green circle-btn auditoria-green" title="Filtrar por color verde" mostrar="green-audt"></div>
+                <div class="circle-card svt-bg-danger circle-btn auditoria-red" title="Filtrar por color rojo" mostrar="red-audt"></div>
+            </th>
+            <th class="td-semaforo">Doc. Soporte<br>
+                <div class="circle-card card-bg-green circle-btn doc-green" title="Filtrar por color verde" mostrar="green-doc"></div>
+                <div class="circle-card svt-bg-warning circle-btn doc-orange" title="Filtrar por color amarillo" mostrar="orange-doc"></div>
+                <div class="circle-card svt-bg-danger circle-btn doc-red" title="Filtrar por color rojo" mostrar="red-doc"></div>
+            </th>
+
+            <th>Ver</th>
+        </tr>
+        </thead>
+        <tbody>
+        <g:each in="${dash}" var="d" status="">
+            <tr class=" tr-info ${d.auditoria==1?'green-audt':'red-audt'} ${d.licencia==1?'green-lic':'red-lic'} ${d.docs==1?'green-doc':(d.docs==0)?'red-doc':'orange-doc'}">
+                <td>${d.estacion}</td>
+                <td class="td-semaforo">
+                    <div class="circle-card ${d.licencia==1?'card-bg-green':'svt-bg-danger'}"></div>
+                </td>
+                <td class="td-semaforo">
+                    <div class="circle-card ${d.auditoria==1?'card-bg-green':'svt-bg-danger'}"></div>
+                </td>
+                <td class="td-semaforo">
+                    <div class="circle-card ${d.docs==1?'card-bg-green':(d.docs==0)?'svt-bg-danger':'svt-bg-warning'}"></div>
+                </td>
+                <td class="td-semaforo">
+                    <a href="${g.createLink(controller: 'estacion',action: 'showEstacion',id: d.estacion.id)}" class="btn btn-primary btn-sm" title="Ver"><i class="fa fa-search"></i></a>
+                </td>
+            </tr>
+        </g:each>
+        </tbody>
+    </table>
+</elm:container>
+<script type="text/javascript">
+    function search(clase){
+        $(".tr-info").hide()
+        $("."+clase).show()
+    }
+    $(function () {
+        <g:if test="${search}">
+        openLoader();
+        search("${search}")
+        closeLoader()
+        </g:if>
+        $(".circle-btn").click(function () {
+            $(".tr-info").hide()
+            $("." + $(this).attr("mostrar")).show()
+        });
+        $("#reset").click(function () {
+            $(".tr-info").show()
+        })
+    });
+</script>
+</body>
+</html>

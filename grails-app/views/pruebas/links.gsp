@@ -13,5 +13,9 @@
 
 <body>
 <h1>Likns</h1>
+<ul>
+    <li><a href="${linkUsu}"> Link usuario</a> </li>
+    <li><a href="${linkEstacion}"> Link estacion</a> </li>
+</ul>
 </body>
 </html>

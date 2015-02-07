@@ -29,8 +29,8 @@
                 </div>
 
                 <div class="col-md-2">
-                    <g:select name="perfil" class="form-control input-sm" from="${Perfil.list([sort: 'nombre'])}"
-                              optionKey="id" optionValue="nombre"/>
+                    <g:select name="perfil" class="form-control input-sm" from="${Perfil.list([sort: 'descripcion'])}"
+                              optionKey="codigo" optionValue="descripcion"/>
                 </div>
             </div>
         </div>

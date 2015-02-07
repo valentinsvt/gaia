@@ -12,7 +12,7 @@ class MenuTagLib {
         def html = ""
         html += "<footer class='footer ${attrs['class']}'>"
         html += "<div class='container text-center'>"
-        html += "2015 Todos los derechos reservados"
+        html += "Petroleos y servicios - 2015 Todos los derechos reservados"
         html += "</div>"
         html += "</footer>"
         out << html
@@ -58,7 +58,7 @@ class MenuTagLib {
         }
         def strItems = ""
         if (!attrs.title) {
-            attrs.title = "Arazu"
+            attrs.title = "Sistema de documentación ambiental"
         }
 //        attrs.title = attrs.title.toUpperCase()
         if (usuario) {
@@ -137,7 +137,7 @@ class MenuTagLib {
         html += '<ul class="nav navbar-nav navbar-right">'
         html += '<li><a href="' + g.createLink(controller: 'alerta', action: 'list') + '" ' + ((count > 0) ? ' style="color:#ab623a" class="annoying"' : "") + '><i class="fa fa-exclamation-triangle"></i> Alertas ' + alertas + '</a></li>'
         html += '<li class="dropdown">'
-        html += '<a href="#" class="dropdown-toggle" data-toggle="dropdown">' + session.usuario.login + ' (' + session.perfil + ')' + ' <b class="caret"></b></a>'
+        html += '<a href="#" class="dropdown-toggle" data-toggle="dropdown">' + session.usuario + ' (' + session.perfil + ')' + ' <b class="caret"></b></a>'
         html += '<ul class="dropdown-menu">'
         html += '<li><a href="' + g.createLink(controller: 'persona', action: 'personal') + '"><i class="fa fa-cogs"></i> Configuración</a></li>'
         html += '<li class="divider"></li>'

@@ -1,5 +1,8 @@
 package gaia.estaciones
 
+import gaia.documentos.Documento
+import gaia.documentos.TipoDocumento
+
 class Estacion {
 
 
@@ -25,7 +28,7 @@ class Estacion {
 
     String mail
 
-    int estado = 0
+    String estado
 
     /**
      * Define los campos que se van a ignorar al momento de hacer logs
@@ -74,6 +77,32 @@ class Estacion {
      */
     String toString() {
         return "${this.nombre}"
+    }
+
+    def getColorLicencia(){
+        def lic = Documento.findByTipo(TipoDocumento.findByCodigo("TP01"))
+        if(lic) {
+            return ["card-bg-green",lic]
+        }else{
+            return ["svt-bg-danger",null]
+        }
+    }
+    def getColorAuditoria(){
+        def doc = Documento.findByTipo(TipoDocumento.findByCodigo("TP02"))
+        if(doc) {
+            return ["card-bg-green",doc]
+        }else{
+            return ["svt-bg-danger",null]
+        }
+    }
+    def getColorDocs(){
+        def tipos = []
+        def docs = Documento.findByTipoInList(tipos)
+        if(docs) {
+            return ["card-bg-green",docs]
+        }else{
+            return ["svt-bg-danger",null]
+        }
     }
 
 }

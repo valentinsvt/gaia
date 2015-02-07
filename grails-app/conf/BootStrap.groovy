@@ -1,3 +1,5 @@
+import gaia.documentos.Dashboard
+import gaia.estaciones.Estacion
 import gaia.seguridad.Modulo
 import gaia.seguridad.Persona
 import gaia.seguridad.Perfil
@@ -39,19 +41,16 @@ class BootStrap {
             }
         }
 
-
-            if(Sesion.count()==0){
-
-
-                def sesion = new Sesion()
-                sesion.usuario = Persona.findByLogin("admin")
-                sesion.perfil = perfil
-                if (sesion.save(flush: true)) {
-                    println "Creada la sesion para admin"
-                } else {
-                    println "error al crear la sesion para admin: " + sesion.errors
-                }
+        if(Dashboard.count()==0){
+            Estacion.findAllByAplicacion(1,[sort:"nombre"]).each {
+                def dash = new Dashboard()
+                dash.estacion=it
+                dash.save(flush: true)
             }
+        }
+
+
+
 
 
 

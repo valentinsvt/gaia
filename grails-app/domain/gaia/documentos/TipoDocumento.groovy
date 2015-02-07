@@ -8,6 +8,8 @@ class TipoDocumento {
 
     String caduca /*S--> si, N--> no */
 
+    String codigo
+
     /**
      * Define los campos que se van a ignorar al momento de hacer logs
      */
@@ -27,6 +29,7 @@ class TipoDocumento {
             nombre column: 'tpdcnmbr'
             tipo column: 'tpdctipo'
             caduca column: 'tpdccdca'
+            codigo column: 'tpdccdgo'
         }
     }
 
@@ -38,6 +41,6 @@ class TipoDocumento {
         nombre(blank: false,nullable: false,size: 1..150)
         tipo(blank: false,nullable: false,size: 1..1,inList: ["P","N"])
         caduca(blank: false,nullable: false,size: 1..1,inList: ["S","N"])
-
+        codigo(blank: false,nullable: false,size: 1..5)
     }
 }

@@ -33,19 +33,38 @@ class AlertaController extends Shield {
         }
         def list
         if (params.search) {
-            def c = Alerta.createCriteria()
-            list = c.list(params) {
-                eq("persona", session.usuario)
-                isNull("fechaRecibido")
-                or {
-                    /* TODO: cambiar aqui segun sea necesario */
-                    ilike("accion", "%" + params.search + "%")
-                    ilike("controlador", "%" + params.search + "%")
-                    ilike("mensaje", "%" + params.search + "%")
+            if(session.tipo=="usuario"){
+                def c = Alerta.createCriteria()
+                list = c.list(params) {
+                    eq("persona", session.usuario)
+                    isNull("fechaRecibido")
+                    or {
+                        /* TODO: cambiar aqui segun sea necesario */
+                        ilike("accion", "%" + params.search + "%")
+                        ilike("controlador", "%" + params.search + "%")
+                        ilike("mensaje", "%" + params.search + "%")
+                    }
+                }
+            }else{
+                def c = Alerta.createCriteria()
+                list = c.list(params) {
+                    eq("estacion", session.usuario)
+                    isNull("fechaRecibido")
+                    or {
+                        /* TODO: cambiar aqui segun sea necesario */
+                        ilike("accion", "%" + params.search + "%")
+                        ilike("controlador", "%" + params.search + "%")
+                        ilike("mensaje", "%" + params.search + "%")
+                    }
                 }
             }
+
         } else {
-            list = Alerta.findAllByPersonaAndFechaRecibidoIsNull(session.usuario, params)
+            if(session.tipo=="usuario") {
+                list = Alerta.findAllByPersonaAndFechaRecibidoIsNull(session.usuario, params)
+            }else{
+                list = Alerta.findAllByEstacionAndFechaRecibidoIsNull(session.usuario, params)
+            }
         }
         if (!all && params.offset.toInteger() > 0 && list.size() == 0) {
             params.offset = params.offset.toInteger() - 1

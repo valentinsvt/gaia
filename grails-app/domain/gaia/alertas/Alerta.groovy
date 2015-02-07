@@ -1,5 +1,6 @@
 package gaia.alertas
 
+import gaia.estaciones.Estacion
 import gaia.seguridad.Persona
 
 /**
@@ -15,6 +16,10 @@ class Alerta {
      * Usuario que recibe la alerta
      */
     Persona persona
+    /**
+     * estacion que recibe la alerta
+     */
+    Estacion estacion
     /**
      * Fecha de envío de la alerta
      */
@@ -64,6 +69,7 @@ class Alerta {
             controlador column: 'alerctrl'
             accion column: 'aleraccn'
             id_remoto column: 'aleridrm'
+            estacion column: 'stcn__id'
         }
     }
 
@@ -71,8 +77,9 @@ class Alerta {
      * Define las restricciones de cada uno de los campos
      */
     static constraints = {
-        from(blank: false)
-        persona(blank: false)
+        from(blank: true)
+        persona(blank: true)
+        estacion(blank: true)
         fechaEnvio(blank: false)
         fechaRecibido(nullable: true, blank: true)
         mensaje(size: 5..200, blank: false)
