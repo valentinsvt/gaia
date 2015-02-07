@@ -206,12 +206,12 @@
 }
 .dropdown-menu > li > a:hover,
 .dropdown-menu > li > a:focus {
-  background-color: #a6a6a6;
-  background-image: -webkit-linear-gradient(top, #b3b3b3 0%, #a6a6a6 100%);
-  background-image:      -o-linear-gradient(top, #b3b3b3 0%, #a6a6a6 100%);
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#b3b3b3), to(#a6a6a6));
-  background-image:         linear-gradient(to bottom, #b3b3b3 0%, #a6a6a6 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffb3b3b3', endColorstr='#ffa6a6a6', GradientType=0);
+  background-color: #005f9e;
+  background-image: -webkit-linear-gradient(top, #006eb7 0%, #005f9e 100%);
+  background-image:      -o-linear-gradient(top, #006eb7 0%, #005f9e 100%);
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#006eb7), to(#005f9e));
+  background-image:         linear-gradient(to bottom, #006eb7 0%, #005f9e 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff006eb7', endColorstr='#ff005f9e', GradientType=0);
   background-repeat: repeat-x;
 }
 .dropdown-menu > .active > a,

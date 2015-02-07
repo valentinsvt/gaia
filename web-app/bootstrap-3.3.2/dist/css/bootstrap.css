@@ -3451,9 +3451,9 @@ tbody.collapse.in {
 }
 .dropdown-menu > li > a:hover,
 .dropdown-menu > li > a:focus {
-  color: #282851;
+  color: white;
   text-decoration: none;
-  background-color: #b3b3b3;
+  background-color: #006eb7;
 }
 .dropdown-menu > .active > a,
 .dropdown-menu > .active > a:hover,
@@ -6687,7 +6687,7 @@ button.close {
 }
 .navbar-nav > li > a:hover {
   padding-top: 2px;
-  border-top: 3px solid #282851;
+  border-top: 3px solid #dd3a1f;
   border-right: solid 1px #b3b3b3;
   border-left: solid 1px #b3b3b3;
 }
