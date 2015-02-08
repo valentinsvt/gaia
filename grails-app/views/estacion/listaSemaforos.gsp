@@ -65,7 +65,7 @@
         </thead>
         <tbody>
         <g:each in="${dash}" var="d" status="">
-            <tr class=" tr-info ${d.auditoria==1?'green-audt':'red-audt'} ${d.licencia==1?'green-lic':'red-lic'} ${d.docs==1?'green-doc':(d.docs==0)?'red-doc':'orange-doc'}">
+            <tr data-id="${d.estacion.codigo}" class=" tr-info ${d.auditoria==1?'green-audt':'red-audt'} ${d.licencia==1?'green-lic':'red-lic'} ${d.docs==1?'green-doc':(d.docs==0)?'red-doc':'orange-doc'}">
                 <td class="desc">${d.estacion}</td>
                 <td class="td-semaforo">
                     <div class="circle-card ${d.licencia==1?'card-bg-green':'svt-bg-danger'}"></div>
@@ -77,7 +77,7 @@
                     <div class="circle-card ${d.docs==1?'card-bg-green':(d.docs==0)?'svt-bg-danger':'svt-bg-warning'}"></div>
                 </td>
                 <td class="td-semaforo">
-                    <a href="${g.createLink(controller: 'estacion',action: 'showEstacion',id: d.estacion.id)}" class="btn btn-primary btn-sm" title="Ver"><i class="fa fa-search"></i></a>
+                    <a href="${g.createLink(controller: 'estacion',action: 'showEstacion',id: d.estacion.codigo)}" class="btn btn-primary btn-sm" title="Ver"><i class="fa fa-search"></i></a>
                 </td>
             </tr>
         </g:each>
@@ -88,6 +88,52 @@
     function search(clase){
         $(".tr-info").hide()
         $("."+clase).show()
+    }
+    function verEstacion(id) {
+        $.ajax({
+            type: "POST",
+            url: "${createLink(controller:'estacion', action:'show_ajax')}",
+            data: {
+                id: id
+            },
+            success: function (msg) {
+                bootbox.dialog({
+                    title: "Datos de la estación",
+                    message: msg,
+                    buttons: {
+                        ok: {
+                            label: "Aceptar",
+                            className: "btn-primary",
+                            callback: function () {
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    }
+    function verEstacionMapa(id) {
+        $.ajax({
+            type: "POST",
+            url: "${createLink(controller:'estacion', action:'showMap_ajax')}",
+            data: {
+                id: id
+            },
+            success: function (msg) {
+                bootbox.dialog({
+                    title: "Datos de la estación",
+                    message: msg,
+                    buttons: {
+                        ok: {
+                            label: "Aceptar",
+                            className: "btn-primary",
+                            callback: function () {
+                            }
+                        }
+                    }
+                });
+            }
+        });
     }
     $(function () {
         <g:if test="${search}">
@@ -115,6 +161,36 @@
                 $(".tr-info").show()
             }
 
+        });
+        $("tbody>tr").contextMenu({
+            items: {
+                header: {
+                    label: "Acciones",
+                    header: true
+                },
+                ver: {
+                    label: "Detalles",
+                    icon: "fa fa-search",
+                    action: function ($element) {
+                        var id = $element.data("id");
+                        verEstacion(id);
+                    }
+                },
+                mapa: {
+                    label: "Ver en el mapa",
+                    icon: "fa fa-globe",
+                    action: function ($element) {
+                        var id = $element.data("id");
+                        verEstacionMapa(id);
+                    }
+                }
+            },
+            onShow: function ($element) {
+                $element.addClass("success");
+            },
+            onHide: function ($element) {
+                $(".success").removeClass("success");
+            }
         });
     });
 </script>

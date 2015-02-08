@@ -114,6 +114,7 @@
                 <tr>
                     <th class="header-table-report" style="width: 30%;text-align: left">Documento</th>
                     <th class="header-table-report" style="width: 30%;text-align: left">Estación</th>
+                    <th class="header-table-report">Referecia</th>
                     <th class="header-table-report">Caduca</th>
                 </tr>
                 </thead>
@@ -121,8 +122,9 @@
                 <g:if test="${documentos.size()>0}">
                     <g:each in="${documentos}" var="docu">
                         <tr>
-                            <td>${docu.tipo}</td>
+                            <td>${docu.tipo.nombre}</td>
                             <td>${docu.estacion}</td>
+                            <td>${docu.referencia}</td>
                             <td style="text-align: center">${docu.fin.format("dd-MM-yyyy")}</td>
                         </tr>
                     </g:each>

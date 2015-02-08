@@ -393,7 +393,7 @@ class ElementosTagLib {
         def hiddenHour = "<input type='hidden' name='${nameHiddenHour}' id='${nameHiddenHour}' value='${valueHour}'/>"
         def hiddenMin = "<input type='hidden' name='${nameHiddenMin}' id='${nameHiddenMin}' value='${valueMin}'/>"
 
-        def hidden = "<input type='hidden' name='${name}' id='${name}' value='date.struct'/>"
+        def hidden = "<input type='hidden'  class='${clase}' name='${name}' id='${name}' value='date.struct'/>"
 
         def div = ""
         div += hiddenDay + br

@@ -76,3 +76,32 @@
     border-color : #5fcbde !important;
     color        : #000000 !important;
 }
+
+.header-panel{
+    width: 80%;
+    background              : #5fcbde;
+    height: 100px;
+    border-radius : 5px;
+    margin-top: 15px;
+    padding: 0px;
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.header-item{
+    width: 33%;
+    height: 100%;
+    display: inline-table;
+    padding: 5px;
+}
+.header-content {
+    border-radius : 5px;
+    padding       : 8px;
+    width         : 100%;
+    border        : 1px solid #eee;
+    margin-top    : 5px;
+    background    : white;
+    text-decoration: none;
+    text-align: left;
+
+}

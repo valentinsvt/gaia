@@ -96,13 +96,15 @@ class Estacion {
         }
     }
     def getColorDocs(){
-        def tipos = []
+        /*def tipos = TipoDocumento.list()
         def docs = Documento.findByTipoInList(tipos)
         if(docs) {
             return ["card-bg-green",docs]
         }else{
             return ["svt-bg-danger",null]
         }
+        */
+        return ["svt-bg-danger",null]
     }
 
 }
