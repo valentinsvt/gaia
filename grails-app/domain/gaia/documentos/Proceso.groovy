@@ -14,10 +14,9 @@ class Proceso {
  * Define el mapeo entre los campos del dominio y las columnas de la base de datos
  */
     static mapping = {
-        table: 'prco'
+        table 'prco'
         cache usage: 'read-write', include: 'non-lazy'
         version false
-        id generator: 'identity'
         columns {
             id column: 'prco__id'
             tipo column: 'tpdc__id'
@@ -33,5 +32,6 @@ class Proceso {
         completado(blank: false,nullable: false,size: 1..1)
         fin(nullable: true,blank:true)
         inicio(blank: false,nullable: false)
+        documento(nullable: true,blank:true)
     }
 }

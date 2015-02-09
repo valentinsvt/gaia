@@ -29,6 +29,26 @@
         margin-top: -30px;
 
     }
+    .dibujo{
+        width: 100px;
+        height: 100px;
+        border-radius: 5px;
+        line-height: 80px;
+        display: inline-block;
+        margin: 0px;
+        padding: 10px;
+    }
+    .cardContent{
+        width: 57%;
+        display: inline-block;
+        margin: 0px;
+        height: 100px;
+        line-height:80px;
+        padding: 10px;
+        font-weight: bold;
+        font-size: 20px;
+        text-align: center;
+    }
     </style>
 </head>
 <body>
@@ -58,7 +78,7 @@
                         <a href="#" class="btn btn-primary btn-header "><i class="fa fa-newspaper-o"></i> Ver</a>
                     </g:if>
                     <g:else>
-                        <a href="#" class="btn btn-info btn-header "><i class="fa fa-newspaper-o"></i> Registrar nueva</a>
+                        <a href="#" class="btn btn-info btn-header " id="nueva-lic"><i class="fa fa-newspaper-o"></i> Registrar</a>
                     </g:else>
                 </div>
             </div>
@@ -72,7 +92,7 @@
                         <a href="#" class="btn btn-primary btn-header "><i class="fa fa-street-view"></i> Ver</a>
                     </g:if>
                     <g:else>
-                        <a href="#" class="btn btn-info btn-header "><i class="fa fa-street-view"></i> Registrar nueva</a>
+                        <a href="#" class="btn btn-info btn-header "><i class="fa fa-street-view"></i> Registrar</a>
                     </g:else>
                 </div>
             </div>
@@ -86,7 +106,7 @@
                         <a href="#" class="btn btn-primary btn-header "><i class="fa fa fa-server"></i> Ver</a>
                     </g:if>
                     <g:else>
-                        <a href="#" class="btn btn-info btn-header "><i class="fa fa fa-server"></i> Registrar nueva</a>
+                        <a href="#" class="btn btn-info btn-header "><i class="fa fa fa-server"></i> Registrar</a>
                     </g:else>
                 </div>
             </div>
@@ -148,6 +168,32 @@
         </table>
     </div>
 </elm:container>
+<elm:modal id="modal-lic" titulo="Licencia ambiental">
+    <div class="modal-body">
+
+        <div class="card" style="width:260px;height: 120px;min-height: 120px">
+            <g:link controller="licencia" action="registrarLicencia" id="${estacion.codigo}" style="text-decoration: none">
+                <div class="cardContent">
+                    Nueva
+                </div>
+                <div class="dibujo">
+                    <img src="${g.resource(dir: 'images',file: 'documents7.png')}" style="width: 100%">
+                </div>
+            </g:link>
+        </div>
+        <div class="card" style="width:260px;height: 120px;min-height: 120px">
+            <g:link controller="licencia" action="registrarExistente" id="${estacion.codigo}" style="text-decoration: none">
+                <div class="cardContent">
+                    Existente
+                </div>
+                <div class="dibujo">
+                    <img src="${g.resource(dir: 'images',file: 'open131.png')}" style="width: 100%">
+                </div>
+            </g:link>
+        </div>
+
+    </div>
+</elm:modal>
 <script type="text/javascript">
     function verEstacion(id) {
         $.ajax({
@@ -198,6 +244,10 @@
     $(function () {
         $(".detalles").click(function(){
             verEstacion("${estacion.codigo}");
+        })
+
+        $("#nueva-lic").click(function(){
+            $("#modal-lic").modal("show")
         })
     });
 </script>

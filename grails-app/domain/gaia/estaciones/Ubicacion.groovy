@@ -17,10 +17,9 @@ class Ubicacion {
      * Define el mapeo entre los campos del dominio y las columnas de la base de datos
      */
     static mapping = {
-        table: 'ubcc'
+        table 'ubcc'
         cache usage: 'read-write', include: 'non-lazy'
         version false
-        id generator: 'identity'
         columns {
             id column: 'ubcc__id'
             estacion column: 'esta__id'

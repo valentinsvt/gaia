@@ -19,10 +19,10 @@ class Documento {
      * Define el mapeo entre los campos del dominio y las columnas de la base de datos
      */
     static mapping = {
-        table: 'dcmt'
+        table 'dcmt'
         cache usage: 'read-write', include: 'non-lazy'
         version false
-        id generator: 'identity'
+
         columns {
             id column: 'dcmt__id'
             tipo column: 'tpdc__id'

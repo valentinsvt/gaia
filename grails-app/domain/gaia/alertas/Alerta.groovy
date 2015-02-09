@@ -54,10 +54,9 @@ class Alerta {
      * Define el mapeo entre los campos del dominio y las columnas de la base de datos
      */
     static mapping = {
-        table: 'aler'
+        table 'aler'
         cache usage: 'read-write', include: 'non-lazy'
         version false
-        id generator: 'identity'
         sort fechaEnvio: "desc"
         columns {
             id column: 'aler__id'

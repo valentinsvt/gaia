@@ -105,3 +105,75 @@
     text-align: left;
 
 }
+
+.header-flow{
+    width: 100.2%;
+    height: 50px;
+    padding: 0px;
+    margin-left: -1px;
+    border: 1px solid #d4d4d4;
+}
+.header-flow-item{
+    width: 25%;
+    margin: 0px;
+    height: 100%;
+    text-align: center;
+    line-height: 45px;
+    float: left;
+    font-weight: bold;
+    margin: 0px;
+    margin-left: 0px;
+    margin-right: 0px;
+    position: relative;
+    text-decoration: none;
+}
+.header-flow-item.disabled{
+
+   color: #777777;
+}
+.header-flow-item.active{
+    color: #3A87AD;
+    cursor: pointer;
+}
+.header-flow-item.before{
+    color: #468847;
+    cursor: pointer;
+}
+.badge.active{
+    background-color: #3A87AD;
+    padding-top: 3px;
+}
+.badge.disabled{
+    background-color: #777777;
+    padding-top: 3px;
+}
+.badge.before{
+    background-color: #468847;
+    padding-top: 3px;
+}
+.arrow{
+    border: 24px solid transparent;
+    border-left: 14px solid #b8b8b8;
+    border-right: 0;
+    display: block;
+    position: absolute;
+    right: 0px;
+    top: 0;
+    z-index: 1;
+    background: none;
+}
+.arrow:before {
+    border: 24px solid transparent;
+    border-left: 14px solid #fff;
+    border-right: 0;
+    content: "";
+    display: block;
+    position: absolute;
+    right: 1px;
+    top: -24px;
+}
+.flow-body{
+    width: 100%;
+    padding: 10px;
+    padding-left: 30px;
+}
