@@ -47,12 +47,14 @@ class LicenciaController {
 
     def saveCertificado(){
         println "upload "+params
+
         def estacion = Estacion.findByCodigo(params.estacion_codigo)
         def detalle
         def proceso = Proceso.get(params.proceso)
         if(!proceso)
             response.sendError(403)
         def tipoCert = TipoDocumento.findByCodigo("TP03")
+        def pathPart = "documentos/${estacion.codigo}/"
         if(params.id)
             detalle=Detalle.get(params.id)
         else{
@@ -68,7 +70,7 @@ class LicenciaController {
             }
         }
 
-        def path = servletContext.getRealPath("/") + "documentos/${estacion.codigo}/"
+        def path = servletContext.getRealPath("/") + pathPart
         def numero = Documento.list([sort: "id",order: "desc",max: 1])
         if(numero.size()==1)
             numero=numero.pop().id+1
@@ -93,9 +95,7 @@ class LicenciaController {
                 } catch (e) {
                     flash.message = "Ha ocurrido un error al guardar"
                 }
-                if(!params.id){
 
-                }
                 def documento
                 if(detalle.documento)
                     documento=detalle.documento
@@ -103,7 +103,7 @@ class LicenciaController {
                     documento = new Documento(params)
                 //println "path "+pathFile
                 //println "codigo "+codigo
-                documento.path=pathFile
+                documento.path= pathPart + nombre
                 documento.fechaRegistro=new Date()
                 documento.estacion=estacion
                 documento.codigo = codigo
