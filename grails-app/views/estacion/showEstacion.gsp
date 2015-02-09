@@ -64,6 +64,9 @@
             <a href="#" class="btn btn-default mapa">
                 <i class="fa fa-globe"></i> Ubicar en el mapa
             </a>
+            <a href="${g.createLink(controller: 'documento',action: 'arbolEstacion',params: [codigo:estacion.codigo])}" class="btn btn-default mapa">
+                <i class="fa fa-file-pdf-o"></i> Visor de documentos
+            </a>
         </div>
     </div>
     <div class="row" style="margin-top: 0px">
