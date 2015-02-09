@@ -87,22 +87,15 @@
 
     <div class="well">
         <div class="row no-margin-top">
-            <div class="col-md-6 treePart" id="tree">
+            <div class="col-md-5 treePart" id="tree">
                 ${raw(arbol)}
             </div>
 
-            <div class="col-md-6 treePart" id="doc">
+            <div class="col-md-7 treePart" id="doc" style="overflow: hidden;">
                 <p>No tiene configurado el plugin de lectura de PDF en este navegador.</p>
 
                 <p>
                     Puede
-                    <a class="text-info" target="_blank" href="C:\Users\Luz\IdeaProjects\gaia\web-app\documentos/08010235/PS-DA-1.pdf">
-                        <u>descargar el PDF (C:\Users\Luz\IdeaProjects\gaia\web-app\documentos/08010235/PS-DA-1.pdf) aquí</u>
-                    </a>
-                </p>
-
-                <p>
-                    O
                     <a class="text-info" target="_blank" href="http://get.adobe.com/es/reader/">
                         <u>descargar Adobe Reader aquí</u>
                     </a>
@@ -181,10 +174,11 @@
                     var myPDF = new PDFObject({
                         url           : path,
                         pdfOpenParams : {
-                            navpanes  : 0,
-                            statusbar : 1,
-                            view      : "Fit",
-                            pagemode  : "thumbs"
+                            zoom : 10
+//                            navpanes  : 0,
+//                            statusbar : 1,
+//                            view      : "FitBH",
+//                            pagemode  : "thumbs"
                         }
                     }).embed("doc");
 

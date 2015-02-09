@@ -71,6 +71,9 @@ class DocumentoController {
     }
 
     def arbolEstacion() {
+        if (session.tipo == "cliente") {
+            params.codigo = session.usuario.codigo
+        }
         if (!params.codigo) {
             params.codigo = "08010235"
         }
