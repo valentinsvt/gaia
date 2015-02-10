@@ -5,7 +5,7 @@
   Time: 17:44
 --%>
 
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="gaia.estaciones.Estacion" contentType="text/html;charset=UTF-8" %>
 <!DOCTYPE HTML>
 <head>
     <meta name="layout" content="main">
@@ -16,6 +16,9 @@
     <imp:css src="${resource(dir: 'css/custom', file: 'jstree-context.css')}"/>
 
     <imp:js src="${resource(dir: 'js/plugins/pdfObject', file: 'pdfobject.min.js')}"/>
+
+    <imp:js src="${resource(dir: 'js/plugins/bootstrap-select-1.6.3/dist/js', file: 'bootstrap-select.min.js')}"/>
+    <imp:css src="${resource(dir: 'js/plugins/bootstrap-select-1.6.3/dist/css', file: 'bootstrap-select.min.css')}"/>
 
     <style type="text/css">
     #tree {
@@ -37,6 +40,19 @@
     %{--<div>Icon made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed under <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>--}%
 
     <div class="row" style="margin-bottom: 10px;">
+        <div class="col-md-1">
+            <g:link controller="estacion" action="showEstacion" id="${params.codigo}" class="btn btn-default btn-sm">
+                Estación
+            </g:link>
+        </div>
+
+        <g:if test="${params.combo}">
+            <div class="col-md-3">
+                <g:select name="estacion" from="${Estacion.list([sort: 'nombre'])}" class="form-control select"
+                          optionKey="codigo" data-live-search="true" value="${params.codigo}"/>
+            </div>
+        </g:if>
+
         <div class="col-md-2">
             <div class="input-group input-group-sm">
                 <g:textField name="searchArbol" class="form-control input-sm" placeholder="Buscador"/>
@@ -75,13 +91,6 @@
                     <i class="fa fa-plus-square"></i>
                 </a>
             </div>
-
-            <div class="btn-group">
-                <g:link action="arbol" params="[inactivos: params.inactivos == 'S' ? 'N' : 'S']" class="btn btn-xs btn-default">
-                    <i class="fa fa-power-off"></i> ${params.inactivos == 'S' ? 'Ocultar' : 'Mostrar'} inactivos
-                </g:link>
-            </div>
-
         </div>
     </div>
 
@@ -92,14 +101,16 @@
             </div>
 
             <div class="col-md-7 treePart" id="doc" style="overflow: hidden;">
-                <p>No tiene configurado el plugin de lectura de PDF en este navegador.</p>
+                <div id="msgNoPDF">
+                    <p>No tiene configurado el plugin de lectura de PDF en este navegador.</p>
 
-                <p>
-                    Puede
-                    <a class="text-info" target="_blank" href="http://get.adobe.com/es/reader/">
-                        <u>descargar Adobe Reader aquí</u>
-                    </a>
-                </p>
+                    <p>
+                        Puede
+                        <a class="text-info" target="_blank" href="http://get.adobe.com/es/reader/">
+                            <u>descargar Adobe Reader aquí</u>
+                        </a>
+                    </p>
+                </div>
             </div>
         </div>
     </div>
@@ -119,22 +130,94 @@
 
             var cantHijos = parseInt($node.data("hijos"));
 
-            var esEstacion = nodeType == "estacion";
-            var esTipoDoc = nodeType == "tipoDoc";
+//            var esEstacion = nodeType == "estacion";
+//            var esTipoDoc = nodeType == "tipoDoc";
             var esDoc = nodeType == "doc";
 
-            var crearDep = {
-                label  : "Nuevo tipo de Usuario",
-                icon   : "fa fa-building-o text-success",
+            var verDetalles = {
+                label  : "Ver Detalles",
+                icon   : "fa fa-search",
+                action : function () {
+                    $.ajax({
+                        type    : "POST",
+                        url     : "${createLink(controller:'documento', action:'verDetalles_ajax')}",
+                        data    : {
+                            id : nodeId
+                        },
+                        success : function (msg) {
+                            var b = bootbox.dialog({
+                                id      : "dlgDetallesDoc",
+                                title   : "Detalles del documento",
+                                message : msg,
+                                buttons : {
+                                    cerrar : {
+                                        label     : "Cerrar",
+                                        className : "btn-primary",
+                                        callback  : function () {
+                                        }
+                                    }
+                                } //buttons
+                            }); //dialog
+                        } //success
+                    }); //ajax
+                }
+            };
+            var verObservaciones = {
+                label  : "Ver observaciones",
+                icon   : "fa fa-comments-o",
+                action : function () {
+                    $.ajax({
+                        type    : "POST",
+                        url     : "${createLink(controller:'observacion', action:'showObservacionesDoc_ajax')}",
+                        data    : {
+                            id : nodeId
+                        },
+                        success : function (msg) {
+                            var b = bootbox.dialog({
+                                id      : "dlgDetallesDoc",
+                                title   : "Observaciones del documento",
+                                message : msg,
+                                buttons : {
+                                    cerrar : {
+                                        label     : "Cerrar",
+                                        className : "btn-primary",
+                                        callback  : function () {
+                                        }
+                                    }
+                                } //buttons
+                            }); //dialog
+                            setTimeout(function () {
+                                b.find(".form-control").first().focus()
+                            }, 500);
+                        } //success
+                    }); //ajax
+
+                }
+            };
+            var download = {
+                label            : "Descargar",
+                icon             : "fa fa-download",
+                separator_before : true,
+                action           : function () {
+                    location.href = "${createLink(controller: 'documento', action:'download')}/" + nodeId;
+                }
+            };
+            var downloadObs = {
+                label  : "Descargar con observaciones",
+                icon   : "fa fa-cloud-download",
                 action : function () {
 
                 }
             };
+
             var items = {};
 
-//                if (esRoot) {
-//                    items.crearDep = crearDep;
-//                }
+            if (esDoc) {
+                items.verDetalles = verDetalles;
+                items.verObservaciones = verObservaciones;
+                items.download = download;
+//                items.downloadObs = downloadObs;
+            }
 
             return items;
         }
@@ -146,7 +229,7 @@
         }
 
         function scrollToRoot() {
-            var $scrollTo = $("#root");
+            var $scrollTo = $("#estacion");
             scrollToNode($scrollTo);
         }
 
@@ -157,15 +240,29 @@
         }
 
         $(function () {
+            $('.select').selectpicker();
+
+            $("#estacion").change(function () {
+                var codigo = $(this).val();
+                openLoader();
+                location.href = "${createLink(action:'arbolEstacion')}?codigo=" + codigo;
+            });
 
             $treeContainer.on("loaded.jstree", function () {
                 $("#loading").hide();
                 $("#tree").removeClass("hidden");
+                $("#msgNoPDF").hide();
+                <g:if test="${params.selected}">
+                setTimeout(function () {
+                    $("#tree").jstree("deselect_all").jstree("select_node", "liDoc_${params.selected}");
+                }, 500);
+                </g:if>
             }).on("select_node.jstree", function (node, selected, event) {
                 var nodeId = selected.selected[0];
                 var $node = $("#" + nodeId);
                 var nodeType = $node.data("jstree").type;
                 if (nodeType == "doc") {
+                    $("#msgNoPDF").show();
                     var parts = nodeId.split("_");
                     var docId = parts[1];
                     var pathFile = $node.data("file");
@@ -181,16 +278,18 @@
 //                            pagemode  : "thumbs"
                         }
                     }).embed("doc");
-
-//                        console.log(docId, path);
-//                        var str = '<object data="' + path + '" type="application/pdf" width="100%" height="100%">';
-//                        str += '<p>No tiene configurado el plugin de lectura de PDF en este navegador.</p>';
-//                        str += '<p>Puede <a class="text-info" target="_blank" href="' + path + '"><u>descargar el PDF (' + path + ') aquí</u></a></p>';
-//                        str += '<p>O <a class="text-info" target="_blank" href="http://get.adobe.com/es/reader/"><u>descargar Adobe Reader aquí</u></a>';
-//                        str += '</object>';
-//                        $("#doc").html(str);
+                } else {
+                    $("#msgNoPDF").hide();
                 }
 //                    $('#tree').jstree('toggle_node', selected.selected[0]);
+            }).on('search.jstree', function (nodes, str, res) {
+//                console.log(nodes, str, res);
+                searchRes = $(".jstree-search");
+                var cantRes = searchRes.length;
+                posSearchShow = 0;
+                $("#divSearchRes").removeClass("hidden");
+                $("#spanSearchRes").text("Resultado " + (posSearchShow + 1) + " de " + cantRes);
+                scrollToSearchRes();
             }).jstree({
                 plugins     : ["types", "state", "contextmenu", "search"],
                 core        : {
@@ -212,24 +311,25 @@
                 search      : {
                     fuzzy             : false,
                     show_only_matches : false,
-                    ajax              : {
-                        url     : "${createLink(action:'arbolSearch_ajax')}",
-                        success : function (msg) {
-                            var json = $.parseJSON(msg);
-                            $.each(json, function (i, obj) {
-                                $('#tree').jstree("open_node", obj);
-                            });
-                            setTimeout(function () {
-                                searchRes = $(".jstree-search");
-                                var cantRes = searchRes.length;
-                                posSearchShow = 0;
-                                $("#divSearchRes").removeClass("hidden");
-                                $("#spanSearchRes").text("Resultado " + (posSearchShow + 1) + " de " + cantRes);
-                                scrollToSearchRes();
-                            }, 300);
+                    case_sensitive    : false
+                    %{--ajax              : {--}%
+                    %{--url     : "${createLink(action:'arbolSearch_ajax')}",--}%
+                    %{--success : function (msg) {--}%
+                    %{--var json = $.parseJSON(msg);--}%
+                    %{--$.each(json, function (i, obj) {--}%
+                    %{--$('#tree').jstree("open_node", obj);--}%
+                    %{--});--}%
+                    %{--setTimeout(function () {--}%
+                    %{--searchRes = $(".jstree-search");--}%
+                    %{--var cantRes = searchRes.length;--}%
+                    %{--posSearchShow = 0;--}%
+                    %{--$("#divSearchRes").removeClass("hidden");--}%
+                    %{--$("#spanSearchRes").text("Resultado " + (posSearchShow + 1) + " de " + cantRes);--}%
+                    %{--scrollToSearchRes();--}%
+                    %{--}, 300);--}%
 
-                        }
-                    }
+                    %{--}--}%
+                    %{--}--}%
                 },
                 types       : {
                     estacion : {

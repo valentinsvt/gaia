@@ -70,12 +70,27 @@ class DocumentoController {
         redirect(action: 'subir', id: estacion.codigo)
     }
 
+    def ver() {
+        redirect(action: "arbolEstacion", params: params)
+    }
+
     def arbolEstacion() {
-        if (session.tipo == "cliente") {
-            params.codigo = session.usuario.codigo
-        }
-        if (!params.codigo) {
-            params.codigo = "08010235"
+        params.combo = true
+        if (params.id) {
+//            println "es doc: " + params
+            def doc = Documento.get(params.id)
+            params.codigo = doc.estacion.codigo
+            params.selected = params.id
+        } else {
+//            println "es estacion: " + params
+            if (session.tipo == "cliente") {
+//                println "es cliente"
+                params.combo = false
+                params.codigo = session.usuario.codigo
+            }
+            if (!params.codigo) {
+                params.codigo = Estacion.list([sort: 'nombre', max: 1]).first()
+            }
         }
         return [arbol: makeTree(params), params: params]
     }
@@ -146,5 +161,27 @@ class DocumentoController {
         return txt
     }
 
+    def verDetalles_ajax() {
+        def doc = Documento.get(params.id)
+        return [doc: doc]
+    }
+
+    def download() {
+        def doc = Documento.get(params.id)
+        def path = servletContext.getRealPath("/") + doc.path
+        def file = new File(path)
+        if (file.exists()) {
+            response.setContentType("application/octet-stream")
+            response.setHeader("Content-disposition", "attachment;filename=${file.getName()}")
+
+            response.outputStream << file.newInputStream() // Performing a binary stream copy
+        } else {
+            render "No existe el documento " + path
+        }
+    }
+
+    def downloadObs_ajax() {
+
+    }
 
 }
