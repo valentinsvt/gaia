@@ -1,5 +1,6 @@
 package gaia.alertas
 
+import gaia.documentos.Documento
 import gaia.estaciones.Estacion
 import gaia.seguridad.Persona
 
@@ -20,6 +21,10 @@ class Alerta {
      * estacion que recibe la alerta
      */
     Estacion estacion
+    /**
+     * documento que genera la alerta
+     */
+    Documento documento
     /**
      * Fecha de envío de la alerta
      */
@@ -69,6 +74,7 @@ class Alerta {
             accion column: 'aleraccn'
             id_remoto column: 'aleridrm'
             estacion column: 'stcn__id'
+            documento column: 'dcmt__id'
         }
     }
 
@@ -85,6 +91,7 @@ class Alerta {
         controlador(nullable: true, blank: true)
         accion(nullable: true, blank: true)
         id_remoto(nullable: true, blank: true)
+        documento(nullable: true,blank:true)
     }
 
     /**
