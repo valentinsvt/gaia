@@ -89,7 +89,7 @@ class DocumentoController {
                 params.codigo = session.usuario.codigo
             }
             if (!params.codigo) {
-                params.codigo = Estacion.list([sort: 'nombre', max: 1]).first()
+                params.codigo = Estacion.list([sort: 'nombre', max: 1]).first().codigo
             }
         }
         return [arbol: makeTree(params), params: params]
@@ -116,16 +116,36 @@ class DocumentoController {
         def docs = Documento.findAllByEstacion(estacion, ([sort: "tipo"]))
 
         def tipoPrevId = null
+        def entidadPrevId = null
 
         docs.eachWithIndex { doc, i ->
+            def band = false
             def tipo = doc.tipo
-            if (tipo.id != tipoPrevId) {
-                tipoPrevId = tipo.id
+            if (tipo.entidadId != entidadPrevId) {
+                entidadPrevId = tipo.entidadId
                 if (i > 0) {
                     txt += "</li>"
                     txt += "</ul>"
+
+                    txt += "</li>"
+                    txt += "</ul>"
+                    band = true
                 }
-                txt += "<li id='liTipoDoc_${tipo.id}' data-jstree='{\"type\":\"tipoDoc\"}'>"
+                txt += "<li class='jstree-open' id='liEntidad_${tipo.entidad.id}' data-jstree='{\"type\":\"${tipo.entidad.codigo}\"}'>"
+                txt += "<a href='#'><strong>"
+                txt += tipo.entidad.nombre
+                txt += "</strong></a>"
+                txt += "<ul>"
+            }
+            if (tipo.id != tipoPrevId) {
+                tipoPrevId = tipo.id
+                if (i > 0) {
+                    if (!band) {
+                        txt += "</li>"
+                        txt += "</ul>"
+                    }
+                }
+                txt += "<li class='jstree-open' id='liTipoDoc_${tipo.id}' data-jstree='{\"type\":\"tipoDoc\"}'>"
                 txt += "<a href='#'>"
                 txt += tipo.nombre
                 txt += "</a>"

@@ -38,6 +38,7 @@
 <body>
 
     %{--<div>Icon made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed under <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>--}%
+    %{--<div>Icon made by <a href="http://www.unocha.org" title="OCHA">OCHA</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed under <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>--}%
 
     <div class="row" style="margin-bottom: 10px;">
         <div class="col-md-1">
@@ -334,6 +335,12 @@
                 types       : {
                     estacion : {
                         icon : "${resource(dir:'images/tree', file:'fuel_16.png')}"
+                    },
+                    MAE      : {
+                        icon : "fa fa-building-o"
+                    },
+                    ARCH     : {
+                        icon : "${resource(dir:'images/tree', file:'gas_16.png')}"
                     },
                     tipoDoc  : {
                         icon : "fa fa-briefcase text-info"
