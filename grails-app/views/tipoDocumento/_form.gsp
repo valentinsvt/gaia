@@ -34,3 +34,11 @@
 	<g:textField name="codigo" maxlength="5" required="" class="form-control  required unique noEspacios" value="${tipoDocumentoInstance?.codigo}"/>
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: tipoDocumentoInstance, field: 'entidad', 'error')} ">
+	<label for="entidad">
+		<g:message code="tipoDocumento.entidad.label" default="Entidad" />
+		
+	</label>
+	<g:select id="entidad" name="entidad.id" from="${gaia.documentos.Entidad.list()}" optionKey="id" value="${tipoDocumentoInstance?.entidad?.id}" class="many-to-one form-control " noSelection="['null': '']"/>
+</div>
+

@@ -2,6 +2,7 @@ package gaia.estaciones
 
 import gaia.documentos.Documento
 import gaia.documentos.TipoDocumento
+import gaia.documentos.Ubicacion
 
 class Estacion {
 
@@ -30,6 +31,10 @@ class Estacion {
 
     String estado
 
+    Ubicacion provincia
+    Ubicacion canton
+    Ubicacion parroquia
+
     /**
      * Define los campos que se van a ignorar al momento de hacer logs
      */
@@ -57,6 +62,9 @@ class Estacion {
             propetario column: 'propietario_1'
             representante column: 'representante_legal'
             mail column: 'mail_cliente'
+            provincia column: 'provincia'
+            canton column: 'canton'
+            parroquia column: 'parroquia'
         }
     }
 

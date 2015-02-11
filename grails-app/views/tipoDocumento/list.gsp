@@ -41,6 +41,8 @@
                     
                     <g:sortableColumn property="codigo" title="Codigo" />
                     
+                    <th>Entidad</th>
+                    
                 </tr>
             </thead>
             <tbody>
@@ -56,12 +58,14 @@
                             
                             <td><elm:textoBusqueda busca="${params.search}"><g:fieldValue bean="${tipoDocumentoInstance}" field="codigo"/></elm:textoBusqueda></td>
                             
+                            <td><elm:textoBusqueda busca="${params.search}"><g:fieldValue bean="${tipoDocumentoInstance}" field="entidad"/></elm:textoBusqueda></td>
+                            
                         </tr>
                     </g:each>
                 </g:if>
                 <g:else>
                     <tr class="danger">
-                        <td class="text-center" colspan="4">
+                        <td class="text-center" colspan="5">
                             <g:if test="${params.search && params.search!= ''}">
                                 No se encontraron resultados para su búsqueda
                             </g:if>

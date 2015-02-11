@@ -10,6 +10,8 @@ class TipoDocumento {
 
     String codigo
 
+    Entidad entidad
+
     /**
      * Define los campos que se van a ignorar al momento de hacer logs
      */
@@ -29,6 +31,7 @@ class TipoDocumento {
             tipo column: 'tpdctipo'
             caduca column: 'tpdccdca'
             codigo column: 'tpdccdgo'
+            entidad column: 'enti__id'
         }
     }
 
@@ -41,5 +44,6 @@ class TipoDocumento {
         tipo(blank: false,nullable: false,size: 1..1,inList: ["P","N"])
         caduca(blank: false,nullable: false,size: 1..1,inList: ["S","N"])
         codigo(blank: false,nullable: false,size: 1..5)
+        entidad(blank: true,nullable: true)
     }
 }

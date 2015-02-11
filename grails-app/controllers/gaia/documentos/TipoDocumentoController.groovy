@@ -15,7 +15,7 @@ class TipoDocumentoController extends Shield {
      * Acción que redirecciona a la lista (acción "list")
      */
     def index() {
-        redirect(action: "list", params: params)
+        redirect(action:"list", params: params)
     }
 
     /**
@@ -28,21 +28,21 @@ class TipoDocumentoController extends Shield {
         params = params.clone()
         params.max = params.max ? Math.min(params.max.toInteger(), 100) : 10
         params.offset = params.offset ?: 0
-        if (all) {
+        if(all) {
             params.remove("max")
             params.remove("offset")
         }
         def list
-        if (params.search) {
+        if(params.search) {
             def c = TipoDocumento.createCriteria()
             list = c.list(params) {
                 or {
                     /* TODO: cambiar aqui segun sea necesario */
-
-                    ilike("caduca", "%" + params.search + "%")
-                    ilike("codigo", "%" + params.search + "%")
-                    ilike("nombre", "%" + params.search + "%")
-                    ilike("tipo", "%" + params.search + "%")
+                    
+                    ilike("caduca", "%" + params.search + "%")  
+                    ilike("codigo", "%" + params.search + "%")  
+                    ilike("nombre", "%" + params.search + "%")  
+                    ilike("tipo", "%" + params.search + "%")  
                 }
             }
         } else {
@@ -68,9 +68,9 @@ class TipoDocumentoController extends Shield {
      * Acción llamada con ajax que muestra la información de un elemento particular
      */
     def show_ajax() {
-        if (params.id) {
+        if(params.id) {
             def tipoDocumentoInstance = TipoDocumento.get(params.id)
-            if (!tipoDocumentoInstance) {
+            if(!tipoDocumentoInstance) {
                 render "ERROR*No se encontró TipoDocumento."
                 return
             }
@@ -85,9 +85,9 @@ class TipoDocumentoController extends Shield {
      */
     def form_ajax() {
         def tipoDocumentoInstance = new TipoDocumento()
-        if (params.id) {
+        if(params.id) {
             tipoDocumentoInstance = TipoDocumento.get(params.id)
-            if (!tipoDocumentoInstance) {
+            if(!tipoDocumentoInstance) {
                 render "ERROR*No se encontró TipoDocumento."
                 return
             }
@@ -101,15 +101,15 @@ class TipoDocumentoController extends Shield {
      */
     def save_ajax() {
         def tipoDocumentoInstance = new TipoDocumento()
-        if (params.id) {
+        if(params.id) {
             tipoDocumentoInstance = TipoDocumento.get(params.id)
-            if (!tipoDocumentoInstance) {
+            if(!tipoDocumentoInstance) {
                 render "ERROR*No se encontró TipoDocumento."
                 return
             }
         }
         tipoDocumentoInstance.properties = params
-        if (!tipoDocumentoInstance.save(flush: true)) {
+        if(!tipoDocumentoInstance.save(flush: true)) {
             render "ERROR*Ha ocurrido un error al guardar TipoDocumento: " + renderErrors(bean: tipoDocumentoInstance)
             return
         }
@@ -121,7 +121,7 @@ class TipoDocumentoController extends Shield {
      * Acción llamada con ajax que permite eliminar un elemento
      */
     def delete_ajax() {
-        if (params.id) {
+        if(params.id) {
             def tipoDocumentoInstance = TipoDocumento.get(params.id)
             if (!tipoDocumentoInstance) {
                 render "ERROR*No se encontró TipoDocumento."
@@ -140,7 +140,7 @@ class TipoDocumentoController extends Shield {
             return
         }
     } //delete para eliminar via ajax
-
+    
     /**
      * Acción llamada con ajax que valida que no se duplique la propiedad codigo
      * @render boolean que indica si se puede o no utilizar el valor recibido
@@ -161,5 +161,5 @@ class TipoDocumentoController extends Shield {
             return
         }
     }
-
+        
 }

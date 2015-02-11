@@ -59,6 +59,15 @@
 				</li>
 				</g:if>
 			
+				<g:if test="${tipoDocumentoInstance?.entidad}">
+				<li class="fieldcontain">
+					<span id="entidad-label" class="property-label"><g:message code="tipoDocumento.entidad.label" default="Entidad" /></span>
+					
+						<span class="property-value" aria-labelledby="entidad-label"><g:link controller="entidad" action="show" id="${tipoDocumentoInstance?.entidad?.id}">${tipoDocumentoInstance?.entidad?.encodeAsHTML()}</g:link></span>
+					
+				</li>
+				</g:if>
+			
 			</ol>
 			<g:form url="[resource:tipoDocumentoInstance, action:'delete']" method="DELETE">
 				<fieldset class="buttons">

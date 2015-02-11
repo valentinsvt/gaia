@@ -59,5 +59,18 @@
             </div>
         </g:if>
     
+        <g:if test="${tipoDocumentoInstance?.entidad}">
+            <div class="row">
+                <div class="col-sm-3 show-label">
+                    Entidad
+                </div>
+                
+                <div class="col-sm-4">
+                    ${tipoDocumentoInstance?.entidad?.encodeAsHTML()}
+                </div>
+                
+            </div>
+        </g:if>
+    
     </div>
 </g:else>

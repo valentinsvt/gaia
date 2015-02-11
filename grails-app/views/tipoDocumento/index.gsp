@@ -32,6 +32,8 @@
 					
 						<g:sortableColumn property="codigo" title="${message(code: 'tipoDocumento.codigo.label', default: 'Codigo')}" />
 					
+						<th><g:message code="tipoDocumento.entidad.label" default="Entidad" /></th>
+					
 					</tr>
 				</thead>
 				<tbody>
@@ -45,6 +47,8 @@
 						<td>${fieldValue(bean: tipoDocumentoInstance, field: "caduca")}</td>
 					
 						<td>${fieldValue(bean: tipoDocumentoInstance, field: "codigo")}</td>
+					
+						<td>${fieldValue(bean: tipoDocumentoInstance, field: "entidad")}</td>
 					
 					</tr>
 				</g:each>

@@ -27,6 +27,10 @@
             <g:textField name="codigo" maxlength="5" required="" class="form-control  required unique noEspacios" value="${tipoDocumentoInstance?.codigo}"/>
         </elm:fieldRapido>
         
+        <elm:fieldRapido claseLabel="col-sm-2" label="Entidad" claseField="col-sm-6">
+            <g:select id="entidad" name="entidad.id" from="${gaia.documentos.Entidad.list()}" optionKey="id" value="${tipoDocumentoInstance?.entidad?.id}" class="many-to-one form-control " noSelection="['null': '']"/>
+        </elm:fieldRapido>
+        
     </g:form>
         </div>
 
