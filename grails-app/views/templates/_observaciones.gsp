@@ -6,7 +6,8 @@
         <input type="hidden" name="id" value="${detalleObs?.id}" >
         <input type="hidden" name="tipo" value="obs" >
         <input type="hidden" name="paso" value="${paso}" >
-        <input type="hidden" name="origen" value="${origen}" >
+        <input type="hidden" name="origen" value="${origen}">
+        <input type="hidden" name="padre" value="${padre?.id}">
         <div class="row" style="margin-top: 0px">
             <div class="col-md-2">
                 <label>

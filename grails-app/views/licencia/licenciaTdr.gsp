@@ -132,8 +132,8 @@
                         </div>
                     </div>
                 </g:form>
-                <g:if test="${detalleTdr.documento}">
-                    <util:displayChain detalle="${detalleObs}" paso="2" origen="licenciaTdr" padre="null"></util:displayChain>
+                <g:if test="${detalleTdr?.documento}">
+                    <util:displayChain detalle="${detalleObs}" paso="2" origen="licenciaTdr" padre="${detalleTdr?.id}"></util:displayChain>
 
 
                     <fieldset>
@@ -262,14 +262,21 @@
     });
     $("#guardar-tdr").click(function(){
         $(".frm-subir-tdr").submit()
+        return false
     })
     $(".cambiar").click(function(){
         var id = $(this).attr("iden")
         $("#botones-"+id).hide()
         $("#div-file-"+id).show()
+        return false
     })
     $(".guardar-obs").click(function(){
         $(this).parents("form").submit()
+        return false
+    })
+    $("#guardar-apb").click(function(){
+        $(this).parents("form").submit()
+        return false
     })
 </script>
 </body>

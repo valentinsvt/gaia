@@ -19,7 +19,7 @@ class UtilitariosTagLib {
         def origen = attrs.origen
         def padre = attrs.padre
         def html=""
-        if(attrs.detalle){
+        if(attrs.detalle && attrs.detalle!="" &&  attrs.detalle!="null"){
             def detalle = attrs.detalle
             def mapa=[:]
             mapa["estacion"]=detalle.proceso.estacion
@@ -35,7 +35,7 @@ class UtilitariosTagLib {
                 out<< render(template:"/templates/alcance", model:mapa)
             }
         }else{
-            if(padre){
+            if(padre && padre!="" &&  padre!="null"){
                 def detalle = Detalle.get(padre)
                 println "con padre "+detalle
                 def mapa=[:]

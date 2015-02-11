@@ -166,22 +166,27 @@ class LicenciaController {
             case "obs":
                 tipoDoc = TipoDocumento.findByCodigo("TP07")
                 params.descripcion = "Oficio de observaciones"
+                if(params.padre)
+                    padre = Detalle.get(params.padre)
                 redirectStr = params.origen
-                plazo=30
+                if(params.plazo)
+                    plazo=params.plazo.toInteger()
+                else
+                    plazo=30
                 break;
             case "alc":
-                tipoDoc = TipoDocumento.findByCodigo("")
+                tipoDoc = TipoDocumento.findByCodigo("TP05")
                 padre = Detalle.get(params.padre)
                 params.descripcion = "Alcance a las observaciones"
                 redirectStr = params.origen
                 break;
             case "apbTdr":
                 tipoDoc = TipoDocumento.findByCodigo("TP06")
-                redirectStr = "licenciaTdr"
+                redirectStr = "licenciaEia"
                 break;
             case "apbEia":
                 tipoDoc = TipoDocumento.findByCodigo("TP06")
-                redirectStr = "licenciaTdr"
+                redirectStr = "licenciaPago"
                 break;
             case "eia":
                 tipoDoc = TipoDocumento.findByCodigo("")
@@ -189,6 +194,7 @@ class LicenciaController {
                 break;
         }
         def pathPart = "documentos/${estacion.codigo}/"
+        println "detalle? "+detalle
         if(params.id)
             detalle=Detalle.get(params.id)
         else{
@@ -196,6 +202,7 @@ class LicenciaController {
             detalle.proceso=proceso
             detalle.tipo = tipoDoc
             detalle.fechaRegistro=new Date()
+            println "padre "+padre
             detalle.detalle=padre
             detalle.paso = paso
             detalle.plazo = plazo

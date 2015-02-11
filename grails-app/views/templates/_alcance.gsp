@@ -4,7 +4,7 @@
         <input type="hidden" name="estacion_codigo" value="${estacion.codigo}" >
         <input type="hidden" name="proceso" value="${proceso?.id}" >
         <input type="hidden" name="id" value="${detalleAlc?.id}" >
-        <input type="hidden" name="tipo" value="obs" >
+        <input type="hidden" name="tipo" value="alc" >
         <input type="hidden" name="paso" value="2" >
         <input type="hidden" name="origen" value="licenciaTdr" >
         <input type="hidden" name="padre" value="${padre?.id}" >
@@ -65,5 +65,5 @@
     </g:form>
 </fieldset>
 <g:if test="${detalleAlc}">
-    <util:displayChain detalle="${gaia.documentos.Detalle.findByDetalle(detalleAlc)}" paso="${paso}" origen="${origen}" padre="${padre?.id}"/>
+    <util:displayChain detalle="${gaia.documentos.Detalle.findByDetalle(detalleAlc)}" paso="${paso}" origen="${origen}" padre="${detalleAlc?.id}"/>
 </g:if>

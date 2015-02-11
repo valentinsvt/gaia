@@ -22,7 +22,7 @@
                     <span class="badge active">1</span> Certificado de intersección
                     <span class="arrow"></span>
                 </div>
-                <g:if test="${detalle.documento}">
+                <g:if test="${detalle?.documento}">
                     <g:link controller="licencia" action="licenciaTdr" id="${proceso.id}">
                         <div class="header-flow-item disabled">
                             <span class="badge disabled">2</span>
