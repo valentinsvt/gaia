@@ -1,5 +1,6 @@
 package gaia.estaciones
 
+import gaia.documentos.ConsultorEstacion
 import gaia.documentos.Dashboard
 import gaia.documentos.Documento
 import gaia.documentos.TipoDocumento
@@ -219,8 +220,10 @@ class EstacionController extends Shield {
     }
 
 
-    def showMap_ajax(){
-
-    }
+  def consultores(){
+      def estacion = Estacion.findByCodigo(params.codigo)
+      def consulotores = ConsultorEstacion.findByEstacion(estacion)
+      [estacion: estacion,consultores:consulotores]
+  }
         
 }

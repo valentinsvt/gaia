@@ -67,6 +67,9 @@
             <a href="${g.createLink(controller: 'documento',action: 'arbolEstacion',params: [codigo:estacion.codigo])}" class="btn btn-default mapa">
                 <i class="fa fa-file-pdf-o"></i> Visor de documentos
             </a>
+            <a href="${g.createLink(controller: 'estacion',action: 'consultores',params: [codigo:estacion.codigo])}" class="btn btn-default mapa">
+                <i class="fa fa-file-pdf-o"></i> Consultores
+            </a>
         </div>
     </div>
     <div class="row" style="margin-top: 0px">

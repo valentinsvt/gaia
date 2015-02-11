@@ -11,7 +11,7 @@ class Consultor {
     /**
      * Define los campos que se van a ignorar al momento de hacer logs
      */
-    static auditable = [ignore: ['fechaEnvio', 'fechaRecibido']]
+    static auditable = [ignore: []]
 
     /**
      * Define el mapeo entre los campos del dominio y las columnas de la base de datos

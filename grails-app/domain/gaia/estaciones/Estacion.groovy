@@ -35,6 +35,8 @@ class Estacion {
     Ubicacion canton
     Ubicacion parroquia
 
+    Integer tipo
+
     /**
      * Define los campos que se van a ignorar al momento de hacer logs
      */
@@ -65,6 +67,7 @@ class Estacion {
             provincia column: 'provincia'
             canton column: 'canton'
             parroquia column: 'parroquia'
+            tipo column: 'tipo_cliente'
         }
     }
 

@@ -42,7 +42,7 @@ class BootStrap {
         }
 
         if(Dashboard.count()==0){
-            Estacion.findAllByAplicacion(1,[sort:"nombre"]).each {
+            Estacion.findAll("from Estacion where aplicacion = 1 and estado='A' and tipo=1").each {
                 def dash = new Dashboard()
                 dash.estacion=it
                 dash.save(flush: true)
