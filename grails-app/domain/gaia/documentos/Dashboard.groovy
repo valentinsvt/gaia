@@ -5,9 +5,10 @@ import gaia.estaciones.Estacion
 class Dashboard {
 
     Estacion estacion
-    int licencia = 0
-    int auditoria = 0
-    int docs = 0
+    Integer licencia = 0
+    Integer auditoria = 0
+    Integer docs = 0
+    Integer monitoreo = 0
 
     /**
      * Define el mapeo entre los campos del dominio y las columnas de la base de datos
@@ -22,6 +23,7 @@ class Dashboard {
             licencia column: 'dashlicn'
             auditoria column: 'dashaudt'
             docs column: 'dashdocs'
+            monitoreo column: 'dashmnto'
         }
     }
 }

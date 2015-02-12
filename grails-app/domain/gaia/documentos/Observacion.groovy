@@ -12,7 +12,7 @@ class Observacion {
      * Define el mapeo entre los campos del dominio y las columnas de la base de datos
      */
     static mapping = {
-        table: 'obdt'
+        table 'obdt'
         cache usage: 'read-write', include: 'non-lazy'
         version false
         id generator: 'identity'
