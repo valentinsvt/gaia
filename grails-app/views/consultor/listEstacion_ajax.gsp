@@ -62,7 +62,7 @@
                 if (res) {
                     $.ajax({
                         type    : "POST",
-                        url     : "${createLink(controller:'consultor', action:'delete_ajax')}",
+                        url     : "${createLink(controller:'consultor', action:'deleteConsultor_ajax')}",
                         data    : {
                             id : id
                         },

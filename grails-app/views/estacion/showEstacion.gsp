@@ -292,7 +292,7 @@
                     },
                     success : function (msg) {
                         bootbox.dialog({
-                            title   : "Consultores",
+                            title   : "Supervisores",
                             message : msg,
                             class   : "modal-lg",
                             buttons : {

@@ -113,7 +113,9 @@ class InspectorController extends Shield {
             render "ERROR*Ha ocurrido un error al guardar Inspector: " + renderErrors(bean: inspectorInstance)
             return
         }
-        render "SUCCESS*${params.id ? 'Actualización' : 'Creación'} de Inspector exitosa."
+        def select = g.select(from: Inspector.list([sort: "nombre"]), "class": "form-control input-sm", name: "ins",
+                optionKey: "id", optionValue: "nombre", value: inspectorInstance.id)
+        render "SUCCESS*${params.id ? 'Actualización' : 'Creación'} de Inspector exitosa.*" + select
         return
     } //save para grabar desde ajax
 
