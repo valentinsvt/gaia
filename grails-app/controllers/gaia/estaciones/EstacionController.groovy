@@ -221,11 +221,8 @@ class EstacionController extends Shield {
 
 
     def consultores_ajax() {
-//        println params
         def estacion = Estacion.findByCodigo(params.codigo)
-//        println estacion
-        def consulotores = ConsultorEstacion.findAllByEstacion(estacion)
-        return [estacion: estacion, consultores: consulotores]
+        return [estacion: estacion]
     }
 
 }

@@ -1,5 +1,6 @@
 package gaia.documentos
 
+import gaia.estaciones.Estacion
 import org.springframework.dao.DataIntegrityViolationException
 import gaia.seguridad.Shield
 
@@ -10,6 +11,12 @@ import gaia.seguridad.Shield
 class ConsultorController extends Shield {
 
     static allowedMethods = [save_ajax: "POST", delete_ajax: "POST"]
+
+    def listEstacion_ajax() {
+        def estacion = Estacion.findByCodigo(params.codigo)
+        def consultores = ConsultorEstacion.findAllByEstacion(estacion)
+        return [estacion: estacion, consultores: consultores]
+    }
 
     /**
      * Acción que redirecciona a la lista (acción "list")
@@ -123,7 +130,7 @@ class ConsultorController extends Shield {
      */
     def delete_ajax() {
         if (params.id) {
-            def consultorInstance = Consultor.get(params.id)
+            def consultorInstance = ConsultorEstacion.get(params.id)
             if (!consultorInstance) {
                 render "ERROR*No se encontró Consultor."
                 return
@@ -160,6 +167,20 @@ class ConsultorController extends Shield {
         } else {
             render Consultor.countByMailIlike(params.mail) == 0
             return
+        }
+    }
+
+    def addConsultor_ajax() {
+        def estacion = Estacion.findByCodigo(params.codigo)
+        def consultor = Consultor.get(params.cons)
+
+        def consultorEstacion = new ConsultorEstacion()
+        consultorEstacion.consultor = consultor
+        consultorEstacion.estacion = estacion
+        if (consultorEstacion.save(flush: true)) {
+            render "SUCCESS*Consultor agregado"
+        } else {
+            render "ERROR*" + renderErrors(bean: consultorEstacion)
         }
     }
 
