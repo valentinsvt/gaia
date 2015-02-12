@@ -126,4 +126,17 @@ class Estacion {
         return ["svt-bg-danger",null]
     }
 
+    def getLastDoc(TipoDocumento tipo){
+        def doc = Documento.findAllByEstacionAndTipo(this,tipo,[sort:"inicio",order:"desc",max:1])
+        if(doc.size()>0) {
+            doc = doc.pop()
+            if(doc.fin){
+                if(doc.fin<new Date())
+                    return null
+            }
+            return doc
+        }else
+            return null
+    }
+
 }

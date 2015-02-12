@@ -68,6 +68,9 @@
                     <a href="#" class="btn btn-default detalles">
                         <i class="fa fa-file-o"></i> Ver detalles
                     </a>
+                    <a href="${g.createLink(controller: 'estacion',action: 'requerimientosEstacion',id: estacion.codigo)}" class="btn btn-default">
+                        <i class="fa fa-folder-open"></i> Documentación requerida
+                    </a>
                     <a href="${g.createLink(controller: 'documento', action: 'arbolEstacion', params: [codigo: estacion.codigo])}" class="btn btn-default mapa">
                         <i class="fa fa-file-pdf-o"></i> Visor de documentos
                     </a>

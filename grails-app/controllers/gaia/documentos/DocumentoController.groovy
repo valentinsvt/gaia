@@ -9,7 +9,7 @@ class DocumentoController {
         def tipos = TipoDocumento.findAllByTipo("N", [sort: "nombre"])
         def caducan = TipoDocumento.findAllByTipoAndCaduca("N", "S", [sort: "nombre"])
         caducan = caducan.collect { "'" + it.id + "'" }
-        [estacion: estacion, tipos: tipos, caducan: caducan]
+        [estacion: estacion, tipos: tipos, caducan: caducan,tipo:params.tipo]
     }
 
     def upload() {

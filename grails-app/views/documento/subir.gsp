@@ -54,7 +54,7 @@
                     </label>
                 </div>
                 <div class="col-md-3">
-                    <g:select name="tipo.id" from="${tipos}" optionValue="nombre" optionKey="id" id="tipo" class="form-control input-sm"></g:select>
+                    <g:select name="tipo.id" from="${tipos}" optionValue="nombre" optionKey="id" id="tipo" class="form-control input-sm" value="${tipo}"></g:select>
                 </div>
                 <div class="col-md-2">
                     <label>

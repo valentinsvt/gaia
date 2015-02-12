@@ -65,14 +65,22 @@
             </div>
         </g:link>
     </div>
-    <div class="card">
-        <div class="titulo-card"><i class="fa fa-warning"></i> Alertas</div>
-
-        <div class="cardContent">
-            <div class="circle-card ${alertas>0?colores[2]:colores[0]}">${alertas}</div>
-            Pendientes
-        </div>
+    <div class="card" style="width:273px;">
+        <div class="titulo-card"><i class="fa fa-newspaper-o"></i>Monitoreo vigente</div>
+        <g:link controller="estacion" action="listaSemaforos" params="[search:'green-moni']" style="text-decoration: none">
+            <div class="cardContent">
+                <div class="circle-card ${colores[colorMonitoreo]}">${monitoreo}</div>
+                Estaciones con monitoreo
+            </div>
+        </g:link>
+        <g:link controller="estacion" action="listaSemaforos" params="[search:'red-moni']" style="text-decoration: none">
+            <div class="cardContent">
+                <div class="circle-card ${colores[colorMonitoreo]}">${tot-monitoreo}</div>
+                Estaciones sin monitoreo
+            </div>
+        </g:link>
     </div>
+
 
 </div>
 <div class="row">
@@ -103,10 +111,17 @@
             Estaciones sin documentación completa
         </div>
     </div>
+    <div class="card" style="width: 272px">
+        <div class="titulo-card"><i class="fa fa-warning"></i> Alertas</div>
 
+        <div class="cardContent">
+            <div class="circle-card ${alertas>0?colores[2]:colores[0]}">${alertas}</div>
+            Pendientes
+        </div>
+    </div>
 </div>
 <div class="row">
-    <div class="table-report">
+    <div class="table-report" style="width: 617px">
         <div class="titulo-report"><i class="fa fa-sort-amount-asc"></i>Documentos por caducar</div>
         <div class="report-content">
             <table class="table table-striped table-hover table-bordered" style="border-top: none">
@@ -131,7 +146,7 @@
                 </g:if>
                 <g:else>
                     <tr>
-                        <td colspan="3">No hay documentos por caducar</td>
+                        <td colspan="4">No hay documentos por caducar</td>
                     </tr>
                 </g:else>
 

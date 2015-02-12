@@ -3,6 +3,7 @@ package gaia.estaciones
 import gaia.documentos.ConsultorEstacion
 import gaia.documentos.Dashboard
 import gaia.documentos.Documento
+import gaia.documentos.RequerimientosEstacion
 import gaia.documentos.TipoDocumento
 import org.springframework.dao.DataIntegrityViolationException
 import gaia.seguridad.Shield
@@ -231,6 +232,24 @@ class EstacionController extends Shield {
 
 
     def requerimientosEstacion(){
+        def estacion = Estacion.findByCodigo(params.id)
+        def reqs = RequerimientosEstacion.findAllByEstacion(estacion)
+        if(reqs.size()==0){
+            TipoDocumento.findAllByTipo("N").each {
+                def rq = new RequerimientosEstacion()
+                rq.estacion=estacion
+                rq.tipo=it
+                rq.save(flush: true)
+                reqs.add(rq)
+            }
+        }
+        [estacion:estacion,reqs:reqs]
 
+    }
+
+    def borrarReq(){
+        def req = RequerimientosEstacion.get(params.id)
+        req.delete(flush: true)
+        render "ok"
     }
 }
