@@ -229,4 +229,8 @@ class EstacionController extends Shield {
         return [estacion: estacion]
     }
 
+
+    def requerimientosEstacion(){
+
+    }
 }

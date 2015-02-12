@@ -62,19 +62,20 @@
             <g:set var="licencia" value="${estacion.getColorLicencia()}"/>
             <g:set var="auditoria" value="${estacion.getColorAuditoria()}"/>
             <g:set var="docs" value="${estacion.getColorDocs()}"/>
+            <g:set var="monitoreo" value="${estacion.getColorMonitoreo()}"/>
             <div class="btn-toolbar toolbar" style="margin-top: 10px;margin-bottom: 0;margin-left: -20px">
                 <div class="btn-group">
                     <a href="#" class="btn btn-default detalles">
                         <i class="fa fa-file-o"></i> Ver detalles
-                    </a>
-                    <a href="#" class="btn btn-default mapa">
-                        <i class="fa fa-globe"></i> Ubicar en el mapa
                     </a>
                     <a href="${g.createLink(controller: 'documento', action: 'arbolEstacion', params: [codigo: estacion.codigo])}" class="btn btn-default mapa">
                         <i class="fa fa-file-pdf-o"></i> Visor de documentos
                     </a>
                     <a href="#" class="btn btn-default consultores">
                         <i class="fa fa-users"></i> Consultores
+                    </a>
+                    <a href="#" class="btn btn-default supervisor">
+                        <i class="fa fa-user-plus"></i> Supervisor
                     </a>
                 </div>
             </div>
@@ -116,6 +117,25 @@
                             <g:else>
                                 <a href="#" class="btn btn-info btn-header ">
                                     <i class="fa fa-street-view"></i> Registrar
+                                </a>
+                            </g:else>
+                        </div>
+                    </div>
+                    <div class="header-item">
+                        <div class="titulo-card" style="text-align: left;padding-left: 15px">
+                           Monitoreo
+                        </div>
+
+                        <div class="header-content">
+                            <div class="circle-card ${monitoreo[0]}"></div>
+                            <g:if test="${monitoreo[1]}">
+                                <a href="#" class="btn btn-primary btn-header ">
+                                    <i class="fa fa-user-plus"></i> Ver
+                                </a>
+                            </g:if>
+                            <g:else>
+                                <a href="#" class="btn btn-info btn-header ">
+                                    <i class="fa fa-area-chart"></i> Registrar
                                 </a>
                             </g:else>
                         </div>
@@ -196,7 +216,7 @@
                         </g:if>
                         <g:else>
                             <tr>
-                                <td colspan="4">
+                                <td colspan="5">
                                     No hay documentos registrados
                                 </td>
                             </tr>

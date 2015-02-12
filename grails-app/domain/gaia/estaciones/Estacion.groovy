@@ -106,6 +106,14 @@ class Estacion {
             return ["svt-bg-danger",null]
         }
     }
+    def getColorMonitoreo(){
+        def doc = Documento.findByTipo(TipoDocumento.findByCodigo("TP12"))
+        if(doc) {
+            return ["card-bg-green",doc]
+        }else{
+            return ["svt-bg-danger",null]
+        }
+    }
     def getColorDocs(){
         /*def tipos = TipoDocumento.list()
         def docs = Documento.findByTipoInList(tipos)

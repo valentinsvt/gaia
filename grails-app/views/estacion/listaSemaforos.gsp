@@ -56,8 +56,8 @@
             </th>
             <th class="td-semaforo">
                 Monitoreo<br>
-                <div class="circle-card card-bg-green circle-btn auditoria-green" title="Filtrar por color verde" mostrar="green-audt"></div>
-                <div class="circle-card svt-bg-danger circle-btn auditoria-red" title="Filtrar por color rojo" mostrar="red-audt"></div>
+                <div class="circle-card card-bg-green circle-btn auditoria-green" title="Filtrar por color verde" mostrar="green-moni"></div>
+                <div class="circle-card svt-bg-danger circle-btn auditoria-red" title="Filtrar por color rojo" mostrar="red-moni"></div>
             </th>
             <th class="td-semaforo">Doc. Soporte<br>
                 <div class="circle-card card-bg-green circle-btn doc-green" title="Filtrar por color verde" mostrar="green-doc"></div>
@@ -70,13 +70,16 @@
         </thead>
         <tbody>
         <g:each in="${dash}" var="d" status="">
-            <tr data-id="${d.estacion.codigo}" class=" tr-info ${d.auditoria==1?'green-audt':'red-audt'} ${d.licencia==1?'green-lic':'red-lic'} ${d.docs==1?'green-doc':(d.docs==0)?'red-doc':'orange-doc'}">
+            <tr data-id="${d.estacion.codigo}" class=" tr-info ${d.monitoreo==1?'green-moni':'red-moni'} ${d.auditoria==1?'green-audt':'red-audt'} ${d.licencia==1?'green-lic':'red-lic'} ${d.docs==1?'green-doc':(d.docs==0)?'red-doc':'orange-doc'}">
                 <td class="desc">${d.estacion}</td>
                 <td class="td-semaforo">
                     <div class="circle-card ${d.licencia==1?'card-bg-green':'svt-bg-danger'}"></div>
                 </td>
                 <td class="td-semaforo">
                     <div class="circle-card ${d.auditoria==1?'card-bg-green':'svt-bg-danger'}"></div>
+                </td>
+                <td class="td-semaforo">
+                    <div class="circle-card ${d.monitoreo==1?'card-bg-green':'svt-bg-danger'}"></div>
                 </td>
                 <td class="td-semaforo">
                     <div class="circle-card ${d.docs==1?'card-bg-green':(d.docs==0)?'svt-bg-danger':'svt-bg-warning'}"></div>
