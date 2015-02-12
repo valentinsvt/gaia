@@ -19,7 +19,7 @@ class ConsultorEstacion {
         table 'cset'
         cache usage: 'read-write', include: 'non-lazy'
         version false
-        sort nombre: "asc"
+        sort consultor: "asc"
         columns {
             id column: 'cset__id'
             consultor column: 'cnst__id'

@@ -16,37 +16,37 @@ class EstacionController extends Shield {
     static allowedMethods = [save_ajax: "POST", delete_ajax: "POST"]
 
 
-    def showEstacion(){
+    def showEstacion() {
         def estacion
         def documentos = []
         def tipos = [:]
-        tipos.put("-1","Todos")
+        tipos.put("-1", "Todos")
         TipoDocumento.list([sort: 'nombre']).each {
-            tipos.put(it.id,it.nombre)
+            tipos.put(it.id, it.nombre)
         }
 
 
-        if(session.tipo=="cliente"){
+        if (session.tipo == "cliente") {
             estacion = session.usuario
-        }else{
+        } else {
             estacion = Estacion.findByCodigo(params.id)
 
         }
-        documentos=Documento.findAllByEstacion(estacion)
-        [estacion:estacion,documentos:documentos,tipos:tipos]
+        documentos = Documento.findAllByEstacion(estacion)
+        [estacion: estacion, documentos: documentos, tipos: tipos]
     }
 
-    def listaSemaforos(){
+    def listaSemaforos() {
         def dash = Dashboard.list([sort: "id"])
 
-        [dash:dash,search:params.search]
+        [dash: dash, search: params.search]
     }
 
     /**
      * Acción que redirecciona a la lista (acción "list")
      */
     def index() {
-        redirect(action:"list", params: params)
+        redirect(action: "list", params: params)
     }
 
     /**
@@ -59,26 +59,26 @@ class EstacionController extends Shield {
         params = params.clone()
         params.max = params.max ? Math.min(params.max.toInteger(), 100) : 10
         params.offset = params.offset ?: 0
-        if(all) {
+        if (all) {
             params.remove("max")
             params.remove("offset")
         }
         def list
-        if(params.search) {
+        if (params.search) {
             def c = Estacion.createCriteria()
             list = c.list(params) {
                 or {
                     /* TODO: cambiar aqui segun sea necesario */
-                    
-                    ilike("codigo", "%" + params.search + "%")  
-                    ilike("direccion", "%" + params.search + "%")  
-                    ilike("estado", "%" + params.search + "%")  
-                    ilike("mail", "%" + params.search + "%")  
-                    ilike("nombre", "%" + params.search + "%")  
-                    ilike("propetario", "%" + params.search + "%")  
-                    ilike("representante", "%" + params.search + "%")  
-                    ilike("ruc", "%" + params.search + "%")  
-                    ilike("telefono", "%" + params.search + "%")  
+
+                    ilike("codigo", "%" + params.search + "%")
+                    ilike("direccion", "%" + params.search + "%")
+                    ilike("estado", "%" + params.search + "%")
+                    ilike("mail", "%" + params.search + "%")
+                    ilike("nombre", "%" + params.search + "%")
+                    ilike("propetario", "%" + params.search + "%")
+                    ilike("representante", "%" + params.search + "%")
+                    ilike("ruc", "%" + params.search + "%")
+                    ilike("telefono", "%" + params.search + "%")
                 }
             }
         } else {
@@ -104,9 +104,9 @@ class EstacionController extends Shield {
      * Acción llamada con ajax que muestra la información de un elemento particular
      */
     def show_ajax() {
-        if(params.id) {
+        if (params.id) {
             def estacionInstance = Estacion.findByCodigo(params.id)
-            if(!estacionInstance) {
+            if (!estacionInstance) {
                 render "ERROR*No se encontró Estacion."
                 return
             }
@@ -121,9 +121,9 @@ class EstacionController extends Shield {
      */
     def form_ajax() {
         def estacionInstance = new Estacion()
-        if(params.id) {
+        if (params.id) {
             estacionInstance = Estacion.get(params.id)
-            if(!estacionInstance) {
+            if (!estacionInstance) {
                 render "ERROR*No se encontró Estacion."
                 return
             }
@@ -137,15 +137,15 @@ class EstacionController extends Shield {
      */
     def save_ajax() {
         def estacionInstance = new Estacion()
-        if(params.id) {
+        if (params.id) {
             estacionInstance = Estacion.get(params.id)
-            if(!estacionInstance) {
+            if (!estacionInstance) {
                 render "ERROR*No se encontró Estacion."
                 return
             }
         }
         estacionInstance.properties = params
-        if(!estacionInstance.save(flush: true)) {
+        if (!estacionInstance.save(flush: true)) {
             render "ERROR*Ha ocurrido un error al guardar Estacion: " + renderErrors(bean: estacionInstance)
             return
         }
@@ -157,7 +157,7 @@ class EstacionController extends Shield {
      * Acción llamada con ajax que permite eliminar un elemento
      */
     def delete_ajax() {
-        if(params.id) {
+        if (params.id) {
             def estacionInstance = Estacion.get(params.id)
             if (!estacionInstance) {
                 render "ERROR*No se encontró Estacion."
@@ -176,7 +176,7 @@ class EstacionController extends Shield {
             return
         }
     } //delete para eliminar via ajax
-    
+
     /**
      * Acción llamada con ajax que valida que no se duplique la propiedad codigo
      * @render boolean que indica si se puede o no utilizar el valor recibido
@@ -197,7 +197,7 @@ class EstacionController extends Shield {
             return
         }
     }
-        
+
     /**
      * Acción llamada con ajax que valida que no se duplique la propiedad mail
      * @render boolean que indica si se puede o no utilizar el valor recibido
@@ -220,10 +220,12 @@ class EstacionController extends Shield {
     }
 
 
-  def consultores(){
-      def estacion = Estacion.findByCodigo(params.codigo)
-      def consulotores = ConsultorEstacion.findByEstacion(estacion)
-      [estacion: estacion,consultores:consulotores]
-  }
-        
+    def consultores_ajax() {
+//        println params
+        def estacion = Estacion.findByCodigo(params.codigo)
+//        println estacion
+        def consulotores = ConsultorEstacion.findAllByEstacion(estacion)
+        return [estacion: estacion, consultores: consulotores]
+    }
+
 }
