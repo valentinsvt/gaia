@@ -219,8 +219,12 @@ class EstacionController extends Shield {
         }
     }
 
-
     def consultores_ajax() {
+        def estacion = Estacion.findByCodigo(params.codigo)
+        return [estacion: estacion]
+    }
+
+    def inspectores_ajax() {
         def estacion = Estacion.findByCodigo(params.codigo)
         return [estacion: estacion]
     }
