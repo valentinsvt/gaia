@@ -121,9 +121,10 @@
                             </g:else>
                         </div>
                     </div>
+
                     <div class="header-item">
                         <div class="titulo-card" style="text-align: left;padding-left: 15px">
-                           Monitoreo
+                            Monitoreo
                         </div>
 
                         <div class="header-content">
@@ -279,6 +280,30 @@
                     }
                 });
             }
+            function verInspectores(id) {
+                $.ajax({
+                    type    : "POST",
+                    url     : "${createLink(controller:'estacion', action:'inspectores_ajax')}",
+                    data    : {
+                        codigo : id
+                    },
+                    success : function (msg) {
+                        bootbox.dialog({
+                            title   : "Consultores",
+                            message : msg,
+                            class   : "modal-lg",
+                            buttons : {
+                                ok : {
+                                    label     : "Aceptar",
+                                    className : "btn-primary",
+                                    callback  : function () {
+                                    }
+                                }
+                            }
+                        });
+                    }
+                });
+            }
             function verEstacion(id) {
                 $.ajax({
                     type    : "POST",
@@ -332,6 +357,10 @@
                 });
                 $(".consultores").click(function () {
                     verConsultores("${estacion.codigo}");
+                    return false;
+                });
+                $(".supervisor").click(function () {
+                    verInspectores("${estacion.codigo}");
                     return false;
                 });
 

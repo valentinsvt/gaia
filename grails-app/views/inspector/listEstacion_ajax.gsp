@@ -8,36 +8,28 @@
 <table class="table table-bordered table-condensed table-hover">
     <thead>
         <tr>
-            <th>R.U.C.</th>
             <th>Nombre</th>
             <th>Teléfono</th>
-            <th>Dirección</th>
             <th>E-Mail</th>
             <th style="width: 30px;"></th>
         </tr>
     </thead>
-    <tbody id="tbCons">
-        <g:if test="${consultores.size() > 0}">
-            <g:each in="${consultores}" var="consultor">
-                <g:set var="cons" value="${consultor.consultor}"/>
-                <tr data-cons="${cons.id}" data-id="${consultor.id}">
+    <tbody id="tbIns">
+        <g:if test="${inspectores.size() > 0}">
+            <g:each in="${inspectores}" var="inspector">
+                <g:set var="ins" value="${inspector.inspector}"/>
+                <tr data-cons="${ins.id}" data-id="${inspector.id}">
                     <td>
-                        ${cons.ruc}
+                        ${ins.nombre}
                     </td>
                     <td>
-                        ${cons.nombre}
+                        ${ins.telefono}
                     </td>
                     <td>
-                        ${cons.telefono}
+                        ${ins.mail}
                     </td>
                     <td>
-                        ${cons.direccion}
-                    </td>
-                    <td>
-                        ${cons.mail}
-                    </td>
-                    <td>
-                        <a href="#" class="btn btn-danger btn-sm btnDeleteCons">
+                        <a href="#" class="btn btn-danger btn-sm btnDeleteIns">
                             <i class="fa fa-trash-o"></i>
                         </a>
                     </td>
@@ -47,7 +39,7 @@
         <g:else>
             <tr>
                 <td colspan="5" class="info text-center">
-                    No se encontraron consultores
+                    No se encontraron supervisores
                 </td>
             </tr>
         </g:else>
@@ -56,13 +48,13 @@
 
 <script type="text/javascript">
     $(function () {
-        $(".btnDeleteCons").click(function () {
+        $(".btnDeleteIns").click(function () {
             var id = $(this).parents("tr").data("id");
-            bootbox.confirm("¿Está seguro que desea eliminar este consultor?", function (res) {
+            bootbox.confirm("¿Está seguro que desea eliminar este supervisor?", function (res) {
                 if (res) {
                     $.ajax({
                         type    : "POST",
-                        url     : "${createLink(controller:'consultor', action:'delete_ajax')}",
+                        url     : "${createLink(controller:'inspector', action:'deleteInspector_ajax')}",
                         data    : {
                             id : id
                         },
@@ -70,7 +62,7 @@
                             var parts = msg.split("*");
                             log(parts[1], parts[0].toLowerCase());
                             if (parts[0] == "SUCCESS") {
-                                loadConsultores();
+                                loadInspectores();
                             }
                         }
                     });
