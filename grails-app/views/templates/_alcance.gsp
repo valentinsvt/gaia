@@ -18,7 +18,11 @@
                 <g:if test="${detalleAlc?.documento}">
                     <div id="botones-obs_${detalleAlc?.id}">
                         ${detalleAlc.documento.codigo}
-                        <a href="${g.createLink(controller: 'documento',action: 'ver',id: detalleAlc.documento.id)}" target="_blank" class="btn btn-info" id="ver">
+                        <a href="#" data-file="${detalleAlc.documento.path}"
+                           data-ref="${detalleAlc.documento.referencia}"
+                           data-codigo="${detalleAlc.documento.codigo}"
+                           data-tipo="${detalleAlc.documento.tipo.nombre}"
+                           target="_blank" class="btn btn-info ver-doc" >
                             <i class="fa fa-search"></i> Ver
                         </a>
                         <a href="#" class="btn btn-info cambiar" iden="obs_${detalleAlc?.id}">

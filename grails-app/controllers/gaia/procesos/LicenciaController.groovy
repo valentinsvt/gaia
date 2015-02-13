@@ -310,5 +310,18 @@ class LicenciaController {
         [proceso:proceso,estacion: estacion,detalleTdr:detalleTdr,detalleApb:detalleAprobacion,detalleObs:detalleObs]
     }
 
+    def licenciaEia(){
+        if(!params.id)
+            response.sendError(403)
+        def proceso = Proceso.get(params.id)
+        if(!proceso)
+            response.sendError(403)
+        def estacion = proceso.estacion
+        def detalleEia = Detalle.findByProcesoAndTipo(proceso,TipoDocumento.findByCodigo("TP13"))
+        def detalleObs = Detalle.findByProcesoAndTipo(proceso,TipoDocumento.findByCodigo("TP07"))
+        def detalleAprobacion = Detalle.findByProcesoAndTipo(proceso,TipoDocumento.findByCodigo("TP06"))
+        [proceso:proceso,estacion: estacion,detalleEia:detalleEia,detalleApb:detalleAprobacion,detalleObs:detalleObs]
+    }
+
 
 }
