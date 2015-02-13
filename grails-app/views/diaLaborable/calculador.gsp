@@ -4,74 +4,123 @@
   Date: 12/02/2015
   Time: 19:07
 --%>
-
-<%@ page contentType="text/html;charset=UTF-8" %>
+<!DOCTYPE html>
 <html>
     <head>
         <meta name="layout" content="main">
+        <meta charset="UTF-8">
         <title>Calculador de días laborables</title>
+
+        <style type="text/css">
+        .respuesta {
+            margin-top    : 10px;
+            margin-bottom : 0;
+        }
+        </style>
+
     </head>
 
     <body>
+        <div class="row">
+            <div class="col-md-6 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Días laborables entre 2 fechas
+                        </h3>
+                    </div>
 
-        <fieldset>
-            <legend>Días laborables entre 2 fechas</legend>
+                    <div class="panel-body">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label for="fecha1" class="col-sm-2 control-label">Fecha 1</label>
 
-            <div class="row">
-                <div class="span1">Fecha 1</div>
+                                <div class="col-sm-4">
+                                    <elm:datepicker name="fecha1" class="form-control input-sm" daysOfWeekDisabled="[0, 6]"/>
+                                </div>
+                            </div>
 
-                <div class="span2"><elm:datepicker name="fecha1" class="input-small"/></div>
+                            <div class="form-group">
+                                <label for="fecha2" class="col-sm-2 control-label">Fecha 2</label>
 
-                <div class="span1">Fecha 2</div>
+                                <div class="col-sm-4">
+                                    <elm:datepicker name="fecha2" class="form-control input-sm" daysOfWeekDisabled="[0, 6]"/>
+                                </div>
+                            </div>
+                        </form>
 
-                <div class="span2"><elm:datepicker name="fecha2" class="input-small"/></div>
+                        <div class="alert alert-info respuesta hidden" id="respuestaEntre">
+                            Respuesta aqui
+                        </div>
+                    </div>
 
-                <div class="span1">
-                    <a href="#" id="btnCalcEntre" class="btn btn-primary">Calcular</a>
+                    <div class="panel-footer">
+                        <a href="#" id="btnCalcEntre" class="btn btn-primary">
+                            <i class="fa fa-calculator"></i> Calcular
+                        </a>
+                    </div>
                 </div>
             </div>
 
-            <div class="alert alert-success hide" id="respuestaEntre">Hay</div>
-        </fieldset>
+            <div class="col-md-6 col-xs-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                            Fecha <em>n</em> días laborables después
+                        </h3>
+                    </div>
 
-        <fieldset>
-            <legend>Fecha n días laborables después</legend>
+                    <div class="panel-body">
+                        <form class="form-horizontal">
+                            <div class="form-group">
+                                <label for="fecha" class="col-sm-2 control-label">Fecha 1</label>
 
-            <div class="row">
-                <div class="span1">Fecha</div>
+                                <div class="col-sm-4">
+                                    <elm:datepicker name="fecha" class="form-control input-sm" daysOfWeekDisabled="[0, 6]"/>
+                                </div>
+                            </div>
 
-                <div class="span2"><elm:datepicker name="fecha" class="input-small"/></div>
+                            <div class="form-group">
+                                <label for="dias" class="col-sm-2 control-label">Días</label>
 
-                <div class="span1">Días</div>
+                                <div class="col-sm-4">
+                                    <g:field type="number" class="form-control input-sm digits" name="dias"/>
+                                </div>
+                            </div>
+                        </form>
 
-                <div class="span2"><g:field type="number" class="input-mini" name="dias"/></div>
+                        <div class="alert alert-info respuesta hidden" id="respuestaDias">
+                            Respuesta aqui
+                        </div>
+                    </div>
 
-                <div class="span1">
-                    <a href="#" id="btnCalcDias" class="btn btn-primary">Calcular</a>
+                    <div class="panel-footer">
+                        <a href="#" id="btnCalcDias" class="btn btn-primary">
+                            <i class="fa fa-calculator"></i> Calcular
+                        </a>
+                    </div>
                 </div>
             </div>
-
-            <div class="alert alert-success hide" id="respuestaDias">Hay</div>
-        </fieldset>
+        </div>
 
         <script type="text/javascript">
             $(function () {
                 $("#btnCalcEntre").click(function () {
                     $.ajax({
                         type    : "POST",
-                        url     : "${createLink(action: 'calcEntre')}",
+                        url     : "${createLink(action: 'calcEntre_ajax')}",
                         data    : {
-                            fecha1 : $("#fecha1").val(),
-                            fecha2 : $("#fecha2").val()
+                            fecha1 : $("#fecha1_input").val(),
+                            fecha2 : $("#fecha2_input").val()
                         },
                         success : function (msg) {
                             var obj = $.parseJSON(msg);
                             if (obj[0]) {
                                 var html = "<div>Hay " + obj[1] + " días laborables</div>";
                                 html += obj[2];
-                                $("#respuestaEntre").removeClass("alert-error").addClass("alert-success").html(html).show();
+                                $("#respuestaEntre").removeClass("alert-error").addClass("alert-success").html(html).removeClass("hidden");
                             } else {
-                                $("#respuestaEntre").removeClass("alert-success").addClass("alert-error").html(obj[1]).show();
+                                $("#respuestaEntre").removeClass("alert-success").addClass("alert-error").html(obj[1]).removeClass("hidden");
                             }
                         }
                     });
@@ -80,9 +129,9 @@
                 $("#btnCalcDias").click(function () {
                     $.ajax({
                         type    : "POST",
-                        url     : "${createLink(action: 'calcDias')}",
+                        url     : "${createLink(action: 'calcDias_ajax')}",
                         data    : {
-                            fecha : $("#fecha").val(),
+                            fecha : $("#fecha_input").val(),
                             dias  : $("#dias").val()
                         },
                         success : function (msg) {
@@ -90,9 +139,9 @@
                             if (obj[0]) {
                                 var html = "<div>La fecha es " + obj[2] + "</div>";
                                 html += obj[3];
-                                $("#respuestaDias").removeClass("alert-error").addClass("alert-success").html(html).show();
+                                $("#respuestaDias").removeClass("alert-error").addClass("alert-success").html(html).removeClass("hidden");
                             } else {
-                                $("#respuestaDias").removeClass("alert-success").addClass("alert-error").html(obj[1]).show();
+                                $("#respuestaDias").removeClass("alert-success").addClass("alert-error").html(obj[1]).removeClass("hidden");
                             }
                         }
                     });
@@ -100,6 +149,5 @@
                 });
             });
         </script>
-
     </body>
 </html>

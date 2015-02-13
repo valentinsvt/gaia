@@ -25,10 +25,12 @@
                     header      : {
                         left   : 'prev,next today',
                         center : 'title',
-                        right  : 'month,agendaWeek,agendaDay'
+                        right  : ''
                     },
-                    defaultDate : '${fecha}',
-                    editable    : true
+                    events      : '${createLink(controller: "calendario", action: "eventos_ajax")}',
+                    aspectRatio : 2,
+                    weekNumbers : true,
+                    defaultDate : '${fecha}'
                 });
             });
         </script>

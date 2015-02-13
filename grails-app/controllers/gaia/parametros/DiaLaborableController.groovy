@@ -13,7 +13,7 @@ class DiaLaborableController extends Shield {
 
     }
 
-    def calcEntre() {
+    def calcEntre_ajax() {
         def fecha1 = new Date().parse("dd-MM-yyyy", params.fecha1)
         def fecha2 = new Date().parse("dd-MM-yyyy", params.fecha2)
 
@@ -22,7 +22,7 @@ class DiaLaborableController extends Shield {
         render json
     }
 
-    def calcDias() {
+    def calcDias_ajax() {
         def fecha = new Date().parse("dd-MM-yyyy", params.fecha)
         def dias = params.dias.toInteger()
 
@@ -60,76 +60,6 @@ class DiaLaborableController extends Shield {
     }
 
     def calendario() {
-        def anio = new Date().format('yyyy').toInteger()
-
-        if (!params.anio) {
-            params.anio = anio
-        }
-        def meses = ["", "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"]
-        def enero01 = new Date().parse("dd-MM-yyyy", "01-01-" + params.anio)
-        def diciembre31 = new Date().parse("dd-MM-yyyy", "31-12-" + params.anio)
-
-        def dias = DiaLaborable.withCriteria {
-            ge("fecha", enero01)
-            le("fecha", diciembre31)
-            order("fecha", "asc")
-        }
-
-        if (dias.size() < 365) {
-            println "No hay todos los dias para ${params.anio}: hay " + dias.size()
-
-            def fecha = enero01
-            def cont = 1
-            def fds = ["sat", "sun"]
-            def fmt = new java.text.SimpleDateFormat("EEE", new Locale("en"))
-
-            def diasSem = [
-                    "mon": 1,
-                    "tue": 2,
-                    "wed": 3,
-                    "thu": 4,
-                    "fri": 5,
-                    "sat": 6,
-                    "sun": 0,
-            ]
-
-            while (fecha <= diciembre31) {
-                def dia = fmt.format(fecha).toLowerCase()
-                def ordinal = 0
-                if (!fds.contains(dia)) {
-                    ordinal = cont
-                    cont++
-                }
-                def diaExiste = DiaLaborable.withCriteria {
-                    eq("fecha", fecha)
-                }
-                if (!diaExiste) {
-                    def diaLaborable = new DiaLaborable([
-                            fecha  : fecha,
-                            dia    : diasSem[dia],
-                            anio   : fecha.format("yyyy").toInteger(),
-                            ordinal: ordinal
-                    ])
-                    if (!diaLaborable.save(flush: true)) {
-                        println "error al guardar el dia laborable ${fecha.format('dd-MM-yyyy')}: " + diaLaborable.errors
-                    } else {
-//                    println "guardado: " + fecha.format("dd-MM-yyyy") + "   " + dia + " ordinal:" + ordinal
-                    }
-                }
-                fecha++
-            }
-            dias = DiaLaborable.withCriteria {
-                ge("fecha", enero01)
-                le("fecha", diciembre31)
-                order("fecha", "asc")
-            }
-            println "Guardados ${dias.size()} dias"
-        }
-
-        return [anio: anio, dias: dias, meses: meses, params: params]
-    }
-
-    def calendario_old() {
         def anio = new Date().format('yyyy').toInteger()
 
         if (!params.anio) {
