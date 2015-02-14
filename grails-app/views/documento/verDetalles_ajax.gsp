@@ -7,6 +7,16 @@
 
 <div class="row">
     <div class="col-md-3 show-label">
+        Estación
+    </div>
+
+    <div class="col-md-6">
+        ${doc.estacion.nombre}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-3 show-label">
         Tipo de documento
     </div>
 
