@@ -1,6 +1,7 @@
 package gaia.documentos
 
 import gaia.seguridad.Shield
+import groovy.json.JsonBuilder
 import groovy.time.TimeCategory
 
 class CalendarioController extends Shield {
@@ -15,7 +16,7 @@ class CalendarioController extends Shield {
         return [mes: mes, fecha: fecha]
     }
 
-    def eventos_ajax() {
+    def documentosCreadosGeneral_ajax() {
         /*
         PARAMS
             start:2015-02-01
@@ -36,6 +37,54 @@ class CalendarioController extends Shield {
                 borderColor                     Sets an event's border color just like the the calendar-wide eventBorderColor option.
                 textColor                       Sets an event's text color just like the calendar-wide eventTextColor option.
          */
-        println params
+        def fechaIni = new Date().parse("yyyy-MM-dd", params.start)
+        def fechaFin = new Date().parse("yyyy-MM-dd", params.end)
+
+        def docsCreados = Documento.findAllByFechaRegistroBetween(fechaIni, fechaFin)
+
+        def events = []
+
+        docsCreados.each { dc ->
+            def des = dc.descripcion
+            if (des.size() > 22) {
+                des = des[0..22] + "…"
+            }
+            def event = [:]
+            event.id = dc.id
+            event.title = "<strong>" + dc.estacion.nombre + "</strong><br/>" + des
+            event.descripcion = dc.descripcion
+            event.allDay = true
+            event.start = dc.fechaRegistro.format("yyyy-MM-dd")
+
+            events.add(event)
+        }
+        def json = new JsonBuilder(events)
+        render json
+    }
+
+    def documentosPorCaducarGeneral_ajax() {
+        def fechaIni = new Date().parse("yyyy-MM-dd", params.start)
+        def fechaFin = new Date().parse("yyyy-MM-dd", params.end)
+
+        def docsPorCaducar = Documento.findAllByFinBetween(fechaIni, fechaFin)
+
+        def events = []
+
+        docsPorCaducar.each { dc ->
+            def des = dc.descripcion
+            if (des.size() > 22) {
+                des = des[0..22] + "…"
+            }
+            def event = [:]
+            event.id = dc.id
+            event.title = "<strong>" + dc.estacion.nombre + "</strong><br/>" + des
+            event.descripcion = dc.descripcion
+            event.allDay = true
+            event.start = dc.fin.format("yyyy-MM-dd")
+
+            events.add(event)
+        }
+        def json = new JsonBuilder(events)
+        render json
     }
 }
