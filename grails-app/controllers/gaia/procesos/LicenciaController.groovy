@@ -148,7 +148,7 @@ class LicenciaController {
     }
 
     def upload(){
-        /*todo probar con el alcance... ultimo era el 5... creo el 6??? revisar*/
+
         println "upload "+params
         def estacion = Estacion.findByCodigo(params.estacion_codigo)
         def detalle
