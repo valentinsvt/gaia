@@ -343,7 +343,7 @@ class LicenciaController {
         [proceso:proceso,estacion: estacion,detalleEia:detalleEia,detalleApb:detalleAprobacion,detalleObs:detalleObs]
     }
 
-
+    /*TODO corregir el error del datepicker, error al mostrar el pdf, talvez un reset*/
     def licenciaPago(){
         if(!params.id)
             response.sendError(403)
