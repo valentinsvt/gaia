@@ -6,7 +6,7 @@
         <input type="hidden" name="id" value="${detalleAlc?.id}" >
         <input type="hidden" name="tipo" value="alc" >
         <input type="hidden" name="paso" value="2" >
-        <input type="hidden" name="origen" value="licenciaTdr" >
+        <input type="hidden" name="origen" value="${origen}" >
         <input type="hidden" name="padre" value="${padre?.id}" >
         <div class="row" style="margin-top: 0px">
             <div class="col-md-2">

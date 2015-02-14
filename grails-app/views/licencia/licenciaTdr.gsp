@@ -253,7 +253,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     <g:if test="${detalleApb?.documento}">
-                                        <div id="botones-obs_${detalleObs?.id}">
+                                        <div id="botones-obs_${detalleApb?.id}">
                                             ${detalleApb.documento.codigo}
                                             <a href="#" data-file="${detalleApb.documento.path}"
                                                data-ref="${detalleApb.documento.referencia}"
@@ -266,7 +266,7 @@
                                                 <i class="fa fa-refresh"></i> Cambiar
                                             </a>
                                         </div>
-                                        <div id="div-file-obs_${detalleObs?.id}" style="display: none">
+                                        <div id="div-file-obs_${detalleApb?.id}" style="display: none">
                                             <input type="file" name="file"  class="form-control "  style="border-right: none" accept=".pdf">
                                         </div>
                                     </g:if>

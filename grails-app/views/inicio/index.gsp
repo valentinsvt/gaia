@@ -18,16 +18,6 @@
     i {
         margin-right : 5px;
     }
-    @-webkit-keyframes greenPulse {
-        from { background-color: #ce464a; -webkit-box-shadow: 0 0 9px #333; }
-        50% { background-color: #ce464a; -webkit-box-shadow: 0 0 18px #bd022f; }
-        to { background-color: #ce464a; -webkit-box-shadow: 0 0 9px #333333; }
-    }
-    .svt-bg-danger {
-        -webkit-animation-name: greenPulse;
-        -webkit-animation-duration: 2s;
-        -webkit-animation-iteration-count: infinite;
-    }
     </style>
     <link href="${g.resource(dir: 'css/custom/', file: 'dashboard.css')}" rel="stylesheet" type="text/css">
 </head>

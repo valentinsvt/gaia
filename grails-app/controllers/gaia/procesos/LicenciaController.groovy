@@ -1,5 +1,6 @@
 package gaia.procesos
 
+import gaia.documentos.Dashboard
 import gaia.documentos.Dependencia
 import gaia.documentos.Detalle
 import gaia.documentos.Documento
@@ -9,6 +10,8 @@ import gaia.documentos.TipoDocumento
 import gaia.estaciones.Estacion
 
 class LicenciaController {
+
+    def diasLaborablesService
 
     def registrarLicencia(){
         def estacion = Estacion.findByCodigo(params.id)
@@ -185,12 +188,16 @@ class LicenciaController {
                 redirectStr = "licenciaEia"
                 break;
             case "apbEia":
-                tipoDoc = TipoDocumento.findByCodigo("TP06")
+                tipoDoc = TipoDocumento.findByCodigo("TP14")
                 redirectStr = "licenciaPago"
                 break;
             case "eia":
-                tipoDoc = TipoDocumento.findByCodigo("")
+                tipoDoc = TipoDocumento.findByCodigo("TP13")
                 redirectStr = "licenciaEia"
+                break;
+            case "pago":
+                tipoDoc = TipoDocumento.findByCodigo("TP15")
+                redirectStr = "licenciaPago"
                 break;
         }
         def pathPart = "documentos/${estacion.codigo}/"
@@ -251,8 +258,12 @@ class LicenciaController {
                 documento.inicio=now
                 if(plazo>0){
                     /*todo Generar alerta*/
-                    documento.fin =now.plus(plazo)
-                    //println "plazo >0 "+documento?.inicio?.format("dd-MM-yyyy")+"  "+documento?.fin?.format("dd-MM-yyyy")
+                    def fechaFin = diasLaborablesService.diasLaborablesDesde(now,plazo)
+                    if(fechaFin[0])
+                        documento.fin = fechaFin[1]
+                    else
+                        documento.fin =now.plus(plazo)
+                    println "plazo >0 "+documento?.inicio?.format("dd-MM-yyyy")+"  "+documento?.fin?.format("dd-MM-yyyy")
                 }
                 if (documento.save()) {
                     if(!detalle.documento)
@@ -305,8 +316,15 @@ class LicenciaController {
             response.sendError(403)
         def estacion = proceso.estacion
         def detalleTdr = Detalle.findByProcesoAndTipo(proceso,TipoDocumento.findByCodigo("TP04"))
-        def detalleObs = Detalle.findByProcesoAndTipo(proceso,TipoDocumento.findByCodigo("TP07"))
+        //def detalleTdr = Detalle.findAll("from Detalle where proceso=proceso.id and tipo="+TipoDocumento.findByCodigo("TP04").id+" and paso=2")
+        //def detalleObs = Detalle.findByProcesoAndTipo(proceso,TipoDocumento.findByCodigo("TP07"))
+        def detalleObs = Detalle.findAll("from Detalle where proceso=${proceso.id} and tipo="+TipoDocumento.findByCodigo("TP07").id+" and paso=2 order by id desc")
         def detalleAprobacion = Detalle.findByProcesoAndTipo(proceso,TipoDocumento.findByCodigo("TP06"))
+        //def detalleAprobacion = Detalle.findAll("from Detalle where proceso=proceso.id and tipo="+TipoDocumento.findByCodigo("TP06").id+" and paso=2")
+        //println "obs "+detalleObs
+        if(detalleObs.size()>0)
+            detalleObs =  detalleObs.pop()
+        //println " "+detalleObs.paso+"  "+detalleObs.detalle.documento.codigo
         [proceso:proceso,estacion: estacion,detalleTdr:detalleTdr,detalleApb:detalleAprobacion,detalleObs:detalleObs]
     }
 
@@ -318,10 +336,131 @@ class LicenciaController {
             response.sendError(403)
         def estacion = proceso.estacion
         def detalleEia = Detalle.findByProcesoAndTipo(proceso,TipoDocumento.findByCodigo("TP13"))
-        def detalleObs = Detalle.findByProcesoAndTipo(proceso,TipoDocumento.findByCodigo("TP07"))
-        def detalleAprobacion = Detalle.findByProcesoAndTipo(proceso,TipoDocumento.findByCodigo("TP06"))
+        def detalleObs = Detalle.findAll("from Detalle where proceso=${proceso.id} and tipo="+TipoDocumento.findByCodigo("TP07").id+" and paso=3 order by id desc")
+        def detalleAprobacion = Detalle.findByProcesoAndTipo(proceso,TipoDocumento.findByCodigo("TP14"))
+        if(detalleObs.size()>0)
+            detalleObs =  detalleObs.pop()
         [proceso:proceso,estacion: estacion,detalleEia:detalleEia,detalleApb:detalleAprobacion,detalleObs:detalleObs]
     }
 
+
+    def licenciaPago(){
+        if(!params.id)
+            response.sendError(403)
+        def proceso = Proceso.get(params.id)
+        if(!proceso)
+            response.sendError(403)
+        def estacion = proceso.estacion
+        def detallePago = Detalle.findByProcesoAndTipo(proceso,TipoDocumento.findByCodigo("TP15"))
+        def detalleLicencia = Detalle.findByProcesoAndTipo(proceso,TipoDocumento.findByCodigo("TP01"))
+
+        [proceso:proceso,estacion: estacion,detallePago:detallePago,detalleLicencia:detalleLicencia]
+    }
+
+    def uploadLicencia(){
+        println "upload "+params
+
+        def estacion = Estacion.findByCodigo(params.estacion_codigo)
+        def detalle
+        def proceso = Proceso.get(params.proceso)
+        if(!proceso)
+            response.sendError(403)
+        def tipo = TipoDocumento.findByCodigo("TP01")
+        def pathPart = "documentos/${estacion.codigo}/"
+        def now = new Date().parse("dd-MM-yyyy",params.inicio_input)
+        if(params.id)
+            detalle=Detalle.get(params.id)
+        else{
+            detalle = new Detalle()
+            detalle.proceso=proceso
+            detalle.tipo = tipo
+            detalle.fechaRegistro=new Date()
+            detalle.paso=4
+            detalle.plazo = 0
+            if(!detalle.save(flush: true)){
+                println "error save detalle "+detalle.errors
+            }
+        }
+
+        def path = servletContext.getRealPath("/") + pathPart
+        def numero = Documento.list([sort: "id",order: "desc",max: 1])
+        if(numero.size()==1)
+            numero=numero.pop().id+1
+        else
+            numero=1
+        def codigo = "PS-DA-"+numero
+
+        new File(path).mkdirs()
+        def f = request.getFile('file')  //archivo = name del input type file
+        def okContents = [
+                'application/pdf'                                                          : 'pdf',
+                'application/download'                                                     : 'pdf'
+        ]
+        if (f && !f.empty) {
+            def ext
+            if (okContents.containsKey(f.getContentType())) {
+                ext = okContents[f.getContentType()]
+                def nombre = codigo + "." + ext
+                def pathFile = path + nombre
+                try {
+                    f.transferTo(new File(pathFile)) // guarda el archivo subido al nuevo path
+                } catch (e) {
+                    flash.message = "Ha ocurrido un error al guardar"
+                }
+
+                def documento
+                if(detalle.documento)
+                    documento=detalle.documento
+                else
+                    documento = new Documento(params)
+                //println "path "+pathFile
+                //println "codigo "+codigo
+                documento.path= pathPart + nombre
+                documento.fechaRegistro=new Date()
+                documento.estacion=estacion
+                documento.codigo = codigo
+                documento.tipo = tipo
+                documento.inicio=now
+                if (documento.save()) {
+                    if(!detalle.documento)
+                        detalle.documento=documento
+                    if(detalle.save(flush: true)){
+                        proceso.completado="S"
+                        proceso.documento = detalle.documento
+                        proceso.save(flush: true)
+                        def dash = Dashboard.findByEstacion(proceso.estacion)
+                        dash.licencia=1
+                        dash.save(flush: true)
+                    }
+                    flash.message="Datos guardados, por favor continue con el siguiente paso"
+                    redirect(action: 'licenciaPago',controller: 'licencia',id: proceso.id)
+                    return
+                } else {
+                    println "errores "+documento.errors
+                    flash.message = "Ha ocurrido un error al guardar: " + renderErrors(bean: documento)
+                    redirect(action: 'licenciaPago',controller: 'licencia',id: proceso.id)
+                    return
+                }
+
+            } //ok contents
+            else {
+                println "llego else no se acepta"
+                flash.message= "Extensión no permitida"
+                redirect(action: 'licenciaPago',controller: 'licencia',id: proceso.id)
+                return
+
+            }
+        }else{
+
+            params.remove("id")
+            detalle.documento.properties =params
+            detalle.documento.inicio=now
+            detalle.documento.save()
+            detalle.save(flush: true)
+            flash.message="Datos guardados, por favor continue con el siguiente paso"
+            redirect(action: 'licenciaPago',controller: 'licencia',id: proceso.id)
+            return
+        } //f && !f.empty
+    }
 
 }

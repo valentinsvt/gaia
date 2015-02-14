@@ -91,7 +91,7 @@ class Estacion {
     }
 
     def getColorLicencia(){
-        def lic = Documento.findByTipo(TipoDocumento.findByCodigo("TP01"))
+        def lic = Documento.findByTipoAndEstacion(TipoDocumento.findByCodigo("TP01"),this)
         if(lic) {
             return ["card-bg-green",lic]
         }else{
@@ -99,7 +99,7 @@ class Estacion {
         }
     }
     def getColorAuditoria(){
-        def doc = Documento.findByTipo(TipoDocumento.findByCodigo("TP02"))
+        def doc = Documento.findByTipoAndEstacion(TipoDocumento.findByCodigo("TP02"),this)
         if(doc) {
             return ["card-bg-green",doc]
         }else{
@@ -107,7 +107,7 @@ class Estacion {
         }
     }
     def getColorMonitoreo(){
-        def doc = Documento.findByTipo(TipoDocumento.findByCodigo("TP12"))
+        def doc = Documento.findByTipoAndEstacion(TipoDocumento.findByCodigo("TP12"),this)
         if(doc) {
             return ["card-bg-green",doc]
         }else{
