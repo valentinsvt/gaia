@@ -91,9 +91,19 @@ class Estacion {
     }
 
     def getColorLicencia(){
-        def lic = Documento.findByTipoAndEstacion(TipoDocumento.findByCodigo("TP01"),this)
-        if(lic) {
-            return ["card-bg-green",lic]
+        def lic = Documento.findAllByTipoAndEstacion(TipoDocumento.findByCodigo("TP01"),this,[sort: "fechaRegistro",order: "asc"])
+       // println "lics "+lic
+        if(lic.size()>0) {
+            lic=lic.pop()
+            if(!lic.fin)
+                return ["card-bg-green",lic]
+            else{
+                if (lic.fin>new Date()){
+                    return ["card-bg-green",lic]
+                }else{
+                    return ["svt-bg-danger",null]
+                }
+            }
         }else{
             return ["svt-bg-danger",null]
         }

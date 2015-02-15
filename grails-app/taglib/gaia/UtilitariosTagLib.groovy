@@ -13,7 +13,7 @@ class UtilitariosTagLib {
     }
 
     def displayChain = {attrs ->
-        println "display chain "+attrs
+      //  println "display chain "+attrs
         def id = attrs.detalle
         def paso = attrs.paso
         def origen = attrs.origen
@@ -37,7 +37,7 @@ class UtilitariosTagLib {
         }else{
             if(padre && padre!="" &&  padre!="null"){
                 def detalle = Detalle.get(padre)
-                println "con padre "+detalle
+                //println "con padre "+detalle
                 def mapa=[:]
                 mapa["estacion"]=detalle.proceso.estacion
                 mapa["proceso"]=detalle.proceso

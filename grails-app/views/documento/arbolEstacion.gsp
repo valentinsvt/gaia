@@ -272,11 +272,9 @@
                     var myPDF = new PDFObject({
                         url           : path,
                         pdfOpenParams : {
-                            zoom : 10
-//                            navpanes  : 0,
-//                            statusbar : 1,
-//                            view      : "FitBH",
-//                            pagemode  : "thumbs"
+                            navpanes: 1,
+                            statusbar: 0,
+                            view: "FitW"
                         }
                     }).embed("doc");
                 } else {

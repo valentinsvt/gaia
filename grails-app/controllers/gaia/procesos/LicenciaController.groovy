@@ -20,11 +20,19 @@ class LicenciaController {
         def proceso = null
         def tipoLicencia = TipoDocumento.findByCodigo('TP01')
         def detalle = null
+        //println "licencia "+lic[1]+"  "+estacion
         if(lic[1]){
-            warning = true
+            warning = false
+            proceso = Proceso.findAll("from Proceso where estacion='${estacion.codigo}' and tipo=${tipoLicencia.id} and completado='S'")
+            if(proceso.size()>0) {
+                proceso = proceso.pop()
+                //  println "pop "
+            }
+            detalle = Detalle.findByProcesoAndPaso(proceso,1)
+            //println "procesoaaaa "+proceso+" detalle "+detalle
         }else{
             proceso = Proceso.findAll("from Proceso where estacion='${estacion.codigo}' and tipo=${tipoLicencia.id} and completado='N'")
-            // println " proceso "+proceso
+            //println " proceso else"+proceso
             if( proceso.size()==0){
                 proceso = new Proceso()
                 proceso.completado="N"
@@ -41,10 +49,27 @@ class LicenciaController {
             }
 
         }
+        //println "return "+proceso
         [estacion:estacion,warning:warning,proceso:proceso,detalle:detalle]
     }
 
-    def caducarLic(){
+    def crearNueva(){
+        //println "crear nueva "+params
+        def estacion = Estacion.findByCodigo(params.id)
+        def tipoLicencia = TipoDocumento.findByCodigo('TP01')
+        def proceso = Proceso.findAll("from Proceso where estacion='${estacion.codigo}' and tipo=${tipoLicencia.id} and completado='S'")
+        if(proceso.size()>0) {
+            proceso = proceso.pop()
+            proceso.completado='C'
+            proceso.documento.fin=new Date();
+            proceso.documento.save()
+            proceso.save(flush: true)
+            Detalle.findAllByProceso(proceso).each {
+                it.documento.fin=new Date()
+                it.documento.save(flush: true)
+            }
+        }
+        render "ok"
 
     }
 
@@ -343,7 +368,7 @@ class LicenciaController {
         [proceso:proceso,estacion: estacion,detalleEia:detalleEia,detalleApb:detalleAprobacion,detalleObs:detalleObs]
     }
 
-    /*TODO corregir el error del datepicker, error al mostrar el pdf, talvez un reset*/
+
     def licenciaPago(){
         if(!params.id)
             response.sendError(403)
@@ -461,6 +486,20 @@ class LicenciaController {
             redirect(action: 'licenciaPago',controller: 'licencia',id: proceso.id)
             return
         } //f && !f.empty
+    }
+
+
+    def verLicencia(){
+        def estacion = Estacion.findByCodigo(params.id)
+        def tipoLicencia = TipoDocumento.findByCodigo('TP01')
+        def proceso = Proceso.findAll("from Proceso where estacion='${estacion.codigo}' and tipo=${tipoLicencia.id} and completado='S'")
+        if(proceso.size()>0){
+            proceso=proceso.pop()
+        }else{
+            response.sendError(403)
+        }
+        def detalles = Detalle.findAll("from Detalle where proceso = ${proceso.id} order by paso,id")
+        [estacion: estacion,proceso: proceso,detalles: detalles]
     }
 
 }

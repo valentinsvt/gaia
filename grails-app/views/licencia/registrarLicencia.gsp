@@ -3,6 +3,8 @@
 <head>
     <meta name="layout" content="main"/>
     <link href="${g.resource(dir: 'css/custom/', file: 'dashboard.css')}" rel="stylesheet" type="text/css">
+    <link href="${g.resource(dir: 'css/custom/', file: 'pdfViewer.css')}" rel="stylesheet" type="text/css">
+    <imp:js src="${resource(dir: 'js/plugins/pdfObject', file: 'pdfobject.min.js')}"/>
     <title>
         Registrar licencia ambiental
     </title>
@@ -13,6 +15,42 @@
     </style>
 </head>
 <body>
+<div class="pdf-viewer">
+    <div class="pdf-content" >
+        <div class="pdf-container" id="doc"></div>
+        <div class="pdf-handler" >
+            <i class="fa fa-arrow-right"></i>
+        </div>
+        <div class="pdf-header" id="data">
+            N. Referencia: <span id="referencia-pdf" class="data"></span>
+            Código: <span id="codigo" class="data"></span>
+            Tipo: <span id="tipo" class="data"></span>
+
+
+
+        </div>
+        <div id="msgNoPDF">
+            <p>No tiene configurado el plugin de lectura de PDF en este navegador.</p>
+
+            <p>
+                Puede
+                <a class="text-info" target="_blank" style="color: white" href="http://get.adobe.com/es/reader/">
+                    <u>descargar Adobe Reader aquí</u>
+                </a>
+            </p>
+        </div>
+    </div>
+</div>
+<div class="btn-toolbar toolbar" style="margin-top: 10px;margin-bottom: 0;margin-left: -20px">
+    <div class="btn-group">
+        <a href="${g.createLink(controller: 'estacion',action: 'showEstacion',id: estacion.codigo)}" class="btn btn-default ">
+            Estación
+        </a>
+        <a href="${g.createLink(controller: 'documento', action: 'arbolEstacion', params: [codigo: estacion.codigo])}" class="btn btn-default mapa">
+            <i class="fa fa-file-pdf-o"></i> Visor de documentos
+        </a>
+    </div>
+</div>
 <elm:container tipo="horizontal" titulo="Estación: ${estacion.nombre}" >
     <div class="panel panel-info" style="margin-top: 20px">
         <div class="panel-heading">Licencia ambiental</div>
@@ -63,9 +101,14 @@
                             <g:if test="${detalle?.documento}">
                                 <div id="botones">
                                     ${detalle.documento.codigo}
-                                    <a href="${g.createLink(controller: 'documento',action: 'ver',id: detalle.documento.id)}" target="_blank" class="btn btn-info" id="ver">
+                                    <a href="#" data-file="${detalle.documento.path}"
+                                       data-ref="${detalle.documento.referencia}"
+                                       data-codigo="${detalle.documento.codigo}"
+                                       data-tipo="${detalle.documento.tipo.nombre}"
+                                       class="btn btn-info ver-doc" >
                                         <i class="fa fa-search"></i> Ver
                                     </a>
+
                                     <a href="#" class="btn btn-info" id="cambiar">
                                         <i class="fa fa-refresh"></i> Cambiar
                                     </a>
@@ -132,6 +175,21 @@
     </div>
 </elm:container>
 <script type="text/javascript">
+    var validator = $(".frm-subir").validate({
+        errorClass     : "help-block",
+        errorPlacement : function (error, element) {
+            if (element.parent().hasClass("input-group")) {
+                error.insertAfter(element.parent());
+            } else {
+                error.insertAfter(element);
+            }
+            element.parents(".grupo").addClass('has-error');
+        },
+        success        : function (label) {
+            label.parents(".grupo").removeClass('has-error');
+            label.remove();
+        }
+    });
     function warning(){
         var msg="La estación ${estacion.nombre} ya tiene una licencia ambiental vigente, si decide continuar dicha licencia será anulada. Continuar?"
         bootbox.confirm({
@@ -155,10 +213,26 @@
         })
     }
 
+    function showPdf(div){
+        $("#msgNoPDF").show();
+        $("#doc").html("")
+        var pathFile = div.data("file")
+        $("#referencia-pdf").html(div.data("ref"))
+        $("#codigo").html(div.data("codigo"))
+        $("#tipo").html(div.data("tipo"))
+        var path = "${resource()}/" + pathFile;
+        var myPDF = new PDFObject({
+            url           : path,
+            pdfOpenParams : {
+                navpanes: 1,
+                statusbar: 0,
+                view: "FitW"
+            }
+        }).embed("doc");
+        $(".pdf-viewer").show("slide",{direction:'right'})
+        $("#data").show()
+    }
 
-    <g:if test="${warning}">
-    warning();
-    </g:if>
 
     $("#guardar").click(function(){
         $(".frm-subir").submit()
@@ -166,6 +240,15 @@
     $("#cambiar").click(function(){
         $("#botones").hide()
         $("#div-file").show()
+    })
+    $(".ver-doc").click(function(){
+        showPdf($(this))
+        return false
+    })
+    $(".pdf-handler").click(function(){
+        $(".pdf-viewer").hide("slide",{direction:'right'})
+        $("#doc").html("")
+        $("#data").hide()
     })
 </script>
 </body>

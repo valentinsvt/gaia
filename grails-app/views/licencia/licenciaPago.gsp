@@ -3,6 +3,7 @@
 <head>
     <meta name="layout" content="main"/>
     <link href="${g.resource(dir: 'css/custom/', file: 'dashboard.css')}" rel="stylesheet" type="text/css">
+    <link href="${g.resource(dir: 'css/custom/', file: 'pdfViewer.css')}" rel="stylesheet" type="text/css">
     <imp:js src="${resource(dir: 'js/plugins/pdfObject', file: 'pdfobject.min.js')}"/>
     <title>
         Registrar licencia ambiental
@@ -21,75 +22,7 @@
         border-color: #3A87AD;
         color: #3A87AD;
     }
-    .pdf-viewer{
-        height: 535px;
-        width: 50%;
-        background-color: #006699;
-        position: fixed;
-        top: 75px;
-        right: 0px;
-        z-index: 500;
-        padding: 0px;
-        border-left: 2px solid #006699;
-        border-bottom: 2px solid #006699;
-        display: none;
 
-    }
-    .pdf-content{
-        width: 100%;
-        height: 100%;
-        margin: 0px;
-        position: relative;
-    }
-    .pdf-container{
-        width: 100%;
-        height: 95%;
-        margin: 0px;
-        position: absolute;
-        top: 5%;
-        left: 0px;
-        z-index: 502;
-    }
-    .pdf-handler{
-        position: absolute;
-        top: 49%;
-        left: 0px;
-        padding: 5px;
-        height: 40px;
-        line-height: 30px;
-        background-color: #006699;
-        color: #eee;
-        cursor: pointer;
-        z-index: 510;
-    }
-    .pdf-header{
-        position: absolute;
-        top: 5px;
-        left: 5px;
-        width: 100%;
-        background:transparent;
-        height: 5%;
-        line-height: 20px;
-        padding-left: 10px;
-        color: white;
-        font-weight: bold;
-        display: none;
-    }
-    .data{
-        font-weight: normal;
-        margin-right: 10px;
-    }
-    #msgNoPDF{
-        margin: 10px;
-        height: 40px;
-        color: #eee;
-        font-weight: bold;
-        width: 100%;
-        position: absolute;
-        top: 60px;
-        left: 10px;
-        z-index: 501;
-    }
     </style>
 </head>
 <body>
@@ -117,6 +50,16 @@
                 </a>
             </p>
         </div>
+    </div>
+</div>
+<div class="btn-toolbar toolbar" style="margin-top: 10px;margin-bottom: 0;margin-left: -20px">
+    <div class="btn-group">
+        <a href="${g.createLink(controller: 'estacion',action: 'showEstacion',id: estacion.codigo)}" class="btn btn-default ">
+            Estación
+        </a>
+        <a href="${g.createLink(controller: 'documento', action: 'arbolEstacion', params: [codigo: estacion.codigo])}" class="btn btn-default mapa">
+            <i class="fa fa-file-pdf-o"></i> Visor de documentos
+        </a>
     </div>
 </div>
 <elm:container tipo="horizontal" titulo="Estación: ${estacion.nombre}" >
@@ -233,7 +176,7 @@
                             </div>
                             <div class="col-md-4">
                                 <g:if test="${detalleLicencia?.documento}">
-                                    <div id="botones-obs_${detalleLicencia?.id}">
+                                    <div id="botones-lic_${detalleLicencia?.id}">
                                         ${detalleLicencia.documento.codigo}
                                         <a href="#" data-file="${detalleLicencia.documento.path}"
                                            data-ref="${detalleLicencia.documento.referencia}"
@@ -242,11 +185,11 @@
                                            target="_blank" class="btn btn-info ver-doc" >
                                             <i class="fa fa-search"></i> Ver
                                         </a>
-                                        <a href="#" class="btn btn-info cambiar" iden="">
+                                        <a href="#" class="btn btn-info cambiar" iden="lic_${detalleLicencia?.id}">
                                             <i class="fa fa-refresh"></i> Cambiar
                                         </a>
                                     </div>
-                                    <div id="div-file-obs_${detalleLicencia?.id}" style="display: none">
+                                    <div id="div-file-lic_${detalleLicencia?.id}" style="display: none">
                                         <input type="file" name="file"  class="form-control "  style="border-right: none" accept=".pdf">
                                     </div>
                                 </g:if>
@@ -302,7 +245,7 @@
 
     function showPdf(div){
         $("#msgNoPDF").show();
-
+        $("#doc").html("")
         var pathFile = div.data("file")
         $("#referencia-pdf").html(div.data("ref"))
         $("#codigo").html(div.data("codigo"))
@@ -310,12 +253,10 @@
         var path = "${resource()}/" + pathFile;
         var myPDF = new PDFObject({
             url           : path,
-            pdfOpenParams : {
-                zoom : 10
-//                            navpanes  : 0,
-//                            statusbar : 1,
-//                            view      : "FitBH",
-//                            pagemode  : "thumbs"
+            pdfOpenParams: {
+                navpanes: 1,
+                statusbar: 0,
+                view: "FitW"
             }
         }).embed("doc");
         $(".pdf-viewer").show("slide",{direction:'right'})
