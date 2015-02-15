@@ -16,8 +16,12 @@ $(function () {
             classes : 'qtip-tipsy'
         },
         position : {
-            my : "bottom center",
-            at : "top center"
+            viewport : $(window),
+            my       : "bottom center",
+            at       : "top center",
+            adjust   : {
+                method : 'shift shift'
+            }
         }
     });
 

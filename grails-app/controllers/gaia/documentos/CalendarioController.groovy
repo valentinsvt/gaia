@@ -17,72 +17,100 @@ class CalendarioController extends Shield {
     }
 
     def documentosCreadosGeneral_ajax() {
-        /*
-        PARAMS
-            start:2015-02-01
-            end:2015-03-15
-        ************************
-            start:2015-03-01
-            end:2015-04-12
+        def fechaIni = new Date().parse("yyyy-MM-dd HH:mm", params.start + " 00:00")
+        def fechaFin = new Date().parse("yyyy-MM-dd HH:mm", params.end + " 23:59")
 
-                id                  Optional    Uniquely identifies the given event. Different instances of repeating events should all have the same id.
-                title               Required    The text on an event's element
-                allDay              Optional    Whether an event occurs at a specific time-of-day.
-                start               Required    The date/time an event begins.
-                end                 Optional    The exclusive date/time an event ends
-                url                 Optional    A URL that will be visited when this event is clicked by the user.
-                className           Optional    A CSS class (or array of classes) that will be attached to this event's element.
-                color                           Sets an event's background and border color just like the calendar-wide eventColor option.
-                backgroundColor                 Sets an event's background color just like the calendar-wide eventBackgroundColor option.
-                borderColor                     Sets an event's border color just like the the calendar-wide eventBorderColor option.
-                textColor                       Sets an event's text color just like the calendar-wide eventTextColor option.
-         */
-        def fechaIni = new Date().parse("yyyy-MM-dd", params.start)
-        def fechaFin = new Date().parse("yyyy-MM-dd", params.end)
+//        println "creados  ini: " + fechaIni + " fin: " + fechaFin + " show: " + params.show + "   " + params.show.class
 
         def docsCreados = Documento.findAllByFechaRegistroBetween(fechaIni, fechaFin)
 
         def events = []
 
-        docsCreados.each { dc ->
-            def des = dc.descripcion
-            if (des.size() > 22) {
-                des = des[0..22] + "…"
-            }
-            def event = [:]
-            event.id = dc.id
-            event.title = "<strong>" + dc.estacion.nombre + "</strong><br/>" + des
-            event.descripcion = dc.descripcion
-            event.allDay = true
-            event.start = dc.fechaRegistro.format("yyyy-MM-dd")
+        if (params.show == "true") {
+            docsCreados.each { dc ->
+                def des = dc.descripcion
+                if (des.size() > 22) {
+                    des = des[0..22] + "…"
+                }
+                des = "<strong>" + dc.estacion.nombre + "</strong><br/>" + des
+                if (dc.fin) {
+                    if (dc.fin.clearTime() <= new Date().clearTime()) {
+                        des += "<br/>" + dc.fin.format("dd-MM-yyyy")
+                        des += " <i class='fa fa-exclamation-triangle text-danger'></i>"
+                    } else if (dc.fin.clearTime() <= new Date().clearTime() + 30) {
+                        des += "<br/>" + dc.fin.format("dd-MM-yyyy")
+                        des += " <i class='fa fa-exclamation-circle text-warning'></i>"
+                    }
+                }
+                def event = [:]
+                event.id = dc.id
+                event.title = des
+                event.descripcion = dc.descripcion
+                event.allDay = true
+                event.start = dc.fechaRegistro.format("yyyy-MM-dd")
 
-            events.add(event)
+                events.add(event)
+            }
         }
         def json = new JsonBuilder(events)
         render json
     }
 
     def documentosPorCaducarGeneral_ajax() {
-        def fechaIni = new Date().parse("yyyy-MM-dd", params.start)
+        def fechaIni = new Date().parse("yyyy-MM-dd HH:mm", (new Date() + 1).format("yyyy-MM-dd") + " 23:59")
         def fechaFin = new Date().parse("yyyy-MM-dd", params.end)
+
+//        println "por caducar  ini: " + fechaIni + " fin: " + fechaFin + " show: " + params.show + "   " + params.show.class
 
         def docsPorCaducar = Documento.findAllByFinBetween(fechaIni, fechaFin)
 
         def events = []
 
-        docsPorCaducar.each { dc ->
-            def des = dc.descripcion
-            if (des.size() > 22) {
-                des = des[0..22] + "…"
-            }
-            def event = [:]
-            event.id = dc.id
-            event.title = "<strong>" + dc.estacion.nombre + "</strong><br/>" + des
-            event.descripcion = dc.descripcion
-            event.allDay = true
-            event.start = dc.fin.format("yyyy-MM-dd")
+        if (params.show == "true") {
+            docsPorCaducar.each { dc ->
+                def des = dc.descripcion
+                if (des.size() > 22) {
+                    des = des[0..22] + "…"
+                }
+                def event = [:]
+                event.id = dc.id
+                event.title = "<strong>" + dc.estacion.nombre + "</strong><br/>" + des
+                event.descripcion = dc.descripcion
+                event.allDay = true
+                event.start = dc.fin.format("yyyy-MM-dd")
 
-            events.add(event)
+                events.add(event)
+            }
+        }
+        def json = new JsonBuilder(events)
+        render json
+    }
+
+    def documentosCaducadosGeneral_ajax() {
+        def fechaIni = new Date().parse("yyyy-MM-dd HH:mm", params.start + " 00:00")
+        def fechaFin = new Date().parse("yyyy-MM-dd HH:mm", (new Date()).format("yyyy-MM-dd") + " 23:59")
+
+//        println "caducados  ini: " + fechaIni + " fin: " + fechaFin + " show: " + params.show + "   " + params.show.class
+
+        def docsPorCaducar = Documento.findAllByFinBetween(fechaIni, fechaFin)
+
+        def events = []
+
+        if (params.show == "true") {
+            docsPorCaducar.each { dc ->
+                def des = dc.descripcion
+                if (des.size() > 22) {
+                    des = des[0..22] + "…"
+                }
+                def event = [:]
+                event.id = dc.id
+                event.title = "<strong>" + dc.estacion.nombre + "</strong><br/>" + des
+                event.descripcion = dc.descripcion
+                event.allDay = true
+                event.start = dc.fin.format("yyyy-MM-dd")
+
+                events.add(event)
+            }
         }
         def json = new JsonBuilder(events)
         render json

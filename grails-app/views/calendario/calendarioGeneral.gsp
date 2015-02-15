@@ -17,7 +17,7 @@
 
 
         <style type="text/css">
-        .creado, .porCaducar {
+        .creado, .porCaducar, .caducado {
             cursor  : pointer;
             padding : 3px;
         }
@@ -34,16 +34,22 @@
             border     : #FFA324;
         }
 
+        .caducado {
+            background : #ce464a;
+            color      : white;
+            border     : #ce464a;
+        }
+
         .leyenda {
             position : fixed;
             top      : 150px;
             left     : 0;
             border   : solid 1px #999;
-            padding  : 5px;
+            padding  : 5px 5px 5px 0;
         }
 
         .leyendaItem {
-            cursor  : default;
+            /*cursor  : default;*/
             padding : 5px;
         }
         </style>
@@ -53,15 +59,43 @@
     <body>
 
         <div class="leyenda corner-right">
-            <div class="leyendaItem creado corner-top-right">Registrado</div>
+            <div data-hide="creado" data-tipo="registrados" class="leyendaItem creado corner-top-right showing" title="Ocultar registrados">Registrado</div>
 
-            <div class="leyendaItem porCaducar corner-bottom-right">Caduca</div>
+            <div data-hide="porCaducar" data-tipo="por caducar" class="leyendaItem porCaducar showing" title="Ocultar por caducar">Por caducar</div>
+
+            <div data-hide="caducado" data-tipo="caducados" class="leyendaItem caducado corner-bottom-right showing" title="Ocultar caducados  ">Caducado</div>
         </div>
 
         <div id='calendar'></div>
 
         <script type="text/javascript">
+            var show = {
+                creado     : true,
+                porCaducar : true,
+                caducado   : true
+            };
+
             $(function () {
+
+                $(".leyendaItem").click(function () {
+                    var $this = $(this);
+                    var hide = $this.data("hide");
+                    var tipo = $this.data("tipo");
+                    var showing = $this.hasClass("showing");
+                    if (showing) {
+//                        $(".doc." + hide).addClass("hidden");
+                        $this.removeClass("showing");
+                        $this.attr("title", "Mostrar " + tipo);
+                        show[hide] = false;
+                    } else {
+//                        $(".doc." + hide).removeClass("hidden");
+                        $this.addClass("showing");
+                        $this.attr("title", "Ocultar " + tipo);
+                        show[hide] = true;
+                    }
+                    $('#calendar').fullCalendar('refetchEvents');
+                });
+
                 $('#calendar').fullCalendar({
                     header       : {
                         left   : 'prev,next today',
@@ -76,11 +110,36 @@
                     eventSources : [
                         {
                             url       : '${createLink(controller: "calendario", action: "documentosCreadosGeneral_ajax")}', // use the `url` property
+                            type      : 'POST',
+                            data      : function () {
+                                return {show : show.creado};
+                            },
+                            error     : function () {
+                                alert('there was an error while fetching events!');
+                            },
                             className : "doc creado"
                         },
                         {
                             url       : '${createLink(controller: "calendario", action: "documentosPorCaducarGeneral_ajax")}', // use the `url` property
+                            type      : 'POST',
+                            data      : function () {
+                                return {show : show.porCaducar};
+                            },
+                            error     : function () {
+                                alert('there was an error while fetching events!');
+                            },
                             className : "doc porCaducar"
+                        },
+                        {
+                            url       : '${createLink(controller: "calendario", action: "documentosCaducadosGeneral_ajax")}', // use the `url` property
+                            type      : 'POST',
+                            data      : function () {
+                                return  {show : show.caducado};
+                            },
+                            error     : function () {
+                                alert('there was an error while fetching events!');
+                            },
+                            className : "doc caducado"
                         }
                     ],
                     eventClick   : function (calEvent, jsEvent, view) {

@@ -52,7 +52,26 @@
 
     <div class="col-md-6">
         <g:if test="${doc.fin}">
-            ${doc.fin.format("dd-MM-yyyy")}
+            <g:set var="clase" value="info"/>
+            <g:set var="icon" value=""/>
+            <g:set var="dias" value="${doc.fin.clearTime() - new Date().clearTime()}"/>
+            <g:if test="${doc.fin.clearTime() <= new Date().clearTime()}">
+                <g:set var="clase" value="danger"/>
+                <g:set var="icon" value="fa-exclamation-triangle"/>
+            </g:if>
+            <g:elseif test="${doc.fin.clearTime() <= new Date().clearTime() + 30}">
+                <g:set var="clase" value="warning"/>
+                <g:set var="icon" value="fa-exclamation-circle"/>
+            </g:elseif>
+            <span class="text-${clase}">
+                <strong>
+                    ${doc.fin.format("dd-MM-yyyy")}
+                    (${dias > 0 ? "En " : "Hace "}${Math.abs(dias)} día${Math.abs(dias) == 1 ? "" : "s"} calendario)
+                </strong>
+                <g:if test="${icon}">
+                    <i class="fa ${icon}"></i>
+                </g:if>
+            </span>
         </g:if>
         <g:else>
             Sin fecha de caducidad
