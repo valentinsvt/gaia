@@ -14,7 +14,7 @@ class LicenciaController {
     def diasLaborablesService
 
     def registrarLicencia(){
-        def estacion = Estacion.findByCodigo(params.id)
+        def estacion = Estacion.findByCodigoAndAplicacion(params.id,1)
         def lic = estacion.getColorLicencia()
         def warning = false
         def proceso = null
@@ -55,7 +55,7 @@ class LicenciaController {
 
     def crearNueva(){
         //println "crear nueva "+params
-        def estacion = Estacion.findByCodigo(params.id)
+        def estacion = Estacion.findByCodigoAndAplicacion(params.id,1)
         def tipoLicencia = TipoDocumento.findByCodigo('TP01')
         def proceso = Proceso.findAll("from Proceso where estacion='${estacion.codigo}' and tipo=${tipoLicencia.id} and completado='S'")
         if(proceso.size()>0) {
@@ -76,7 +76,7 @@ class LicenciaController {
     def saveCertificado(){
         println "upload "+params
 
-        def estacion = Estacion.findByCodigo(params.estacion_codigo)
+        def estacion = Estacion.findByCodigoAndAplicacion(params.estacion_codigo,1)
         def detalle
         def proceso = Proceso.get(params.proceso)
         if(!proceso)
@@ -175,7 +175,7 @@ class LicenciaController {
     def upload(){
 
         println "upload "+params
-        def estacion = Estacion.findByCodigo(params.estacion_codigo)
+        def estacion = Estacion.findByCodigoAndAplicacion(params.estacion_codigo,1)
         def detalle
         def proceso = Proceso.get(params.proceso)
         if(!proceso)
@@ -385,7 +385,7 @@ class LicenciaController {
     def uploadLicencia(){
         println "upload "+params
 
-        def estacion = Estacion.findByCodigo(params.estacion_codigo)
+        def estacion = Estacion.findByCodigoAndAplicacion(params.estacion_codigo,1)
         def detalle
         def proceso = Proceso.get(params.proceso)
         if(!proceso)
@@ -490,7 +490,7 @@ class LicenciaController {
 
 
     def verLicencia(){
-        def estacion = Estacion.findByCodigo(params.id)
+        def estacion = Estacion.findByCodigoAndAplicacion(params.id,1)
         def tipoLicencia = TipoDocumento.findByCodigo('TP01')
         def proceso = Proceso.findAll("from Proceso where estacion='${estacion.codigo}' and tipo=${tipoLicencia.id} and completado='S'")
         if(proceso.size()>0){

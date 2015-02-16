@@ -31,9 +31,9 @@ class Estacion {
 
     String estado
 
-    Ubicacion provincia
-    Ubicacion canton
-    Ubicacion parroquia
+    String provincia
+    String canton
+    String parroquia
 
     Integer tipo
 

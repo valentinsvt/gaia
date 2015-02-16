@@ -110,6 +110,44 @@
             </div>
         </g:if>
 
+        <g:if test="${estacionInstance?.codigo}">
+            <div class="row">
+                <div class="col-sm-2 show-label">
+                    Provincia
+                </div>
+
+                <div class="col-sm-8">
+
+                    ${gaia.documentos.Ubicacion.findByCodigo(estacionInstance.provincia)?.nombre}
+                </div>
+
+            </div>
+        </g:if>
+        <g:if test="${estacionInstance?.codigo}">
+            <div class="row">
+                <div class="col-sm-2 show-label">
+                    Cantón
+                </div>
+
+                <div class="col-sm-8">
+                    ${gaia.documentos.Ubicacion.findByCodigo(estacionInstance.canton)?.nombre}
+                </div>
+
+            </div>
+        </g:if>
+        <g:if test="${estacionInstance?.codigo}">
+            <div class="row">
+                <div class="col-sm-2 show-label">
+                    Parroquia
+                </div>
+
+                <div class="col-sm-8">
+                    ${gaia.documentos.Ubicacion.findByCodigo(estacionInstance.parroquia)?.nombre}
+                </div>
+
+            </div>
+        </g:if>
+
 
     </div>
 </g:else>

@@ -20,7 +20,7 @@ class Ubicacion {
         version false
         columns {
             codigo column: 'codigo_ubicacion', insertable: false, updateable: false
-            nombre column: 'nombre_responsable'
+            nombre column: 'descripcion'
             padre column: 'codigo_padre'
         }
     }

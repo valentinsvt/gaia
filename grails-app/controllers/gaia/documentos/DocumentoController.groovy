@@ -5,7 +5,7 @@ import gaia.estaciones.Estacion
 class DocumentoController {
 
     def subir() {
-        def estacion = Estacion.findByCodigo(params.id)
+        def estacion = Estacion.findByCodigoAndAplicacion(params.id,1)
         def tipos = TipoDocumento.findAllByTipo("N", [sort: "nombre"])
         def caducan = TipoDocumento.findAllByTipoAndCaduca("N", "S", [sort: "nombre"])
         caducan = caducan.collect { "'" + it.id + "'" }
@@ -14,7 +14,7 @@ class DocumentoController {
 
     def upload() {
         //println "upload "+params
-        def estacion = Estacion.findByCodigo(params.estacion_codigo)
+        def estacion = Estacion.findByCodigoAndAplicacion(params.estacion_codigo,1)
         def pathPart = "documentos/${estacion.codigo}/"
         def path = servletContext.getRealPath("/") + pathPart
         def numero = Documento.list([sort: "id", order: "desc", max: 1])
@@ -96,7 +96,7 @@ class DocumentoController {
     }
 
     private String makeTree(params) {
-        def estacion = Estacion.findByCodigo(params.codigo)
+        def estacion = Estacion.findByCodigoAndAplicacion(params.codigo,1)
         def res = ""
         res += "<ul>"
         res += "<li id='estacion' data-level='0' class='root jstree-open' data-jstree='{\"type\":\"estacion\"}'>"

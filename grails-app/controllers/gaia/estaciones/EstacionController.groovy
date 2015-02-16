@@ -5,6 +5,7 @@ import gaia.documentos.Dashboard
 import gaia.documentos.Documento
 import gaia.documentos.RequerimientosEstacion
 import gaia.documentos.TipoDocumento
+import gaia.documentos.Ubicacion
 import org.springframework.dao.DataIntegrityViolationException
 import gaia.seguridad.Shield
 
@@ -30,7 +31,7 @@ class EstacionController extends Shield {
         if (session.tipo == "cliente") {
             estacion = session.usuario
         } else {
-            estacion = Estacion.findByCodigo(params.id)
+            estacion = Estacion.findByCodigoAndAplicacion(params.id,1)
 
         }
         documentos = Documento.findAllByEstacion(estacion)
@@ -105,8 +106,9 @@ class EstacionController extends Shield {
      * Acción llamada con ajax que muestra la información de un elemento particular
      */
     def show_ajax() {
+
         if (params.id) {
-            def estacionInstance = Estacion.findByCodigo(params.id)
+            def estacionInstance = Estacion.findByCodigoAndAplicacion(params.id,1)
             if (!estacionInstance) {
                 render "ERROR*No se encontró Estacion."
                 return
@@ -221,18 +223,18 @@ class EstacionController extends Shield {
     }
 
     def consultores_ajax() {
-        def estacion = Estacion.findByCodigo(params.codigo)
+        def estacion = Estacion.findByCodigoAndAplicacion(params.codigo,1)
         return [estacion: estacion]
     }
 
     def inspectores_ajax() {
-        def estacion = Estacion.findByCodigo(params.codigo)
+        def estacion = Estacion.findByCodigoAndAplicacion(params.codigo,1)
         return [estacion: estacion]
     }
 
 
     def requerimientosEstacion(){
-        def estacion = Estacion.findByCodigo(params.id)
+        def estacion = Estacion.findByCodigoAndAplicacion(params.id,1)
         def reqs = RequerimientosEstacion.findAllByEstacion(estacion)
         if(reqs.size()==0){
             TipoDocumento.findAllByTipo("N").each {

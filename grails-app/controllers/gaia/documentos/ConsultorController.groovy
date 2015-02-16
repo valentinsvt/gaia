@@ -167,7 +167,7 @@ class ConsultorController extends Shield {
     }
 
     def listEstacion_ajax() {
-        def estacion = Estacion.findByCodigo(params.codigo)
+        def estacion = Estacion.findByCodigoAndAplicacion(params.codigo,1)
         def consultores = ConsultorEstacion.findAllByEstacion(estacion)
         return [estacion: estacion, consultores: consultores]
     }
@@ -197,7 +197,7 @@ class ConsultorController extends Shield {
     } //delete para eliminar via ajax
 
     def addConsultor_ajax() {
-        def estacion = Estacion.findByCodigo(params.codigo)
+        def estacion = Estacion.findByCodigoAndAplicacion(params.codigo,1)
         def consultor = Consultor.get(params.cons)
 
         def consultorEstacion = new ConsultorEstacion()
