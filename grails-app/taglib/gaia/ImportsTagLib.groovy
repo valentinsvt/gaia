@@ -112,6 +112,7 @@ class ImportsTagLib {
         text += imp.css(src: resource(dir: 'fonts/font-awesome-4.3.0/css', file: 'font-awesome.min.css'))
 
         //CUSTOM
+        text += imp.css(src: resource(dir: 'css/custom', file: 'botones.css'))
         text += imp.css(src: resource(dir: 'css/custom', file: 'custom.css'))
         text += imp.css(src: resource(dir: 'css/custom', file: 'modals.css'))
         text += imp.css(src: resource(dir: 'css/custom', file: 'tablas.css'))

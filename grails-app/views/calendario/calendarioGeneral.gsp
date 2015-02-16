@@ -5,12 +5,16 @@
   Time: 12:46 AM
 --%>
 
-<%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page import="gaia.documentos.TipoDocumento; gaia.documentos.Dashboard; gaia.estaciones.Estacion" contentType="text/html;charset=UTF-8" %>
 <html>
     <head>
         <imp:js src="${resource(dir: 'js/plugins/fullcalendar-2.2.6', file: 'fullcalendar.min.js')}"/>
         <imp:js src="${resource(dir: 'js/plugins/fullcalendar-2.2.6/lang', file: 'es.js')}"/>
         <imp:css src="${resource(dir: 'js/plugins/fullcalendar-2.2.6', file: 'fullcalendar.min.css')}"/>
+
+        <imp:js src="${resource(dir: 'js/plugins/bootstrap-select-1.6.3/dist/js', file: 'bootstrap-select.js')}"/>
+        <imp:css src="${resource(dir: 'js/plugins/bootstrap-select-1.6.3/dist/css', file: 'bootstrap-select.min.css')}"/>
+
         <meta name="layout" content="main">
 
         <title>Calendario general</title>
@@ -50,7 +54,7 @@
 
         .leyendaItem {
             /*cursor  : default;*/
-            padding : 5px;
+            /*padding : 5px;*/
         }
         </style>
 
@@ -58,12 +62,40 @@
 
     <body>
 
-        <div class="leyenda corner-right">
-            <div data-hide="creado" data-tipo="registrados" class="leyendaItem creado corner-top-right showing" title="Ocultar registrados">Registrado</div>
+        <div class="btn-toolbar" role="toolbar" style="margin-bottom: 10px;">
+            <div class="btn-group" data-toggle="buttons">
+                <label class="btn btn-azul active leyendaItem showing"
+                       data-hide="creado" data-tipo="registrados" title="Ocultar registrados">
+                    <input type="checkbox" autocomplete="off" checked> Registrado
+                </label>
+                <label class="btn btn-amarillo active leyendaItem showing"
+                       data-hide="porCaducar" data-tipo="por caducar" title="Ocultar por caducar">
+                    <input type="checkbox" autocomplete="off" checked> Por caducar
+                </label>
+                <label class="btn btn-rojo active leyendaItem showing"
+                       data-hide="caducado" data-tipo="caducados" title="Ocultar caducados">
+                    <input type="checkbox" autocomplete="off" checked> Caducado
+                </label>
+            </div>
 
-            <div data-hide="porCaducar" data-tipo="por caducar" class="leyendaItem porCaducar showing" title="Ocultar por caducar">Por caducar</div>
+            <div class="btn-group" role="group">
+                <g:select name="est" from="${Dashboard.list().estacion.sort {
+                    it.nombre
+                }}" optionKey="codigo" optionValue="nombre" noSelection="['': 'Todas las estaciones']"
+                          class="selectFiltro corner-left" data-live-search="true" data-width="150px"/>
+                <a href="#" class="btn btn-info btnFiltro" style="float:right;">
+                    <i class="fa fa-exchange"></i> Cambiar
+                </a>
+            </div>
 
-            <div data-hide="caducado" data-tipo="caducados" class="leyendaItem caducado corner-bottom-right showing" title="Ocultar caducados  ">Caducado</div>
+            <div class="btn-group" role="group">
+                <g:select name="td" from="${TipoDocumento.list(sort: 'nombre')}" optionKey="id" optionValue="nombre"
+                          noSelection="['': 'Todos los tipos de documento']" data-width="150px"
+                          class="selectFiltro corner-left" data-live-search="true"/>
+                <a href="#" class="btn btn-info btnFiltro" style="float:right;">
+                    <i class="fa fa-exchange"></i> Cambiar
+                </a>
+            </div>
         </div>
 
         <div id='calendar'></div>
@@ -75,7 +107,33 @@
                 caducado   : true
             };
 
+            function sourceEventos(url, tipo) {
+                return {
+                    url       : url,
+                    type      : 'POST',
+                    data      : function () {
+                        return {
+                            show : show[tipo],
+                            est  : $("#est").val(),
+                            td   : $("#td").val()
+                        };
+                    },
+                    error     : function () {
+                        alert('there was an error while fetching events!');
+                    },
+                    className : "doc " + tipo
+                };
+            }
+
             $(function () {
+
+                $(".selectFiltro").selectpicker({
+                    specialStyle : "border-top-left-radius:4px; border-bottom-left-radius:4px;"
+                });
+
+                $(".btnFiltro").click(function () {
+                    $('#calendar').fullCalendar('refetchEvents');
+                });
 
                 $(".leyendaItem").click(function () {
                     var $this = $(this);
@@ -108,39 +166,12 @@
                         element.find('span.fc-title').html(element.find('span.fc-title').text());
                     },
                     eventSources : [
-                        {
-                            url       : '${createLink(controller: "calendario", action: "documentosCreadosGeneral_ajax")}', // use the `url` property
-                            type      : 'POST',
-                            data      : function () {
-                                return {show : show.creado};
-                            },
-                            error     : function () {
-                                alert('there was an error while fetching events!');
-                            },
-                            className : "doc creado"
-                        },
-                        {
-                            url       : '${createLink(controller: "calendario", action: "documentosPorCaducarGeneral_ajax")}', // use the `url` property
-                            type      : 'POST',
-                            data      : function () {
-                                return {show : show.porCaducar};
-                            },
-                            error     : function () {
-                                alert('there was an error while fetching events!');
-                            },
-                            className : "doc porCaducar"
-                        },
-                        {
-                            url       : '${createLink(controller: "calendario", action: "documentosCaducadosGeneral_ajax")}', // use the `url` property
-                            type      : 'POST',
-                            data      : function () {
-                                return  {show : show.caducado};
-                            },
-                            error     : function () {
-                                alert('there was an error while fetching events!');
-                            },
-                            className : "doc caducado"
-                        }
+                        sourceEventos('${createLink(controller: "calendario", action: "documentosCreadosGeneral_ajax")}',
+                                "creado"),
+                        sourceEventos('${createLink(controller: "calendario", action: "documentosPorCaducarGeneral_ajax")}',
+                                "porCaducar"),
+                        sourceEventos('${createLink(controller: "calendario", action: "documentosCaducadosGeneral_ajax")}',
+                                "caducado")
                     ],
                     eventClick   : function (calEvent, jsEvent, view) {
                         $.ajax({

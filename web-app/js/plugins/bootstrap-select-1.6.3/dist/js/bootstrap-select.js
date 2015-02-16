@@ -149,7 +149,8 @@
         selectOnTab             : false,
         dropdownAlignRight      : false,
         searchAccentInsensitive : false,
-        limitWidth              : false
+        limitWidth              : false,
+        specialStyle            : false
     };
 
     Selectpicker.prototype = {
@@ -220,9 +221,15 @@
                                                        '</button>' +
                                                        '</div>' +
                                                        '</div>' : '';
+            var specialStyle = $.trim(this.options.specialStyle);
+            if (specialStyle && specialStyle != "") {
+                specialStyle = " style='" + specialStyle + "'";
+            } else {
+                specialStyle = "";
+            }
             var drop =
                 '<div class="btn-group bootstrap-select' + multiple + inputGroup + '">' +
-                '<button type="button" class="btn dropdown-toggle selectpicker' + btnSize + '" data-toggle="dropdown"' + autofocus + '>' +
+                '<button type="button" class="btn dropdown-toggle selectpicker' + btnSize + '" data-toggle="dropdown"' + autofocus + specialStyle + '>' +
                 '<span class="filter-option pull-left"></span>&nbsp;' +
                 '<span class="caret"></span>' +
                 '</button>' +

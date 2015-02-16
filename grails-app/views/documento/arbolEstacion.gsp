@@ -5,7 +5,7 @@
   Time: 17:44
 --%>
 
-<%@ page import="gaia.estaciones.Estacion" contentType="text/html;charset=UTF-8" %>
+<%@ page import="gaia.documentos.Dashboard; gaia.estaciones.Estacion" contentType="text/html;charset=UTF-8" %>
 <!DOCTYPE HTML>
 <head>
     <meta name="layout" content="main">
@@ -49,8 +49,9 @@
 
         <g:if test="${params.combo}">
             <div class="col-md-3">
-                <g:select name="estacion" from="${Estacion.list([sort: 'nombre'])}" class="form-control select"
-                          optionKey="codigo" data-live-search="true" value="${params.codigo}"/>
+                <g:select name="estacion" from="${Dashboard.list().estacion.sort {
+                    it.nombre
+                }}" class="form-control select" optionKey="codigo" data-live-search="true" value="${params.codigo}"/>
             </div>
         </g:if>
 
@@ -272,9 +273,9 @@
                     var myPDF = new PDFObject({
                         url           : path,
                         pdfOpenParams : {
-                            navpanes: 1,
-                            statusbar: 0,
-                            view: "FitW"
+                            navpanes  : 1,
+                            statusbar : 0,
+                            view      : "FitW"
                         }
                     }).embed("doc");
                 } else {
