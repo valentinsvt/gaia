@@ -1,8 +1,25 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
-<html>
+<html xmlns="http://www.w3.org/1999/html">
 <head>
     <meta name="layout" content="main"/>
+    <link href="${g.resource(dir: 'css/custom/', file: 'dashboard.css')}" rel="stylesheet" type="text/css">
     <title>Registrar documentos</title>
+    <style type="text/css">
+    label{
+        padding-top: 5px;
+    }
+    fieldset{
+        margin-top: 15px;
+        padding: 10px;
+        padding-top: 0px;
+        margin-left: -10px;
+    }
+    legend{
+        border-color: #3A87AD;
+        color: #3A87AD;
+    }
+
+    </style>
 </head>
 <body>
 <elm:message tipo="${flash.tipo}" clase="${flash.clase}">${flash.message}</elm:message>
@@ -16,109 +33,115 @@
 
 <g:form class="frm-subir" controller="documento" action="upload" enctype="multipart/form-data" >
     <input type="hidden" name="estacion_codigo" value="${estacion.codigo}">
-    <elm:container tipo="vertical" titulo="Documento" style="border-color: #3A5DAA;border-right: 1px solid  #3A5DAA">
-        <div style="width: 100%;padding: 5px;margin-top: 5px;padding-bottom: 10px">
-            <div class="row">
-                <div class="col-md-1">
-                    <label>
-                        Estación
-                    </label>
+    <div class="panel panel-info" style="margin-top: 20px">
+        <div class="panel-heading">Nuevo documento para la estación: ${estacion.nombre}</div>
+        <div class="panel-body" style="padding: 20px">
+            <fieldset style="margin-top: 0px">
+                <legend>Datos del documento</legend>
+                <div class="row">
+                    <div class="col-md-1">
+                        <label>
+                            Estación
+                        </label>
+                    </div>
+                    <div class="col-md-3">
+                        ${estacion.nombre}
+                    </div>
+                    <div class="col-md-2">
+                        <label>
+                            Fecha de registro
+                        </label>
+                    </div>
+                    <div class="col-md-3">
+                        ${new java.util.Date().format("dd-MM-yyyy")}
+                    </div>
                 </div>
-                <div class="col-md-3">
-                    ${estacion.nombre}
-                </div>
-                <div class="col-md-2">
-                    <label>
-                        Fecha de registro
-                    </label>
-                </div>
-                <div class="col-md-3">
-                    ${new java.util.Date().format("dd-MM-yyyy")}
-                </div>
-            </div>
-            <div class="row" style="">
-                <div class="col-md-1">
-                    <label>
-                        PDF
-                    </label>
-                </div>
-                <div class="col-md-7">
-                    <input type="file" name="file" id="file" class="form-control required"  style="border-right: none" accept=".pdf">
-                </div>
+                <div class="row" style="">
+                    <div class="col-md-1">
+                        <label>
+                            PDF
+                        </label>
+                    </div>
+                    <div class="col-md-7">
+                        <input type="file" name="file" id="file" class="form-control required"  style="border-right: none" accept=".pdf">
+                    </div>
 
-            </div>
-            <div class="row" style="">
-                <div class="col-md-1">
-                    <label>
-                        Tipo
-                    </label>
                 </div>
-                <div class="col-md-3">
-                    <g:select name="tipo.id" from="${tipos}" optionValue="nombre" optionKey="id" id="tipo" class="form-control input-sm" value="${tipo}"></g:select>
+                <div class="row" style="">
+                    <div class="col-md-1">
+                        <label>
+                            Tipo
+                        </label>
+                    </div>
+                    <div class="col-md-3">
+                        <g:select name="tipo.id" from="${tipos}" optionValue="nombre" optionKey="id" id="tipo" class="form-control input-sm" value="${tipo}"></g:select>
+                    </div>
+                    <div class="col-md-2">
+                        <label>
+                            Número de referencia
+                        </label>
+                    </div>
+                    <div class="col-md-2">
+                        <input type="text" name="referencia" class="form-control input-sm required" maxlength="20">
+                    </div>
                 </div>
-                <div class="col-md-2">
-                    <label>
-                        Número de referencia
-                    </label>
+                <div class="row" style="margin-top: 20px;">
+                    <div class="col-md-1">
+                        <label>
+                            Descripción
+                        </label>
+                    </div>
+                    <div class="col-md-10">
+                        <input type="text" name="descripcion" class="form-control input-sm required" required="" maxlength="512">
+                    </div>
                 </div>
-                <div class="col-md-2">
-                    <input type="text" name="referencia" class="form-control input-sm required" maxlength="20">
-                </div>
-            </div>
-            <div class="row" style="margin-top: 20px;">
-                <div class="col-md-1">
-                    <label>
-                        Descripción
-                    </label>
-                </div>
-                <div class="col-md-10">
-                    <input type="text" name="descripcion" class="form-control input-sm required" required="" maxlength="512">
-                </div>
-            </div>
+            </fieldset>
 
-        </div>
-    </elm:container>
-    <elm:container tipo="vertical" titulo="Vigencia" style="border-color: #3A5DAA;border-right: 1px solid  #3A5DAA">
-        <div style="width: 100%;padding: 5px;margin-top: 5px;padding-bottom: 10px;height: 100px">
-            <div class="row"></div>
-            <div class="row">
-                <div class="col-md-1">
-                    <label>
-                        Inicio
-                    </label>
+            <fieldset>
+                <legend>Vigencia</legend>
+                <div style="width: 100%;padding: 5px;margin-top: 5px;padding-bottom: 10px;height: 70px;background: white">
+
+                    <div class="row">
+                        <div class="col-md-1">
+                            <label>
+                                Inicio
+                            </label>
+                        </div>
+                        <div class="col-md-3">
+                            <elm:datepicker name="inicio" class="required form-control input-sm"/>
+                        </div>
+                        <div class="col-md-1">
+                            <label>
+                                Caduca
+                            </label>
+                        </div>
+                        <div class="col-md-3">
+                            <elm:datepicker name="fin" class=" form-control input-sm"/>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-3">
-                    <elm:datepicker name="inicio" class="required form-control input-sm"/>
+            </fieldset>
+            <fieldset style="margin-top: 0px">
+                <legend>Observaciones</legend>
+                <div style="width: 100%;margin-top: 5px;padding-bottom: 10px;;background: white">
+                    <div class="row">
+                        <div class="col-md-1">
+                            <label>
+                                Observaciones
+                            </label>
+                        </div>
+                        <div class="col-md-10">
+                            <textarea name="observacines" class="form-control"></textarea>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-md-1">
-                    <label>
-                        Caduca
-                    </label>
-                </div>
-                <div class="col-md-3">
-                    <elm:datepicker name="fin" class=" form-control input-sm"/>
-                </div>
+            </fieldset>
+            <div class="row" style="margin-left: 10px">
+                <a href="#" id="guardar" class="btn btn-primary">
+                    <i class="fa fa-save"></i> Guardar
+                </a>
             </div>
         </div>
-    </elm:container>
-    <elm:container tipo="vertical" titulo="Obs." style="border-color: #3A5DAA;border-right: 1px solid  #3A5DAA">
-        <div style="width: 100%;margin-top: 5px;padding-bottom: 10px;">
-            <div class="row">
-                <div class="col-md-1">
-                    <label>
-                        Observaciones
-                    </label>
-                </div>
-                <div class="col-md-10">
-                    <textarea name="observacines" class="form-control"></textarea>
-                </div>
-            </div>
-        </div>
-    </elm:container>
-    <div class="row">
-        <a href="#" id="guardar" class="btn btn-primary">
-            <i class="fa fa-save"></i> Guardar
-        </a>
     </div>
 </g:form>
 <script type="text/javascript">

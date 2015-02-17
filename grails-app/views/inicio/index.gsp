@@ -117,10 +117,10 @@
             <table class="table table-striped table-hover table-bordered" style="border-top: none">
                 <thead>
                 <tr>
-                    <th class="header-table-report" style="width: 30%;text-align: left">Documento</th>
-                    <th class="header-table-report" style="width: 30%;text-align: left">Estación</th>
-                    <th class="header-table-report">Referecia</th>
-                    <th class="header-table-report">Caduca</th>
+                    <th  style="width: 30%;text-align: left">Documento</th>
+                    <th  style="width: 30%;text-align: left">Estación</th>
+                    <th >Referecia</th>
+                    <th >Caduca</th>
                 </tr>
                 </thead>
                 <tbody>
