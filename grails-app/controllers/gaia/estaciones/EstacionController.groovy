@@ -20,22 +20,25 @@ class EstacionController extends Shield {
 
     def showEstacion() {
         def estacion
-        def documentos = []
-        def tipos = [:]
-        tipos.put("-1", "Todos")
-        TipoDocumento.list([sort: 'nombre']).each {
-            tipos.put(it.id, it.nombre)
-        }
-
-
         if (session.tipo == "cliente") {
             estacion = session.usuario
         } else {
-            estacion = Estacion.findByCodigoAndAplicacion(params.id,1)
-
+            estacion = Estacion.findByCodigoAndAplicacion(params.id, 1)
         }
-        documentos = Documento.findAllByEstacion(estacion)
-        [estacion: estacion, documentos: documentos, tipos: tipos]
+//        def documentos = Documento.findAllByEstacion(estacion)
+        def documentos = Documento.withCriteria {
+            eq("estacion", estacion)
+            if (params.td) {
+                eq("tipo", TipoDocumento.get(params.td))
+            }
+            if (params.search) {
+                or {
+                    ilike("descripcion", "%" + params.search.trim() + "%")
+                    ilike("referencia", "%" + params.search.trim() + "%")
+                }
+            }
+        }
+        [estacion: estacion, documentos: documentos, params: params]
     }
 
     def listaSemaforos() {
@@ -108,7 +111,7 @@ class EstacionController extends Shield {
     def show_ajax() {
 
         if (params.id) {
-            def estacionInstance = Estacion.findByCodigoAndAplicacion(params.id,1)
+            def estacionInstance = Estacion.findByCodigoAndAplicacion(params.id, 1)
             if (!estacionInstance) {
                 render "ERROR*No se encontró Estacion."
                 return
@@ -223,33 +226,33 @@ class EstacionController extends Shield {
     }
 
     def consultores_ajax() {
-        def estacion = Estacion.findByCodigoAndAplicacion(params.codigo,1)
+        def estacion = Estacion.findByCodigoAndAplicacion(params.codigo, 1)
         return [estacion: estacion]
     }
 
     def inspectores_ajax() {
-        def estacion = Estacion.findByCodigoAndAplicacion(params.codigo,1)
+        def estacion = Estacion.findByCodigoAndAplicacion(params.codigo, 1)
         return [estacion: estacion]
     }
 
 
-    def requerimientosEstacion(){
-        def estacion = Estacion.findByCodigoAndAplicacion(params.id,1)
+    def requerimientosEstacion() {
+        def estacion = Estacion.findByCodigoAndAplicacion(params.id, 1)
         def reqs = RequerimientosEstacion.findAllByEstacion(estacion)
-        if(reqs.size()==0){
+        if (reqs.size() == 0) {
             TipoDocumento.findAllByTipo("N").each {
                 def rq = new RequerimientosEstacion()
-                rq.estacion=estacion
-                rq.tipo=it
+                rq.estacion = estacion
+                rq.tipo = it
                 rq.save(flush: true)
                 reqs.add(rq)
             }
         }
-        [estacion:estacion,reqs:reqs]
+        [estacion: estacion, reqs: reqs]
 
     }
 
-    def borrarReq(){
+    def borrarReq() {
         def req = RequerimientosEstacion.get(params.id)
         req.delete(flush: true)
         render "ok"
