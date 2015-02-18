@@ -23,7 +23,7 @@
                     <span class="input-group-addon">
                         <i class="fa fa-phone"></i>
                     </span>
-                    <g:textField name="telefono" maxlength="15" required="" class="form-control  required" value="${consultorInstance?.telefono}"/>
+                    <g:textField name="telefono" maxlength="15" required="" class="form-control  required numeric" value="${consultorInstance?.telefono}"/>
                 </div>
             </elm:fieldRapido>
 

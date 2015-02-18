@@ -25,87 +25,67 @@
                 <elm:container tipo="horizontal" titulo="Parámetros del Sistema">
                     <ul class="fa-ul">
                         <li>
-                            <i class="fa-li fa fa-paint-brush text-info"></i>
-                            <g:link class="over" controller="color" action="list">
-                                Colores
+                            <i class="fa-li fa fa-server text-info"></i>
+                            <g:link class="over" controller="entidad" action="list">
+                                Entidades
                             </g:link>
 
                             <div class="descripcion hidden">
-                                <h4><i class="fa fa-paint-brush fa-2x"></i> Colores</h4>
+                            <h4><i class=" fa fa-server fa-2x"></i> Entidades</h4>
 
-                                <p>Permite registrar diferentes colores para la descripción de items de la bodega</p>
-                            </div>
-                        </li>
-                        <li>
-                            <i class="fa-li fa fa-street-view text-info"></i>
-                            <g:link class="over" controller="cargo" action="list">
-                                Cargos
-                            </g:link>
-
-                            <div class="descripcion hidden">
-                                <h4><i class=" fa fa-street-view fa-2x"></i> Cargos</h4>
-
-                                <p>Permite registrar cargos para registrar funciones en los proyectos</p>
+                                <p>Listado de las entidades de control ambiental</p>
                             </div>
                         </li>
                         <li>
                             <i class="fa-li fa fa-file-archive-o text-info"></i>
-                            <g:link class="over" controller="tipoSolicitud" action="list">
-                                Tipos de solicitud
+                            <g:link class="over" controller="tipoDocumento" action="list">
+                                Tipos de Documentos
                             </g:link>
 
                             <div class="descripcion hidden">
-                                <h4><i class="fa fa-file-archive-o fa-2x"></i> Tipos de solicitud</h4>
+                                   <h4><i class="fa fa-file-archive-o fa-2x"></i> Tipos de Documentos</h4>
 
-                                <p>Permite registrar los diferentes tipos de solicitud</p>
+                                <p>Listado de los diferentes Tipos de Documentos que se encuentran en el sistema</p>
                             </div>
                         </li>
-                        <li>
-                            <i class="fa-li fa fa-check-square-o text-info"></i>
-                            <g:link class="over" controller="estadoSolicitud" action="list">
-                                Estados de solicitud
-                            </g:link>
-
-                            <div class="descripcion hidden">
-                                <h4><i class="fa fa-check-square-o fa-2x "></i> Estados de solicitud</h4>
-
-                                <p>Permite registrar los diferentes estados en los que puede estar una solicitud</p>
-                            </div>
-                        </li>
-                        %{--<li>--}%
-                        %{--<i class="fa-li fa flaticon-power30 text-info"></i>--}%
-                        %{--<g:link class="over" controller="tipoItem" action="list">--}%
-                        %{--Tipos de ítem--}%
-                        %{--</g:link>--}%
-
-                        %{--<div class="descripcion hidden">--}%
-                        %{--<h4><i class="fa flaticon-power30 fa-2x "></i> Tipos de ítem</h4>--}%
-
-                        %{--<p>Permite registrar los diferentes tipos de ítems</p>--}%
-                        %{--</div>--}%
-                        %{--</li>--}%
-                        %{--<li>--}%
-                        %{--<i class="fa-li fa flaticon-construction12 text-info"></i>--}%
-                        %{--<g:link class="over" controller="tipoMaquinaria" action="list">--}%
-                        %{--Tipos de maquinaria--}%
-                        %{--</g:link>--}%
-
-                        %{--<div class="descripcion hidden">--}%
-                        %{--<h4><i class="fa flaticon-construction12 fa-2x "></i> Tipos de maquinaria</h4>--}%
-
-                        %{--<p>Permite registrar los diferentes tipos de ítems</p>--}%
-                        %{--</div>--}%
-                        %{--</li>--}%
                         <li>
                             <i class="fa-li fa fa-server text-info"></i>
-                            <g:link class="over" controller="unidad" action="list">
-                                Unidades
+                            <g:link class="over" controller="dependencia" action="list">
+                                Dependencias
                             </g:link>
 
                             <div class="descripcion hidden">
-                                <h4><i class=" fa fa-server fa-2x"></i> Unidades</h4>
+                                <h4><i class=" fa fa-server fa-2x"></i> Dependencias</h4>
 
-                                <p>Permite registrar las unidades para el inventario</p>
+                                <p>Listado de Dependencias</p>
+                            </div>
+                        </li>
+                        <li>
+                            %{--<i class="fa-li fa fa-check-square-o text-info"></i>--}%
+                            <i class="fa-li fa fa-street-view text-info"></i>
+                            <g:link class="over" controller="consultor" action="list">
+                                Consultores
+                            </g:link>
+
+                            <div class="descripcion hidden">
+                                %{--<h4><i class="fa fa-check-square-o fa-2x "></i> Consultores</h4>--}%
+                                <h4><i class=" fa fa-street-view fa-2x"></i> Consultores</h4>
+
+                                <p>Listado de Consultores</p>
+                            </div>
+                        </li>
+                        <li>
+                            %{--<i class="fa-li fa fa-server text-info"></i>--}%
+                            <i class="fa-li fa fa-street-view text-info"></i>
+                            <g:link class="over" controller="inspector" action="list">
+                                Inspectores
+                            </g:link>
+
+                            <div class="descripcion hidden">
+                                %{--<h4><i class=" fa fa-server fa-2x"></i> Inspectores</h4>--}%
+                                <h4><i class=" fa fa-street-view fa-2x"></i> Inspectores</h4>
+
+                                <p>Listado de Inspectores</p>
                             </div>
                         </li>
                     </ul>

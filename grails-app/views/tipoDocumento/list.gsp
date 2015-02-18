@@ -4,7 +4,7 @@
 <html>
     <head>
         <meta name="layout" content="main">
-        <title>Lista de TipoDocumento</title>
+        <title>Lista de Tipo de Documentos</title>
     </head>
     <body>
 
@@ -14,7 +14,7 @@
         <div class="btn-toolbar toolbar">
             <div class="btn-group">
                 <a href="#" class="btn btn-default btnCrear">
-                    <i class="fa fa-file-o"></i> Crear
+                    <i class="fa fa-file-o"></i> Crear Tipo de Documento
                 </a>
             </div>
             <div class="btn-group pull-right col-md-3">
@@ -39,7 +39,7 @@
                     
                     <g:sortableColumn property="caduca" title="Caduca" />
                     
-                    <g:sortableColumn property="codigo" title="Codigo" />
+                    <g:sortableColumn property="codigo" title="Código" />
                     
                     <th>Entidad</th>
                     
@@ -58,7 +58,7 @@
                             
                             <td><elm:textoBusqueda busca="${params.search}"><g:fieldValue bean="${tipoDocumentoInstance}" field="codigo"/></elm:textoBusqueda></td>
                             
-                            <td><elm:textoBusqueda busca="${params.search}"><g:fieldValue bean="${tipoDocumentoInstance}" field="entidad"/></elm:textoBusqueda></td>
+                            <td><elm:textoBusqueda busca="${params.search}"><g:fieldValue bean="${tipoDocumentoInstance}" field="entidad.nombre"/></elm:textoBusqueda></td>
                             
                         </tr>
                     </g:each>
@@ -118,7 +118,7 @@
                 bootbox.dialog({
                     title   : "Alerta",
                     message : "<i class='fa fa-trash-o fa-3x pull-left text-danger text-shadow'></i><p>" +
-                              "¿Está seguro que desea eliminar el TipoDocumento seleccionado? Esta acción no se puede deshacer.</p>",
+                              "¿Está seguro que desea eliminar el Tipo de Documento seleccionado? Esta acción no se puede deshacer.</p>",
                     buttons : {
                         cancelar : {
                             label     : "Cancelar",
@@ -204,7 +204,7 @@
                     },
                     success : function (msg) {
                         bootbox.dialog({
-                            title   : "Ver TipoDocumento",
+                            title   : "Ver Tipo de Documento",
                             
                             message : msg,
                             buttons : {

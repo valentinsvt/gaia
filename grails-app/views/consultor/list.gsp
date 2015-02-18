@@ -3,7 +3,7 @@
 <html>
     <head>
         <meta name="layout" content="main">
-        <title>Lista de Consultor</title>
+        <title>Lista de Consultores</title>
     </head>
 
     <body>
@@ -14,7 +14,7 @@
         <div class="btn-toolbar toolbar">
             <div class="btn-group">
                 <a href="#" class="btn btn-default btnCrear">
-                    <i class="fa fa-file-o"></i> Crear
+                    <i class="fa fa-file-o"></i> Nuevo Consultor
                 </a>
             </div>
 
@@ -38,9 +38,9 @@
 
                     <g:sortableColumn property="ruc" title="Ruc"/>
 
-                    <g:sortableColumn property="telefono" title="Telefono"/>
+                    <g:sortableColumn property="telefono" title="Teléfono"/>
 
-                    <g:sortableColumn property="direccion" title="Direccion"/>
+                    <g:sortableColumn property="direccion" title="Dirección"/>
 
                     <g:sortableColumn property="mail" title="Mail"/>
 

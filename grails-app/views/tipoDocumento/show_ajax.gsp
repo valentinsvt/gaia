@@ -49,7 +49,7 @@
         <g:if test="${tipoDocumentoInstance?.codigo}">
             <div class="row">
                 <div class="col-sm-3 show-label">
-                    Codigo
+                    Código
                 </div>
                 
                 <div class="col-sm-4">
@@ -66,7 +66,7 @@
                 </div>
                 
                 <div class="col-sm-4">
-                    ${tipoDocumentoInstance?.entidad?.encodeAsHTML()}
+                    ${tipoDocumentoInstance?.entidad?.nombre?.encodeAsHTML()}
                 </div>
                 
             </div>

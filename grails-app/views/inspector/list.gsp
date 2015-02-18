@@ -3,7 +3,7 @@
 <html>
     <head>
         <meta name="layout" content="main">
-        <title>Lista de Inspector</title>
+        <title>Lista de Inspectores</title>
     </head>
 
     <body>
@@ -14,7 +14,7 @@
         <div class="btn-toolbar toolbar">
             <div class="btn-group">
                 <a href="#" class="btn btn-default btnCrear">
-                    <i class="fa fa-file-o"></i> Crear
+                    <i class="fa fa-file-o"></i> Nuevo Inspector
                 </a>
             </div>
 
@@ -36,7 +36,7 @@
 
                     <g:sortableColumn property="nombre" title="Nombre"/>
 
-                    <g:sortableColumn property="telefono" title="Telefono"/>
+                    <g:sortableColumn property="telefono" title="Teléfono"/>
 
                     <g:sortableColumn property="mail" title="Mail"/>
 

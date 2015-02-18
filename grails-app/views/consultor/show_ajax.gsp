@@ -35,7 +35,7 @@
         <g:if test="${consultorInstance?.telefono}">
             <div class="row">
                 <div class="col-sm-3 show-label">
-                    Telefono
+                    Teléfono
                 </div>
 
                 <div class="col-sm-4">
@@ -48,7 +48,7 @@
         <g:if test="${consultorInstance?.direccion}">
             <div class="row">
                 <div class="col-sm-3 show-label">
-                    Direccion
+                    Dirección
                 </div>
 
                 <div class="col-sm-4">

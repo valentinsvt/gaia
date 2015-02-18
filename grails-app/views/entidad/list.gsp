@@ -1,10 +1,10 @@
 
-<%@ page import="gaia.documentos.Dependencia" %>
+<%@ page import="gaia.documentos.Entidad" %>
 <!DOCTYPE html>
 <html>
     <head>
         <meta name="layout" content="main">
-        <title>Lista de Dependencias</title>
+        <title>Lista de Entidades</title>
     </head>
     <body>
 
@@ -14,14 +14,14 @@
         <div class="btn-toolbar toolbar">
             <div class="btn-group">
                 <a href="#" class="btn btn-default btnCrear">
-                    <i class="fa fa-file-o"></i> Crear Dependencia
+                    <i class="fa fa-file-o"></i> Crear Entidad
                 </a>
             </div>
             <div class="btn-group pull-right col-md-3">
                 <div class="input-group">
                     <input type="text" class="form-control input-search" placeholder="Buscar" value="${params.search}">
                     <span class="input-group-btn">
-                        <g:link controller="dependencia" action="list" class="btn btn-default btn-search">
+                        <g:link controller="entidad" action="list" class="btn btn-default btn-search">
                             <i class="fa fa-search"></i>&nbsp;
                         </g:link>
                     </span>
@@ -40,13 +40,13 @@
                 </tr>
             </thead>
             <tbody>
-                <g:if test="${dependenciaInstanceCount > 0}">
-                    <g:each in="${dependenciaInstanceList}" status="i" var="dependenciaInstance">
-                        <tr data-id="${dependenciaInstance.id}">
+                <g:if test="${entidadInstanceCount > 0}">
+                    <g:each in="${entidadInstanceList}" status="i" var="entidadInstance">
+                        <tr data-id="${entidadInstance.id}">
                             
-                            <td>${dependenciaInstance.nombre}</td>
+                            <td>${entidadInstance.nombre}</td>
                             
-                            <td><elm:textoBusqueda busca="${params.search}"><g:fieldValue bean="${dependenciaInstance}" field="codigo"/></elm:textoBusqueda></td>
+                            <td><elm:textoBusqueda busca="${params.search}"><g:fieldValue bean="${entidadInstance}" field="codigo"/></elm:textoBusqueda></td>
                             
                         </tr>
                     </g:each>
@@ -66,16 +66,16 @@
             </tbody>
         </table>
 
-        <elm:pagination total="${dependenciaInstanceCount}" params="${params}"/>
+        <elm:pagination total="${entidadInstanceCount}" params="${params}"/>
 
         <script type="text/javascript">
             var id = null;
-            function submitFormDependencia() {
-                var $form = $("#frmDependencia");
-                var $btn = $("#dlgCreateEditDependencia").find("#btnSave");
+            function submitFormEntidad() {
+                var $form = $("#frmEntidad");
+                var $btn = $("#dlgCreateEditEntidad").find("#btnSave");
                 if ($form.valid()) {
                     $btn.replaceWith(spinner);
-                    openLoader("Guardando Dependencia");
+                    openLoader("Guardando Entidad");
                     $.ajax({
                         type    : "POST",
                         url     : $form.attr("action"),
@@ -102,11 +102,11 @@
                 return false;
             } //else
             }
-            function deleteDependencia(itemId) {
+            function deleteEntidad(itemId) {
                 bootbox.dialog({
                     title   : "Alerta",
                     message : "<i class='fa fa-trash-o fa-3x pull-left text-danger text-shadow'></i><p>" +
-                              "¿Está seguro que desea eliminar la Dependencia seleccionada? Esta acción no se puede deshacer.</p>",
+                              "¿Está seguro que desea eliminar la Entidad seleccionada? Esta acción no se puede deshacer.</p>",
                     buttons : {
                         cancelar : {
                             label     : "Cancelar",
@@ -118,10 +118,10 @@
                             label     : "<i class='fa fa-trash-o'></i> Eliminar",
                             className : "btn-danger",
                             callback  : function () {
-                                openLoader("Eliminando Dependencia");
+                                openLoader("Eliminando Entidad");
                                 $.ajax({
                                     type    : "POST",
-                                    url     : '${createLink(controller:'dependencia', action:'delete_ajax')}',
+                                    url     : '${createLink(controller:'entidad', action:'delete_ajax')}',
                                     data    : {
                                         id : itemId
                                     },
@@ -146,17 +146,17 @@
                     }
                 });
             }
-            function createEditDependencia(id) {
+            function createEditEntidad(id) {
                 var title = id ? "Editar" : "Crear";
                 var data = id ? { id: id } : {};
                 $.ajax({
                     type    : "POST",
-                    url     : "${createLink(controller:'dependencia', action:'form_ajax')}",
+                    url     : "${createLink(controller:'entidad', action:'form_ajax')}",
                     data    : data,
                     success : function (msg) {
                         var b = bootbox.dialog({
-                            id      : "dlgCreateEditDependencia",
-                            title   : title + " Dependencia",
+                            id      : "dlgCreateEditEntidad",
+                            title   : title + " Entidad",
                             
                             message : msg,
                             buttons : {
@@ -171,7 +171,7 @@
                                     label     : "<i class='fa fa-save'></i> Guardar",
                                     className : "btn-success",
                                     callback  : function () {
-                                        return submitFormDependencia();
+                                        return submitFormEntidad();
                                     } //callback
                                 } //guardar
                             } //buttons
@@ -183,16 +183,16 @@
                 }); //ajax
             } //createEdit
 
-            function verDependencia(id) {
+            function verEntidad(id) {
             $.ajax({
                     type    : "POST",
-                    url     : "${createLink(controller:'dependencia', action:'show_ajax')}",
+                    url     : "${createLink(controller:'entidad', action:'show_ajax')}",
                     data    : {
                         id : id
                     },
                     success : function (msg) {
                         bootbox.dialog({
-                            title   : "Ver Dependencia",
+                            title   : "Ver Entidad",
                             
                             message : msg,
                             buttons : {
@@ -211,7 +211,7 @@
             $(function () {
 
                 $(".btnCrear").click(function() {
-                    createEditDependencia();
+                    createEditEntidad();
                     return false;
                 });
 
@@ -226,7 +226,7 @@
                             icon   : "fa fa-search",
                             action : function ($element) {
                                 var id = $element.data("id");
-                                verDependencia(id);
+                                verEntidad(id);
                             }
                         },
                         editar   : {
@@ -234,7 +234,7 @@
                             icon   : "fa fa-pencil",
                             action : function ($element) {
                                 var id = $element.data("id");
-                                createEditDependencia(id);
+                                createEditEntidad(id);
                             }
                         },
                         eliminar : {
@@ -243,7 +243,7 @@
                             separator_before : true,
                             action           : function ($element) {
                                 var id = $element.data("id");
-                                deleteDependencia(id);
+                                deleteEntidad(id);
                             }
                         }
                     },

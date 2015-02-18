@@ -23,12 +23,12 @@
             <g:select name="caduca" from="${tipoDocumentoInstance.constraints.caduca.inList}" required="" class="form-control  required" value="${tipoDocumentoInstance?.caduca}" valueMessagePrefix="tipoDocumento.caduca"/>
         </elm:fieldRapido>
         
-        <elm:fieldRapido claseLabel="col-sm-2" label="Codigo" claseField="col-sm-6">
-            <g:textField name="codigo" maxlength="5" required="" class="form-control  required unique noEspacios" value="${tipoDocumentoInstance?.codigo}"/>
+        <elm:fieldRapido claseLabel="col-sm-2" label="Código" claseField="col-sm-6">
+            <g:textField name="codigo" maxlength="5" required="" class="form-control  required unique noEspacios allCaps" value="${tipoDocumentoInstance?.codigo}"/>
         </elm:fieldRapido>
         
         <elm:fieldRapido claseLabel="col-sm-2" label="Entidad" claseField="col-sm-6">
-            <g:select id="entidad" name="entidad.id" from="${gaia.documentos.Entidad.list()}" optionKey="id" value="${tipoDocumentoInstance?.entidad?.id}" class="many-to-one form-control " noSelection="['null': '']"/>
+            <g:select id="entidad" name="entidad.id" from="${gaia.documentos.Entidad.list()}" optionKey="id" optionValue="nombre" value="${tipoDocumentoInstance?.entidad?.id}" class="many-to-one form-control " noSelection="['null': 'Seleccione..']"/>
         </elm:fieldRapido>
         
     </g:form>

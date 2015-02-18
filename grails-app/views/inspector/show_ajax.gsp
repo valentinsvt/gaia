@@ -22,7 +22,7 @@
         <g:if test="${inspectorInstance?.telefono}">
             <div class="row">
                 <div class="col-sm-3 show-label">
-                    Telefono
+                    Teléfono
                 </div>
 
                 <div class="col-sm-4">
