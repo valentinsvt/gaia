@@ -8,12 +8,12 @@ import org.springframework.dao.DataIntegrityViolationException
 import gaia.seguridad.Shield
 
 
-
 /**
  * Controlador de las pantallas de reportes por estación
  */
-class ReportesEstacionController extends Shield{
+class ReportesEstacionController extends Shield {
     def diasLaborablesService
+
     def index() {}
 
     def getList(params, all) {
@@ -52,33 +52,32 @@ class ReportesEstacionController extends Shield{
         return list
     }
 
-    def supervisores () {
+    def supervisores() {
 
-        def estaciones =  Estacion.findAll("from Estacion where aplicacion = 1 and estado='A' and tipo=1")
+        def estaciones = Estacion.findAll("from Estacion where aplicacion = 1 and estado='A' and tipo=1")
         def estacionInstanceCount = getList(params, true).size()
 
         return [estaciones: estaciones, estacionInstanceCount: estacionInstanceCount]
     }
 
-    def vencidos () {
+    def vencidos() {
 
-        def estaciones =  Estacion.findAll("from Estacion where aplicacion = 1 and estado='A' and tipo=1")
+        def estaciones = Estacion.findAll("from Estacion where aplicacion = 1 and estado='A' and tipo=1")
         def estacionInstanceCount = getList(params, true).size()
 
         return [estaciones: estaciones, estacionInstanceCount: estacionInstanceCount]
     }
 
-    def reporteVencidos () {
-
-        def estaciones =  Estacion.findAll("from Estacion where aplicacion = 1 and estado='A' and tipo=1")
-        def estacionInstanceCount = getList(params, true).size()
-
-        return [estaciones: estaciones, estacionInstanceCount: estacionInstanceCount]
+    def reporteVencidos() {
+//        println "reporte vencidos: " + params
+//        def estaciones = Estacion.findAll("from Estacion where aplicacion = 1 and estado='A' and tipo=1")
+//        println "estaciones: " + estaciones
+//        return [estaciones: estaciones]
     }
 
-    def documentos () {
+    def documentos() {
 
-        def estaciones =  Estacion.findAll("from Estacion where aplicacion = 1 and estado='A' and tipo=1")
+        def estaciones = Estacion.findAll("from Estacion where aplicacion = 1 and estado='A' and tipo=1")
         def estacionInstanceCount = getList(params, true).size()
 
         def tiposDocumentos = TipoDocumento.list(sort: "id")
@@ -86,7 +85,7 @@ class ReportesEstacionController extends Shield{
         return [estaciones: estaciones, estacionInstanceCount: estacionInstanceCount, tiposDocumentos: tiposDocumentos]
     }
 
-    def entidad () {
+    def entidad() {
 
         def mae = Entidad.findByCodigo("MAE");
         def arch = Entidad.findByCodigo("ARCH");
@@ -98,12 +97,12 @@ class ReportesEstacionController extends Shield{
         def otros = []
 
         tiposDocumentosMae.each {
-          otros += Documento.findAllByTipo(it)
+            otros += Documento.findAllByTipo(it)
         }
 
 //        print("-->" + otros)
 
-        return [tiposDocumentosMae: tiposDocumentosMae, tiposDocumentosArch: tiposDocumentosArch ]
+        return [tiposDocumentosMae: tiposDocumentosMae, tiposDocumentosArch: tiposDocumentosArch]
 
     }
 }

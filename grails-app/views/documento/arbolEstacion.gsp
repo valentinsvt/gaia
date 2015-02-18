@@ -39,6 +39,9 @@
 
     %{--<div>Icon made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed under <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>--}%
     %{--<div>Icon made by <a href="http://www.unocha.org" title="OCHA">OCHA</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed under <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>--}%
+    %{--<div>Icon made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed under <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>--}%
+    %{--<div>Icon made by <a href="http://www.google.com" title="Google">Google</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed under <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>--}%
+    %{--<div>Icon made by <a href="http://www.meanicons.com" title="Vectorgraphit">Vectorgraphit</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed under <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>--}%
 
     <div class="row" style="margin-bottom: 10px;">
         <div class="col-md-1">
@@ -140,6 +143,7 @@
                 label  : "Ver Detalles",
                 icon   : "fa fa-search",
                 action : function () {
+                    $("#doc").html('<div>Mostrando detlles del documento</div>');
                     $.ajax({
                         type    : "POST",
                         url     : "${createLink(controller:'documento', action:'verDetalles_ajax')}",
@@ -156,6 +160,16 @@
                                         label     : "Cerrar",
                                         className : "btn-primary",
                                         callback  : function () {
+                                            var pathFile = $node.data("file");
+                                            var path = "${resource()}/" + pathFile;
+                                            var myPDF = new PDFObject({
+                                                url           : path,
+                                                pdfOpenParams : {
+                                                    navpanes  : 1,
+                                                    statusbar : 0,
+                                                    view      : "FitW"
+                                                }
+                                            }).embed("doc");
                                         }
                                     }
                                 } //buttons
@@ -168,6 +182,7 @@
                 label  : "Ver observaciones",
                 icon   : "fa fa-comments-o",
                 action : function () {
+                    $("#doc").html('  <div>Mostrando detlles del documento</div>');
                     $.ajax({
                         type    : "POST",
                         url     : "${createLink(controller:'observacion', action:'showObservacionesDoc_ajax')}",
@@ -252,11 +267,15 @@
 
             $treeContainer.on("loaded.jstree", function () {
                 $("#loading").hide();
-                $("#tree").removeClass("hidden");
+                $treeContainer.removeClass("hidden");
                 $("#msgNoPDF").hide();
                 <g:if test="${params.selected}">
                 setTimeout(function () {
-                    $("#tree").jstree("deselect_all").jstree("select_node", "liDoc_${params.selected}");
+                    var idSelected = "liDoc_${params.selected}";
+                    $treeContainer.jstree("deselect_all").jstree("select_node", idSelected);
+                    $treeContainer.animate({
+                        scrollTop : parseInt($("#" + idSelected).offset().top)
+                    });
                 }, 500);
                 </g:if>
             }).on("select_node.jstree", function (node, selected, event) {
@@ -264,7 +283,15 @@
                 var $node = $("#" + nodeId);
                 var nodeType = $node.data("jstree").type;
                 if (nodeType == "doc") {
-                    $("#msgNoPDF").show();
+                    $("#doc").html('<div id="msgNoPDF">' +
+                                   '<p>No tiene configurado el plugin de lectura de PDF en este navegador.</p>' +
+                                   '<p>' +
+                                   'Puede' +
+                                   '<a class="text-info" target="_blank" href="http://get.adobe.com/es/reader/">' +
+                                   '<u>descargar Adobe Reader aquí</u>' +
+                                   '</a>' +
+                                   '</p>' +
+                                   '</div>');
                     var parts = nodeId.split("_");
                     var docId = parts[1];
                     var pathFile = $node.data("file");
@@ -306,40 +333,28 @@
                     items        : createContextMenu
                 },
                 state       : {
-                    key : "docsEstacion"
+                    key : "docsPorEstacion"
                 },
                 search      : {
                     fuzzy             : false,
                     show_only_matches : false,
                     case_sensitive    : false
-                    %{--ajax              : {--}%
-                    %{--url     : "${createLink(action:'arbolSearch_ajax')}",--}%
-                    %{--success : function (msg) {--}%
-                    %{--var json = $.parseJSON(msg);--}%
-                    %{--$.each(json, function (i, obj) {--}%
-                    %{--$('#tree').jstree("open_node", obj);--}%
-                    %{--});--}%
-                    %{--setTimeout(function () {--}%
-                    %{--searchRes = $(".jstree-search");--}%
-                    %{--var cantRes = searchRes.length;--}%
-                    %{--posSearchShow = 0;--}%
-                    %{--$("#divSearchRes").removeClass("hidden");--}%
-                    %{--$("#spanSearchRes").text("Resultado " + (posSearchShow + 1) + " de " + cantRes);--}%
-                    %{--scrollToSearchRes();--}%
-                    %{--}, 300);--}%
-
-                    %{--}--}%
-                    %{--}--}%
                 },
                 types       : {
                     estacion : {
                         icon : "${resource(dir:'images/tree', file:'fuel_16.png')}"
                     },
                     MAE      : {
-                        icon : "fa fa-building-o"
+                        icon : "${resource(dir:'images/tree', file:'leaves_16.png')}"
                     },
                     ARCH     : {
                         icon : "${resource(dir:'images/tree', file:'gas_16.png')}"
+                    },
+                    BMROS    : {
+                        icon : "${resource(dir:'images/tree', file:'extinguisher_16.png')}"
+                    },
+                    MNTRB    : {
+                        icon : "${resource(dir:'images/tree', file:'work_16.png')}"
                     },
                     tipoDoc  : {
                         icon : "fa fa-briefcase text-info"

@@ -1,20 +1,21 @@
 package gaia.documentos
 
 import gaia.estaciones.Estacion
+import gaia.seguridad.Shield
 
-class DocumentoController {
+class DocumentoController extends Shield {
 
     def subir() {
-        def estacion = Estacion.findByCodigoAndAplicacion(params.id,1)
+        def estacion = Estacion.findByCodigoAndAplicacion(params.id, 1)
         def tipos = TipoDocumento.findAllByTipo("N", [sort: "nombre"])
         def caducan = TipoDocumento.findAllByTipoAndCaduca("N", "S", [sort: "nombre"])
         caducan = caducan.collect { "'" + it.id + "'" }
-        [estacion: estacion, tipos: tipos, caducan: caducan,tipo:params.tipo]
+        [estacion: estacion, tipos: tipos, caducan: caducan, tipo: params.tipo]
     }
 
     def upload() {
         //println "upload "+params
-        def estacion = Estacion.findByCodigoAndAplicacion(params.estacion_codigo,1)
+        def estacion = Estacion.findByCodigoAndAplicacion(params.estacion_codigo, 1)
         def pathPart = "documentos/${estacion.codigo}/"
         def path = servletContext.getRealPath("/") + pathPart
         def numero = Documento.list([sort: "id", order: "desc", max: 1])
@@ -96,7 +97,7 @@ class DocumentoController {
     }
 
     private String makeTree(params) {
-        def estacion = Estacion.findByCodigoAndAplicacion(params.codigo,1)
+        def estacion = Estacion.findByCodigoAndAplicacion(params.codigo, 1)
         def res = ""
         res += "<ul>"
         res += "<li id='estacion' data-level='0' class='root jstree-open' data-jstree='{\"type\":\"estacion\"}'>"
@@ -131,7 +132,7 @@ class DocumentoController {
                     txt += "</ul>"
                     band = true
                 }
-                txt += "<li class='jstree-open' id='liEntidad_${tipo.entidad.id}' data-jstree='{\"type\":\"${tipo.entidad.codigo}\"}'>"
+                txt += "<li class='jstree-closed' id='liEntidad_${tipo.entidad.id}' data-jstree='{\"type\":\"${tipo.entidad.codigo}\"}'>"
                 txt += "<a href='#'><strong>"
                 txt += tipo.entidad.nombre
                 txt += "</strong></a>"
@@ -145,7 +146,7 @@ class DocumentoController {
                         txt += "</ul>"
                     }
                 }
-                txt += "<li class='jstree-open' id='liTipoDoc_${tipo.id}' data-jstree='{\"type\":\"tipoDoc\"}'>"
+                txt += "<li class='jstree-closed' id='liTipoDoc_${tipo.id}' data-jstree='{\"type\":\"tipoDoc\"}'>"
                 txt += "<a href='#'>"
                 txt += tipo.nombre
                 txt += "</a>"

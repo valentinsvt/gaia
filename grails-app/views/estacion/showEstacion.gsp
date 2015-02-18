@@ -214,6 +214,7 @@
                             <th>Descripción</th>
                             <th style="width: 100px">Registro</th>
                             <th style="width: 100px">Vence</th>
+                            <th style="width:60px;">Ver</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -233,7 +234,12 @@
                                     </td>
                                     <td style="width: 100px;text-align: center">${docu.fechaRegistro.format("dd-MM-yyyy")}</td>
                                     <td style="width: 100px;text-align: center">${docu.fin?.format("dd-MM-yyyy")}</td>
-
+                                    <td>
+                                        <g:link controller="documento" action="arbolEstacion" id="${docu.id}"
+                                                class="btn btn-primary btn-sm">
+                                            <i class="fa fa-search"></i>
+                                        </g:link>
+                                    </td>
                                 </tr>
                             </g:each>
                         </g:if>
