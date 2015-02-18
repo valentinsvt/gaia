@@ -3,7 +3,7 @@ package gaia.pdf
 import gaia.seguridad.Shield
 
 
-class PdfController extends Shield {
+class PdfController {
 
     PdfService pdfService
 

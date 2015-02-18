@@ -143,7 +143,7 @@
                 label  : "Ver Detalles",
                 icon   : "fa fa-search",
                 action : function () {
-                    $("#doc").html('<div>Mostrando detlles del documento</div>');
+                    $("#doc").html('<div>Mostrando detalles del documento</div>');
                     $.ajax({
                         type    : "POST",
                         url     : "${createLink(controller:'documento', action:'verDetalles_ajax')}",
@@ -182,7 +182,7 @@
                 label  : "Ver observaciones",
                 icon   : "fa fa-comments-o",
                 action : function () {
-                    $("#doc").html('  <div>Mostrando detlles del documento</div>');
+                    $("#doc").html('  <div>Mostrando observaciones del documento</div>');
                     $.ajax({
                         type    : "POST",
                         url     : "${createLink(controller:'observacion', action:'showObservacionesDoc_ajax')}",
@@ -199,6 +199,16 @@
                                         label     : "Cerrar",
                                         className : "btn-primary",
                                         callback  : function () {
+                                            var pathFile = $node.data("file");
+                                            var path = "${resource()}/" + pathFile;
+                                            var myPDF = new PDFObject({
+                                                url           : path,
+                                                pdfOpenParams : {
+                                                    navpanes  : 1,
+                                                    statusbar : 0,
+                                                    view      : "FitW"
+                                                }
+                                            }).embed("doc");
                                         }
                                     }
                                 } //buttons
