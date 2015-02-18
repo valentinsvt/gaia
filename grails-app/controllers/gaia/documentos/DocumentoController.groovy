@@ -156,6 +156,9 @@ class DocumentoController extends Shield {
             txt += "<li id='liDoc_${doc.id}' data-jstree='{\"type\":\"doc\"}' ${dataFile}>"
             txt += "<a href='#'>"
             txt += doc.referencia
+            if (doc.inicio) {
+                txt += " - <strong>${doc.inicio.format('dd-MM-yyyy')}</strong>"
+            }
             if (doc.fin) {
                 txt += " <span class='text-info'>Válido hasta: ${doc.fin?.format('dd-MM-yyyy')}"
                 if (doc.fin <= hoy) {
