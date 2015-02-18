@@ -6,7 +6,6 @@
 --%>
 
 <%@ page contentType="text/html;charset=UTF-8" %>
-<!DOCTYPE html>
 <html>
 <head>
     <meta name="layout" content="main"/>
@@ -18,6 +17,11 @@
 <elm:message tipo="${flash.tipo}" clase="${flash.clase}">${flash.message}</elm:message>
 
 <div class="btn-toolbar toolbar">
+    <div class="btn-group">
+        <a href="#" class="btn btn-default btnImprimir">
+            <i class="fa fa-print"></i> Imprimir
+        </a>
+    </div>
 <div class="btn-group pull-right col-md-3">
         <div class="input-group">
             <input type="text" class="form-control input-search" placeholder="Buscar" value="${params.search}">
@@ -44,6 +48,8 @@
     <tbody id="tb">
 
     <g:each in="${estaciones}" var="estacion">
+        <g:set var="documentos" value="${gaia.documentos.Documento.findAllByEstacion(estacion)}"/>
+        <g:if test="${documentos.size() > 0}">
         <tr>
             <td>
              <elm:textoBusqueda busca="${params.search}">
@@ -51,8 +57,8 @@
              </elm:textoBusqueda>
             </td>
             <td>
-                <g:set var="documentos" value="${gaia.documentos.Documento.findAllByEstacion(estacion)}"/>
-                <g:if test="${documentos.size() > 0}">
+
+
                    <ul>
                         <g:each in="${documentos}" var="documento">
 
@@ -63,16 +69,15 @@
                             </li>
                         </g:each>
                     </ul>
-                </g:if>
-                <g:else>
-                    <li style="text-align: center; ">
-                        No tiene documentos
-                    </li>
-                </g:else>
+                %{--<g:else>--}%
+                    %{--<li style="text-align: center; ">--}%
+                        %{--No tiene documentos--}%
+                    %{--</li>--}%
+                %{--</g:else>--}%
             </td>
             <td>
-                <g:set var="documentos" value="${gaia.documentos.Documento.findAllByEstacion(estacion)}"/>
-                <g:if test="${documentos.size() > 0}">
+                %{--<g:set var="documentos" value="${gaia.documentos.Documento.findAllByEstacion(estacion)}"/>--}%
+                %{--<g:if test="${documentos.size() > 0}">--}%
                     <ul>
                         <g:each in="${documentos}" var="documento">
 
@@ -83,16 +88,16 @@
                             </li>
                         </g:each>
                     </ul>
-                </g:if>
-                <g:else>
-                    <li style="text-align: center; ">
-                        No tiene # de referencia
-                    </li>
-                </g:else>
+                %{--</g:if>--}%
+                %{--<g:else>--}%
+                    %{--<li style="text-align: center; ">--}%
+                        %{--No tiene # de referencia--}%
+                    %{--</li>--}%
+                %{--</g:else>--}%
             </td>
             <td>
-                <g:set var="documentos" value="${gaia.documentos.Documento.findAllByEstacion(estacion)}"/>
-                <g:if test="${documentos.size() > 0}">
+                %{--<g:set var="documentos" value="${gaia.documentos.Documento.findAllByEstacion(estacion)}"/>--}%
+                %{--<g:if test="${documentos.size() > 0}">--}%
                     <ul>
                         <g:each in="${documentos}" var="documento">
 
@@ -101,16 +106,16 @@
                             </li>
                         </g:each>
                     </ul>
-                </g:if>
-                <g:else>
-                    <li style="text-align: center; ">
-                        No tiene fecha de emisión
-                    </li>
-                </g:else>
+                %{--</g:if>--}%
+                %{--<g:else>--}%
+                    %{--<li style="text-align: center; ">--}%
+                        %{--No tiene fecha de emisión--}%
+                    %{--</li>--}%
+                %{--</g:else>--}%
             </td>
             <td>
-                <g:set var="documentos" value="${gaia.documentos.Documento.findAllByEstacion(estacion)}"/>
-                <g:if test="${documentos.size() > 0}">
+                %{--<g:set var="documentos" value="${gaia.documentos.Documento.findAllByEstacion(estacion)}"/>--}%
+                %{--<g:if test="${documentos.size() > 0}">--}%
                     <ul>
                         <g:each in="${documentos}" var="documento">
                             <g:if test="${documento?.fin}">
@@ -132,14 +137,15 @@
                             </g:else>
                         </g:each>
                     </ul>
-                </g:if>
-                <g:else>
-                    <li style="text-align: center; ">
+                %{--</g:if>--}%
+                %{--<g:else>--}%
+                    %{--<li style="text-align: center; ">--}%
 
-                    </li>
-                </g:else>
+                    %{--</li>--}%
+                %{--</g:else>--}%
             </td>
         </tr>
+        </g:if>
     </g:each>
 
     </tbody>
@@ -147,6 +153,14 @@
 
 <elm:pagination total="${estacionInstanceCount}" params="${params}"/>
 
+<script type="text/javascript">
+
+    $(".btnImprimir").click(function (){
+        var url = "${createLink(controller: 'reportesEstacion',action: 'reporteVencidos')}";
+        location.href = "${g.createLink(controller:'pdf',action:'pdfLink')}?url=" + url
+    });
+
+</script>
 
 </body>
 </html>

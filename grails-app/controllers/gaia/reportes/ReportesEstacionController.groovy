@@ -54,7 +54,7 @@ class ReportesEstacionController extends Shield{
 
     def supervisores () {
 
-        def estaciones = Estacion.list()
+        def estaciones =  Estacion.findAll("from Estacion where aplicacion = 1 and estado='A' and tipo=1")
         def estacionInstanceCount = getList(params, true).size()
 
         return [estaciones: estaciones, estacionInstanceCount: estacionInstanceCount]
@@ -62,7 +62,15 @@ class ReportesEstacionController extends Shield{
 
     def vencidos () {
 
-        def estaciones = Estacion.list()
+        def estaciones =  Estacion.findAll("from Estacion where aplicacion = 1 and estado='A' and tipo=1")
+        def estacionInstanceCount = getList(params, true).size()
+
+        return [estaciones: estaciones, estacionInstanceCount: estacionInstanceCount]
+    }
+
+    def reporteVencidos () {
+
+        def estaciones =  Estacion.findAll("from Estacion where aplicacion = 1 and estado='A' and tipo=1")
         def estacionInstanceCount = getList(params, true).size()
 
         return [estaciones: estaciones, estacionInstanceCount: estacionInstanceCount]
@@ -70,7 +78,7 @@ class ReportesEstacionController extends Shield{
 
     def documentos () {
 
-        def estaciones = Estacion.list()
+        def estaciones =  Estacion.findAll("from Estacion where aplicacion = 1 and estado='A' and tipo=1")
         def estacionInstanceCount = getList(params, true).size()
 
         def tiposDocumentos = TipoDocumento.list(sort: "id")
@@ -93,12 +101,7 @@ class ReportesEstacionController extends Shield{
           otros += Documento.findAllByTipo(it)
         }
 
-        print("-->" + otros)
-
-
-
-
-
+//        print("-->" + otros)
 
         return [tiposDocumentosMae: tiposDocumentosMae, tiposDocumentosArch: tiposDocumentosArch ]
 
