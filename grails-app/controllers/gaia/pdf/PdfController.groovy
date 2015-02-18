@@ -1,8 +1,5 @@
 package gaia.pdf
 
-import gaia.seguridad.Shield
-
-
 class PdfController {
 
     PdfService pdfService

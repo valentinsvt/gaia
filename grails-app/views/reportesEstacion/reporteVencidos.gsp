@@ -2,13 +2,103 @@
 
 <html>
     <head>
+        <title>Documentos por vencer</title>
 
-        <title>Ingreso a bodega</title>
+        <style type="text/css">
+        @page {
+            size   : 29.7cm 21cm ;  /*width height */
+            margin : 2cm;
+        }
+
+        .hoja {
+            width     : 24.5cm;
+            font-size : 12px;
+        }
+
+        .titulo, .proyecto, .componente {
+            width : 16cm;
+        }
+
+        .hoja {
+            /*background  : #e6e6fa;*/
+            height      : 24.7cm; /*29.7-(1.5*2)*/
+            font-family : arial;
+            font-size   : 11pt;
+        }
+
+        .titulo {
+            height        : .5cm;
+            font-size     : 16pt;
+            font-weight   : bold;
+            text-align    : center;
+            margin-bottom : .5cm;
+        }
+
+        .row {
+            width      : 100%;
+            height     : 14px;
+            margin-top : 10px;
+            font-size  : 12px;
+        }
+
+        .label {
+            width       : 150px;
+            font-weight : bold;
+        }
+
+        td {
+            padding : 3px;
+            border  : 1px solid #fff
+        }
+
+        table {
+            font-size       : 12px;
+            border-collapse : collapse;
+        }
+
+        th {
+            background-color : #3A5DAA;
+            color            : #ffffff;
+            font-weight      : bold;
+            font-size        : 12px;
+            border           : 1px solid #fff;
+            padding          : 3px;
+        }
+
+        div.header {
+            display    : block;
+            text-align : center;
+            position   : running(header);
+        }
+
+        div.footer {
+            display    : block;
+            text-align : center;
+            position   : running(footer);
+        }
+
+        div.content {
+            page-break-after : always;
+        }
+
+        @page {
+            @top-center {
+                content : element(header);
+            }
+        }
+
+        @page {
+            @bottom-center {
+                content : element(footer);
+            }
+        }
+        </style>
     </head>
+
     <body>
-        <div class="header">
-            Header
-        </div>
+        %{--<div class="header">--}%
+        %{--Header--}%
+        %{--</div>--}%
 
         <div class="hoja">
             <table border="1" class="table table-condensed table-bordered table-striped table-hover tablaSuperCon" width="100%">
@@ -27,7 +117,7 @@
                         <g:if test="${documentos.size() > 0}">
                             <tr>
                                 <td>
-                                        ${estacion.nombre}
+                                    ${estacion.nombre}
                                 </td>
                                 <td>
                                     <ul>
