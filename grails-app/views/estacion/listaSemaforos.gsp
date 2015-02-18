@@ -183,14 +183,6 @@
                         var id = $element.data("id");
                         verEstacion(id);
                     }
-                },
-                mapa: {
-                    label: "Ver en el mapa",
-                    icon: "fa fa-globe",
-                    action: function ($element) {
-                        var id = $element.data("id");
-                        verEstacionMapa(id);
-                    }
                 }
             },
             onShow: function ($element) {
