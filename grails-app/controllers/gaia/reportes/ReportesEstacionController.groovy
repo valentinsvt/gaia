@@ -11,7 +11,7 @@ import gaia.seguridad.Shield
 /**
  * Controlador de las pantallas de reportes por estación
  */
-class ReportesEstacionController extends Shield {
+class ReportesEstacionController{
     def diasLaborablesService
 
     def index() {}
@@ -69,10 +69,11 @@ class ReportesEstacionController extends Shield {
     }
 
     def reporteVencidos() {
-//        println "reporte vencidos: " + params
+       println "reporte vencidos: " + params
 //        def estaciones = Estacion.findAll("from Estacion where aplicacion = 1 and estado='A' and tipo=1")
 //        println "estaciones: " + estaciones
 //        return [estaciones: estaciones]
+        return[asd:"asd"]
     }
 
     def documentos() {

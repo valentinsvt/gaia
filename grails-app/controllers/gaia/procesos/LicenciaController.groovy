@@ -1,5 +1,6 @@
 package gaia.procesos
 
+import gaia.alertas.Alerta
 import gaia.documentos.Dashboard
 import gaia.documentos.Dependencia
 import gaia.documentos.Detalle
@@ -12,6 +13,7 @@ import gaia.estaciones.Estacion
 class LicenciaController {
 
     def diasLaborablesService
+    def alertasService
 
     def registrarLicencia(){
         def estacion = Estacion.findByCodigoAndAplicacion(params.id,1)
@@ -282,7 +284,7 @@ class LicenciaController {
                 documento.tipo = tipoDoc
                 documento.inicio=now
                 if(plazo>0){
-                    /*todo Generar alerta*/
+
                     def fechaFin = diasLaborablesService.diasLaborablesDesde(now,plazo)
                     if(fechaFin[0])
                         documento.fin = fechaFin[1]
@@ -291,6 +293,7 @@ class LicenciaController {
                     println "plazo >0 "+documento?.inicio?.format("dd-MM-yyyy")+"  "+documento?.fin?.format("dd-MM-yyyy")
                 }
                 if (documento.save()) {
+                    alertasService.generarAlertaDocumentoVencido(documento)
                     if(!detalle.documento)
                         detalle.documento=documento
                     detalle.save(flush: true)
@@ -318,14 +321,22 @@ class LicenciaController {
             params.remove("tipo")
             detalle.documento.properties =params
             if(params.plazo){
-                /*todo Generar alerta*/
                 plazo = params.plazo.toInteger()
                 detalle.plazo=plazo
                 detalle.documento.fin =now.plus(plazo)
+                def alerta = Alerta.findByDocumento(detalle.documento)
+                if(alerta){
+                    if(!alerta.fechaRecibido) {
+                        alerta.fechaRecibido = new Date()
+                        alerta.save()
+                    }
+                }
+                alertasService.generarAlertaDocumentoVencido(detalle.documento)
                 //println "plazo >0 "+documento?.inicio?.format("dd-MM-yyyy")+"  "+documento?.fin?.format("dd-MM-yyyy")
             }
             detalle.dependencia = Dependencia.get(params.dependencia)
             detalle.documento.save()
+
             detalle.save(flush: true)
             flash.message="Datos guardados, por favor continue con el siguiente paso"
             redirect(action: redirectStr,controller: 'licencia',id: proceso.id)

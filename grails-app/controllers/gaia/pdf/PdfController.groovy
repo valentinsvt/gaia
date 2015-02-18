@@ -19,8 +19,9 @@ class PdfController extends Shield {
                 def content = g.include(controller: params.pdfController, action: params.pdfAction, id: params.pdfId)
                 b = pdfService.buildPdfFromString(content.readAsString(), baseUri)
             } else {
-                println "sin plugin --> params url " + params.url
+
                 def url = baseUri + params.url
+                println "sin plugin --> params url " + url
                 b = pdfService.buildPdf(url)
             }
             response.setContentType("application/pdf")
