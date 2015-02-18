@@ -69,11 +69,11 @@ class ReportesEstacionController {
     }
 
     def reporteVencidos() {
-        println "reporte vencidos: " + params
-//        def estaciones = Estacion.findAll("from Estacion where aplicacion = 1 and estado='A' and tipo=1")
+        println "reporte vencidos:!! " + params
+       def estaciones = Estacion.findAll("from Estacion where aplicacion = 1 and estado='A' and tipo=1")
 //        println "estaciones: " + estaciones
 //        return [estaciones: estaciones]
-        return [asd: "asd"]
+        return [estaciones:estaciones]
     }
 
     def documentos() {

@@ -1,12 +1,10 @@
 <%@ page import="gaia.documentos.Documento" %>
+
 <html>
     <head>
-        <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
         <title>Ingreso a bodega</title>
-
-
     </head>
-
     <body>
         <div class="header">
             Header
@@ -25,17 +23,17 @@
                 </thead>
                 <tbody id="tb">
                     <g:each in="${estaciones}" var="estacion">
-                        <g:set var="documentos" value="${Documento.findAllByEstacion(estacion)}"/>
+                        <g:set var="documentos" value="${gaia.documentos.Documento.findAllByEstacion(estacion)}"/>
                         <g:if test="${documentos.size() > 0}">
                             <tr>
                                 <td>
-                                    <g:fieldValue bean="${estacion}" field="nombre"/>
+                                        ${estacion.nombre}
                                 </td>
                                 <td>
                                     <ul>
                                         <g:each in="${documentos}" var="documento">
                                             <li>
-                                                <g:fieldValue bean="${documento.tipo}" field="nombre"/>
+                                                ${documento.tipo.nombre}
                                             </li>
                                         </g:each>
                                     </ul>
