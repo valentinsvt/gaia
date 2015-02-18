@@ -28,7 +28,7 @@
         </elm:fieldRapido>
         
         <elm:fieldRapido claseLabel="col-sm-2" label="Entidad" claseField="col-sm-6">
-            <g:select id="entidad" name="entidad.id" from="${gaia.documentos.Entidad.list()}" optionKey="id" value="${tipoDocumentoInstance?.entidad?.id}" class="many-to-one form-control " noSelection="['null': '']"/>
+            <g:select id="entidad" name="entidad.id" from="${gaia.documentos.Entidad.list()}" optionKey="id" optionValue="nombre" value="${tipoDocumentoInstance?.entidad?.id}" class="many-to-one form-control " noSelection="['null': '']"/>
         </elm:fieldRapido>
         
     </g:form>

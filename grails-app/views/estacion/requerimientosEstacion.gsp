@@ -5,6 +5,8 @@
     <title>Documentación requeridas</title>
     <link href="${g.resource(dir: 'css/custom/', file: 'dashboard.css')}" rel="stylesheet" type="text/css">
     <imp:js src="${resource(dir: 'js/plugins/jquery-highlight',file: 'jquery-highlight1.js')}"></imp:js>
+    <link href="${g.resource(dir: 'css/custom/', file: 'pdfViewer.css')}" rel="stylesheet" type="text/css">
+    <imp:js src="${resource(dir: 'js/plugins/pdfObject', file: 'pdfobject.min.js')}"/>
     <style>
     .td-semaforo{
         text-align: center;
@@ -22,6 +24,32 @@
 </head>
 
 <body>
+<div class="pdf-viewer">
+    <div class="pdf-content" >
+        <div class="pdf-container" id="doc"></div>
+        <div class="pdf-handler" >
+            <i class="fa fa-arrow-right"></i>
+        </div>
+        <div class="pdf-header" id="data">
+            N. Referencia: <span id="referencia-pdf" class="data"></span>
+            Código: <span id="codigo" class="data"></span>
+            Tipo: <span id="tipo" class="data"></span>
+
+
+
+        </div>
+        <div id="msgNoPDF">
+            <p>No tiene configurado el plugin de lectura de PDF en este navegador.</p>
+
+            <p>
+                Puede
+                <a class="text-info" target="_blank" style="color: white" href="http://get.adobe.com/es/reader/">
+                    <u>descargar Adobe Reader aquí</u>
+                </a>
+            </p>
+        </div>
+    </div>
+</div>
 <elm:container tipo="horizontal" titulo="Documentación requerida para la estación: ${estacion.nombre}">
     <div class="btn-toolbar toolbar" style="margin-top: 10px;margin-bottom: 0;margin-left: -20px">
         <div class="btn-group">
@@ -54,9 +82,13 @@
                     <td style="text-align: center">
                         <g:if test="${doc}">
                             ${doc.referencia}
-                            <g:link controller="documento" action="ver" id="${doc.id}" target="_blank" class="btn btn-info btn-sm">
+                            <a href="#" data-file="${doc.path}"
+                               data-ref="${doc.referencia}"
+                               data-codigo="${doc.codigo}"
+                               data-tipo="${doc.tipo.nombre}"
+                               target="" class="btn btn-info ver-doc" >
                                 <i class="fa fa-search"></i> Ver
-                            </g:link>
+                            </a>
                         </g:if>
                         <g:else>
                             <g:link controller="documento" action="subir" params="[tipo:r.tipo.id,id:estacion.codigo]" target="_blank" class="btn btn-info btn-sm">
@@ -75,6 +107,25 @@
     </table>
 </elm:container>
 <script type="text/javascript">
+    function showPdf(div){
+        $("#msgNoPDF").show();
+        $("#doc").html("")
+        var pathFile = div.data("file")
+        $("#referencia-pdf").html(div.data("ref"))
+        $("#codigo").html(div.data("codigo"))
+        $("#tipo").html(div.data("tipo"))
+        var path = "${resource()}/" + pathFile;
+        var myPDF = new PDFObject({
+            url           : path,
+            pdfOpenParams : {
+                navpanes: 1,
+                statusbar: 0,
+                view: "FitW"
+            }
+        }).embed("doc");
+        $(".pdf-viewer").show("slide",{direction:'right'})
+        $("#data").show()
+    }
     $(".borrar").click(function(){
         var id = $(this).attr("id")
         bootbox.confirm({
@@ -97,6 +148,15 @@
             }
         })
     })
+    $(".ver-doc").click(function(){
+        showPdf($(this))
+        return false
+    })
+    $(".pdf-handler").click(function(){
+        $(".pdf-viewer").hide("slide",{direction:'right'})
+        $("#data").hide()
+    })
+
 </script>
 </body>
 </html>

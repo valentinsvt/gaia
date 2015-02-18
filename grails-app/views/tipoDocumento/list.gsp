@@ -58,7 +58,7 @@
                             
                             <td><elm:textoBusqueda busca="${params.search}"><g:fieldValue bean="${tipoDocumentoInstance}" field="codigo"/></elm:textoBusqueda></td>
                             
-                            <td><elm:textoBusqueda busca="${params.search}"><g:fieldValue bean="${tipoDocumentoInstance}" field="entidad"/></elm:textoBusqueda></td>
+                            <td>${tipoDocumentoInstance.entidad.nombre}</td>
                             
                         </tr>
                     </g:each>
