@@ -328,7 +328,7 @@
                 $("#spanSearchRes").text("Resultado " + (posSearchShow + 1) + " de " + cantRes);
                 scrollToSearchRes();
             }).jstree({
-                plugins     : ["types", "state", "contextmenu", "search"],
+                plugins     : ["types", /*"state", */"contextmenu", "search"],
                 core        : {
                     multiple       : false,
                     check_callback : true,
@@ -342,9 +342,9 @@
                     show_at_node : false,
                     items        : createContextMenu
                 },
-                state       : {
-                    key : "docsPorEstacion"
-                },
+//                state       : {
+//                    key : "docsPorEstacion"
+//                },
                 search      : {
                     fuzzy             : false,
                     show_only_matches : false,
