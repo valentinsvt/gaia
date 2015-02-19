@@ -104,7 +104,7 @@
                     <div class="row">
                         <div class="col-md-1">
                             <label>
-                                Inicio
+                                Emisión
                             </label>
                         </div>
                         <div class="col-md-3">

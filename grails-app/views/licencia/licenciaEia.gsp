@@ -81,7 +81,7 @@
                     </div>
                 </g:link>
                 <div class="header-flow-item active">
-                    <span class="badge active">2</span>
+                    <span class="badge active">3</span>
                     Estudio de impacto ambiental
                     <span class="arrow"></span>
                 </div>

@@ -87,7 +87,7 @@
             </div>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-1">
             <div class="btn-group">
                 <a href="#" class="btn btn-xs btn-default" id="btnCollapseAll" title="Cerrar todos los nodos">
                     <i class="fa fa-minus-square-o"></i>

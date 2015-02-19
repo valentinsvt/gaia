@@ -195,7 +195,7 @@
                                         Oficio
                                     </label>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-4" style="">
                                     <g:if test="${detalleApb?.documento}">
                                         <div id="botones-apb_${detalleApb?.id}">
                                             ${detalleApb.documento.codigo}

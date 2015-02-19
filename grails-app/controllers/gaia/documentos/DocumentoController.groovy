@@ -133,9 +133,9 @@ class DocumentoController extends Shield {
                     band = true
                 }
                 txt += "<li class='jstree-closed' id='liEntidad_${tipo.entidad.id}' data-jstree='{\"type\":\"${tipo.entidad.codigo}\"}'>"
-                txt += "<a href='#'><strong>"
+                txt += "<a href='#' ><span style='color:#006EB7;font-weight: bold'>"
                 txt += tipo.entidad.nombre
-                txt += "</strong></a>"
+                txt += "</span></a>"
                 txt += "<ul>"
             }
             if (tipo.id != tipoPrevId) {
@@ -160,7 +160,7 @@ class DocumentoController extends Shield {
                 txt += " - <strong>${doc.inicio.format('dd-MM-yyyy')}</strong>"
             }
             if (doc.fin) {
-                txt += " <span class='text-info'>Válido hasta: ${doc.fin?.format('dd-MM-yyyy')}"
+                txt += " <span class='text-info'>Vence: ${doc.fin?.format('dd-MM-yyyy')}"
                 if (doc.fin <= hoy) {
                     txt += " <span class='text-danger'>" +
                             "<strong>" +

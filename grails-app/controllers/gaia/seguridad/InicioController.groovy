@@ -12,8 +12,8 @@ class InicioController extends Shield {
         if(session.tipo=="cliente") {
             redirect(controller: "estacion", action: "showEstacion")
         }else{
-            def alertas = Alerta.findAllByPersona(session.usuario).size()
-            alertas+= Alerta.findAllByPersonaIsNullAndEstacionIsNull().size()
+            def alertas = Alerta.findAllByPersonaAndFechaRecibidoIsNull(session.usuario).size()
+            //alertas+= Alerta.findAllByPersonaIsNullAndEstacionIsNull().size()
             def now = new Date()
             def nextMonth = now.plus(30)
             def documentos = Documento.findAllByFinBetween(now,nextMonth)

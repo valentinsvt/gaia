@@ -82,7 +82,7 @@
                 </g:link>
                 <g:link action="licenciaEia" id="${proceso.id}" style="text-decoration: none">
                     <div class="header-flow-item before">
-                        <span class="badge before">2</span>
+                        <span class="badge before">3</span>
                         Estudio de impacto ambiental
                         <span class="arrow"></span>
                     </div>
