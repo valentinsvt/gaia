@@ -82,7 +82,7 @@ class Alerta {
      * Define las restricciones de cada uno de los campos
      */
     static constraints = {
-        from(blank: true)
+        from(blank: true,nullable: true)
         persona(blank: true)
         estacion(blank: true)
         fechaEnvio(blank: false)

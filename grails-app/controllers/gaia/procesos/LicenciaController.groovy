@@ -319,11 +319,16 @@ class LicenciaController {
             println "no file"
             params.remove("id")
             params.remove("tipo")
+
             detalle.documento.properties =params
             if(params.plazo){
                 plazo = params.plazo.toInteger()
                 detalle.plazo=plazo
-                detalle.documento.fin =now.plus(plazo)
+                def fechaFin = diasLaborablesService.diasLaborablesDesde(now,plazo)
+                if(fechaFin[0])
+                    detalle.documento.fin = fechaFin[1]
+                else
+                    detalle.documento.fin =now.plus(plazo)
                 def alerta = Alerta.findByDocumento(detalle.documento)
                 if(alerta){
                     if(!alerta.fechaRecibido) {
@@ -331,11 +336,14 @@ class LicenciaController {
                         alerta.save()
                     }
                 }
+                detalle.documento.save()
                 alertasService.generarAlertaDocumentoVencido(detalle.documento)
-                //println "plazo >0 "+documento?.inicio?.format("dd-MM-yyyy")+"  "+documento?.fin?.format("dd-MM-yyyy")
+                println "plazo >0 "+detalle.documento?.inicio?.format("dd-MM-yyyy")+"  "+detalle.documento?.fin?.format("dd-MM-yyyy")
+            }else{
+                detalle.documento.save()
             }
             detalle.dependencia = Dependencia.get(params.dependencia)
-            detalle.documento.save()
+
 
             detalle.save(flush: true)
             flash.message="Datos guardados, por favor continue con el siguiente paso"

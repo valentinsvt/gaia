@@ -309,6 +309,14 @@ class ElementosTagLib {
         if (attrs.id) {
             id = attrs.id
         }
+        def idInput = id + "_input"
+        def idHiddenDay = id + "_day"
+        def idHiddenMonth = id + "_month"
+        def idHiddenYear = id + "_year"
+
+        def idHiddenHour = id + "_hour"
+        def idHiddenMin = id + "_minute"
+        
         def readonly = attrs.readonly ?: true
         def value = attrs.value
 
@@ -385,12 +393,12 @@ class ElementosTagLib {
         def textfield = "<input type='text' name='${nameInput}' id='${id}' " + (readonly ? "readonly=''" : "") + " value='${value}'" +
                 " class='${clase}' data-date-format='${formatJS}'/>"
 
-        def hiddenDay = "<input type='hidden' name='${nameHiddenDay}' id='${nameHiddenDay}' value='${valueDay}'/>"
-        def hiddenMonth = "<input type='hidden' name='${nameHiddenMonth}' id='${nameHiddenMonth}' value='${valueMonth}'/>"
-        def hiddenYear = "<input type='hidden' name='${nameHiddenYear}' id='${nameHiddenYear}' value='${valueYear}'/>"
+        def hiddenDay = "<input type='hidden' name='${nameHiddenDay}' id='${idHiddenDay}' value='${valueDay}'/>"
+        def hiddenMonth = "<input type='hidden' name='${nameHiddenMonth}' id='${idHiddenMonth}' value='${valueMonth}'/>"
+        def hiddenYear = "<input type='hidden' name='${nameHiddenYear}' id='${idHiddenYear}' value='${valueYear}'/>"
 
-        def hiddenHour = "<input type='hidden' name='${nameHiddenHour}' id='${nameHiddenHour}' value='${valueHour}'/>"
-        def hiddenMin = "<input type='hidden' name='${nameHiddenMin}' id='${nameHiddenMin}' value='${valueMin}'/>"
+        def hiddenHour = "<input type='hidden' name='${nameHiddenHour}' id='${idHiddenHour}' value='${valueHour}'/>"
+        def hiddenMin = "<input type='hidden' name='${nameHiddenMin}' id='${idHiddenMin}' value='${valueMin}'/>"
 
         def hidden = "<input type='hidden'  class='${clase}' name='${name}' id='${name}' value='date.struct'/>"
 
@@ -445,12 +453,12 @@ class ElementosTagLib {
 //        js += 'console.log(e.date.date(),e.date.month(),e.date.year(), e.date.hour(), e.date.minute());'
         js += "var fecha = e.date;" + br
         js += "if(fecha) {" + br
-        js += '$("#' + nameHiddenDay + '").val(fecha.date());' + br
-        js += '$("#' + nameHiddenMonth + '").val(fecha.month() + 1);' + br
-        js += '$("#' + nameHiddenYear + '").val(fecha.year());' + br
+        js += '$("#' + idHiddenDay + '").val(fecha.date());' + br
+        js += '$("#' + idHiddenMonth + '").val(fecha.month() + 1);' + br
+        js += '$("#' + idHiddenYear + '").val(fecha.year());' + br
         if (showTime) {
-            js += '$("#' + nameHiddenHour + '").val(fecha.hour());' + br
-            js += '$("#' + nameHiddenMin + '").val(fecha.minute());' + br
+            js += '$("#' + idHiddenHour + '").val(fecha.hour());' + br
+            js += '$("#' + idHiddenMin + '").val(fecha.minute());' + br
         }
         js += '$(e.currentTarget).parents(".grupo").removeClass("has-error").find("label.help-block").hide();' + br
         js += "}" + br
