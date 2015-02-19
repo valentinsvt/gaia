@@ -116,72 +116,72 @@ class DocumentoController extends Shield {
 
         def docs = Documento.findAllByEstacion(estacion, ([sort: "tipo"]))
 
-        def tipoPrevId = null
-        def entidadPrevId = null
-
-        docs.eachWithIndex { doc, i ->
-            def band = false
-            def tipo = doc.tipo
-            if (tipo.entidadId != entidadPrevId) {
-                entidadPrevId = tipo.entidadId
-                if (i > 0) {
-                    txt += "</li>"
-                    txt += "</ul>"
-
-                    txt += "</li>"
-                    txt += "</ul>"
-                    band = true
-                }
-                txt += "<li class='jstree-closed' id='liEntidad_${tipo.entidad.id}' data-jstree='{\"type\":\"${tipo.entidad.codigo}\"}'>"
-                txt += "<a href='#' ><span style='color:#006EB7;font-weight: bold'>"
-                txt += tipo.entidad.nombre
-                txt += "</span></a>"
-                txt += "<ul>"
+        def docs2 = [:]
+        docs.each { d->
+            if(!docs2[d.tipo.entidadId]) {
+                docs2[d.tipo.entidadId] = [
+                        entidad: d.tipo.entidad,
+                        tiposDoc : [:]
+                ]
             }
-            if (tipo.id != tipoPrevId) {
-                tipoPrevId = tipo.id
-                if (i > 0) {
-                    if (!band) {
-                        txt += "</li>"
-                        txt += "</ul>"
-                    }
-                }
-                txt += "<li class='jstree-closed' id='liTipoDoc_${tipo.id}' data-jstree='{\"type\":\"tipoDoc\"}'>"
-                txt += "<a href='#'>"
-                txt += tipo.nombre
-                txt += "</a>"
-                txt += "<ul>"
+            if(!docs2[d.tipo.entidadId]["tiposDoc"][d.tipoId]) {
+                docs2[d.tipo.entidadId]["tiposDoc"][d.tipoId] = [
+                        tipo: d.tipo,
+                        documentos:[]
+                ]
             }
-            def dataFile = "data-file='${doc.path}'"
-            txt += "<li id='liDoc_${doc.id}' data-jstree='{\"type\":\"doc\"}' ${dataFile}>"
-            txt += "<a href='#'>"
-            txt += doc.referencia
-            if (doc.inicio) {
-                txt += " - <strong>${doc.inicio.format('dd-MM-yyyy')}</strong>"
-            }
-            if (doc.fin) {
-                txt += " <span class='text-info'>Vence: ${doc.fin?.format('dd-MM-yyyy')}"
-                if (doc.fin <= hoy) {
-                    txt += " <span class='text-danger'>" +
-                            "<strong>" +
-                            "<i class='fa fa-exclamation-triangle'></i> CADUCADO" +
-                            "</strong>" +
-                            "</span>"
-                } else {
-                    def dias = doc.fin - hoy
-                    if (dias <= 30) {
-                        txt += " <span class='text-warning'>" +
-                                "<strong>" +
-                                "<i class='fa fa-exclamation-circle'></i> POR CADUCAR (${dias} días)" +
-                                "</strong>" +
-                                "</span>"
-                    }
-                }
-            }
-            txt += "</a>"
-            txt += "</li>"
+            docs2[d.tipo.entidadId]["tiposDoc"][d.tipoId]["documentos"] += d
         }
 
+        docs2.each { k, doc2 ->
+            def entidad = doc2.entidad
+            txt += "<li class='jstree-closed' id='liEntidad_${entidad.id}' data-jstree='{\"type\":\"${entidad.codigo}\"}'>"
+            txt += "<a href='#' ><span style='color:#006EB7;font-weight: bold'>"
+            txt += entidad.nombre
+            txt += "</span></a>"
+            txt += "<ul>"
+            doc2.tiposDoc.each { j, td ->
+                txt += "<li class='jstree-closed' id='liTipoDoc_${td.tipo.id}' data-jstree='{\"type\":\"tipoDoc\"}'>"
+                txt += "<a href='#'>"
+                txt += td.tipo.nombre
+                txt += "</a>"
+                txt += "<ul>"
+                td.documentos.each {doc ->
+                    def dataFile = "data-file='${doc.path}'"
+                    txt += "<li id='liDoc_${doc.id}' data-jstree='{\"type\":\"doc\"}' ${dataFile}>"
+                    txt += "<a href='#'>"
+                    txt += doc.referencia
+                    if (doc.inicio) {
+                        txt += " - <strong>${doc.inicio.format('dd-MM-yyyy')}</strong>"
+                    }
+                    if (doc.fin) {
+                        txt += " <span class='text-info'>Vence: ${doc.fin?.format('dd-MM-yyyy')}</span>"
+                        if (doc.fin <= hoy) {
+                            txt += " <span class='text-danger'>" +
+                                    "<strong>" +
+                                    "<i class='fa fa-exclamation-triangle'></i> CADUCADO" +
+                                    "</strong>" +
+                                    "</span>"
+                        } else {
+                            def dias = doc.fin - hoy
+                            if (dias <= 30) {
+                                txt += " <span class='text-warning'>" +
+                                        "<strong>" +
+                                        "<i class='fa fa-exclamation-circle'></i> POR CADUCAR (${dias} día${dias == 1 ? '' : 's'})" +
+                                        "</strong>" +
+                                        "</span>"
+                            }
+                        }
+                    }
+                    txt += "</a>"
+                    txt += "</li>"
+                }
+                txt += "</ul>"
+                txt += "</li>"
+            }
+            txt += "</ul>"
+            txt += "</li>"
+        }
         return txt
     }
 

@@ -157,6 +157,8 @@
         $("#data").hide()
     })
 
+    $(".pdf-viewer").resizable();
+
 </script>
 </body>
 </html>
