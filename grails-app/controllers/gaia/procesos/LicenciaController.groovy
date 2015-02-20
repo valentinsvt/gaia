@@ -17,7 +17,7 @@ class LicenciaController {
 
     def registrarLicencia(){
         def estacion = Estacion.findByCodigoAndAplicacion(params.id,1)
-        def lic = estacion.getColorLicencia()
+        def lic = estacion.getColorLicenciaSinEstado()
         def warning = false
         def proceso = null
         def tipoLicencia = TipoDocumento.findByCodigo('TP01')
@@ -138,6 +138,7 @@ class LicenciaController {
                 documento.estacion=estacion
                 documento.codigo = codigo
                 documento.tipo = tipoCert
+                documento.estado="N"
                 if (documento.save()) {
                     detalle.dependencia = Dependencia.get(params.dependencia)
                     if(!detalle.documento)
@@ -283,6 +284,7 @@ class LicenciaController {
                 documento.codigo = codigo
                 documento.tipo = tipoDoc
                 documento.inicio=now
+                documento.estado="N"
                 if(plazo>0){
 
                     def fechaFin = diasLaborablesService.diasLaborablesDesde(now,plazo)
@@ -465,6 +467,7 @@ class LicenciaController {
                 documento.codigo = codigo
                 documento.tipo = tipo
                 documento.inicio=now
+                documento.estado="N"
                 if (documento.save()) {
                     if(!detalle.documento)
                         detalle.documento=documento

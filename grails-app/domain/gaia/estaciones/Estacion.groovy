@@ -1,5 +1,6 @@
 package gaia.estaciones
 
+import gaia.documentos.Dashboard
 import gaia.documentos.Documento
 import gaia.documentos.TipoDocumento
 import gaia.documentos.Ubicacion
@@ -91,7 +92,8 @@ class Estacion {
     }
 
     def getColorLicencia(){
-        def lic = Documento.findAllByTipoAndEstacion(TipoDocumento.findByCodigo("TP01"),this,[sort: "fechaRegistro",order: "asc"])
+        //def lic = Documento.findAllByTipoAndEstacion(TipoDocumento.findByCodigo("TP01"),this,[sort: "fechaRegistro",order: "asc"])
+        def lic = Documento.findAll("from Documento where tipo=${TipoDocumento.findByCodigo("TP01").id} and estacion='${this.codigo}' and estado='A' order by fechaRegistro asc")
        // println "lics "+lic
         if(lic.size()>0) {
             lic=lic.pop()
@@ -108,8 +110,28 @@ class Estacion {
             return ["svt-bg-danger",null]
         }
     }
+    def getColorLicenciaSinEstado(){
+        //def lic = Documento.findAllByTipoAndEstacion(TipoDocumento.findByCodigo("TP01"),this,[sort: "fechaRegistro",order: "asc"])
+        def lic = Documento.findAll("from Documento where tipo=${TipoDocumento.findByCodigo("TP01").id} and estacion='${this.codigo}'  order by fechaRegistro asc")
+        // println "lics "+lic
+        if(lic.size()>0) {
+            lic=lic.pop()
+            if(!lic.fin)
+                return ["card-bg-green",lic]
+            else{
+                if (lic.fin>new Date()){
+                    return ["card-bg-green",lic]
+                }else{
+                    return ["svt-bg-danger",null]
+                }
+            }
+        }else{
+            return ["svt-bg-danger",null]
+        }
+    }
     def getColorAuditoria(){
-        def doc = Documento.findByTipoAndEstacion(TipoDocumento.findByCodigo("TP02"),this)
+        def doc = Documento.findAll("from Documento where tipo=${TipoDocumento.findByCodigo("TP02").id} and estacion='${this.codigo}' and estado='A' order by fechaRegistro asc")
+        //def doc = Documento.findByTipoAndEstacion(TipoDocumento.findByCodigo("TP02"),this)
         if(doc) {
             return ["card-bg-green",doc]
         }else{
@@ -117,7 +139,8 @@ class Estacion {
         }
     }
     def getColorMonitoreo(){
-        def doc = Documento.findByTipoAndEstacion(TipoDocumento.findByCodigo("TP12"),this)
+        def doc = Documento.findAll("from Documento where tipo=${TipoDocumento.findByCodigo("TP12").id} and estacion='${this.codigo}' and estado='A' order by fechaRegistro asc")
+        //def doc = Documento.findByTipoAndEstacion(TipoDocumento.findByCodigo("TP12"),this)
         if(doc) {
             return ["card-bg-green",doc]
         }else{
@@ -133,11 +156,18 @@ class Estacion {
             return ["svt-bg-danger",null]
         }
         */
-        return ["svt-bg-danger",null]
+        def dash = Dashboard.findByEstacion(this)
+        if(dash.docs==1){
+            return ["card-bg-green",null]
+        }else{
+            return ["svt-bg-danger",null]
+        }
+
     }
 
     def getLastDoc(TipoDocumento tipo){
-        def doc = Documento.findAllByEstacionAndTipo(this,tipo,[sort:"inicio",order:"desc",max:1])
+        //def doc = Documento.findAllByEstacionAndTipo(this,tipo,[sort:"inicio",order:"desc",max:1])
+        def doc = Documento.findAll("from Documento where tipo=${tipo.id} and estacion='${this.codigo}' order by fechaRegistro asc")
         if(doc.size()>0) {
             doc = doc.pop()
             if(doc.fin){

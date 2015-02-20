@@ -61,7 +61,6 @@
             </th>
             <th class="td-semaforo">Doc. Soporte<br>
                 <div class="circle-card card-bg-green circle-btn doc-green" title="Filtrar por color verde" mostrar="green-doc"></div>
-                <div class="circle-card svt-bg-warning circle-btn doc-orange" title="Filtrar por color amarillo" mostrar="orange-doc"></div>
                 <div class="circle-card svt-bg-danger circle-btn doc-red" title="Filtrar por color rojo" mostrar="red-doc"></div>
             </th>
 

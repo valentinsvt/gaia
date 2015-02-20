@@ -7,6 +7,9 @@ class Consultor {
     String telefono
     String direccion
     String mail
+    String calificacionArch
+    String pathOae
+    String observaciones
 
     /**
      * Define los campos que se van a ignorar al momento de hacer logs
@@ -28,6 +31,10 @@ class Consultor {
             telefono column: 'cnsttelf'
             direccion column: 'cnstdire'
             mail column: 'cnstmail'
+            calificacionArch column: 'cnstcalf'
+            pathOae column: 'cnstpath'
+            observaciones column: 'cnstobsr'
+            observaciones type: 'text'
         }
     }
 
@@ -41,5 +48,8 @@ class Consultor {
         telefono(blank: false,nullable: false,size: 1..15)
         direccion(blank: true,nullable: true,size: 1..150)
         mail(blank: false,nullable: false,size: 1..150,email: true)
+        observaciones(blank:true,nullable: true)
+        calificacionArch(blank:true,nullable: true,size: 1..50)
+        pathOae(blank:true,nullable: true,size: 1..100)
     }
 }

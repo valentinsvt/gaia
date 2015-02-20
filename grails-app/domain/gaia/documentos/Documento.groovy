@@ -14,6 +14,8 @@ class Documento {
     String path
     String codigo
     String referencia
+    String estado = "N" /*N--> no aprobado S--> aprobado*/
+    Consultor consultor
 
     /**
      * Define el mapeo entre los campos del dominio y las columnas de la base de datos
@@ -35,6 +37,8 @@ class Documento {
             path column: 'dcmtpath'
             codigo column: 'dcmtcdgo'
             referencia column: 'dcmtrefr'
+            estado column: 'dcmtetdo'
+            consultor column: 'cnst__id'
         }
     }
     static constraints = {
@@ -44,6 +48,8 @@ class Documento {
         path(nullable: false,blank:false,size: 1..100)
         codigo(nullable: false,blank:false,size: 1..10)
         referencia(nullable: false,blank:false,size: 1..20)
+        consultor(nullable: true,blank:true)
+        estado(nullable: true,blank:true)
 
     }
 }

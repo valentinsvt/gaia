@@ -112,6 +112,8 @@
                                     <a href="#" class="btn btn-info" id="cambiar">
                                         <i class="fa fa-refresh"></i> Cambiar
                                     </a>
+
+                                    <util:displayEstadoDocumento documento="${detalle.documento}"/>
                                 </div>
                                 <div id="div-file" style="display: none">
                                     <input type="file" name="file"  class="form-control "  style="border-right: none" accept=".pdf">

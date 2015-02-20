@@ -1,6 +1,7 @@
 package gaia
 
 import gaia.documentos.Detalle
+import gaia.documentos.Documento
 
 class UtilitariosTagLib {
     static defaultEncodeAs = [taglib: 'none']
@@ -13,7 +14,7 @@ class UtilitariosTagLib {
     }
 
     def displayChain = {attrs ->
-      //  println "display chain "+attrs
+        //  println "display chain "+attrs
         def id = attrs.detalle
         def paso = attrs.paso
         def origen = attrs.origen
@@ -54,6 +55,15 @@ class UtilitariosTagLib {
             }
         }
         out<<html
+
+    }
+
+    def displayEstadoDocumento={attrs->
+        Documento documento = attrs.documento
+        if(documento)
+            out<< render(template:"/templates/estadoDocumento", model:[documento:documento])
+
+
 
     }
 }

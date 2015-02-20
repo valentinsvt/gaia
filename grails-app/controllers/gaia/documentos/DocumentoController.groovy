@@ -4,6 +4,7 @@ import gaia.estaciones.Estacion
 import gaia.seguridad.Shield
 
 class DocumentoController extends Shield {
+    def dashboardService
 
     def subir() {
         def estacion = Estacion.findByCodigoAndAplicacion(params.id, 1)
@@ -148,14 +149,16 @@ class DocumentoController extends Shield {
                 txt += "<ul>"
                 td.documentos.each {doc ->
                     def dataFile = "data-file='${doc.path}'"
-                    txt += "<li id='liDoc_${doc.id}' data-jstree='{\"type\":\"doc\"}' ${dataFile}>"
+                    txt += "<li id='liDoc_${doc.id}' data-jstree='{\"type\":\"doc\"}' ${dataFile}  class='${doc.estado}' >"
                     txt += "<a href='#'>"
-                    txt += doc.referencia
+                    def icono =((doc.estado=='A')?"<span class='text-success'><i class='fa fa-check'></i></span>":"<span class='text-danger'><i class='fa fa-times'></i></span>")
+                    txt += icono
+                    txt +=  doc.referencia
                     if (doc.inicio) {
                         txt += " - <strong>${doc.inicio.format('dd-MM-yyyy')}</strong>"
                     }
                     if (doc.fin) {
-                        txt += " <span class='text-info'>Vence: ${doc.fin?.format('dd-MM-yyyy')}</span>"
+
                         if (doc.fin <= hoy) {
                             txt += " <span class='text-danger'>" +
                                     "<strong>" +
@@ -164,6 +167,7 @@ class DocumentoController extends Shield {
                                     "</span>"
                         } else {
                             def dias = doc.fin - hoy
+                            txt += " <span class='text-info'>Vence: ${doc.fin?.format('dd-MM-yyyy')}</span>"
                             if (dias <= 30) {
                                 txt += " <span class='text-warning'>" +
                                         "<strong>" +
@@ -205,6 +209,19 @@ class DocumentoController extends Shield {
     }
 
     def downloadObs_ajax() {
+
+    }
+
+    def aprobarDocumento(){
+        if(request.method!="POST"){
+            response.sendError(403)
+        }else{
+            def documento = Documento.get(params.id)
+            documento.estado="A"
+            documento.save(flush: true)
+            dashboardService.checkDash(documento)
+            render "ok"
+        }
 
     }
 

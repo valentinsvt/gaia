@@ -28,6 +28,7 @@
                         <a href="#" class="btn btn-info cambiar" iden="obs_${detalleAlc?.id}">
                             <i class="fa fa-refresh"></i> Cambiar
                         </a>
+                        <util:displayEstadoDocumento documento="${detalleAlc.documento}"/>
                     </div>
                     <div id="div-file-obs_${detalleAlc?.id}" style="display: none">
                         <input type="file" name="file"  class="form-control "  style="border-right: none" accept=".pdf">

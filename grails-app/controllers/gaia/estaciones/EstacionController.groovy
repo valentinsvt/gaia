@@ -16,15 +16,17 @@ import gaia.seguridad.Shield
 class EstacionController extends Shield {
 
     static allowedMethods = [save_ajax: "POST", delete_ajax: "POST"]
-
+    def dashboardService
 
     def showEstacion() {
+
         def estacion
         if (session.tipo == "cliente") {
             estacion = session.usuario
         } else {
             estacion = Estacion.findByCodigoAndAplicacion(params.id, 1)
         }
+        dashboardService.checkDocumentacion(estacion)
 //        def documentos = Documento.findAllByEstacion(estacion)
         def documentos = Documento.withCriteria {
             eq("estacion", estacion)
@@ -254,7 +256,9 @@ class EstacionController extends Shield {
 
     def borrarReq() {
         def req = RequerimientosEstacion.get(params.id)
+        def estacion = req.estacion
         req.delete(flush: true)
+        dashboardService.checkDocumentacion(estacion)
         render "ok"
     }
 }

@@ -122,6 +122,7 @@
                                     <a href="#" class="btn btn-info cambiar" iden="tdr">
                                         <i class="fa fa-refresh"></i> Cambiar
                                     </a>
+                                    <util:displayEstadoDocumento documento="${detallePago.documento}"/>
                                 </div>
                                 <div id="div-file-tdr" style="display: none">
                                     <input type="file" name="file"  class="form-control "  style="border-right: none" accept=".pdf">
@@ -188,6 +189,7 @@
                                         <a href="#" class="btn btn-info cambiar" iden="lic_${detalleLicencia?.id}">
                                             <i class="fa fa-refresh"></i> Cambiar
                                         </a>
+                                        <util:displayEstadoDocumento documento="${detalleLicencia.documento}"/>
                                     </div>
                                     <div id="div-file-lic_${detalleLicencia?.id}" style="display: none">
                                         <input type="file" name="file"  class="form-control "  style="border-right: none" accept=".pdf">
