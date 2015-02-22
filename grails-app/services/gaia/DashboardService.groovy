@@ -87,7 +87,7 @@ class DashboardService {
 
         }else
             dash.docs=0
-        println "cont "+cont+" "+req.size()+" "+dash.docs
+       // println "cont "+cont+" "+req.size()+" "+dash.docs
         dash.save()
     }
 }

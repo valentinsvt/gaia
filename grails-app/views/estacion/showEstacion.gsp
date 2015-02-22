@@ -73,6 +73,9 @@
         <a href="${g.createLink(controller: 'documento', action: 'arbolEstacion', params: [codigo: estacion.codigo])}" class="btn btn-default mapa">
             <i class="fa fa-file-pdf-o"></i> Visor de documentos
         </a>
+        <g:link controller="estacion" action="documentosPorAprobar" class="btn btn-default" id="${estacion.codigo}">
+            <i class="fa fa-check"></i> Documentos por aprobar <span class="badge" style="line-height: 100%;background: #CE464A">${docsN}</span>
+        </g:link>
         <a href="#" class="btn btn-default consultores">
             <i class="fa fa-users"></i> Consultores
         </a>
@@ -119,16 +122,9 @@
 
                 <div class="header-content">
                     <div class="circle-card ${auditoria[0]}"></div>
-                    <g:if test="${auditoria[1]}">
-                        <a href="#" class="btn btn-primary btn-header btn-sm">
-                            <i class="fa fa-street-view"></i> Ver
+                        <a href="#" class="btn btn-info btn-header btn-sm" id="detalles-audt">
+                            <i class="fa fa-street-view"></i> Detalles
                         </a>
-                    </g:if>
-                    <g:else>
-                        <a href="#" class="btn btn-info btn-header btn-sm ">
-                            <i class="fa fa-street-view"></i> Registrar
-                        </a>
-                    </g:else>
                 </div>
             </div>
 
@@ -372,16 +368,15 @@
             }
         });
     }
-    function verEstacionMapa(id) {
+    function verProcesos() {
         $.ajax({
             type    : "POST",
-            url     : "${createLink(controller:'estacion', action:'showMap_ajax')}",
-            data    : {
-                id : id
-            },
+            url     : "${createLink(controller:'auditoriaAmbiental', action:'showProcesos',id:estacion.codigo)}",
+            data    : "",
             success : function (msg) {
                 bootbox.dialog({
-                    title   : "Datos de la estación",
+                    title   : "Procesos de auditoría ambiental",
+                    class : "modal-lg",
                     message : msg,
                     buttons : {
                         ok : {
@@ -395,6 +390,7 @@
             }
         });
     }
+
     function buscar() {
         openLoader();
         var td = $("#tipos").val();
@@ -441,6 +437,9 @@
         });
         $("#nueva").click(function () {
             warning()
+        })
+        $("#detalles-audt").click(function(){
+            verProcesos();
         })
     });
 </script>

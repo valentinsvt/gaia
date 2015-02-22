@@ -87,6 +87,22 @@
                 </div>
             </div>
             <div class="flow-body">
+                <div class="row" style="border-bottom: 1px solid #3A5DAA;width: 99%;padding-bottom: 10px;margin-bottom: 5px">
+                    <div class="col-md-3">
+                        <label>
+                            Consultor encargado del proceso:
+                        </label>
+                    </div>
+                    <div class="col-md-4">
+                        <g:select name="consultor"  id="consultor" class="form-control input-sm" from="${gaia.documentos.ConsultorEstacion.findAllByEstacion(estacion)?.consultor}" optionKey="id" optionValue="nombre" value="${proceso?.consultor?.id}"/>
+                    </div>
+                    <div class="col-md-1">
+                        <a href="#" class="btn btn-success" id="consultor-btn">
+                            <i class="fa fa-disk"></i> Guardar
+                        </a>
+                    </div>
+                </div>
+
                 <g:form class="frm-subir" controller="licencia" action="saveCertificado" enctype="multipart/form-data" >
                     <input type="hidden" name="estacion_codigo" value="${estacion.codigo}" >
                     <input type="hidden" name="proceso" value="${proceso?.id}" >
@@ -251,6 +267,19 @@
         $(".pdf-viewer").hide("slide",{direction:'right'})
         $("#doc").html("")
         $("#data").hide()
+    })
+    $("#consultor-btn").click(function(){
+        $.ajax({
+            type: "POST",
+            url: "${createLink(controller:'licencia', action:'cambiarConsultor')}",
+            data: {
+                id: $("#consultor").val(),
+                proceso : "${proceso?.id}"
+            },
+            success: function (msg) {
+               log("Datos guardados")
+            }
+        });
     })
 </script>
 </body>

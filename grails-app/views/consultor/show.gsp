@@ -68,6 +68,33 @@
 				</li>
 				</g:if>
 			
+				<g:if test="${consultorInstance?.observaciones}">
+				<li class="fieldcontain">
+					<span id="observaciones-label" class="property-label"><g:message code="consultor.observaciones.label" default="Observaciones" /></span>
+					
+						<span class="property-value" aria-labelledby="observaciones-label"><g:fieldValue bean="${consultorInstance}" field="observaciones"/></span>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${consultorInstance?.calificacionArch}">
+				<li class="fieldcontain">
+					<span id="calificacionArch-label" class="property-label"><g:message code="consultor.calificacionArch.label" default="Calificacion Arch" /></span>
+					
+						<span class="property-value" aria-labelledby="calificacionArch-label"><g:fieldValue bean="${consultorInstance}" field="calificacionArch"/></span>
+					
+				</li>
+				</g:if>
+			
+				<g:if test="${consultorInstance?.pathOae}">
+				<li class="fieldcontain">
+					<span id="pathOae-label" class="property-label"><g:message code="consultor.pathOae.label" default="Path Oae" /></span>
+					
+						<span class="property-value" aria-labelledby="pathOae-label"><g:fieldValue bean="${consultorInstance}" field="pathOae"/></span>
+					
+				</li>
+				</g:if>
+			
 			</ol>
 			<g:form url="[resource:consultorInstance, action:'delete']" method="DELETE">
 				<fieldset class="buttons">

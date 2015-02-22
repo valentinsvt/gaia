@@ -44,7 +44,7 @@
                             Estación
                         </label>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-5">
                         ${estacion.nombre}
                     </div>
                     <div class="col-md-2">
@@ -59,21 +59,10 @@
                 <div class="row" style="">
                     <div class="col-md-1">
                         <label>
-                            PDF
-                        </label>
-                    </div>
-                    <div class="col-md-7">
-                        <input type="file" name="file" id="file" class="form-control required"  style="border-right: none" accept=".pdf">
-                    </div>
-
-                </div>
-                <div class="row" style="">
-                    <div class="col-md-1">
-                        <label>
                             Tipo
                         </label>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-5">
                         <g:select name="tipo.id" from="${tipos}" optionValue="nombre" optionKey="id" id="tipo" class="form-control input-sm" value="${tipo}"></g:select>
                     </div>
                     <div class="col-md-2">
@@ -83,6 +72,24 @@
                     </div>
                     <div class="col-md-2">
                         <input type="text" name="referencia" class="form-control input-sm required" maxlength="20">
+                    </div>
+                </div>
+                <div class="row" style="">
+                    <div class="col-md-1">
+                        <label>
+                            PDF
+                        </label>
+                    </div>
+                    <div class="col-md-5">
+                        <input type="file" name="file" id="file" class="form-control required"  style="border-right: none" accept=".pdf">
+                    </div>
+                    <div class="col-md-2">
+                        <label>
+                            Consultor
+                        </label>
+                    </div>
+                    <div class="col-md-3">
+                        <g:select name="consultor.id" from="${gaia.documentos.ConsultorEstacion.findAllByEstacion(estacion)?.consultor}" optionKey="id" optionValue="nombre" class="form-control input-sm" noSelection="['':'Seleccione....']"/>
                     </div>
                 </div>
                 <div class="row" style="margin-top: 20px;">

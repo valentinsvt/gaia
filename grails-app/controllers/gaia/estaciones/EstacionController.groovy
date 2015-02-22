@@ -26,7 +26,7 @@ class EstacionController extends Shield {
         } else {
             estacion = Estacion.findByCodigoAndAplicacion(params.id, 1)
         }
-        dashboardService.checkDocumentacion(estacion)
+
 //        def documentos = Documento.findAllByEstacion(estacion)
         def documentos = Documento.withCriteria {
             eq("estacion", estacion)
@@ -40,7 +40,8 @@ class EstacionController extends Shield {
                 }
             }
         }
-        [estacion: estacion, documentos: documentos, params: params]
+        def docsN =  Documento.findAllByEstacionAndEstadoNotEqual(estacion,'A',[sort: "fechaRegistro"])?.size()
+        [estacion: estacion, documentos: documentos, params: params,docsN:docsN]
     }
 
     def listaSemaforos() {
@@ -54,6 +55,12 @@ class EstacionController extends Shield {
      */
     def index() {
         redirect(action: "list", params: params)
+    }
+
+    def documentosPorAprobar(){
+        def estacion  = Estacion.findByCodigoAndAplicacion(params.id, 1)
+        def docs = Documento.findAllByEstacionAndEstadoNotEqual(estacion,'A',[sort: "fechaRegistro"])
+        [docs:docs,estacion: estacion]
     }
 
     /**

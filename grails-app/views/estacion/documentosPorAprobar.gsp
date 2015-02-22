@@ -61,55 +61,43 @@
         </a>
     </div>
 </div>
-<elm:container tipo="horizontal" titulo="Documentación requerida para la estación: ${estacion.nombre}">
+<elm:container tipo="horizontal" titulo="Documentación por aprobar de la estación: ${estacion.nombre}">
 
-    <table class="table table-striped table-hover table-bordered" style="margin-top: 15px;">
+    <table class="table table-striped table-hover table-bordered" style="margin-top: 15px;font-size: 11px">
         <thead>
         <tr>
             <th>Entidad</th>
-            <th style="width: 40%">Tipo de documento</th>
-            <th class="td-semaforo">Estado</th>
-            <th style="width: 100px">Documento</th>
-            <th></th>
-            <th></th>
+            <th>Tipo de documento</th>
+            <th>Descripción</th>
+            <th>Referencia</th>
+            <th>Emisión</th>
+            <th>Vence</th>
+            <th>Ver</th>
+            <th>Aprobar</th>
         </tr>
         </thead>
         <tbody>
-        <g:each in="${reqs}" var="r">
-            <tr>
-                <g:set var="doc" value="${estacion.getLastDoc(r.tipo)}"/>
-                <td style="text-align: center">${r.tipo.entidad.codigo}</td>
-                <td>${r.tipo.nombre}</td>
-                <td class="td-semaforo"><div class="circle-card ${doc?(doc.estado=='A'?'card-bg-green':'svt-bg-danger'):'svt-bg-danger'}"></div></td>
-                <td style="text-align: center">
-                    <g:if test="${doc}">
-                        ${doc.referencia}
-                        <a href="#" data-file="${doc.path}"
-                           data-ref="${doc.referencia}"
-                           data-codigo="${doc.codigo}"
-                           data-tipo="${doc.tipo.nombre}"
-                           target="" class="btn btn-info ver-doc ">
-                            <i class="fa fa-search"></i> Ver
-                        </a>
-
-                    </g:if>
-                    <g:else>
-                        <g:link controller="documento" action="subir" params="[tipo:r.tipo.id,id:estacion.codigo]" target="_blank" class="btn btn-info btn-sm">
-                            <i class="fa fa-upload"></i> Registrar
-                        </g:link>
-                    </g:else>
-                </td>
-                <td style="text-align: center;width: 150px">
-                    <util:displayEstadoDocumento documento="${doc}"/>
-                </td>
-                <td style="text-align: center">
-                    <g:if test="${session.tipo=='usuario'}">
-                        <a href="#" class="borrar btn btn-danger btn-sm" id="${r.id}" >
-                            <i class="fa fa-trash"></i> No necesario
-                        </a>
-                    </g:if>
-                </td>
-            </tr>
+        <g:each in="${docs}" var="d">
+        <tr>
+            <td title="${d.tipo.entidad.nombre}">${d.tipo.entidad.codigo}</td>
+            <td>${d.tipo.nombre}</td>
+            <td>${d.descripcion}</td>
+            <td>${d.referencia}</td>
+            <td style="width: 72px;text-align: center">${d.inicio?.format("dd-MM-yyyy")}</td>
+            <td style="width: 72px;text-align: center">${d.fin?.format("dd-MM-yyyy")}</td>
+            <td style="text-align: center">
+                <a href="#" data-file="${d.path}"
+                   data-ref="${d.referencia}"
+                   data-codigo="${d.codigo}"
+                   data-tipo="${d.tipo.nombre}"
+                   target="" class="btn btn-info ver-doc btn-sm">
+                    <i class="fa fa-search"></i> Ver
+                </a>
+            </td>
+            <td style="width: 135px;text-align: center">
+                <util:displayEstadoDocumento documento="${d}"/>
+            </td>
+        </tr>
         </g:each>
         </tbody>
     </table>

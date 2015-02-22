@@ -34,6 +34,8 @@
 					
 						<g:sortableColumn property="mail" title="${message(code: 'consultor.mail.label', default: 'Mail')}" />
 					
+						<g:sortableColumn property="observaciones" title="${message(code: 'consultor.observaciones.label', default: 'Observaciones')}" />
+					
 					</tr>
 				</thead>
 				<tbody>
@@ -49,6 +51,8 @@
 						<td>${fieldValue(bean: consultorInstance, field: "direccion")}</td>
 					
 						<td>${fieldValue(bean: consultorInstance, field: "mail")}</td>
+					
+						<td>${fieldValue(bean: consultorInstance, field: "observaciones")}</td>
 					
 					</tr>
 				</g:each>

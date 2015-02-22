@@ -98,7 +98,15 @@
         ${doc.codigo}
     </div>
 </div>
+<div class="row">
+    <div class="col-md-3 show-label">
+        Consultor
+    </div>
 
+    <div class="col-md-6">
+        ${doc.consultor?.nombre}
+    </div>
+</div>
 <div class="row">
     <div class="col-md-3 show-label">
         Descripción

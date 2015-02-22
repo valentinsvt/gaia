@@ -44,6 +44,24 @@
     </div>
 </div>
 <elm:container tipo="horizontal" titulo="Licencia ambiental de la estación: ${estacion.nombre}" >
+    <div class="row">
+        <div class="col-md-1">
+            <label>
+                Consultor:
+            </label>
+        </div>
+        <div class="col-md-4">
+            <g:if test="${proceso.consultor}">
+                <a href="#" class="btn btn-info btn-sm" iden="${proceso.consultor?.id}" id="consultor">
+                    <i class="fa fa-users"></i>
+                    ${proceso.consultor?.nombre}
+                </a>
+            </g:if>
+            <g:else>
+                No hay un consultor asignado
+            </g:else>
+        </div>
+    </div>
     <table class="table table-hover table-striped table-bordered" style="margin-top: 10px">
         <thead>
         <tr>
@@ -78,6 +96,33 @@
     </table>
 </elm:container>
 <script type="text/javascript">
+    function verConsultor(id) {
+        $.ajax({
+            type    : "POST",
+            url     : "${createLink(controller:'consultor', action:'show_ajax')}",
+            data    : {
+                id : id
+            },
+            success : function (msg) {
+                bootbox.dialog({
+                    title   : "Ver Consultor",
+
+                    message : msg,
+                    buttons : {
+                        ok : {
+                            label     : "Aceptar",
+                            className : "btn-primary",
+                            callback  : function () {
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    }
+    $("#consultor").click(function(){
+        verConsultor($(this).attr("iden"))
+    })
     function showPdf(div){
         $("#msgNoPDF").show();
         $("#doc").html("")

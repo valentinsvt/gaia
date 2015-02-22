@@ -118,6 +118,7 @@
                 });
             }
         });
+        return false
     }
     function verEstacionMapa(id) {
         $.ajax({
@@ -181,6 +182,7 @@
                     action: function ($element) {
                         var id = $element.data("id");
                         verEstacion(id);
+                        return false;
                     }
                 }
             },

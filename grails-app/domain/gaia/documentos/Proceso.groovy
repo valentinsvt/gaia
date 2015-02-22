@@ -10,6 +10,7 @@ class Proceso {
     Date fin /*nullable blank*/
     String completado = "N" /*S--> si N--> no*/
     Documento documento /*nullable blank*/
+    Consultor consultor
 /**
  * Define el mapeo entre los campos del dominio y las columnas de la base de datos
  */
@@ -25,6 +26,7 @@ class Proceso {
             fin column: 'prcofcfn'
             documento column: 'prcodcmt'
             completado column: 'prcscmpt'
+            consultor column: 'cnst__id'
         }
     }
 
@@ -33,5 +35,6 @@ class Proceso {
         fin(nullable: true,blank:true)
         inicio(blank: false,nullable: false)
         documento(nullable: true,blank:true)
+        consultor(nullable: true,blank:true)
     }
 }

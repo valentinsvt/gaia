@@ -1,6 +1,7 @@
 package gaia.procesos
 
 import gaia.alertas.Alerta
+import gaia.documentos.Consultor
 import gaia.documentos.Dashboard
 import gaia.documentos.Dependencia
 import gaia.documentos.Detalle
@@ -524,4 +525,22 @@ class LicenciaController {
         [estacion: estacion,proceso: proceso,detalles: detalles]
     }
 
+
+    def cambiarConsultor(){
+        println "cambiar consultor "+params
+        def proceso = Proceso.get(params.proceso)
+        def consultor = Consultor.get(params.id)
+        proceso.consultor=consultor
+        
+        Detalle.findAllByProceso(proceso).each {
+            if(it.documento){
+                it.documento.consultor=consultor
+                if(!it.documento.save())
+                    println "error save consultor"
+            }
+        }
+        if(!proceso.save(flush: true))
+            println "error save proceso "+proceso.errors
+        render("ok")
+    }
 }

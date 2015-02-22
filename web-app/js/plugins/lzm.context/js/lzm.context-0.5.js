@@ -193,9 +193,12 @@
                     }
                     if (obj.action && !disabled) {
                         $a.click(function () {
+                            var r = true;
                             if ($.isFunction(obj.action)) {
-                                obj.action.call(this, $element, $li);
+                                r = obj.action.call(this, $element, $li);
                             }
+                            $(".lzm-dropdown-menu").remove();
+                            return r;
                         });
                     }
                     $li.append($a);

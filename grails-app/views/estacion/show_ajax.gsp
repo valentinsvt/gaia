@@ -147,7 +147,84 @@
 
             </div>
         </g:if>
+        <g:if test="${estacionInstance?.representante}">
+            <div class="row">
+                <div class="col-sm-2 show-label">
+                    Representante
+                </div>
 
+                <div class="col-sm-8">
+                    ${estacionInstance.representante}
+                </div>
+
+            </div>
+        </g:if>
+        <g:if test="${estacionInstance?.cedulaRepresentante}">
+            <div class="row">
+                <div class="col-sm-2 show-label">
+                    Cédula representante
+                </div>
+
+                <div class="col-sm-8">
+                    ${estacionInstance.cedulaRepresentante}
+                </div>
+            </div>
+        </g:if>
+        <g:if test="${estacionInstance?.administrador}">
+            <div class="row">
+                <div class="col-sm-2 show-label">
+                    Administrador
+                </div>
+
+                <div class="col-sm-8">
+                    ${estacionInstance.administrador}
+                </div>
+            </div>
+        </g:if>
+        <g:if test="${estacionInstance?.cedulaAdministrador}">
+            <div class="row">
+                <div class="col-sm-2 show-label">
+                    Cédula administrador
+                </div>
+
+                <div class="col-sm-8">
+                    ${estacionInstance.administrador}
+                </div>
+            </div>
+        </g:if>
+        <g:if test="${estacionInstance?.arrendatario}">
+            <div class="row">
+                <div class="col-sm-2 show-label">
+                    Arrendatario
+                </div>
+
+                <div class="col-sm-8">
+                    ${estacionInstance.arrendatario}
+                </div>
+            </div>
+        </g:if>
+        <g:if test="${estacionInstance?.representanteArrendatario}">
+            <div class="row">
+                <div class="col-sm-2 show-label">
+                   Representante arrendatario
+                </div>
+
+                <div class="col-sm-8">
+                    ${estacionInstance.representanteArrendatario}
+                </div>
+            </div>
+        </g:if>
+        <g:if test="${estacionInstance?.cedulaRepresentanteArrendatario}">
+            <div class="row">
+                <div class="col-sm-2 show-label">
+                    Cédula representante arrendatario
+                </div>
+
+                <div class="col-sm-8">
+                    ${estacionInstance.cedulaRepresentanteArrendatario}
+                </div>
+            </div>
+        </g:if>
 
     </div>
 </g:else>

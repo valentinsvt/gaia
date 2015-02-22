@@ -42,3 +42,27 @@
 	<div class="input-group"><span class="input-group-addon"><i class="fa fa-envelope"></i></span><g:field type="email" name="mail" maxlength="150" required="" class="form-control  required unique noEspacios" value="${consultorInstance?.mail}"/></div>
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: consultorInstance, field: 'observaciones', 'error')} ">
+	<label for="observaciones">
+		<g:message code="consultor.observaciones.label" default="Observaciones" />
+		
+	</label>
+	<g:textField name="observaciones" class="form-control " value="${consultorInstance?.observaciones}"/>
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: consultorInstance, field: 'calificacionArch', 'error')} ">
+	<label for="calificacionArch">
+		<g:message code="consultor.calificacionArch.label" default="Calificacion Arch" />
+		
+	</label>
+	<g:textField name="calificacionArch" maxlength="50" class="form-control " value="${consultorInstance?.calificacionArch}"/>
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: consultorInstance, field: 'pathOae', 'error')} ">
+	<label for="pathOae">
+		<g:message code="consultor.pathOae.label" default="Path Oae" />
+		
+	</label>
+	<g:textField name="pathOae" maxlength="100" class="form-control " value="${consultorInstance?.pathOae}"/>
+</div>
+

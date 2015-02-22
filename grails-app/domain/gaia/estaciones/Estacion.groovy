@@ -38,6 +38,15 @@ class Estacion {
 
     Integer tipo
 
+    String cedulaRepresentante
+    String arrendatario
+    String representanteArrendatario
+    String cedulaRepresentanteArrendatario
+    String administrador
+    String cedulaAdministrador
+    String placaAutotanque
+    Double capacidadAutotanque
+
     /**
      * Define los campos que se van a ignorar al momento de hacer logs
      */
@@ -69,6 +78,14 @@ class Estacion {
             canton column: 'canton'
             parroquia column: 'parroquia'
             tipo column: 'tipo_cliente'
+            cedulaRepresentante column: 'cedula_representante'
+            arrendatario column: 'arrendatario'
+            representanteArrendatario column: 'representante_arrendatario'
+            cedulaRepresentanteArrendatario column: 'cedula_rep_arrendatario'
+            administrador column: 'administrador'
+            cedulaAdministrador column: 'cedula_administrador'
+            placaAutotanque column: 'placa_autotanque'
+            capacidadAutotanque column: 'capacidad_autotanque'
         }
     }
 
@@ -94,7 +111,7 @@ class Estacion {
     def getColorLicencia(){
         //def lic = Documento.findAllByTipoAndEstacion(TipoDocumento.findByCodigo("TP01"),this,[sort: "fechaRegistro",order: "asc"])
         def lic = Documento.findAll("from Documento where tipo=${TipoDocumento.findByCodigo("TP01").id} and estacion='${this.codigo}' and estado='A' order by fechaRegistro asc")
-       // println "lics "+lic
+        // println "lics "+lic
         if(lic.size()>0) {
             lic=lic.pop()
             if(!lic.fin)
@@ -129,11 +146,39 @@ class Estacion {
             return ["svt-bg-danger",null]
         }
     }
+    def getColorAuditoriaSinEstado(){
+        /*Tipos TP02 TP35 TP36*/
+        def audi = Documento.findAll("from Documento where tipo in (${TipoDocumento.findByCodigo("TP02").id},${TipoDocumento.findByCodigo( "TP35").id},${TipoDocumento.findByCodigo( "TP36").id}) and estacion='${this.codigo}'  order by fin asc")
+        // println "lics "+lic
+        if(audi.size()>0) {
+            audi=audi.pop()
+            if(!audi.fin)
+                return ["card-bg-green",audi]
+            else{
+                if (audi.fin>new Date()){
+                    return ["card-bg-green",audi]
+                }else{
+                    return ["svt-bg-danger",null]
+                }
+            }
+        }else{
+            return ["svt-bg-danger",null]
+        }
+    }
     def getColorAuditoria(){
-        def doc = Documento.findAll("from Documento where tipo=${TipoDocumento.findByCodigo("TP02").id} and estacion='${this.codigo}' and estado='A' order by fechaRegistro asc")
-        //def doc = Documento.findByTipoAndEstacion(TipoDocumento.findByCodigo("TP02"),this)
-        if(doc) {
-            return ["card-bg-green",doc]
+        def audi = Documento.findAll("from Documento where tipo in (${TipoDocumento.findByCodigo("TP02").id},${TipoDocumento.findByCodigo("TP35").id},${TipoDocumento.findByCodigo("TP36").id}) and estacion='${this.codigo}' and estado='A'  order by fechaRegistro asc")
+        // println "lics "+lic
+        if(audi.size()>0) {
+            audi=audi.pop()
+            if(!audi.fin)
+                return ["card-bg-green",audi]
+            else{
+                if (audi.fin>new Date()){
+                    return ["card-bg-green",audi]
+                }else{
+                    return ["svt-bg-danger",null]
+                }
+            }
         }else{
             return ["svt-bg-danger",null]
         }
