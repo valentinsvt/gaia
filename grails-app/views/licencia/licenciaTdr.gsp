@@ -77,7 +77,7 @@
 
                 <div class="header-flow-item active">
                     <span class="badge active">2</span>
-                    Terminos de referencia
+                    Términos de referencia
                     <span class="arrow"></span>
                 </div>
                 <g:if test="${detalleApb?.documento}">

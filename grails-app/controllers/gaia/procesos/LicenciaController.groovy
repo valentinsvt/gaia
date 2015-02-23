@@ -140,6 +140,7 @@ class LicenciaController {
                 documento.codigo = codigo
                 documento.tipo = tipoCert
                 documento.estado="N"
+                documento.consultor = proceso.consultor
                 if (documento.save()) {
                     detalle.dependencia = Dependencia.get(params.dependencia)
                     if(!detalle.documento)
@@ -286,6 +287,7 @@ class LicenciaController {
                 documento.tipo = tipoDoc
                 documento.inicio=now
                 documento.estado="N"
+                documento.consultor=proceso.consultor
                 if(plazo>0){
 
                     def fechaFin = diasLaborablesService.diasLaborablesDesde(now,plazo)
@@ -324,6 +326,7 @@ class LicenciaController {
             params.remove("tipo")
 
             detalle.documento.properties =params
+            detalle.documento.consultor = proceso.consultor
             if(params.plazo){
                 plazo = params.plazo.toInteger()
                 detalle.plazo=plazo
@@ -469,6 +472,7 @@ class LicenciaController {
                 documento.tipo = tipo
                 documento.inicio=now
                 documento.estado="N"
+                documento.consultor = proceso.consultor
                 if (documento.save()) {
                     if(!detalle.documento)
                         detalle.documento=documento

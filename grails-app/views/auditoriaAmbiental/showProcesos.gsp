@@ -36,8 +36,8 @@
                     </g:else>
 
                 </td>
-                <td>
-                    <a href="#" class="editar btn btn-sm btn-info">
+                <td style="text-align: center">
+                    <a href="${g.createLink(controller: 'auditoriaAmbiental',action: 'registrarAuditoria',id: p.id)}" class="editar btn btn-sm btn-info">
                         <i class="fa fa-pencil"></i> Ver / Editar
                     </a>
                 </td>

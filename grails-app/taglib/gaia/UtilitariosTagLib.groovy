@@ -19,6 +19,9 @@ class UtilitariosTagLib {
         def paso = attrs.paso
         def origen = attrs.origen
         def padre = attrs.padre
+        def controller = "licencia"
+        if(attrs.controller && attrs.controller !="")
+            controller=attrs.controller
         def html=""
         if(attrs.detalle && attrs.detalle!="" &&  attrs.detalle!="null"){
             def detalle = attrs.detalle
@@ -30,6 +33,7 @@ class UtilitariosTagLib {
             mapa["detalleObs"]=detalle
             mapa["detalleAlc"]=detalle
             mapa["padre"]=detalle
+            mapa["controller"]=controller
             if(detalle.tipo.codigo=="TP07"){
                 out<< render(template:"/templates/observaciones", model:mapa)
             }else{
@@ -47,6 +51,7 @@ class UtilitariosTagLib {
                 mapa["detalleObs"]=null
                 mapa["detalleAlc"]=null
                 mapa["padre"]=detalle
+                mapa["controller"]=controller
                 if(detalle.tipo.codigo=="TP07"){
                     out<< render(template:"/templates/alcance", model:mapa)
                 }else{

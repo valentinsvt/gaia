@@ -1,6 +1,6 @@
 <fieldset>
     <legend>Oficio de alcance a las observaciones</legend>
-    <g:form class="frm-subir-obs" controller="licencia" action="upload" enctype="multipart/form-data" >
+    <g:form class="frm-subir-obs" controller="${controller}" action="upload" enctype="multipart/form-data" >
         <input type="hidden" name="estacion_codigo" value="${estacion.codigo}" >
         <input type="hidden" name="proceso" value="${proceso?.id}" >
         <input type="hidden" name="id" value="${detalleAlc?.id}" >
@@ -70,5 +70,5 @@
     </g:form>
 </fieldset>
 <g:if test="${detalleAlc}">
-    <util:displayChain detalle="${gaia.documentos.Detalle.findByDetalle(detalleAlc)}" paso="${paso}" origen="${origen}" padre="${detalleAlc?.id}"/>
+    <util:displayChain detalle="${gaia.documentos.Detalle.findByDetalle(detalleAlc)}" paso="${paso}" origen="${origen}" padre="${detalleAlc?.id}" controller="${controller}"/>
 </g:if>

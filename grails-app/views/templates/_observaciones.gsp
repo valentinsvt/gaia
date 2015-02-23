@@ -1,6 +1,6 @@
 <fieldset>
     <legend>Oficio de observaciones</legend>
-    <g:form class="frm-subir-obs" controller="licencia" action="upload" enctype="multipart/form-data" >
+    <g:form class="frm-subir-obs" controller="${controller}" action="upload" enctype="multipart/form-data" >
         <input type="hidden" name="estacion_codigo" value="${estacion.codigo}" >
         <input type="hidden" name="proceso" value="${proceso?.id}" >
         <input type="hidden" name="id" value="${detalleObs?.id}" >
@@ -80,5 +80,5 @@
     </g:form>
 </fieldset>
 <g:if test="${detalleObs}">
-    <util:displayChain detalle="${gaia.documentos.Detalle.findByDetalle(detalleObs)}" paso="${paso}" origen="${origen}" padre="${padre?.id}"/>
+    <util:displayChain detalle="${gaia.documentos.Detalle.findByDetalle(detalleObs)}" paso="${paso}" origen="${origen}" padre="${padre?.id}" controller="${controller}"/>
 </g:if>
