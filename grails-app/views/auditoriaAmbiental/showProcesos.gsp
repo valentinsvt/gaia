@@ -5,13 +5,16 @@
     </a>
 </div>
 <div class="row" style="margin: 20px">
-    <table class="table table-striped table-bordered table-hover">
+    <table class="table table-striped table-bordered table-hover" style="font-size: 11px">
         <thead>
         <tr>
-            <th>Tipo de documento</th>
+            <th>Tipo de<br> documento</th>
             <th>Consultor</th>
             <th>Registro</th>
-            <th>Documento final</th>
+            <th>Documento <br>final</th>
+            <th>Emisión</th>
+            <th>Vence</th>
+            <th>Estado</th>
             <th></th>
         </tr>
         </thead>
@@ -20,21 +23,25 @@
             <tr>
                 <td>${p.tipo.nombre}</td>
                 <td>${p.consultor?.nombre}</td>
-                <td>${p.inicio?.format("dd-MM-yyyy")}</td>
-                <td>
+                <td style="text-align: center">${p.inicio?.format("dd-MM-yyyy")}</td>
+                <td style="text-align: center">
                     <g:if test="${p.documento}">
-                        ${p.documento.referencia}
                         <g:if test="${p.documento.estado=='A'}">
                             <span class="text-success"><i class="fa fa-check"></i></span>
                         </g:if>
                         <g:else>
                             <span class="text-danger"><i class="fa fa-times"></i></span>
                         </g:else>
+                        <g:link class="btn btn-info btn-sm" controller="documento" action="ver" id="${p.documento?.id}" title="Ver">
+                            <i class="fa fa-search"></i>
+                            ${p.documento.referencia}
+                        </g:link>
                     </g:if>
-                    <g:else>
-                        Incompleto
-                    </g:else>
-
+                </td>
+                <td style="text-align: center">${p.documento?.inicio?.format("dd-MM-yyyy")}</td>
+                <td style="text-align: center">${p.documento?.fin?.format("dd-MM-yyyy")}</td>
+                <td style="text-align: center">
+                    ${p.completado!="S"?"Incompleto":"Completo"}
                 </td>
                 <td style="text-align: center">
                     <a href="${g.createLink(controller: 'auditoriaAmbiental',action: 'registrarAuditoria',id: p.id)}" class="editar btn btn-sm btn-info">

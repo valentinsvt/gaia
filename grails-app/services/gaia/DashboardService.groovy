@@ -1,6 +1,7 @@
 package gaia
 
 import gaia.documentos.Dashboard
+import gaia.documentos.Detalle
 import gaia.documentos.Documento
 import gaia.documentos.RequerimientosEstacion
 import gaia.estaciones.Estacion
@@ -22,13 +23,28 @@ class DashboardService {
                     dash.licencia=1
                 }
                 break;
-            case "TP02":
-                if(documento.fin){
-                    if(documento.fin>now)
-                        dash.auditoria=1
-                }else{
+            case "TP17":
+                /*oficio de aprobacion*/
+                if(documento.checkAuditoriaAprobada())
                     dash.auditoria=1
-                }
+                //auditoria
+                break;
+            case "TP02":
+                /*auditoria 1*/
+                if(documento.checkAuditoriaAprobada())
+                    dash.auditoria=1
+                //auditoria
+                break;
+            case "TP35":
+                /*auditoria 2*/
+                if(documento.checkAuditoriaAprobada())
+                    dash.auditoria=1
+                //auditoria
+                break;
+            case "TP36":
+                /*auditoria 3*/
+                if(documento.checkAuditoriaAprobada())
+                    dash.auditoria=1
                 //auditoria
                 break;
             case "TP12":

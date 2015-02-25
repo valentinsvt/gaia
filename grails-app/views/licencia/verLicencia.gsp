@@ -77,7 +77,15 @@
         <g:each in="${detalles}" var="d" status="i">
             <tr style="${(d.tipo.codigo!='TP07' && d.tipo.codigo!='TP05' && d.tipo.codigo!='TP14' && d.tipo.codigo!='TP06')?'font-weight: bold':''}">
                 <td>${d.tipo.nombre} </td>
-                <td style="text-align: center">${d.documento.referencia}</td>
+                <td style="text-align: center">
+                    <g:if test="${d.documento.estado=='A'}">
+                        <span class="text-success"><i class="fa fa-check"></i></span>
+                    </g:if>
+                    <g:else>
+                        <span class="text-danger"><i class="fa fa-times"></i></span>
+                    </g:else>
+                    ${d.documento.referencia}
+                </td>
                 <td>${d.documento.descripcion}</td>
                 <td style="text-align: center">${d.documento.inicio.format("dd-MM-yyyy")}</td>
                 <td style="text-align: center">${d.documento.codigo}</td>

@@ -1,7 +1,9 @@
 package gaia.estaciones
 
 import gaia.documentos.Dashboard
+import gaia.documentos.Detalle
 import gaia.documentos.Documento
+import gaia.documentos.Proceso
 import gaia.documentos.TipoDocumento
 import gaia.documentos.Ubicacion
 
@@ -170,10 +172,22 @@ class Estacion {
         // println "lics "+lic
         if(audi.size()>0) {
             audi=audi.pop()
-            if(!audi.fin)
+            def ok = false
+            def proceso = Proceso.findByDocumento(audi)
+            def detalles = Detalle.findAllByProcesoAndPaso(proceso,2)
+            detalles.each {d->
+                if(d.documento){
+                    if(d.documento.tipo.codigo=="TP17"){
+                        if(d.documento.estado=="A"){
+                            ok=true
+                        }
+                    }
+                }
+            }
+            if(!audi.fin && ok)
                 return ["card-bg-green",audi]
             else{
-                if (audi.fin>new Date()){
+                if (audi.fin>new Date() && ok){
                     return ["card-bg-green",audi]
                 }else{
                     return ["svt-bg-danger",null]

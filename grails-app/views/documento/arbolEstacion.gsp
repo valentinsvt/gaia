@@ -261,7 +261,7 @@
                                         id: nodeId
                                     },
                                     success: function (msg) {
-                                        window.location.reload(true)
+                                       location.href="${createLink(controller:'documento', action:'ver')}/"+nodeId
                                     },
                                     error: function () {
                                         log("Ha ocurrido un error interno", "Error");

@@ -52,4 +52,53 @@ class Documento {
         estado(nullable: true,blank:true)
 
     }
+
+    def checkAuditoriaAprobada(){
+        def now = new Date()
+        if(this.tipo.codigo=="TP17"){
+            if(this.estado!="A")
+                return false
+            def detalle = Detalle.findByDocumento(this)
+            if(!detalle.proceso)
+                return false
+            if(!detalle.proceso.documento)
+                return false
+            if(detalle.proceso.documento.estado!="A")
+                return false
+            if(detalle.proceso.documento.fin){
+                if(detalle.proceso.documento.fin>now){
+                    return true
+                }else{
+                    return false
+                }
+            }else{
+                return true
+            }
+        }
+        if(this.tipo.codigo=="TP02" || this.tipo.codigo=="TP35" || this.tipo.codigo=="TP36"){
+            if(this.fin){
+                if(this.fin<now)
+                    return false
+            }
+            if(this.estado!="A")
+                return false
+           def detalle = Detalle.findByDocumento(this)
+            if(!detalle)
+                return false
+            def detalles = Detalle.findAllByProcesoAndPaso(detalle.proceso,2)
+            detalles.each {d->
+                if(d.documento){
+                    if(d.documento.tipo.codigo=="TP17"){
+                        if(d.documento.estado=="A"){
+                            return true
+                        }
+                    }
+                }
+            }
+
+        }
+
+        return false
+    }
+
 }

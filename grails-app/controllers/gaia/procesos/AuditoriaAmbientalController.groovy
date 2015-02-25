@@ -101,7 +101,7 @@ class AuditoriaAmbientalController {
                 redirectStr = "auditoria"
                 break;
             case "pago":
-                tipoDoc = TipoDocumento.findByCodigo("TP15")
+                tipoDoc = TipoDocumento.findByCodigo("TP19")
                 redirectStr = "auditoriaPago"
                 break;
         }
@@ -176,6 +176,14 @@ class AuditoriaAmbientalController {
                     alertasService.generarAlertaDocumentoVencido(documento)
                     if(!detalle.documento)
                         detalle.documento=documento
+                    if(documento.tipo.codigo==proceso.tipo.codigo) {
+                        proceso.documento = documento
+                        proceso.save()
+                    }
+                    if(documento.tipo.codigo=="TP19"){
+                        proceso.completado="S"
+                        proceso.save()
+                    }
                     detalle.save(flush: true)
                     flash.message="Datos guardados, por favor continue con el siguiente paso"
                     redirect(action: ""+redirectStr,controller: 'auditoriaAmbiental',id: proceso.id)
@@ -229,12 +237,22 @@ class AuditoriaAmbientalController {
             return
         } //f && !f.empty
     }
-
+/*Tipos TP02 TP35 TP36*/
     def auditoria(){
-
+        def proceso = Proceso.get(params.id)
+        def estacion = proceso.estacion
+        def detalleAudt = Detalle.findByProcesoAndTipo(proceso,proceso.tipo)
+        def detalleObs = Detalle.findAll("from Detalle where proceso=${proceso.id} and tipo="+TipoDocumento.findByCodigo("TP07").id+" and paso=2 order by id desc")
+        def detalleAprobacion = Detalle.findByProcesoAndTipo(proceso,TipoDocumento.findByCodigo("TP17"))
+        if(detalleObs.size()>0)
+            detalleObs =  detalleObs.pop()
+        [proceso:proceso,estacion: estacion,detalleObs: detalleObs,detalleApb: detalleAprobacion,detalleAudt:detalleAudt]
     }
 
     def auditoriaPago(){
-
+        def proceso = Proceso.get(params.id)
+        def estacion = proceso.estacion
+        def detallePago = Detalle.findByProcesoAndTipo(proceso,TipoDocumento.findByCodigo("TP19"))
+        [estacion:estacion,proceso: proceso,detallePago:detallePago]
     }
 }
