@@ -150,6 +150,7 @@ class Estacion {
     }
     def getColorAuditoriaSinEstado(){
         /*Tipos TP02 TP35 TP36*/
+        //Todo esto hay que arreglar.. ordenar por fecha de registro no convence
         def audi = Documento.findAll("from Documento where tipo in (${TipoDocumento.findByCodigo("TP02").id},${TipoDocumento.findByCodigo( "TP35").id},${TipoDocumento.findByCodigo( "TP36").id}) and estacion='${this.codigo}'  order by fin asc")
         // println "lics "+lic
         if(audi.size()>0) {
@@ -168,6 +169,7 @@ class Estacion {
         }
     }
     def getColorAuditoria(){
+        //Todo esto hay que arreglar.. ordenar por fecha de registro no convence
         def audi = Documento.findAll("from Documento where tipo in (${TipoDocumento.findByCodigo("TP02").id},${TipoDocumento.findByCodigo("TP35").id},${TipoDocumento.findByCodigo("TP36").id}) and estacion='${this.codigo}' and estado='A'  order by fechaRegistro asc")
         // println "lics "+lic
         if(audi.size()>0) {
