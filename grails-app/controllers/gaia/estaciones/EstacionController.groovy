@@ -1,5 +1,6 @@
 package gaia.estaciones
 
+import gaia.DashboardService
 import gaia.documentos.ConsultorEstacion
 import gaia.documentos.Dashboard
 import gaia.documentos.Documento
@@ -248,6 +249,15 @@ class EstacionController extends Shield {
     def requerimientosEstacion() {
         def estacion = Estacion.findByCodigoAndAplicacion(params.id, 1)
         def reqs = RequerimientosEstacion.findAllByEstacion(estacion)
+        def tipos = []
+        if(session.tipo=="usuario"){
+            TipoDocumento.findAllByTipo("N").each {
+                if(!reqs.tipo.id.contains(it.id)){
+                    tipos.add(it)
+                }
+            }
+        }
+
         if (reqs.size() == 0) {
             TipoDocumento.findAllByTipo("N").each {
                 def rq = new RequerimientosEstacion()
@@ -257,7 +267,7 @@ class EstacionController extends Shield {
                 reqs.add(rq)
             }
         }
-        [estacion: estacion, reqs: reqs]
+        [estacion: estacion, reqs: reqs,tipos:tipos]
 
     }
 
@@ -267,5 +277,30 @@ class EstacionController extends Shield {
         req.delete(flush: true)
         dashboardService.checkDocumentacion(estacion)
         render "ok"
+    }
+
+    def agregarReq(){
+        def estacion = Estacion.findByCodigoAndAplicacion(params.id,1)
+        def tipo = TipoDocumento.get(params.tipo)
+        if(estacion && tipo){
+            def req = RequerimientosEstacion.findByEstacionAndTipo(estacion,tipo)
+            if(!req){
+                req=new RequerimientosEstacion()
+                req.estacion=estacion
+                req.tipo=tipo
+                req.save()
+                def dash = Dashboard.findByEstacion(estacion)
+                dash.docs=0
+                //println "dash "+dash.id
+                if(!dash.save(flush: true))
+                    println "error save dash "+dash.errors
+                render "ok"
+            }else{
+                render "La estación ya tiene ese tipo de documento"
+            }
+        }else{
+            render "error"
+        }
+
     }
 }

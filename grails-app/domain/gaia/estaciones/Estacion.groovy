@@ -218,6 +218,7 @@ class Estacion {
         }
         */
         def dash = Dashboard.findByEstacion(this)
+        //println "dash "+dash.id+"   "+dash.docs
         if(dash.docs==1){
             return ["card-bg-green",null]
         }else{

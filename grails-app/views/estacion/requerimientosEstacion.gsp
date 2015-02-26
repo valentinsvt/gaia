@@ -59,10 +59,27 @@
         <a href="${g.createLink(controller: 'documento', action: 'arbolEstacion', params: [codigo: estacion.codigo])}" class="btn btn-default mapa">
             <i class="fa fa-file-pdf-o"></i> Visor de documentos
         </a>
+        <g:if test="${session.tipo=='usuario'}">
+            <a href="#" class="btn btn-default" id="show_agregar">
+                <i class="fa  fa-plus"></i> <i class="fa  fa-file-pdf-o"></i>  Agregar
+            </a>
+        </g:if>
     </div>
 </div>
 <elm:container tipo="horizontal" titulo="Documentación requerida para la estación: ${estacion.nombre}">
-
+    <div class="row" id="div_agregar"  style="display: none">
+        <div class="col-md-1">
+            <label>Documento:</label>
+        </div>
+        <div class="col-md-3">
+            <g:select name="docs" id="tipo-doc" from="${tipos}" class="form-control input-sm" optionKey="id" optionValue="nombre"></g:select>
+        </div>
+        <div class="col-md-1">
+            <a href="#" class="btn btn-success btn-sm" id="agregar">
+                <i class="fa fa-plus"></i>    Agregar
+            </a>
+        </div>
+    </div>
     <table class="table table-striped table-hover table-bordered" style="margin-top: 15px;">
         <thead>
         <tr>
@@ -83,13 +100,13 @@
                 <td class="td-semaforo"><div class="circle-card ${doc?(doc.estado=='A'?'card-bg-green':'svt-bg-danger'):'svt-bg-danger'}"></div></td>
                 <td style="text-align: center">
                     <g:if test="${doc}">
-                        ${doc.referencia}
+
                         <a href="#" data-file="${doc.path}"
                            data-ref="${doc.referencia}"
                            data-codigo="${doc.codigo}"
                            data-tipo="${doc.tipo.nombre}"
-                           target="" class="btn btn-info ver-doc ">
-                            <i class="fa fa-search"></i> Ver
+                           target="" class="btn btn-info ver-doc btn-sm" title="Ver">
+                            <i class="fa fa-search"></i> ${doc.referencia}
                         </a>
 
                     </g:if>
@@ -166,6 +183,41 @@
     })
 
     $(".pdf-viewer").resizable();
+
+    $("#show_agregar").click(function(){
+        $("#div_agregar").toggle()
+    })
+    $("#agregar").click(function(){
+
+        if($("#tipo-doc").val()!=""){
+            bootbox.confirm({
+                message:"Está seguro?",
+                title   : "Atención",
+                class   : "modal-error",
+                callback:function(res){
+                    if(res){
+                        $.ajax({
+                            type: "POST",
+                            url: "${createLink(controller:'estacion', action:'agregarReq')}",
+                            data: {
+                                id: "${estacion.codigo}",
+                                tipo: $("#tipo-doc").val()
+                            },
+                            success: function (msg) {
+                                if(msg=="ok")
+                                    window.location.reload(true)
+                                else{
+                                    bootbox.alert(msg)
+                                }
+                            }
+                        });
+                    }
+                }
+            })
+        }
+        return false
+
+    })
 
 </script>
 </body>
