@@ -4,26 +4,11 @@
     <head>
         <title>Documentos por vencer</title>
 
+        <rep:estilos orientacion="l" pagTitle="Documentos vencidos"/>
+
         <style type="text/css">
-        @page {
-            size   : 29.7cm 21cm ;  /*width height */
-            margin : 2cm;
-        }
-
-        .hoja {
-            width     : 24.5cm;
-            font-size : 12px;
-        }
-
         .titulo, .proyecto, .componente {
             width : 16cm;
-        }
-
-        .hoja {
-            /*background  : #e6e6fa;*/
-            height      : 24.7cm; /*29.7-(1.5*2)*/
-            font-family : arial;
-            font-size   : 11pt;
         }
 
         .titulo {
@@ -65,125 +50,99 @@
             padding          : 3px;
         }
 
-        div.header {
-            display    : block;
-            text-align : center;
-            position   : running(header);
+        .table {
+            font-size  : 10pt;
+            margin-top : 10px;
         }
 
-        div.footer {
-            display    : block;
-            text-align : center;
-            position   : running(footer);
-        }
-
-        div.content {
-            page-break-after : always;
-        }
-
-        @page {
-            @top-center {
-                content : element(header);
-            }
-        }
-
-        @page {
-            @bottom-center {
-                content : element(footer);
-            }
+        .table td {
+            font-size : 10pt;
         }
         </style>
     </head>
 
     <body>
-        %{--<div class="header">--}%
-        %{--Header--}%
-        %{--</div>--}%
 
-        <div class="hoja">
-            <table border="1" class="table table-condensed table-bordered table-striped table-hover tablaSuperCon" width="100%">
-                <thead>
-                    <tr>
-                        <th style="width: 100px;">Estación</th>
-                        <th style="width: 130px;">Tipo Documento</th>
-                        <th style="width: 70px;"># Referencia</th>
-                        <th style="width: 70px;">Emisión</th>
-                        <th style="width: 70px;">Vencimiento</th>
-                    </tr>
-                </thead>
-                <tbody id="tb">
-                    <g:each in="${estaciones}" var="estacion">
-                        <g:set var="documentos" value="${gaia.documentos.Documento.findAllByEstacion(estacion)}"/>
-                        <g:if test="${documentos.size() > 0}">
-                            <tr>
-                                <td>
-                                    ${estacion.nombre}
-                                </td>
-                                <td>
-                                    <ul>
-                                        <g:each in="${documentos}" var="documento">
-                                            <li>
-                                                ${documento.tipo.nombre}
-                                            </li>
-                                        </g:each>
-                                    </ul>
-                                </td>
-                                <td>
-                                    <ul>
-                                        <g:each in="${documentos}" var="documento">
-                                            <li>
-                                                <g:fieldValue bean="${documento}" field="referencia"/>
-                                            </li>
-                                        </g:each>
-                                    </ul>
-                                </td>
-                                <td>
-                                    <ul>
-                                        <g:each in="${documentos}" var="documento">
-                                            <li>
-                                                ${documento?.inicio?.format("dd-MM-yyyy")}
-                                            </li>
-                                        </g:each>
-                                    </ul>
-                                </td>
-                                <td>
-                                    <ul>
-                                        <g:each in="${documentos}" var="documento">
-                                            <g:if test="${documento?.fin}">
-                                                <g:if test="${documento.fin.clearTime() <= new Date().clearTime()}">
-                                                    <li style="color: #ce464a">
-                                                        Vencido ${documento?.fin?.format("dd-MM-yyyy")}
-                                                    </li>
-                                                </g:if>
-                                                <g:elseif test="${documento?.fin < new Date().plus(30)}">
-                                                    <li style="color: #ffa324">
-                                                        Por vencer  ${documento?.fin?.format("dd-MM-yyyy")}
-                                                    </li>
-                                                </g:elseif>
-                                                <g:else>
-                                                    <li>
-                                                        ${documento?.fin?.format("dd-MM-yyyy")}
-                                                    </li>
-                                                </g:else>
+        <rep:headerFooter title="Documentos vencidos"/>
+
+        <table border="1" class="table" width="100%">
+            <thead>
+                <tr>
+                    <th style="width: 100px;">Estación</th>
+                    <th style="width: 130px;">Tipo Documento</th>
+                    <th style="width: 70px;"># Referencia</th>
+                    <th style="width: 70px;">Emisión</th>
+                    <th style="width: 70px;">Vencimiento</th>
+                </tr>
+            </thead>
+            <tbody id="tb">
+                <g:each in="${estaciones}" var="estacion">
+                    <g:set var="documentos" value="${gaia.documentos.Documento.findAllByEstacion(estacion)}"/>
+                    <g:if test="${documentos.size() > 0}">
+                        <tr>
+                            <td>
+                                ${estacion.nombre}
+                            </td>
+                            <td>
+                                <ul>
+                                    <g:each in="${documentos}" var="documento">
+                                        <li>
+                                            ${documento.tipo.nombre}
+                                        </li>
+                                    </g:each>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                    <g:each in="${documentos}" var="documento">
+                                        <li>
+                                            <g:fieldValue bean="${documento}" field="referencia"/>
+                                        </li>
+                                    </g:each>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                    <g:each in="${documentos}" var="documento">
+                                        <li>
+                                            ${documento?.inicio?.format("dd-MM-yyyy")}
+                                        </li>
+                                    </g:each>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                    <g:each in="${documentos}" var="documento">
+                                        <g:if test="${documento?.fin}">
+                                            <g:if test="${documento.fin.clearTime() <= new Date().clearTime()}">
+                                                <li style="color: #ce464a">
+                                                    Vencido ${documento?.fin?.format("dd-MM-yyyy")}
+                                                </li>
                                             </g:if>
+                                            <g:elseif test="${documento?.fin < new Date().plus(30)}">
+                                                <li style="color: #ffa324">
+                                                    Por vencer  ${documento?.fin?.format("dd-MM-yyyy")}
+                                                </li>
+                                            </g:elseif>
                                             <g:else>
                                                 <li>
-                                                    Sin fecha de vencimiento
+                                                    ${documento?.fin?.format("dd-MM-yyyy")}
                                                 </li>
                                             </g:else>
-                                        </g:each>
-                                    </ul>
-                                </td>
-                            </tr>
-                        </g:if>
-                    </g:each>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="footer">
-            Impreso el ${new Date().format('dd-MM-yyyy HH:mm:ss')}
-        </div>
+                                        </g:if>
+                                        <g:else>
+                                            <li>
+                                                Sin fecha de vencimiento
+                                            </li>
+                                        </g:else>
+                                    </g:each>
+                                </ul>
+                            </td>
+                        </tr>
+                    </g:if>
+                </g:each>
+            </tbody>
+        </table>
 
     </body>
 </html>
