@@ -1,5 +1,6 @@
 package gaia.documentos
 
+import gaia.DashboardJob
 import gaia.estaciones.Estacion
 import gaia.seguridad.Shield
 
@@ -230,18 +231,30 @@ class DocumentoController extends Shield {
             response.sendError(403)
         def now = new Date()
         def doc = Documento.get(params.id)
+        def band = false
+        if(!doc){
+            render "ok"
+            return
+        }
         if(!doc.fin){
             doc.fin=now
+            band=true
         }else{
-            if(doc.fin> now)
-                doc.fin=now
+            if(doc.fin> now) {
+                doc.fin = now
+                band=true
+            }
         }
-        def obs = new Observacion()
-        obs.documento=doc
-        obs.persona=session.usuario
-        obs.observacion="Documento caducado por ${session.usuario.login} el ${new Date().format('dd-MM-yyyy HH:mm:ss')}"
-        obs.save()
-        doc.save(flush: true)
+        if(band){
+            def obs = new Observacion()
+            obs.documento=doc
+            obs.persona=session.usuario
+            obs.observacion="Documento caducado por ${session.usuario.login} el ${new Date().format('dd-MM-yyyy HH:mm:ss')}"
+            obs.save()
+            doc.save(flush: true)
+            def job = new DashboardJob()
+            job.checkEstadoEstacion(doc.estacion)
+        }
         render "ok"
     }
 
