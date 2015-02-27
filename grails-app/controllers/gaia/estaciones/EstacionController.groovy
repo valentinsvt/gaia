@@ -1,5 +1,6 @@
 package gaia.estaciones
 
+import gaia.DashboardJob
 import gaia.DashboardService
 import gaia.documentos.ConsultorEstacion
 import gaia.documentos.Dashboard
@@ -20,6 +21,9 @@ class EstacionController extends Shield {
     def dashboardService
 
     def showEstacion() {
+
+      //  def dj =new  DashboardJob()
+      //  dj.execute()
 
         def estacion
         if (session.tipo == "cliente") {

@@ -274,6 +274,57 @@
                 });
             }
         }
+        var caducar = {
+            label  : "Caducar",
+            icon   : "fa fa-times text-danger",
+            action :function() {
+                $("#doc").html('  <div>Mostrando observaciones del documento</div>');
+                bootbox.dialog({
+                    title: "Aprobar documento",
+                    message: "<i class='fa fa-times fa-3x pull-left text-danger text-shadow'></i><p>" +
+                            "¿Está seguro que desea caducar el documento?. Está accion no puede revertirse</p>",
+                    buttons: {
+                        cancelar: {
+                            label: "Cancelar",
+                            className: "btn-default",
+                            callback: function () {
+                                var pathFile = $node.data("file");
+                                var path = "${resource()}/" + pathFile;
+                                var myPDF = new PDFObject({
+                                    url           : path,
+                                    pdfOpenParams : {
+                                        navpanes  : 1,
+                                        statusbar : 0,
+                                        view      : "FitW"
+                                    }
+                                }).embed("doc");
+                            }
+                        },
+                        caducar: {
+                            label: "<i class='fa fa-check'></i> Caducar",
+                            className: "btn-danger",
+                            callback: function () {
+                                openLoader("Caducando el documento");
+                                $.ajax({
+                                    type: "POST",
+                                    url: '${createLink(controller:'documento', action:'caducarDocumento')}',
+                                    data: {
+                                        id: nodeId
+                                    },
+                                    success: function (msg) {
+                                        location.href="${createLink(controller:'documento', action:'ver')}/"+nodeId
+                                    },
+                                    error: function () {
+                                        log("Ha ocurrido un error interno", "Error");
+                                        closeLoader();
+                                    }
+                                });
+                            }
+                        }
+                    }
+                });
+            }
+        }
         var download = {
             label            : "Descargar",
             icon             : "fa fa-download",
@@ -301,7 +352,9 @@
                 items.aprobar = aprobar;
                 </g:if>
             }
-
+            <g:if test="${session.tipo=='usuario'}">
+            items.caducar = caducar;
+            </g:if>
 //                items.downloadObs = downloadObs;
         }
 

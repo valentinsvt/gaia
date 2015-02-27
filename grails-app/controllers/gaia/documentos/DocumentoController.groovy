@@ -225,4 +225,24 @@ class DocumentoController extends Shield {
 
     }
 
+    def caducarDocumento(){
+        if(session.tipo!="usuario")
+            response.sendError(403)
+        def now = new Date()
+        def doc = Documento.get(params.id)
+        if(!doc.fin){
+            doc.fin=now
+        }else{
+            if(doc.fin> now)
+                doc.fin=now
+        }
+        def obs = new Observacion()
+        obs.documento=doc
+        obs.persona=session.usuario
+        obs.observacion="Documento caducado por ${session.usuario.login} el ${new Date().format('dd-MM-yyyy HH:mm:ss')}"
+        obs.save()
+        doc.save(flush: true)
+        render "ok"
+    }
+
 }

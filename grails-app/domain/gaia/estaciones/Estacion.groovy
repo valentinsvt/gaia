@@ -4,6 +4,7 @@ import gaia.documentos.Dashboard
 import gaia.documentos.Detalle
 import gaia.documentos.Documento
 import gaia.documentos.Proceso
+import gaia.documentos.RequerimientosEstacion
 import gaia.documentos.TipoDocumento
 import gaia.documentos.Ubicacion
 
@@ -208,15 +209,27 @@ class Estacion {
             return ["svt-bg-danger",null]
         }
     }
-    def getColorDocs(){
-        /*def tipos = TipoDocumento.list()
-        def docs = Documento.findByTipoInList(tipos)
-        if(docs) {
-            return ["card-bg-green",docs]
+    def getColorMonitoreoSinEstado(){
+        def doc = Documento.findAll("from Documento where tipo=${TipoDocumento.findByCodigo("TP12").id} and estacion='${this.codigo}'  order by fechaRegistro asc")
+        //def doc = Documento.findByTipoAndEstacion(TipoDocumento.findByCodigo("TP12"),this)
+
+        if(doc.size()>0) {
+            doc=doc.pop()
+            if(!doc.fin)
+                return ["card-bg-green",doc]
+            else{
+                if (doc.fin>new Date()){
+                    return ["card-bg-green",doc]
+                }else{
+                    return ["svt-bg-danger",null]
+                }
+            }
         }else{
             return ["svt-bg-danger",null]
         }
-        */
+    }
+    def getColorDocs(){
+
         def dash = Dashboard.findByEstacion(this)
         //println "dash "+dash.id+"   "+dash.docs
         if(dash.docs==1){
@@ -227,11 +240,35 @@ class Estacion {
 
     }
 
+    def checkDocs(){
+        def reqs = RequerimientosEstacion.findAllByEstacion(this)
+        if(reqs.size()==0)
+            return false
+        def cont = 0
+        reqs.each {r->
+            def doc = this.getLastDoc(r.tipo)
+            println "tipo "+r.tipo.nombre+" doc  "+doc?.referencia+"  "+doc?.fin
+            if(doc){
+                if(doc.estado=="A")
+                    cont++
+            }else{
+                return
+            }
+        }
+        if(cont==reqs.size())
+            return true
+        return false
+    }
+
     def getLastDoc(TipoDocumento tipo){
+        def now = new Date()
         //def doc = Documento.findAllByEstacionAndTipo(this,tipo,[sort:"inicio",order:"desc",max:1])
-        def doc = Documento.findAll("from Documento where tipo=${tipo.id} and estacion='${this.codigo}' order by fechaRegistro asc")
+        def doc = Documento.findAll("from Documento where tipo=${tipo.id} and estacion='${this.codigo}' and (fin is null or fin>'${now.format('yyyy-MM-dd HH:mm:ss')}') order by fin asc")
         if(doc.size()>0) {
-            doc = doc.pop()
+            if(doc[0].fin)
+                doc=doc.pop()
+            else
+                doc=doc[0]
             if(doc.fin){
                 if(doc.fin<new Date())
                     return null

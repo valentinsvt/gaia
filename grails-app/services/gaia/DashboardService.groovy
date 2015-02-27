@@ -78,7 +78,7 @@ class DashboardService {
                     dash.docs=0
                 break;
         }
-        dash.save()
+        dash.save(flush: true)
 
     }
 

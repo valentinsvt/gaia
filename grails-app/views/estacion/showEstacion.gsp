@@ -88,7 +88,7 @@
     <g:set var="licencia" value="${estacion.getColorLicencia()}"/>
     <g:set var="auditoria" value="${estacion.getColorAuditoria()}"/>
     <g:set var="docs" value="${estacion.getColorDocs()}"/>
-    <g:set var="monitoreo" value="${estacion.getColorMonitoreo()}"/>
+    <g:set var="monitoreo" value="${estacion.getColorMonitoreoSinEstado()}"/>
 
     <div class="row" style="margin-top: 0">
         <div class="header-panel">
@@ -134,14 +134,14 @@
                 </div>
 
                 <div class="header-content">
-                    <div class="circle-card ${monitoreo[0]}"></div>
+                    <div class="circle-card ${(monitoreo[1])?(monitoreo[1].estado=='A'?'card-bg-green':'svt-bg-danger'):monitoreo[0]}"></div>
                     <g:if test="${monitoreo[1]}">
-                        <a href="#" class="btn btn-primary btn-header ">
-                            <i class="fa fa-user-plus"></i> Ver
+                        <a href="${g.createLink(controller: 'documento',action: 'ver',id: monitoreo[1].id)}" class="btn btn-info btn-header ">
+                            <i class="fa fa-area-chart"></i> Ver
                         </a>
                     </g:if>
                     <g:else>
-                        <a href="#" class="btn btn-info btn-header btn-sm ">
+                        <a href="${g.createLink(controller: 'documento',action: 'subir',params: ['tipo':TipoDocumento.findByCodigo('TP12').id,id:estacion.codigo])}" class="btn btn-info btn-header btn-sm ">
                             <i class="fa fa-area-chart"></i> Registrar
                         </a>
                     </g:else>
