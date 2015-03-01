@@ -6,12 +6,12 @@ import gaia.documentos.Dashboard
 import gaia.documentos.Dependencia
 import gaia.documentos.Detalle
 import gaia.documentos.Documento
-import gaia.documentos.Observacion
 import gaia.documentos.Proceso
 import gaia.documentos.TipoDocumento
 import gaia.estaciones.Estacion
+import gaia.seguridad.Shield
 
-class LicenciaController {
+class LicenciaController extends Shield{
 
     def diasLaborablesService
     def alertasService

@@ -22,8 +22,8 @@ class EstacionController extends Shield {
 
     def showEstacion() {
 
-      //  def dj =new  DashboardJob()
-      //  dj.execute()
+        //  def dj =new  DashboardJob()
+        //  dj.execute()
 
         def estacion
         if (session.tipo == "cliente") {
@@ -306,5 +306,69 @@ class EstacionController extends Shield {
             render "error"
         }
 
+    }
+
+    def calibracion(){
+        def limite
+        if(!params.limite)
+            limite=20
+        else
+            limite=params.limite.toInteger()
+        def estacion = Estacion.findByCodigoAndAplicacion(params.id,1)
+        def entradas = Entrada.findAllByEstacion(estacion,[sort:"fecha",order:"desc",max:limite])
+        //println "entradas "+entradas
+        [estacion:estacion,entradas:entradas,limite:limite]
+    }
+
+    def nuevaEntrada(){
+        //println "nueva entrada "+params
+        def estacion = Estacion.findByCodigoAndAplicacion(params.id,1)
+        def pathPart = "entradas/${estacion.codigo}/"
+        def path = servletContext.getRealPath("/") + pathPart
+        def texto = params.texto
+        def codigo = "entrada-"+(new Date().format("ddMMyyyyHHmmss"))
+        new File(path).mkdirs()
+        def f = request.getFile('file')  //archivo = name del input type file
+
+        def okContents = [
+                'application/pdf'     : 'pdf',
+                'application/download': 'pdf',
+                'image/jpeg':'jpeg',
+                'image/png':'png'
+        ]
+
+        def entrada = new Entrada()
+        entrada.estacion=estacion
+        entrada.texto=params.texto
+        if (f && !f.empty) {
+            def ext = okContents[f.getContentType()]
+            def nombre = codigo + "." + ext
+            if(ext=="pdf")
+                entrada.tipo="P"
+            else
+                entrada.tipo="I"
+            def pathFile = path + nombre
+            try {
+                f.transferTo(new File(pathFile)) // guarda el archivo subido al nuevo path
+                entrada.path=pathPart + nombre
+            } catch (e) {
+                flash.message = "Ha ocurrido un error al guardar"
+                redirect(action: "calibracion",id:estacion.codigo)
+                return
+            }
+        }
+        if(session.tipo=="usuario")
+            entrada.persona=session.usuario
+        if(!entrada.save(flush: true))
+            println "error save entrada "+entrada.entrada
+        flash.message="Entrada registrada"
+        redirect(action: "calibracion",id:estacion.codigo)
+
+    }
+
+    def borrarEntrada(){
+        def entrada = Entrada.get(params.id)
+        entrada.delete(flush: true)
+        render "ok"
     }
 }

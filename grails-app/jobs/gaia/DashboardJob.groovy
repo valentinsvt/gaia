@@ -16,28 +16,28 @@ class DashboardJob {
             def cont= 0
             def res = d.estacion.getColorLicencia()
             if(res[0]=="card-bg-green") {
-                println "canbio dash "+d.estacion.nombre+" en dlic"
+                //println "canbio dash "+d.estacion.nombre+" en dlic"
                 d.licencia = 1
                 cont++
             }else
                 d.licencia=0
             res = d.estacion.getColorAuditoria()
             if(res[0]=="card-bg-green") {
-                println "canbio dash "+d.estacion.nombre+" en audt"
+                //println "canbio dash "+d.estacion.nombre+" en audt"
                 d.auditoria = 1
                 cont++
             }else
                 d.auditoria=0
             res = d.estacion.checkDocs()
             if(res) {
-                println "canbio dash "+d.estacion.nombre+" en docs"
+                //println "canbio dash "+d.estacion.nombre+" en docs"
                 d.docs = 1
                 cont++
             } else
                 d.docs=0
             res = d.estacion.getColorMonitoreo()
             if(res[0]=="card-bg-green") {
-                println "canbio dash "+d.estacion.nombre+" en mon"
+                //println "canbio dash "+d.estacion.nombre+" en mon"
                 d.monitoreo = 1
                 cont++
             }else
@@ -54,28 +54,28 @@ class DashboardJob {
         def cont= 0
         def res = d.estacion.getColorLicencia()
         if(res[0]=="card-bg-green") {
-            println "canbio dash "+d.estacion.nombre+" en dlic"
+            //println "canbio dash "+d.estacion.nombre+" en dlic"
             d.licencia = 1
             cont++
         }else
             d.licencia=0
         res = d.estacion.getColorAuditoria()
         if(res[0]=="card-bg-green") {
-            println "canbio dash "+d.estacion.nombre+" en audt"
+            //println "canbio dash "+d.estacion.nombre+" en audt"
             d.auditoria = 1
             cont++
         }else
             d.auditoria=0
         res = d.estacion.checkDocs()
         if(res) {
-            println "canbio dash "+d.estacion.nombre+" en docs"
+            //println "canbio dash "+d.estacion.nombre+" en docs"
             d.docs = 1
             cont++
         } else
             d.docs=0
         res = d.estacion.getColorMonitoreo()
         if(res[0]=="card-bg-green") {
-            println "canbio dash "+d.estacion.nombre+" en mon"
+            //println "canbio dash "+d.estacion.nombre+" en mon"
             d.monitoreo = 1
             cont++
         }else

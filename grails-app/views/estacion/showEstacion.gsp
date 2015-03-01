@@ -82,6 +82,9 @@
         <a href="#" class="btn btn-default supervisor">
             <i class="fa fa-user-plus"></i> Supervisor
         </a>
+        <a href="${g.createLink(controller: 'estacion',action: 'calibracion',id:estacion.codigo)}" class="btn btn-default ">
+            <i class="fa fa-gears"></i> Calibración diaria
+        </a>
     </div>
 </div>
 <elm:container tipo="horizontal" titulo="Estación: ${estacion.nombre}">

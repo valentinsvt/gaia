@@ -6,8 +6,9 @@ import gaia.documentos.Documento
 import gaia.documentos.Proceso
 import gaia.documentos.TipoDocumento
 import gaia.estaciones.Estacion
+import gaia.seguridad.Shield
 
-class AuditoriaAmbientalController {
+class AuditoriaAmbientalController extends Shield {
 
     def diasLaborablesService
     def alertasService

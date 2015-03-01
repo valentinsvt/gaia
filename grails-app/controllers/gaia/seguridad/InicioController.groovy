@@ -65,14 +65,14 @@ class InicioController extends Shield {
                 colorDocs=1
             if(porcentaje<40)
                 colorDocs=2
-            porcentaje = ok*100%tot
+            porcentaje = ok*100/tot
             if(porcentaje>80)
                 colorOk=0
             if(porcentaje>40 &&  porcentaje<80)
                 colorOk=1
             if(porcentaje<40)
                 colorOk=2
-            porcentaje = monitoreo*100%tot
+            porcentaje = monitoreo*100/tot
             if(porcentaje>80)
                 colorMonitoreo=0
             if(porcentaje>40 &&  porcentaje<80)

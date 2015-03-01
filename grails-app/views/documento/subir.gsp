@@ -156,7 +156,32 @@
         'application/pdf' : 'pdf',
         'application/download' : 'pdf'
     };
+    var _validFileExtensions = [".pdf"];
+    $("#file").change(function(){
+        var sFileName = $(this).val();
+        if (sFileName.length > 0) {
+            var blnValid = false;
+            for (var j = 0; j < _validFileExtensions.length; j++) {
+                var sCurExtension = _validFileExtensions[j];
+                if (sFileName.substr(sFileName.length - sCurExtension.length, sCurExtension.length).toLowerCase() == sCurExtension.toLowerCase()) {
+                    blnValid = true;
+                    break;
+                }
+            }
 
+            if (!blnValid) {
+                bootbox.alert({
+                    message:"El archivo "+sFileName+" es invalido, los tipos de archivos permitidos son: "+ _validFileExtensions.join(", "),
+                    title:"Error",
+                    class:"modal-error"
+
+                })
+                $("#file").replaceWith( $("#file").val('').clone(true));
+                return false;
+
+            }
+        }
+    })
     var caducan = ${caducan}
 
             $(function () {
