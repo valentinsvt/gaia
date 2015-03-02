@@ -247,7 +247,7 @@ class Estacion {
         def cont = 0
         reqs.each {r->
             def doc = this.getLastDoc(r.tipo)
-            println "tipo "+r.tipo.nombre+" doc  "+doc?.referencia+"  "+doc?.fin
+           // println "tipo "+r.tipo.nombre+" doc  "+doc?.referencia+"  "+doc?.fin
             if(doc){
                 if(doc.estado=="A")
                     cont++

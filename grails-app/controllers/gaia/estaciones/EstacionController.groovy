@@ -315,7 +315,14 @@ class EstacionController extends Shield {
         else
             limite=params.limite.toInteger()
         def estacion = Estacion.findByCodigoAndAplicacion(params.id,1)
-        def entradas = Entrada.findAllByEstacion(estacion,[sort:"fecha",order:"desc",max:limite])
+        def entradas
+        if(params.inicio || params.fin){
+            def inicio = new Date().parse("dd-MM-yyyy HH:mm:ss",params.inicio+" 00:0:01")
+            def fin = new Date()
+            entradas = Entrada.findAllByEstacionAndFechaBetween(estacion,[sort:"fecha",order:"desc",max:limite])
+        }else{
+            entradas = Entrada.findAllByEstacion(estacion,[sort:"fecha",order:"desc",max:limite])
+        }
         //println "entradas "+entradas
         [estacion:estacion,entradas:entradas,limite:limite]
     }
