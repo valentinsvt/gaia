@@ -77,7 +77,7 @@
     </div>
 </div>
 <elm:container tipo="horizontal" titulo="Calibración diaria de la estación: ${estacion.nombre}" style="margin-top:0px">
-    <g:form class="frm-subir" controller="documento" action="upload" enctype="multipart/form-data">
+
         <div class="row">
             <div class="col-md-2">
                 <div class="btn-toolbar toolbar">
@@ -92,31 +92,37 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-1">
-                <label>
-                    Desde
-                </label>
-            </div>
-            <div class="col-md-2">
-                <elm:datepicker name="inicio"  class="form-control input-sm inicio"/>
-            </div>
-            <div class="col-md-1">
-                <label>
-                    Hasta
-                </label>
-            </div>
-            <div class="col-md-2">
-                <elm:datepicker name="fin" class="form-control input-sm fin"/>
-            </div>
-            <div class="col-md-1">
-                <a href="#" class="btn btn-info btn-sm">
-                    <i class="fa fa-refresh"></i> Filtrar
-                </a>
-            </div>
+
+            <g:form action="calibracion">
+                <input type="hidden" name="id" value="${estacion.codigo}">
+                <input type="hidden" name="limite" value="20">
+                <div class="col-md-1">
+                    <label>
+                        Desde
+                    </label>
+                </div>
+                <div class="col-md-2">
+                    <elm:datepicker name="inicio"  class="form-control input-sm inicio required" value="${inicio}"/>
+                </div>
+                <div class="col-md-1">
+                    <label>
+                        Hasta
+                    </label>
+                </div>
+                <div class="col-md-2">
+                    <elm:datepicker name="fin" class="form-control input-sm fin required" value="${fin}"/>
+                </div>
+                <div class="col-md-1">
+                    <input type="submit" class="btn btn-info btn-sm" value=" Filtrar">
+
+                    </a>
+                </div>
+            </g:form>
         </div>
         <div class="row">
             <div class="col-md-12">
                 <div class="blog">
+
                     <g:each in="${entradas}" var="e" status="i">
                         <div class="entrada-row">
                             <legend class="svt-bg-info header-entrada" >Por: ${e.persona?e.persona.login:e.estacion.nombre}, el ${e.fecha.format("dd-MM-yyyy HH:mm:ss")}</legend>
@@ -149,6 +155,11 @@
                             </div>
                         </div>
                     </g:each>
+                    <g:if test="${entradas.size()==0}">
+                        <div class="entrada-row">
+                            No se encontraron entradas
+                        </div>
+                    </g:if>
                     <g:if test="${entradas.size()>limite-1}">
                         <g:link controller="estacion" action="calibracion" params="[id:estacion.codigo,limite:limite+20]">
                             <div class="more">
@@ -159,7 +170,6 @@
                 </div>
             </div>
         </div>
-    </g:form>
 </elm:container>
 <div class="modal fade" id="modal-entrada">
     <div class="modal-dialog modal-lg" >

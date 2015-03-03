@@ -309,6 +309,7 @@ class EstacionController extends Shield {
     }
 
     def calibracion(){
+        println "params "+params
         def limite
         if(!params.limite)
             limite=20
@@ -317,14 +318,14 @@ class EstacionController extends Shield {
         def estacion = Estacion.findByCodigoAndAplicacion(params.id,1)
         def entradas
         if(params.inicio || params.fin){
-            def inicio = new Date().parse("dd-MM-yyyy HH:mm:ss",params.inicio+" 00:0:01")
-            def fin = new Date()
-            entradas = Entrada.findAllByEstacionAndFechaBetween(estacion,[sort:"fecha",order:"desc",max:limite])
+            def inicio = new Date().parse("dd-MM-yyyy HH:mm:ss",params.inicio_input+" 00:0:01")
+            def fin = new Date().parse("dd-MM-yyyy HH:mm:ss",params.fin_input+" 00:0:01")
+            entradas = Entrada.findAllByEstacionAndFechaBetween(estacion,inicio,fin,[sort:"fecha",order:"desc",max:limite])
         }else{
             entradas = Entrada.findAllByEstacion(estacion,[sort:"fecha",order:"desc",max:limite])
         }
         //println "entradas "+entradas
-        [estacion:estacion,entradas:entradas,limite:limite]
+        [estacion:estacion,entradas:entradas,limite:limite,inicio:params.inicio_input,fin:params.fin_input]
     }
 
     def nuevaEntrada(){
