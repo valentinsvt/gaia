@@ -161,7 +161,7 @@
                         </div>
                     </g:if>
                     <g:if test="${entradas.size()>limite-1}">
-                        <g:link controller="estacion" action="calibracion" params="[id:estacion.codigo,limite:limite+20]">
+                        <g:link controller="estacion" action="calibracion" params="[id:estacion.codigo,limite:limite+20,inicio_input:inicio,fin_input:fin]">
                             <div class="more">
                                 Cargar más
                             </div>
