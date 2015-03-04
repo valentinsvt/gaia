@@ -16,7 +16,7 @@ class InicioController extends Shield {
             //alertas+= Alerta.findAllByPersonaIsNullAndEstacionIsNull().size()
             def now = new Date()
             def nextMonth = now.plus(30)
-            def documentos = Documento.findAllByFinBetween(now,nextMonth)
+            def documentos = Documento.findAllByFinBetween(now,nextMonth,[sort: "fin"])
             def licencia = 0
             def auditoria = 0
             def docs = 0

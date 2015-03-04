@@ -301,7 +301,7 @@ class ElementosTagLib {
         def nameHiddenDay = name + "_day"
         def nameHiddenMonth = name + "_month"
         def nameHiddenYear = name + "_year"
-
+        def placeHolder = attrs.placeHolder
         def nameHiddenHour = name + "_hour"
         def nameHiddenMin = name + "_minute"
 
@@ -391,7 +391,7 @@ class ElementosTagLib {
         def br = "\n"
 
         def textfield = "<input type='text' name='${nameInput}' id='${id}' " + (readonly ? "readonly=''" : "") + " value='${value}'" +
-                " class='${clase}' data-date-format='${formatJS}'/>"
+                " class='${clase}' data-date-format='${formatJS}' placeholder='${placeHolder}' />"
 
         def hiddenDay = "<input type='hidden' name='${nameHiddenDay}' id='${idHiddenDay}' value='${valueDay}'/>"
         def hiddenMonth = "<input type='hidden' name='${nameHiddenMonth}' id='${idHiddenMonth}' value='${valueMonth}'/>"

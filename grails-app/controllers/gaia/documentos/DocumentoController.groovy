@@ -258,4 +258,45 @@ class DocumentoController extends Shield {
         render "ok"
     }
 
+    def busquedaDocumento(){
+        def estaciones = Dashboard.list().estacion
+        def tipos = TipoDocumento.list([sort: "nombre"])
+        def consultores = Consultor.list([sort: "nombre"])
+        [estaciones:estaciones,tipos:tipos,consultores:consultores]
+    }
+
+    def buscar(){
+        //println "params "+params
+        def documentos = Documento.withCriteria {
+            if(params.estacion!="-1")
+                eq("estacion",Estacion.findByCodigoAndAplicacion(params.estacion,1))
+            if(params.tipo!="-1")
+                eq("tipo",TipoDocumento.get(params.tipo))
+            if(params.consultor!="-1")
+                eq("consultor",Consultor.get(params.consultor))
+            if(params.registro_desde!=""){
+                gt("fechaRegistro",new Date().parse("dd-MM-yyyy HH:mm:ss",params.registro_desde+" 00:00:01"))
+            }
+            if(params.registro_hasta!=""){
+                lt("fechaRegistro",new Date().parse("dd-MM-yyyy HH:mm:ss",params.registro_hasta+" 23:59:01"))
+            }
+            if(params.emitido_desde!=""){
+                gt("inicio",new Date().parse("dd-MM-yyyy HH:mm:ss",params.emitido_desde+" 00:00:01"))
+            }
+            if(params.emitido_hasta!=""){
+                lt("inicio",new Date().parse("dd-MM-yyyy HH:mm:ss",params.emitido_hasta+" 23:59:01"))
+            }
+            if(params.vence_desde!=""){
+                gt("fin",new Date().parse("dd-MM-yyyy HH:mm:ss",params.vence_desde+" 00:00:01"))
+            }
+            if(params.vence_hasta!=""){
+                lt("fin",new Date().parse("dd-MM-yyyy HH:mm:ss",params.vence_hasta+" 23:59:01"))
+            }
+            order("inicio")
+        }
+
+        [documentos:documentos]
+
+    }
+
 }
