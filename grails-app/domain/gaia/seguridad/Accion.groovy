@@ -28,6 +28,14 @@ class Accion {
      * Tipo de acción
      */
     TipoAccion tipo
+    /**
+     * Orden en el cual deben aparecer los items en el menú
+     */
+    Integer orden
+    /**
+     * Clase para el ícono (fontawesome, glyohicons, mfizz, flaticons)
+     */
+    String icono = ""
 
     /**
      * Define las relaciones uno a varios
@@ -55,6 +63,8 @@ class Accion {
             control column: 'ctrl__id'
             modulo column: 'mdlo__id'
             tipo column: 'tpac__id'
+            orden column: 'accnordn'
+            icono column: 'accnicno'
         }
     }
 
@@ -64,6 +74,8 @@ class Accion {
     static constraints = {
         nombre(blank: false, size: 0..50)
         accnAuditable(blank: true, nullable: true)
+        icono nullable: true
+        orden nullable: true
     }
 
     /**

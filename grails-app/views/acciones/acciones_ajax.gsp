@@ -1,4 +1,4 @@
-<%@ page import="gaia.Modulo; gaia.seguridad.Modulo; gaia.seguridad.TipoAccion" %>
+<%@ page import="gaia.seguridad.Permiso; gaia.seguridad.Modulo; gaia.seguridad.TipoAccion" %>
 
 <script src="${resource(dir: 'js/plugins/fixed-header-table-1.3', file: 'jquery.fixedheadertable.js')}"></script>
 <link rel="stylesheet" type="text/css" href="${resource(dir: 'js/plugins/fixed-header-table-1.3/css', file: 'defaultTheme.css')}"/>
@@ -6,8 +6,14 @@
 <table id="tblAcciones" class="table table-bordered table-condensed table-hover">
     <thead>
         <tr>
-            <th width="19%">Acción</th>
-            <th width="27%">
+            <th width="10%">
+                Permiso
+                <a href="#" title="Guardar todos los permisos modificados" class="btn btn-save-perm btn-success btn-sm pull-right">
+                    <i class="fa fa-save"></i>
+                </a>
+            </th>
+            <th width="15%">Acción</th>
+            <th width="25%">
                 Nombre
                 <a href="#" title="Guardar todos los nombre modificados" class="btn btn-save-desc btn-success btn-sm pull-right">
                     <i class="fa fa-save"></i>
@@ -19,13 +25,22 @@
                     <i class="fa fa-save"></i>
                 </a>
             </th>
-            <th width="14%">Tipo</th>
+            <th width="15%">Tipo</th>
+            <th width="10%">Orden</th>
+            <th width="10%">Icono</th>
         </tr>
     </thead>
     <tbody>
         <g:each in="${acciones}" var="accion" status="i">
             <g:set var="esMenu" value="${accion.tipo.codigo == 'M'}"/>
-            <tr class="${esMenu ? 'success' : 'info'}">
+            <g:set var="cantPermisos" value="${Permiso.countByAccionAndPerfil(accion, perfil)}"/>
+            <tr class="${esMenu ? 'success' : 'info'}" style="${cantPermisos > 0 ? 'font-weight: bold' : ''}"
+                data-nombre="${accion.descripcion}" data-orden="${accion.orden}" data-id="${accion.id}"
+                data-icono="${accion.icono}">
+                <td data-id="${accion.id}" class="text-center check ${cantPermisos > 0 ? 'checked' : ''}"
+                    data-original="${cantPermisos > 0 ? 'checked' : 'unchecked'}">
+                    <i class="fa ${cantPermisos > 0 ? 'fa-check-square-o' : 'fa-square-o'}"></i>
+                </td>
                 <td>
                     ${accion.nombre}
                 </td>
@@ -37,7 +52,7 @@
                     ${accion.control.nombre}
                 </td>
                 <td>
-                    <g:select name="modulo" from="${gaia.seguridad.Modulo.list([sort: 'nombre'])}" optionKey="id" optionValue="nombre" data-id="${accion.id}"
+                    <g:select name="modulo" from="${Modulo.list([sort: 'nombre'])}" optionKey="id" optionValue="nombre" data-id="${accion.id}"
                               value="${accion.modulo.id}" class="form-control input-sm input-sm select-mod" data-original="${accion.modulo.id}"
                               tabindex="${i + 1 + acciones.size()}"/>
                 </td>
@@ -50,6 +65,14 @@
                         ${accion.tipo.tipo}
                     </span>
                 </td>
+                <td class="text-right orden">
+                    ${accion.orden}
+                </td>
+                <td class="text-right icono">
+                    <g:if test="${accion.icono}">
+                        <i class="${accion.icono}"></i>
+                    </g:if>
+                </td>
             </tr>
         </g:each>
     </tbody>
@@ -58,19 +81,113 @@
 <script type="text/javascript">
 
     $("#tblAcciones").fixedHeaderTable({
-        height    : 320,
-        autoResize: true,
-        footer    : true
+        height     : 320,
+        autoResize : true,
+        footer     : true
     });
 
     $('[title!=""]').qtip({
-        style   : {
-            classes: 'qtip-tipsy'
+        style    : {
+            classes : 'qtip-tipsy'
         },
-        position: {
-            my: "bottom center",
-            at: "top center"
+        position : {
+            my : "bottom center",
+            at : "top center"
         }
+    });
+
+    $(".orden").click(function () {
+        var $tr = $(this).parents("tr");
+        var accion = $tr.data("nombre");
+        var accionId = $tr.data("id");
+        var orden = $tr.data("orden");
+        bootbox.prompt({
+            title    : "Cambiar orden de <span class='text-info'>" + accion + "</span>",
+            value    : orden,
+            class    : "modal-sm",
+            type     : "number",
+            callback : function (result) {
+                if (result === null) {
+                } else {
+                    openLoader();
+                    $.ajax({
+                        type    : "POST",
+                        url     : "${createLink(controller:'acciones', action:'accionCambiarOrden_ajax')}",
+                        data    : {
+                            id    : accionId,
+                            orden : result
+                        },
+                        success : function (msg) {
+                            var parts = msg.split("*");
+                            log(parts[1], parts[0] == "SUCCESS" ? "success" : "error"); // log(msg, type, title, hide)
+                            closeLoader();
+                            if (parts[0] == "SUCCESS") {
+                                reload();
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    });
+
+    $(".icono").click(function () {
+        var $this = $(this);
+        var $tr = $this.parents("tr");
+        var accion = $tr.data("nombre");
+        var accionId = $tr.data("id");
+        var ic = $tr.data("icono");
+
+        $.ajax({
+            type    : "POST",
+            url     : "${createLink(controller:'icono', action:'dlgIconos_ajax')}",
+            data    : {
+                selected : ic
+            },
+            success : function (msg) {
+                var b = bootbox.dialog({
+                    id      : "dlgIconos",
+                    title   : "Cambiar ícono de " + accion,
+                    message : msg,
+                    buttons : {
+                        cancelar : {
+                            label     : "Cancelar",
+                            className : "btn-primary",
+                            callback  : function () {
+                            }
+                        },
+                        guardar  : {
+                            id        : "btnSave",
+                            label     : "<i class='fa fa-check'></i> Aceptar",
+                            className : "btn-success",
+                            callback  : function () {
+                                var icono = $(".ic.selected").data("str");
+                                openLoader();
+                                $.ajax({
+                                    type    : "POST",
+                                    url     : "${createLink(controller:'acciones', action:'accionCambiarIcono_ajax')}",
+                                    data    : {
+                                        id    : accionId,
+                                        icono : icono
+                                    },
+                                    success : function (msg) {
+                                        var parts = msg.split("*");
+                                        log(parts[1], parts[0] == "SUCCESS" ? "success" : "error"); // log(msg, type, title, hide)
+                                        closeLoader();
+                                        if (parts[0] == "SUCCESS") {
+                                            reload();
+                                        }
+                                    }
+                                });
+                            } //callback
+                        } //guardar
+                    } //buttons
+                }); //dialog
+                setTimeout(function () {
+                    b.find(".form-control").first().focus()
+                }, 500);
+            } //success
+        }); //ajax
     });
 
     $(".select-mod").change(function () {
@@ -107,10 +224,10 @@
         });
         openLoader("Guardando");
         $.ajax({
-            type   : "POST",
-            url    : "${createLink(controller:'acciones', action:'accionCambiarNombre_ajax')}",
-            data   : data,
-            success: function (msg) {
+            type    : "POST",
+            url     : "${createLink(controller:'acciones', action:'accionCambiarNombre_ajax')}",
+            data    : data,
+            success : function (msg) {
                 var parts = msg.split("*");
                 log(parts[1], parts[0] == "SUCCESS" ? "success" : "error"); // log(msg, type, title, hide)
                 closeLoader();
@@ -134,10 +251,10 @@
         });
         openLoader("Guardando");
         $.ajax({
-            type   : "POST",
-            url    : "${createLink(controller:'acciones', action:'accionCambiarModulo_ajax')}",
-            data   : data,
-            success: function (msg) {
+            type    : "POST",
+            url     : "${createLink(controller:'acciones', action:'accionCambiarModulo_ajax')}",
+            data    : data,
+            success : function (msg) {
                 var parts = msg.split("*");
                 log(parts[1], parts[0] == "SUCCESS" ? "success" : "error"); // log(msg, type, title, hide)
                 closeLoader();
@@ -163,13 +280,13 @@
             tipo = "M";
         }
         $.ajax({
-            type   : "POST",
-            url    : "${createLink(controller:'acciones', action:'accionCambiarTipo_ajax')}",
-            data   : {
-                id  : id,
-                tipo: tipo
+            type    : "POST",
+            url     : "${createLink(controller:'acciones', action:'accionCambiarTipo_ajax')}",
+            data    : {
+                id   : id,
+                tipo : tipo
             },
-            success: function (msg) {
+            success : function (msg) {
                 var parts = msg.split("*");
                 log(parts[1], parts[0] == "SUCCESS" ? "success" : "error"); // log(msg, type, title, hide)
                 if (parts[0] == "SUCCESS") {
@@ -194,54 +311,50 @@
         return false;
     });
 
-    %{--$(".btn-save").click(function () {--}%
-    %{--var $btn = $(this);--}%
-    %{--var val = $btn.parent().prev().val();--}%
-    %{--var id = $btn.data("id");--}%
-    %{--$.ajax({--}%
-    %{--type   : "POST",--}%
-    %{--url    : "${createLink(controller:'acciones', action:'accionCambiarNombre_ajax')}",--}%
-    %{--data   : {--}%
-    %{--id         : id,--}%
-    %{--descripcion: val--}%
-    %{--},--}%
-    %{--success: function (msg) {--}%
-    %{--var parts = msg.split("*");--}%
-    %{--log(parts[1], parts[0] == "SUCCESS" ? "success" : "error"); // log(msg, type, title, hide)--}%
-    %{--}--}%
-    %{--});--}%
-    %{--return false;--}%
-    %{--});--}%
+    $(".check").click(function () {
+        var $this = $(this);
+        var original = $(this).data("original");
+        if ($this.hasClass("checked")) {
+            $this.removeClass("checked");
+            $this.find("i").removeClass("fa-check-square-o").addClass("fa-square-o")
+            if (original == "checked") {
+                $this.parents("tr").addClass("warning");
+            } else {
+                $this.parents("tr").removeClass("warning");
+            }
+        } else {
+            $this.addClass("checked");
+            $this.find("i").removeClass("fa-square-o").addClass("fa-check-square-o")
+            if (original == "unchecked") {
+                $this.parents("tr").addClass("warning");
+            } else {
+                $this.parents("tr").removeClass("warning");
+            }
+        }
+    });
 
-    %{--$(".switch").bootstrapSwitch({--}%
-    %{--onColor       : "success",--}%
-    %{--offColor      : "info",--}%
-    %{--onText        : "Menú",--}%
-    %{--offText       : "Proceso",--}%
-    %{--size          : "small",--}%
-    %{--onSwitchChange: function (event, state) {--}%
-    %{--//menu    : state true--}%
-    %{--//proceso : state false--}%
-    %{--var tipo = 'M';--}%
-    %{--var id = $(this).data("id");--}%
-    %{--if (state) {--}%
-    %{--$(this).parents("tr").removeClass("info").addClass("success");--}%
-    %{--} else {--}%
-    %{--$(this).parents("tr").removeClass("success").addClass("info");--}%
-    %{--tipo = 'P';--}%
-    %{--}--}%
-    %{--$.ajax({--}%
-    %{--type   : "POST",--}%
-    %{--url    : "${createLink(controller:'acciones', action:'accionCambiarTipo_ajax')}",--}%
-    %{--data   : {--}%
-    %{--id  : id,--}%
-    %{--tipo: tipo--}%
-    %{--},--}%
-    %{--success: function (msg) {--}%
-    %{--var parts = msg.split("*");--}%
-    %{--log(parts[1], parts[0] == "SUCCESS" ? "success" : "error"); // log(msg, type, title, hide)--}%
-    %{--}--}%
-    %{--});--}%
-    %{--}--}%
-    %{--});--}%
+    $(".btn-save-perm").click(function () {
+        var perfil = "${perfil.id}";
+        var data = {
+            accion : ""
+        };
+        $(".checked").each(function () {
+            data.accion += $(this).data("id") + ",";
+        });
+        data.perfil = "${perfil.id}";
+        data.modulo = "${modulo.id}";
+        openLoader();
+        $.ajax({
+            type    : "POST",
+            url     : "${createLink(controller:'acciones', action:'guardarPermisos_ajax')}",
+            data    : data,
+            success : function (msg) {
+                $('.qtip').qtip('hide');
+                var parts = msg.split("*");
+                log(parts[1], parts[0] == "SUCCESS" ? "success" : "error"); // log(msg, type, title, hide)
+                location.reload(true);
+            }
+        });
+        return false;
+    });
 </script>

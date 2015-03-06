@@ -21,15 +21,22 @@ class AccionesController extends Shield {
      * Acción que muestra una lista de acciones filtrando por módulo y tipo para editar las acciones
      */
     def acciones_ajax() {
+        def perfil = Perfil.findByCodigo(params.perf)
+        def modulo = Modulo.get(params.id)
         def acciones = Accion.withCriteria {
-            eq("modulo", Modulo.get(params.id))
-            order("tipo", "asc")
-            control {
-                order("nombre", "asc")
+            eq("modulo", modulo)
+            not {
+                ilike("nombre", "%ajax%")
+                ilike("nombre", "%old%")
             }
-            order("nombre", "asc")
+            order("tipo", "asc")
+            order("orden", "asc")
         }
-        return [acciones: acciones]
+
+        def acp = acciones.findAll { Permiso.countByAccionAndPerfil(it, perfil) > 0 }
+        def acnp = acciones.findAll { Permiso.countByAccionAndPerfil(it, perfil) == 0 }
+
+        return [acciones: acp + acnp, perfil: perfil, modulo: modulo]
     }
 
     /**
@@ -104,22 +111,44 @@ class AccionesController extends Shield {
     }
 
     /**
-     * Acción llamada con ajax que itera sobre todos los controladores creados en el proyecto grails, los busca en la base de datos y si no los encuentra los inserta dentro de la tabla representada en el dominio Ctrl
+     * Acción llamada con ajax que cambia el orden de una acción
      */
-    def cargarControladores_ajax() {
-//        println "cargar controladores"
-        def i = 0
-        grailsApplication.controllerClasses.each {
-            //def  lista = Ctrl.list()
-            def ctr = Controlador.findByNombre(it.getName())
-            if (!ctr) {
-                ctr = new Controlador()
-                ctr.nombre = it.getName()
-                ctr.save(flush: true)
-                i++
+    def accionCambiarOrden_ajax() {
+        def accion = Accion.get(params.id)
+        accion.orden = params.orden.toInteger()
+        if (accion.save()) {
+            render "SUCCESS*Se ha cambiado el orden exitosamente"
+        } else {
+            render "ERROR*" + renderErrors(bean: accion)
+        }
+    }
+    /**
+     * Acción llamada con ajax que cambia el icono de una acción
+     */
+    def accionCambiarIcono_ajax() {
+        def accion = Accion.get(params.id)
+        accion.icono = params.icono
+        println "cambiar ico: " + params
+        if (accion.save(flush: true)) {
+            render "SUCCESS*Se ha cambiado el icono exitosamente"
+        } else {
+            render "ERROR*" + renderErrors(bean: accion)
+        }
+    }
+
+    /**
+     * Función que busca si un elemento existe con ilike
+     * @param lista
+     * @param elemento
+     */
+    def containsIlike(lista, String elemento) {
+        def existe = false
+        lista.each { String item ->
+            if (item.matches("(?i).*" + elemento + ".*")) {
+                existe = true
             }
         }
-        render("SUCCESS*Se ha${i == 1 ? '' : 'n'} agregado ${i} Controlador${i == 1 ? '' : 'es'}")
+        return existe
     }
 
     /**
@@ -130,93 +159,94 @@ class AccionesController extends Shield {
         def ac = []
         def accs = [:]
         def ok = 0
+        def okc = 0
         def total = 0
-        def ignore = ["afterInterceptor", "beforeInterceptor"]
+        def ignoreAcciones = ["afterInterceptor", "beforeInterceptor", "getList"]
+        def ignoreAccionesLike = ["ajax", "old"]
+        def ignoreControladores = ["Assets", "Dbdoc", "Shield", "Login", "Pdf"]
         def errores = ""
         grailsApplication.controllerClasses.each { ct ->
-            def t = []
-            ct.getURIs().each {
-                def s = it.split("/")
-                if (s.size() > 2) {
-                    if (!t.contains(s[2])) {
-                        if (!ignore.contains(s[2])) {
-                            if (!(s[2] =~ "Service")) {
-                                def accn = Accion.findByNombreAndControl(s[2], Controlador.findByNombre(ct.getName()))
-                                //println "si service "+ s[2]+" accion "+accn.id+" url "+it
-                                if (accn == null) {
-                                    println "if 2";
-                                    accn = new Accion()
-                                    accn.nombre = s[2]
-                                    accn.control = Controlador.findByNombre(ct.getName())
-                                    accn.descripcion = s[2]
-                                    accn.accnAuditable = 1
-                                    if (s[2] =~ "save" || s[2] =~ "update" || s[2] =~ "delete" || s[2] =~ "guardar")
-                                        accn.tipo = TipoAccion.get(2)
-                                    else
-                                        accn.tipo = TipoAccion.get(1)
-                                    accn.modulo = Modulo.findByNombre("noAsignado")
-                                    if (accn.save(flush: true)) {
-                                        ok++
+            if (!ignoreControladores.contains(ct.getName())) {
+                def t = []
+                ct.getURIs().each {
+                    def s = it.split("/")
+                    if (s.size() > 2) {
+                        if (!t.contains(s[2])) {
+                            if (!ignoreAcciones.contains(s[2])) {
+                                if (!containsIlike(ignoreAccionesLike, s[2])) {
+                                    if (!(s[2] =~ "Service")) {
+                                        def ctrl = Controlador.findByNombre(ct.getName())
+                                        if (!ctrl) {
+                                            ctrl = new Controlador()
+                                            ctrl.nombre = it.getName()
+                                            if (ctrl.save()) {
+                                                okc++
+                                            } else {
+                                                errores += renderErrors(bean: ctrl)
+                                                println "errores " + ctrl.errors
+                                            }
+                                        }
+                                        def accn = Accion.findByNombreAndControl(s[2], ctrl)
+                                        //println "si service "+ s[2]+" accion "+accn.id+" url "+it
+                                        if (accn == null) {
+//                                    println "if 2";
+                                            accn = new Accion()
+                                            accn.nombre = s[2]
+                                            accn.control = Controlador.findByNombre(ct.getName())
+                                            accn.descripcion = s[2]
+                                            accn.accnAuditable = 1
+                                            accn.orden = 1
+//                                    if (s[2] =~ "save" || s[2] =~ "update" || s[2] =~ "delete" || s[2] =~ "guardar")
+                                            accn.tipo = TipoAccion.findByCodigo("P")
+//                                    else
+//                                        accn.tipo = TipoAccion.findByCodigo("M")
+                                            accn.modulo = Modulo.findByNombre("noAsignado")
+                                            if (accn.save()) {
+                                                accn.orden = accn.id
+                                                accn.icono = ""
+                                                accn.save()
+                                                ok++
+                                            } else {
+                                                errores += renderErrors(bean: accn)
+                                                println "errores " + accn.errors
+                                            }
+                                            total++
+                                        }
+                                        t.add(s.getAt(2))
                                     } else {
-                                        errores += renderErrors(bean: accn)
-                                        println "errores " + accn.errors
-                                    }
-                                    total++
-                                }
-                                t.add(s.getAt(2))
-                            } else {
 //                                println "no sale por el service "+s[2]+" "+it
+                                    }
+                                } else {
+//                                    println s[2] + " no sale por el ignoreAccionesLike " + ignoreAccionesLike
+                                }
+                            } else {
+//                                println s[2] + " no sale por el ignoreAcciones " + ignoreAcciones
                             }
                         } else {
-                            //println "no sale por el ignore "+ignore
+                            //println "no sale por el contains t  "+it+"   "+t
                         }
                     } else {
-                        //println "no sale por el contains t  "+it+"   "+t
+                        // println "no sele por el size "+it
                     }
-                } else {
-                    // println "no sele por el size "+it
                 }
+                accs.put(ct.getName(), t)
+                t = null
+            } else {
+//                println ct.getName() + " no sale por el ignoreControladores " + ignoreControladores
             }
-            accs.put(ct.getName(), t)
-            t = null
         }
         if (errores == "") {
-            render("SUCCESS*Se ha${ok == 1 ? '' : 'n'} agregado ${ok} acci${ok == 1 ? 'ón' : 'ones'}")
+            render("SUCCESS*Se ha${(ok + okc) == 1 ? '' : 'n'} agregado ${ok} acci${ok == 1 ? 'ón' : 'ones'} ${okc == 0 ? '' : (' y ' + okc + ' controlador' + (okc == 1 ? '' : 'es'))}")
         } else {
             render "ERROR*Se insert${ok == 1 ? 'ó' : 'aron'} ${ok} de ${total} acci${ok == 1 ? 'ón' : 'ones'}: " + errores
         }
     }
 
     /**
-     * Acción que muestra los módulos a los que un perfil tiene acceso
-     */
-    def permisos() {
-        def modulos = Modulo.list([sort: "orden"])
-        return [modulos: modulos]
-    }
-
-    /**
-     * Acción llamada con ajax que muestra una lista de acciones filtrando por módulo y tipo para editar los permisos
-     */
-    def permisos_ajax() {
-        def perfil = Perfil.findByCodigo(params.perf)
-        def modulo = Modulo.get(params.id)
-        def acciones = Accion.withCriteria {
-            eq("modulo", modulo)
-            order("tipo", "asc")
-            control {
-                order("nombre", "asc")
-            }
-            order("nombre", "asc")
-        }
-        return [acciones: acciones, perfil: perfil, modulo: modulo]
-    }
-
-    /**
      * Acción llamada con ajax que guarda los permisos de un perfil
      */
     def guardarPermisos_ajax() {
-        println "guardar "+params
+        println "guardar " + params
         def perfil = Perfil.findByCodigo(params.perfil)
         def modulo = Modulo.get(params.modulo.toLong())
 

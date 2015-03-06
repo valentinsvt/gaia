@@ -12,7 +12,7 @@ class MenuTagLib {
         def html = ""
         html += "<footer class='footer ${attrs['class']}'>"
         html += "<div class='container text-center'>"
-        html += "Petroleos y servicios - 2015 Todos los derechos reservados"
+        html += "Petróleos y servicios - 2015 Todos los derechos reservados"
         html += "</div>"
         html += "</footer>"
         out << html
@@ -27,21 +27,11 @@ class MenuTagLib {
         html += "<div class='banner-esquina'>"
         html += "</div>"
         html += "<div class='banner-title'>PETRÓLEOS Y SERVICIOS - Sistema documental de gestión ambiental integral</div>"
-        if (large != "") {
-            html += "<div class='banner-logo'>"
-            html += "</div>"
-            html += "<div class='banner-esquina der'>"
-            html += "</div>"
-        } else {
-//            html += "<div class='banner-search'>"
-//            html += "<div class='input-group input-group-sm'>"
-//            html += "<input type='text' class='form-control' placeholder='Buscador'>"
-//            html += "<span class='input-group-btn'>"
-//            html += "<a href='#' class='btn btn-default' style='margin-top:-4px;'><i class='fa fa-search'></i>&nbsp;</a>"
-//            html += "</span>"
-//            html += "</div><!-- /input-group -->"
-//            html += "</div>"
-        }
+        html += "<div class='banner-logo'>"
+        html += "</div>"
+        html += "<div class='banner-esquina der'>"
+        html += "</div>"
+
         html += "</div>"
 
         out << html
@@ -60,49 +50,66 @@ class MenuTagLib {
         if (!attrs.title) {
             attrs.title = "Sistema de documentación ambiental"
         }
-//        attrs.title = attrs.title.toUpperCase()
         if (usuario) {
-            def acciones = Permiso.findAllByPerfil(perfil).accion.sort { it.modulo.orden }
+            def acciones = Permiso.withCriteria {
+                eq("perfil", perfil)
+                accion {
+                    modulo {
+                        order("orden", "asc")
+                    }
+                    order("orden", "asc")
+                }
+            }.accion
 
             acciones.each { ac ->
-                if (ac.tipo.id == 1) {
-                    if (!items[ac.modulo.nombre]) {
-                        items.put(ac.modulo.nombre, [ac.descripcion, g.createLink(controller: ac.control.nombre, action: ac.nombre)])
-                    } else {
-                        items[ac.modulo.nombre].add(ac.descripcion)
-                        items[ac.modulo.nombre].add(g.createLink(controller: ac.control.nombre, action: ac.nombre))
+                if (ac.tipo.codigo == 'M' && ac.modulo.nombre != 'noAsignado') {
+                    if (!items[ac.modulo.id]) {
+                        items[ac.modulo.id] = [
+                                label: ac.modulo.nombre,
+                                icon : ac.modulo.icono,
+                                items: [:]
+                        ]
                     }
-                }
-            }
-            items.each { item ->
-                for (int i = 0; i < item.value.size(); i += 2) {
-                    for (int j = 2; j < item.value.size() - 1; j += 2) {
-                        def val = item.value[i].trim().compareTo(item.value[j].trim())
-                        if (val > 0 && i < j) {
-                            def tmp = [item.value[j], item.value[j + 1]]
-                            item.value[j] = item.value[i]
-                            item.value[j + 1] = item.value[i + 1]
-                            item.value[i] = tmp[0]
-                            item.value[i + 1] = tmp[1]
-                        }
-
-                    }
+                    def acc = [
+                            controller: ac.control.nombre,
+                            action    : ac.nombre,
+                            label     : ac.descripcion,
+                            icon      : ac.icono
+                    ]
+                    items[ac.modulo.id]["items"][ac.id] = acc
                 }
             }
         } else {
-            items = ["Inicio": ["Prueba", "linkPrueba", "Test", "linkTest"]]
+            items = [
+                    "Inicio": [
+                            controller: "inicio",
+                            action    : "index",
+                            label     : "Inicio",
+                            icon      : "fa-home"
+                    ],
+                    admin   : [
+                            label: "Administración",
+                            icon : "fa-cog",
+                            items: [
+                                    alergia: [
+                                            controller: "test1",
+                                            action    : "list",
+                                            label     : "Test 1",
+                                            icon      : "fa-stethoscope"
+                                    ],
+                                    clinica: [
+                                            controller: "test2",
+                                            action    : "list",
+                                            label     : "Test 2",
+                                            icon      : "fa-hospital"
+                                    ]
+                            ]
+                    ]
+            ]
         }
 
-        items.each { item ->
-            strItems += '<li class="dropdown">'
-            strItems += '<a href="#" class="dropdown-toggle" data-toggle="dropdown">' + item.key + '<b class="caret"></b></a>'
-            strItems += '<ul class="dropdown-menu">'
-
-            (item.value.size() / 2).toInteger().times {
-                strItems += '<li><a href="' + item.value[it * 2 + 1] + '">' + item.value[it * 2] + '</a></li>'
-            }
-            strItems += '</ul>'
-            strItems += '</li>'
+        items.each { k, item ->
+            strItems += renderItem(item)
         }
 
         def alertas = "("
@@ -153,6 +160,47 @@ class MenuTagLib {
         html += "</nav>"
 
         out << html
+    }
+
+    /**
+     * Función que genera una porción de un item del menú
+     * @param item
+     * @return String con el elemento "<li>" del item
+     */
+    def renderItem(item) {
+        def str = "", clase = ""
+        if (session.cn == item.controller && session.an == item.action) {
+            clase = "active"
+        }
+        if (item.items) {
+            clase += " dropdown"
+        }
+        str += "<li class='" + clase + "'>"
+        if (item.items) {
+            str += "<a href='#' class='dropdown-toggle' data-toggle='dropdown'>"
+            if (item.icon) {
+                str += "<i class='fa ${item.icon}'></i>"
+                str += " "
+            }
+            str += item.label
+            str += "<b class=\"caret\"></b></a>"
+            str += '<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">'
+            item.items.each { t, i ->
+                str += renderItem(i)
+            }
+            str += "</ul>"
+        } else {
+            str += "<a href='" + createLink(controller: item.controller, action: item.action, params: item.params) + "'>"
+            if (item.icon) {
+                str += "<i class='fa ${item.icon}'></i>"
+                str += " "
+            }
+            str += item.label
+            str += "</a>"
+        }
+        str += "</li>"
+
+        return str
     }
 
 }

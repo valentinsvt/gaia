@@ -3,7 +3,7 @@ package gaia.seguridad
 /**
  * Clase para conectar con la tabla 'mdlo' de la base de datos
  */
-class Modulo   {
+class Modulo {
     /**
      * Nombre del módulo
      */
@@ -16,6 +16,10 @@ class Modulo   {
      * Orden del módulo
      */
     int orden
+    /**
+     * Icono del módulo
+     */
+    String icono = ""
 
     /**
      * Define los campos que se van a ignorar al momento de hacer logs
@@ -35,6 +39,7 @@ class Modulo   {
             nombre column: 'mdlonmbr'
             descripcion column: 'mdlodscr'
             orden column: 'mdloordn'
+            icono column: 'mdloicno'
         }
     }
 
@@ -42,7 +47,7 @@ class Modulo   {
      * Define las restricciones de cada uno de los campos
      */
     static constraints = {
-
+        icono nullable: true
     }
 
     /**

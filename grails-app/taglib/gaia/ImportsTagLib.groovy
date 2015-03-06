@@ -108,6 +108,8 @@ class ImportsTagLib {
         text += imp.css(src: resource(dir: 'fonts/font-mfizz-1.2', file: 'font-mfizz.css'))
         // Flaticons construction
         text += imp.css(src: resource(dir: 'fonts/flaticons-construction', file: 'flaticon.css'))
+        // Flaticons gas
+        text += imp.css(src: resource(dir: 'fonts/flaticons-gas', file: 'flaticon.css'))
         // FontAwesome
         text += imp.css(src: resource(dir: 'fonts/font-awesome-4.3.0/css', file: 'font-awesome.min.css'))
 
