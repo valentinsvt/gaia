@@ -325,6 +325,15 @@
                 });
             }
         }
+        var editar = {
+            label  : "Editar",
+            icon   : "fa fa-pencil",
+            action :function() {
+                $("#doc").html('  <div>Mostrando observaciones del documento</div>');
+
+                location.href="${g.createLink(controller: 'documento',action: 'subir',id: params.codigo)}?doc="+nodeId
+            }
+        }
         var download = {
             label            : "Descargar",
             icon             : "fa fa-download",
@@ -354,6 +363,9 @@
             }
             <g:if test="${session.tipo=='usuario'}">
             items.caducar = caducar;
+            </g:if>
+            <g:if test="${session.tipo=='usuario'}">
+            items.editar = editar;
             </g:if>
 //                items.downloadObs = downloadObs;
         }

@@ -8,11 +8,19 @@ class DocumentoController extends Shield {
     def dashboardService
 
     def subir() {
+        println "params "+params
         def estacion = Estacion.findByCodigoAndAplicacion(params.id, 1)
         def tipos = TipoDocumento.findAllByTipo("N", [sort: "nombre"])
         def caducan = TipoDocumento.findAllByTipoAndCaduca("N", "S", [sort: "nombre"])
+        def doc = null
+        if(params.doc && params.doc!=""){
+            if(session.tipo=="usuario") {
+                doc = Documento.get(params.doc)
+            }
+        }
+        println "doc "+doc+ " "+ session.tipo
         caducan = caducan.collect { "'" + it.id + "'" }
-        [estacion: estacion, tipos: tipos, caducan: caducan, tipo: params.tipo]
+        [estacion: estacion, tipos: tipos, caducan: caducan, tipo: params.tipo,doc: doc]
     }
 
     def upload() {

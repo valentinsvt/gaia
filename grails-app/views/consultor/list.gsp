@@ -63,9 +63,11 @@
 
 
                 <td style="text-align: center;width: 60px">
-                    <a href="#" class="btn btn-sm btn-info" title="Calificación OAE">
-                        <i class="fa fa-file-pdf-o"></i> OAE
-                    </a>
+                    <g:if test="${consultorInstance.pathOae && consultorInstance.pathOae!=''}" >
+                        <a href="${resource()}/consultores/${consultorInstance.ruc}/${consultorInstance.pathOae}" class="btn btn-info btn-sm " id="${consultorInstance.id}" title="Descargar" target="_blank">
+                            <i class="fa fa-download"></i> Oae
+                        </a>
+                    </g:if>
                 </td>
             </tr>
         </g:each>

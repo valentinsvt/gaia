@@ -101,11 +101,13 @@
         <g:if test="${consultorInstance?.pathOae}">
             <div class="row">
                 <div class="col-sm-3 show-label">
-                    Path Oae
+                    Oae
                 </div>
                 
                 <div class="col-sm-4">
-                    <g:fieldValue bean="${consultorInstance}" field="pathOae"/>
+                    <a href="${resource()}/consultores/${consultorInstance.ruc}/${consultorInstance.pathOae}" target="_blank">
+                        <i class="fa fa-download"></i> Descargar
+                    </a>
                 </div>
                 
             </div>

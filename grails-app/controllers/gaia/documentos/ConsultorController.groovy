@@ -215,7 +215,7 @@ class ConsultorController extends Shield {
      */
 
     def subirOae () {
-        println("params " + params)
+        //println("params " + params)
         return [idCon: params.id]
     }
 
@@ -260,7 +260,8 @@ class ConsultorController extends Shield {
                             fileName += obj
                         }
                     }
-                    def pathFile = path + "oae_" + consultor.ruc
+                    def name = "oae_" + consultor.ruc+""+new Date().format("ddMMyyyyHHssmm")+ext2
+                    def pathFile = path + name
                     def fn = fileName
                     def src = new File(pathFile)
                     def i = 1
@@ -271,7 +272,9 @@ class ConsultorController extends Shield {
                         i++
                     }
                     try {
-                        f.transferTo(new File(pathFile + "." + ext2))
+                        f.transferTo(new File(pathFile))
+                        consultor.pathOae=name
+                        consultor.save(flush: true)
                     } catch (e) {
                         println "????????\n" + e + "\n???????????"
                     }

@@ -13,6 +13,7 @@
         <th>Teléfono</th>
         <th>Dirección</th>
         <th>E-Mail</th>
+        <th style="width: 30px;">Oae</th>
         <th style="width: 30px;"></th>
         <th style="width: 30px;"></th>
     </tr>
@@ -36,6 +37,13 @@
                 </td>
                 <td>
                     ${cons.mail}
+                </td>
+                <td>
+                    <g:if test="${cons.pathOae && cons.pathOae!=''}" >
+                        <a href="${resource()}/consultores/${cons.ruc}/${cons.pathOae}" class="btn btn-info btn-sm " id="${cons.id}" title="Descargar" target="_blank">
+                            <i class="fa fa-download"></i>
+                        </a>
+                    </g:if>
                 </td>
                 <td>
                     <a href="#" class="btn btn-info btn-sm btn-edit" id="${cons.id}">

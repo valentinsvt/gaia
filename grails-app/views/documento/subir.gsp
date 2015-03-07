@@ -33,6 +33,7 @@
 
 <g:form class="frm-subir" controller="documento" action="upload" enctype="multipart/form-data" >
     <input type="hidden" name="estacion_codigo" value="${estacion.codigo}">
+    <input type="hidden" name="id" value="${doc?.id}">
     <div class="panel panel-info" style="margin-top: 20px">
         <div class="panel-heading">Nuevo documento para la estación: ${estacion.nombre}</div>
         <div class="panel-body" style="padding: 20px">
@@ -63,7 +64,7 @@
                         </label>
                     </div>
                     <div class="col-md-5">
-                        <g:select name="tipo.id" from="${tipos}" optionValue="nombre" optionKey="id" id="tipo" class="form-control input-sm" value="${tipo}"></g:select>
+                        <g:select name="tipo.id" from="${tipos}" optionValue="nombre" optionKey="id" id="tipo" class="form-control input-sm" value="${(doc)?doc?.tipo.id:tipo}"></g:select>
                     </div>
                     <div class="col-md-2">
                         <label>
@@ -71,7 +72,7 @@
                         </label>
                     </div>
                     <div class="col-md-2">
-                        <input type="text" name="referencia" class="form-control input-sm required" maxlength="20">
+                        <input type="text" name="referencia" class="form-control input-sm required" maxlength="20" value="${doc?.referencia}">
                     </div>
                 </div>
                 <div class="row" style="">
@@ -89,7 +90,7 @@
                         </label>
                     </div>
                     <div class="col-md-3">
-                        <g:select name="consultor.id" from="${gaia.documentos.ConsultorEstacion.findAllByEstacion(estacion)?.consultor}" optionKey="id" optionValue="nombre" class="form-control input-sm" noSelection="['':'Seleccione....']"/>
+                        <g:select name="consultor.id" from="${gaia.documentos.ConsultorEstacion.findAllByEstacion(estacion)?.consultor}" optionKey="id" optionValue="nombre" class="form-control input-sm" noSelection="['':'Seleccione....']" value="${doc?.consultor?.id}"/>
                     </div>
                 </div>
                 <div class="row" style="margin-top: 20px;">
@@ -99,7 +100,7 @@
                         </label>
                     </div>
                     <div class="col-md-10">
-                        <input type="text" name="descripcion" class="form-control input-sm required" required="" maxlength="512">
+                        <input type="text" name="descripcion" class="form-control input-sm required" required="" maxlength="512" value="${doc?.descripcion}">
                     </div>
                 </div>
             </fieldset>
@@ -115,7 +116,7 @@
                             </label>
                         </div>
                         <div class="col-md-3">
-                            <elm:datepicker name="inicio" class="required form-control input-sm"/>
+                            <elm:datepicker name="inicio" class="required form-control input-sm" value="${doc?.inicio?.format('dd-MM-yyyy')}"/>
                         </div>
                         <div class="col-md-1">
                             <label>
@@ -123,7 +124,7 @@
                             </label>
                         </div>
                         <div class="col-md-3">
-                            <elm:datepicker name="fin" class=" form-control input-sm"/>
+                            <elm:datepicker name="fin" class=" form-control input-sm" value="${doc?.fin?.format('dd-MM-yyyy')}"/>
                         </div>
                     </div>
                 </div>
