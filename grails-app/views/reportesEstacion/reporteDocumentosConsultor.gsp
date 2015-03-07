@@ -89,7 +89,13 @@
 <rep:headerFooter title="Reporte de Documentos por Consultor"/>
 
 <fieldset>
-    <legend><b>Consultor: </b>${consultor?.nombre + " - " + consultor?.ruc}</legend>
+    <g:if test="${consultor}">
+        <legend><b>Consultor: </b>${consultor?.nombre + " - " + consultor?.ruc}</legend>
+    </g:if>
+    <g:else>
+        <legend><b>Consultor: Todos los consultores </b></legend>
+    </g:else>
+
 </fieldset>
 
 <table border="1" class="table table-condensed table-bordered table-striped table-hover tablaSuperCon" width="100%">
@@ -97,8 +103,11 @@
     <tr>
         <th style="width: 100px;">Consultor</th>
         <th>Documento</th>
-        <th>Fecha Inicio</th>
-        <th>Fecha Fin</th>
+        <th>Fecha Emisión</th>
+        <th>Fecha Vencimiento</th>
+        <th>N° Referencia</th>
+        <th>Estado</th>
+        <th>Estación</th>
     </tr>
     </thead>
     <tbody id="tb">
@@ -118,6 +127,21 @@
                 <td>
                     ${documento?.fin?.format("dd-MM-yyyy")}
                 </td>
+                <td>
+                    ${documento?.referencia}
+                </td>
+                <td>
+                    <g:if test="${documento?.estado == "N"}">
+                        Negado
+                    </g:if>
+                    <g:else>
+                        Aprobado
+                    </g:else>
+                </td>
+                <td>
+                    ${documento?.estacion?.nombre}
+                </td>
+
             </g:if>
         </tr>
     </g:each>

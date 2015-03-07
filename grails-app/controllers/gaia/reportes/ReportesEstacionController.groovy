@@ -177,7 +177,16 @@ class ReportesEstacionController {
             fFin = new Date().parse("dd-MM-yyyy", params.fechaFin)
         }
             def consultor = Consultor.findById(params.consultorId)
-            def documentos = Documento.findByConsultorAndInicioBetween(consultor, fInicio, fFin)
+
+            def documentos
+
+        if(params.consultorId == '-1'){
+            println("entro -1")
+
+            documentos = Documento.list()
+        }else{
+            documentos = Documento.findAllByConsultorAndInicioBetween(consultor, fInicio, fFin)
+        }
 
             return [documentos: documentos, consultor: consultor]
 
