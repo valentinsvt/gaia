@@ -175,12 +175,13 @@ class AccionesController extends Shield {
                             if (!ignoreAcciones.contains(s[2])) {
                                 if (!containsIlike(ignoreAccionesLike, s[2])) {
                                     if (!(s[2] =~ "Service")) {
-                                        def ctrl = Controlador.findByNombre(ct.getName())
+                                        def ctrl = Controlador.findByNombreIlike(s[1])
                                         if (!ctrl) {
                                             ctrl = new Controlador()
-                                            ctrl.nombre = it.getName()
+                                            ctrl.nombre = s[1].toString().capitalize()
                                             if (ctrl.save()) {
                                                 okc++
+                                                println "\tAgregado controlador " + ctrl.nombre
                                             } else {
                                                 errores += renderErrors(bean: ctrl)
                                                 println "errores " + ctrl.errors

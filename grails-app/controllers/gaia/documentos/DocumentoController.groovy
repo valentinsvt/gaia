@@ -8,19 +8,19 @@ class DocumentoController extends Shield {
     def dashboardService
 
     def subir() {
-        println "params "+params
+        println "params " + params
         def estacion = Estacion.findByCodigoAndAplicacion(params.id, 1)
         def tipos = TipoDocumento.findAllByTipo("N", [sort: "nombre"])
         def caducan = TipoDocumento.findAllByTipoAndCaduca("N", "S", [sort: "nombre"])
         def doc = null
-        if(params.doc && params.doc!=""){
-            if(session.tipo=="usuario") {
+        if (params.doc && params.doc != "") {
+            if (session.tipo == "usuario") {
                 doc = Documento.get(params.doc)
             }
         }
-        println "doc "+doc+ " "+ session.tipo
+        println "doc " + doc + " " + session.tipo
         caducan = caducan.collect { "'" + it.id + "'" }
-        [estacion: estacion, tipos: tipos, caducan: caducan, tipo: params.tipo,doc: doc]
+        [estacion: estacion, tipos: tipos, caducan: caducan, tipo: params.tipo, doc: doc]
     }
 
     def upload() {
@@ -127,17 +127,17 @@ class DocumentoController extends Shield {
         def docs = Documento.findAllByEstacion(estacion, ([sort: "tipo"]))
 
         def docs2 = [:]
-        docs.each { d->
-            if(!docs2[d.tipo.entidadId]) {
+        docs.each { d ->
+            if (!docs2[d.tipo.entidadId]) {
                 docs2[d.tipo.entidadId] = [
-                        entidad: d.tipo.entidad,
-                        tiposDoc : [:]
+                        entidad : d.tipo.entidad,
+                        tiposDoc: [:]
                 ]
             }
-            if(!docs2[d.tipo.entidadId]["tiposDoc"][d.tipoId]) {
+            if (!docs2[d.tipo.entidadId]["tiposDoc"][d.tipoId]) {
                 docs2[d.tipo.entidadId]["tiposDoc"][d.tipoId] = [
-                        tipo: d.tipo,
-                        documentos:[]
+                        tipo      : d.tipo,
+                        documentos: []
                 ]
             }
             docs2[d.tipo.entidadId]["tiposDoc"][d.tipoId]["documentos"] += d
@@ -156,13 +156,17 @@ class DocumentoController extends Shield {
                 txt += td.tipo.nombre
                 txt += "</a>"
                 txt += "<ul>"
-                td.documentos.each {doc ->
+                td.documentos.each { doc ->
+                    def editable = ""
+                    if (doc.tipo.tipo == 'N') {
+                        editable = " editable"
+                    }
                     def dataFile = "data-file='${doc.path}'"
-                    txt += "<li id='liDoc_${doc.id}' data-jstree='{\"type\":\"doc\"}' ${dataFile}  class='${doc.estado}' >"
+                    txt += "<li id='liDoc_${doc.id}' data-jstree='{\"type\":\"doc\"}' ${dataFile} class='${doc.estado} ${editable}' >"
                     txt += "<a href='#'>"
-                    def icono =((doc.estado=='A')?"<span class='text-success'><i class='fa fa-check'></i></span>":"<span class='text-danger'><i class='fa fa-times'></i></span>")
+                    def icono = ((doc.estado == 'A') ? "<span class='text-success'><i class='fa fa-check'></i></span>" : "<span class='text-danger'><i class='fa fa-times'></i></span>")
                     txt += icono
-                    txt +=  doc.referencia
+                    txt += doc.referencia
                     if (doc.inicio) {
                         txt += " - <strong>${doc.inicio.format('dd-MM-yyyy')}</strong>"
                     }
@@ -221,12 +225,12 @@ class DocumentoController extends Shield {
 
     }
 
-    def aprobarDocumento(){
-        if(request.method!="POST"){
+    def aprobarDocumento() {
+        if (request.method != "POST") {
             response.sendError(403)
-        }else{
+        } else {
             def documento = Documento.get(params.id)
-            documento.estado="A"
+            documento.estado = "A"
             documento.save(flush: true)
             dashboardService.checkDash(documento)
             render "ok"
@@ -234,30 +238,30 @@ class DocumentoController extends Shield {
 
     }
 
-    def caducarDocumento(){
-        if(session.tipo!="usuario")
+    def caducarDocumento() {
+        if (session.tipo != "usuario")
             response.sendError(403)
         def now = new Date()
         def doc = Documento.get(params.id)
         def band = false
-        if(!doc){
+        if (!doc) {
             render "ok"
             return
         }
-        if(!doc.fin){
-            doc.fin=now
-            band=true
-        }else{
-            if(doc.fin> now) {
+        if (!doc.fin) {
+            doc.fin = now
+            band = true
+        } else {
+            if (doc.fin > now) {
                 doc.fin = now
-                band=true
+                band = true
             }
         }
-        if(band){
+        if (band) {
             def obs = new Observacion()
-            obs.documento=doc
-            obs.persona=session.usuario
-            obs.observacion="Documento caducado por ${session.usuario.login} el ${new Date().format('dd-MM-yyyy HH:mm:ss')}"
+            obs.documento = doc
+            obs.persona = session.usuario
+            obs.observacion = "Documento caducado por ${session.usuario.login} el ${new Date().format('dd-MM-yyyy HH:mm:ss')}"
             obs.save()
             doc.save(flush: true)
             def job = new DashboardJob()
@@ -266,44 +270,44 @@ class DocumentoController extends Shield {
         render "ok"
     }
 
-    def busquedaDocumento(){
+    def busquedaDocumento() {
         def estaciones = Dashboard.list().estacion
         def tipos = TipoDocumento.list([sort: "nombre"])
         def consultores = Consultor.list([sort: "nombre"])
-        [estaciones:estaciones,tipos:tipos,consultores:consultores]
+        [estaciones: estaciones, tipos: tipos, consultores: consultores]
     }
 
-    def buscar(){
+    def buscar() {
         //println "params "+params
         def documentos = Documento.withCriteria {
-            if(params.estacion!="-1")
-                eq("estacion",Estacion.findByCodigoAndAplicacion(params.estacion,1))
-            if(params.tipo!="-1")
-                eq("tipo",TipoDocumento.get(params.tipo))
-            if(params.consultor!="-1")
-                eq("consultor",Consultor.get(params.consultor))
-            if(params.registro_desde!=""){
-                gt("fechaRegistro",new Date().parse("dd-MM-yyyy HH:mm:ss",params.registro_desde+" 00:00:01"))
+            if (params.estacion != "-1")
+                eq("estacion", Estacion.findByCodigoAndAplicacion(params.estacion, 1))
+            if (params.tipo != "-1")
+                eq("tipo", TipoDocumento.get(params.tipo))
+            if (params.consultor != "-1")
+                eq("consultor", Consultor.get(params.consultor))
+            if (params.registro_desde != "") {
+                gt("fechaRegistro", new Date().parse("dd-MM-yyyy HH:mm:ss", params.registro_desde + " 00:00:01"))
             }
-            if(params.registro_hasta!=""){
-                lt("fechaRegistro",new Date().parse("dd-MM-yyyy HH:mm:ss",params.registro_hasta+" 23:59:01"))
+            if (params.registro_hasta != "") {
+                lt("fechaRegistro", new Date().parse("dd-MM-yyyy HH:mm:ss", params.registro_hasta + " 23:59:01"))
             }
-            if(params.emitido_desde!=""){
-                gt("inicio",new Date().parse("dd-MM-yyyy HH:mm:ss",params.emitido_desde+" 00:00:01"))
+            if (params.emitido_desde != "") {
+                gt("inicio", new Date().parse("dd-MM-yyyy HH:mm:ss", params.emitido_desde + " 00:00:01"))
             }
-            if(params.emitido_hasta!=""){
-                lt("inicio",new Date().parse("dd-MM-yyyy HH:mm:ss",params.emitido_hasta+" 23:59:01"))
+            if (params.emitido_hasta != "") {
+                lt("inicio", new Date().parse("dd-MM-yyyy HH:mm:ss", params.emitido_hasta + " 23:59:01"))
             }
-            if(params.vence_desde!=""){
-                gt("fin",new Date().parse("dd-MM-yyyy HH:mm:ss",params.vence_desde+" 00:00:01"))
+            if (params.vence_desde != "") {
+                gt("fin", new Date().parse("dd-MM-yyyy HH:mm:ss", params.vence_desde + " 00:00:01"))
             }
-            if(params.vence_hasta!=""){
-                lt("fin",new Date().parse("dd-MM-yyyy HH:mm:ss",params.vence_hasta+" 23:59:01"))
+            if (params.vence_hasta != "") {
+                lt("fin", new Date().parse("dd-MM-yyyy HH:mm:ss", params.vence_hasta + " 23:59:01"))
             }
             order("inicio")
         }
 
-        [documentos:documentos]
+        [documentos: documentos]
 
     }
 
