@@ -1,5 +1,6 @@
 package gaia.reportes
 
+import gaia.documentos.Consultor
 import gaia.documentos.Documento
 import gaia.documentos.Entidad
 import gaia.documentos.TipoDocumento
@@ -60,6 +61,14 @@ class ReportesEstacionController {
         return [estaciones: estaciones, estacionInstanceCount: estacionInstanceCount]
     }
 
+    def reporteSupervisores () {
+
+        def estaciones = Estacion.findAll("from Estacion where aplicacion = 1 and estado='A' and tipo=1")
+        def estacionInstanceCount = getList(params, true).size()
+
+        return [estaciones: estaciones, estacionInstanceCount: estacionInstanceCount]
+    }
+
     def vencidos() {
 
         def estaciones = Estacion.findAll("from Estacion where aplicacion = 1 and estado='A' and tipo=1")
@@ -83,6 +92,7 @@ class ReportesEstacionController {
 
         def tiposDocumentos = TipoDocumento.list(sort: "id")
 
+
         return [estaciones: estaciones, estacionInstanceCount: estacionInstanceCount, tiposDocumentos: tiposDocumentos]
     }
 
@@ -104,6 +114,61 @@ class ReportesEstacionController {
 //        print("-->" + otros)
 
         return [tiposDocumentosMae: tiposDocumentosMae, tiposDocumentosArch: tiposDocumentosArch]
+
+    }
+
+    def reporteEntidad () {
+
+        def mae = Entidad.findByCodigo("MAE");
+        def arch = Entidad.findByCodigo("ARCH");
+
+        def tiposDocumentosMae = TipoDocumento.findAllByEntidad(mae);
+        def tiposDocumentosArch = TipoDocumento.findAllByEntidad(arch);
+
+        def documentos = Documento.list()
+        def otros = []
+
+        tiposDocumentosMae.each {
+            otros += Documento.findAllByTipo(it)
+
+        }
+
+
+        return [tiposDocumentosMae: tiposDocumentosMae, tiposDocumentosArch: tiposDocumentosArch]
+
+    }
+
+    def documentosConsultor () {
+        def consultores = Consultor.list()
+        def documentos = Documento.list()
+
+        return [consultores: consultores, documentos: documentos]
+
+    }
+
+    def docConsultor_ajax () {
+        def consultores = Consultor.list()
+
+        return [consultores: consultores]
+    }
+
+    def reporteDocumentosConsultor () {
+
+        println("paramsdc " + params)
+
+        def fInicio
+        def fFin
+
+        if(params.fechaInicio){
+            fInicio = new Date().parse("dd-MM-yyyy", params.fechaInicio)
+        }
+        if(params.fechaFin){
+            fFin = new Date().parse("dd-MM-yyyy", params.fechaFin)
+        }
+            def consultor = Consultor.findById(params.consultorId)
+            def documentos = Documento.findByConsultorAndInicioBetween(consultor, fInicio, fFin)
+
+            return [documentos: documentos, consultor: consultor]
 
     }
 }

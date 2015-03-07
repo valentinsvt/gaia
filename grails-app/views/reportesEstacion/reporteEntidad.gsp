@@ -1,43 +1,93 @@
 <%--
   Created by IntelliJ IDEA.
   User: Fabricio
+  Date: 07/03/2015
+  Time: 0:29
+--%>
+
+<%--
+  Created by IntelliJ IDEA.
+  User: Fabricio
   Date: 17/02/2015
   Time: 14:33
 --%>
 
-<%@ page contentType="text/html;charset=UTF-8" %>
+
 <html>
 <head>
-    <meta name="layout" content="main"/>
     <title>Documentos por Entidad</title>
+    <rep:estilos orientacion="l" pagTitle="Documentos por entidad"/>
+
+    <style type="text/css">
+    .titulo, .proyecto, .componente {
+        width : 16cm;
+    }
+
+    .titulo {
+        height        : .5cm;
+        font-size     : 16pt;
+        font-weight   : bold;
+        text-align    : center;
+        margin-bottom : .5cm;
+    }
+
+    .row {
+        width      : 100%;
+        height     : 14px;
+        margin-top : 10px;
+        font-size  : 12px;
+    }
+
+    .label {
+        width       : 150px;
+        font-weight : bold;
+    }
+
+    /*td {*/
+        /*padding : 3px;*/
+        /*border  : 1px solid #fff*/
+    /*}*/
+
+    table {
+        font-size       : 12px;
+        border-collapse : collapse;
+    }
+
+    th {
+        background-color : #3A5DAA;
+        color            : #ffffff;
+        font-weight      : bold;
+        font-size        : 12px;
+        border           : 1px solid #fff;
+        padding          : 3px;
+    }
+
+    .table {
+        font-size  : 10pt;
+        margin-top : 10px;
+    }
+
+    .table td {
+        font-size : 10pt;
+    }
+</style>
+
 </head>
 
 <body>
 
+<rep:headerFooter title="Documentos por entidad"/>
 
-<div class="btn-toolbar toolbar">
-    <div class="btn-group">
-        <a href="#" class="btn btn-default btnImprimir">
-            <i class="fa fa-print"></i> Imprimir
-        </a>
-    </div>
-</div>
-
-<div role="tabpanel">
+%{--<div role="tabpanel">--}%
     <!-- Nav tabs -->
-    <ul class="nav nav-pills" role="tablist">
-        <li role="presentation" class="active">
-            <a href="#mae" aria-controls="mae" role="tab" data-toggle="pill">Ministerio del Ambiente</a>
-        </li>
-        <li role="presentation">
-            <a href="#arch" aria-controls="arch" role="tab" data-toggle="pill">Agencia de regulación y control hidrocarburífico</a>
-        </li>
-    </ul>
+
 
     <!-- Tab panes -->
-    <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="mae">
-
+    %{--<div class="tab-content">--}%
+        %{--<div role="tabpanel" class="tab-pane active" id="mae">--}%
+        <fieldset>
+    <legend>Ministerio del Ambiente</legend>
+    </fieldset>
             <table border="1" class="table table-condensed table-bordered table-striped table-hover tablaSuperCon" width="100%">
                 <thead>
                 <tr>
@@ -48,14 +98,12 @@
                 </tr>
                 </thead>
                 <tbody>
-                <g:each in="${tiposDocumentosMae}" var="documentos">
+                <g:each in="${tiposDocumentosMae}" var="documentos" status="h">
                     <tr>
-                         <td>
+                        <td>
 
                             <g:if test="${tiposDocumentosMae.size() > 0}">
-                                <elm:textoBusqueda busca="${params.search}">
-                                    <g:fieldValue bean="${documentos}" field="nombre"/>
-                                </elm:textoBusqueda>
+                                        ${documentos?.nombre}
                             </g:if>
                             <g:else>
                             </g:else>
@@ -63,15 +111,12 @@
                         <td>
                             <g:set var="docs" value="${gaia.documentos.Documento.findAllByTipo(documentos, [sort: "inicio"])}"/>
 
-                                <g:if test="${docs.size() > 0}">
-                                    ${docs?.referencia?.last()}
-                                </g:if>
-                                <g:else>
+                            <g:if test="${docs.size() > 0}">
+                                ${docs?.referencia?.last().replaceAll(/&/, "y")}
+                             </g:if>
+                            <g:else>
+                            </g:else>
 
-                                </g:else>
-                            %{--<elm:textoBusqueda busca="${params.search}">--}%
-                                %{--<g:fieldValue bean="${documentos}" field=""/>--}%
-                            %{--</elm:textoBusqueda>--}%
                         </td>
                         <td style="text-align: center">
                             <g:if test="${docs.size() > 0}">
@@ -93,8 +138,9 @@
                 </g:each>
                 </tbody>
             </table>
-        </div>
-        <div role="tabpanel" class="tab-pane" id="arch">
+<fieldset>
+    <legend>Agencia de Regulación y Control Hidrocarburífero</legend>
+</fieldset>
             <table border="1" class="table table-condensed table-bordered table-striped table-hover tablaSuperCon" width="100%">
                 <thead>
                 <tr>
@@ -110,9 +156,7 @@
                         <td>
 
                             <g:if test="${tiposDocumentosArch.size() > 0}">
-                                <elm:textoBusqueda busca="${params.search}">
                                     <g:fieldValue bean="${documentosArch}" field="nombre"/>
-                                </elm:textoBusqueda>
                             </g:if>
                             <g:else>
                             </g:else>
@@ -122,13 +166,12 @@
 
                             <g:if test="${docsArch.size() > 0}">
                                 ${docsArch?.referencia?.last()}
+
                             </g:if>
                             <g:else>
 
                             </g:else>
-                            %{--<elm:textoBusqueda busca="${params.search}">--}%
-                            %{--<g:fieldValue bean="${documentos}" field=""/>--}%
-                            %{--</elm:textoBusqueda>--}%
+
                         </td>
                         <td style="text-align: center">
                             <g:if test="${docsArch.size() > 0}">
@@ -150,19 +193,6 @@
                 </g:each>
                 </tbody>
             </table>
-        </div>
-        </div>
-    </div>
-
-<script type="text/javascript">
-
-    $(".btnImprimir").click(function () {
-        var url = "${createLink(controller: 'reportesEstacion',action: 'reporteEntidad')}";
-        location.href = "${g.createLink(controller:'pdf',action:'pdfLink')}?url=" + url;
-//                location.href = url;
-    });
-
-</script>
 
 </body>
 </html>

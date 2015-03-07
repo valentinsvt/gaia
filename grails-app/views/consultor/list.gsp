@@ -42,7 +42,7 @@
         <g:sortableColumn property="direccion" title="Direccion" />
 
         <g:sortableColumn property="mail" title="Mail" />
-        <th></th>
+        <th>OAE</th>
 
     </tr>
     </thead>
@@ -256,6 +256,14 @@
                         createEditConsultor(id);
                     }
                 },
+                subir   : {
+                    label  : "Subir OAE",
+                    icon   : "fa fa-arrow-up",
+                    action : function ($element) {
+                        var id = $element.data("id");
+                        subirOae(id);
+                    }
+                },
                 eliminar : {
                     label            : "Eliminar",
                     icon             : "fa fa-trash-o",
@@ -274,6 +282,44 @@
             }
         });
     });
+
+    function subirOae(id) {
+//        var data = id ? { id: id } : {};
+        $.ajax({
+            type    : "POST",
+            url     : "${createLink(action:'subirOae')}",
+            data    : {id: id
+
+            },
+            success : function (msg) {
+                var b = bootbox.dialog({
+                    id      : "dlgVer",
+                    title   : "Cargar OAE",
+//                    class   : "modal-sm",
+                    message : msg,
+                    buttons : {
+                        cancelar : {
+                            label     : "Cancelar",
+                            className : "btn-primary",
+                            callback  : function () {
+                            }
+                        },
+                        subir : {
+                            label     : "Subir",
+                            className : "btn-success",
+                            callback  : function () {
+                                openLoader();
+                                $("#frmUpload").submit();
+                            }
+                        }
+                    } //buttons
+                }); //dialog
+                setTimeout(function () {
+                    b.find(".form-control").first().focus()
+                }, 500);
+            } //success
+        }); //ajax
+    } //createEdit
 </script>
 
 </body>

@@ -17,6 +17,13 @@
 <elm:message tipo="${flash.tipo}" clase="${flash.clase}">${flash.message}</elm:message>
 
 <div class="btn-toolbar toolbar">
+        <div class="btn-group">
+            <a href="#" class="btn btn-default btnImprimir">
+                <i class="fa fa-print"></i> Imprimir
+            </a>
+        </div>
+
+
     <div class="btn-group pull-right col-md-3">
         <div class="input-group">
             <input type="text" class="form-control input-search" placeholder="Buscar" value="${params.search}">
@@ -35,9 +42,9 @@
     <thead>
     <tr>
         <th style="width: 100px;">Estación</th>
-        <g:each in="${tiposDocumentos}" var="tipo">
-            <th style="width: 70px">${tipo?.nombre}</th>
-        </g:each>
+        <th>Documento</th>
+        <th>Fecha Inicio</th>
+        <th>Fecha Fin</th>
     </tr>
     </thead>
     <tbody id="tb">
@@ -49,15 +56,21 @@
                     <g:fieldValue bean="${estacion}" field="nombre"/>
                 </elm:textoBusqueda>
             </td>
-            <g:set var="documentos" value="${gaia.documentos.Documento.findAllByEstacion(estacion, [sort: "id"])}"/>
-            <g:set var="numeros" value="1"/>
-            <g:each in="${documentos.tipo}" var="documento">
-                <td>
-                    <elm:textoBusqueda busca="${params.search}">
-                        <g:fieldValue bean="${documento}" field="id"/>
-                    </elm:textoBusqueda>
-                </td>
-            </g:each>
+
+            <td>
+               <g:set var="documentos" value="${gaia.documentos.Documento.findAllByEstacion(estacion, [sort: "id"])}"/>
+                <g:each in="${documentos.tipo}" var="documento">
+                %{--<td>--}%
+                %{--<elm:textoBusqueda busca="${params.search}">--}%
+                %{--<g:fieldValue bean="${documento}" field="nombre"/>--}%
+                %{--</elm:textoBusqueda>--}%
+                %{--</td>--}%
+                    ${documentos?.tipo?.nombre}
+                </g:each>
+            </td>
+
+
+
         </tr>
     </g:each>
 
@@ -66,6 +79,14 @@
 
 <elm:pagination total="${estacionInstanceCount}" params="${params}"/>
 
+<script type="text/javascript">
+
+    $(".btnImprimir").click(function () {
+        var url = "${createLink(controller: 'reportesEstacion',action: 'reporteEntidad')}";
+        location.href = "${g.createLink(controller:'pdf',action:'pdfLink')}?url=" + url;
+    });
+
+</script>
 
 
 </body>

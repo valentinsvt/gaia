@@ -209,4 +209,92 @@ class ConsultorController extends Shield {
             render "ERROR*" + renderErrors(bean: consultorEstacion)
         }
     }
+
+    /**
+     * Acción llamada con ajax para guardar un pdf OAE
+     */
+
+    def subirOae () {
+        println("params " + params)
+        return [idCon: params.id]
+    }
+
+    def getPathBase() {
+        return servletContext.getRealPath("/webapp/consultores")
+//        return servletContext.getRealPath("/webapp/") + "consultores/"
+    }
+
+    def subirPdf () {
+        def f = request.getFile('file')
+        def consultor = Consultor.get(params.id)
+
+        byte b
+        def ext2
+        def msg = ""
+
+        if(f && !f.empty){
+            def nombre = f.getOriginalFilename()
+            def parts2 = nombre.split("\\.")
+            nombre = ""
+            parts2.eachWithIndex { obj, i ->
+                if (i < parts2.size() - 1) {
+                    nombre += obj
+                } else {
+                    ext2 = obj
+                }
+            }
+            def path = servletContext.getRealPath("/") + "consultores/" + consultor.ruc + "/"
+
+            if(ext2 == 'pdf'){
+                /* upload */
+                new File(path).mkdirs()
+                if (f && !f.empty) {
+
+                    def fileName = f.getOriginalFilename()
+                    def ext
+
+                    def parts = fileName.split("\\.")
+                    fileName = ""
+                    parts.eachWithIndex { obj, i ->
+                        if (i < parts.size() - 1) {
+                            fileName += obj
+                        }
+                    }
+                    def pathFile = path + "oae_" + consultor.ruc
+                    def fn = fileName
+                    def src = new File(pathFile)
+                    def i = 1
+                    while (src.exists()) {
+                        nombre = fn + "_" + i + "." + ext2
+                        pathFile = path + nombre
+                        src = new File(pathFile)
+                        i++
+                    }
+                    try {
+                        f.transferTo(new File(pathFile + "." + ext2))
+                    } catch (e) {
+                        println "????????\n" + e + "\n???????????"
+                    }
+                }
+                flash.message = 'El archivo cargado correctamente'
+                flash.estado = "error"
+                flash.icon = "alert"
+                redirect(action: 'list')
+                return
+
+            }else{
+                flash.message = 'El archivo a cargar debe ser del tipo PDF'
+                flash.estado = "error"
+                flash.icon = "alert"
+                redirect(action: 'list')
+                return
+            }
+        }else{
+            flash.message = 'No se ha seleccionado ningun archivo para cargar'
+            flash.estado = "error"
+            flash.icon = "alert"
+            redirect(action: 'list')
+            return
+        }
+    }
 }

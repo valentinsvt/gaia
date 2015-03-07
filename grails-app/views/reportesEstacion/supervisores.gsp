@@ -18,6 +18,12 @@
 <elm:message tipo="${flash.tipo}" clase="${flash.clase}">${flash.message}</elm:message>
 
 <div class="btn-toolbar toolbar">
+    <div class="btn-group">
+        <a href="#" class="btn btn-default btnImprimir">
+            <i class="fa fa-print"></i> Imprimir
+        </a>
+    </div>
+
     <div class="btn-group pull-right col-md-3">
         <div class="input-group">
             <input type="text" class="form-control input-search" placeholder="Buscar" value="${params.search}">
@@ -107,6 +113,14 @@
 
 <elm:pagination total="${estacionInstanceCount}" params="${params}" />
 
+<script type="text/javascript">
 
+    $(".btnImprimir").click(function () {
+        var url = "${createLink(controller: 'reportesEstacion',action: 'reporteSupervisores')}";
+        location.href = "${g.createLink(controller:'pdf',action:'pdfLink')}?url=" + url;
+//                location.href = url;
+    });
+
+</script>
 </body>
 </html>
