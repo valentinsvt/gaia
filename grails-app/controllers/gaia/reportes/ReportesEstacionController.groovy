@@ -96,6 +96,17 @@ class ReportesEstacionController {
         return [estaciones: estaciones, estacionInstanceCount: estacionInstanceCount, tiposDocumentos: tiposDocumentos]
     }
 
+    def reporteDocumentosEstacion () {
+
+        def estaciones = Estacion.findAll("from Estacion where aplicacion = 1 and estado='A' and tipo=1")
+        def estacionInstanceCount = getList(params, true).size()
+
+        def tiposDocumentos = TipoDocumento.list(sort: "id")
+
+
+        return [estaciones: estaciones, estacionInstanceCount: estacionInstanceCount, tiposDocumentos: tiposDocumentos]
+    }
+
     def entidad() {
 
         def mae = Entidad.findByCodigo("MAE");

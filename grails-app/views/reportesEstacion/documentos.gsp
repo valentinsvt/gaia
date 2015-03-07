@@ -56,21 +56,22 @@
                     <g:fieldValue bean="${estacion}" field="nombre"/>
                 </elm:textoBusqueda>
             </td>
-
             <td>
                <g:set var="documentos" value="${gaia.documentos.Documento.findAllByEstacion(estacion, [sort: "id"])}"/>
-                <g:each in="${documentos.tipo}" var="documento">
-                %{--<td>--}%
-                %{--<elm:textoBusqueda busca="${params.search}">--}%
-                %{--<g:fieldValue bean="${documento}" field="nombre"/>--}%
-                %{--</elm:textoBusqueda>--}%
-                %{--</td>--}%
-                    ${documentos?.tipo?.nombre}
+                <g:each in="${documentos}" var="documento">
+                            ${documento?.tipo?.nombre}<br/>
                 </g:each>
             </td>
-
-
-
+            <td style="text-align: center">
+                <g:each in="${documentos}" var="documentoI">
+                    ${documentoI?.inicio?.format("dd-MM-yyyy")}<br/>
+                </g:each>
+            </td>
+            <td style="text-align: center">
+                <g:each in="${documentos}" var="documentoF">
+                    ${documentoF?.fin?.format("dd-MM-yyyy")}<br/>
+                </g:each>
+            </td>
         </tr>
     </g:each>
 
@@ -82,7 +83,7 @@
 <script type="text/javascript">
 
     $(".btnImprimir").click(function () {
-        var url = "${createLink(controller: 'reportesEstacion',action: 'reporteEntidad')}";
+        var url = "${createLink(controller: 'reportesEstacion',action: 'reporteDocumentosEstacion')}";
         location.href = "${g.createLink(controller:'pdf',action:'pdfLink')}?url=" + url;
     });
 
