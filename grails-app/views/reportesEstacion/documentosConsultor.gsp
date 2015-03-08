@@ -35,12 +35,14 @@
     <thead>
     <tr>
         <th style="width: 100px;">Consultor</th>
+        <th>Estación</th>
         <th>Documento</th>
-        <th>Fecha Emisión</th>
-        <th>Fecha Vencimiento</th>
         <th>N° Referencia</th>
         <th>Estado</th>
-        <th>Estación</th>
+        <th>Emisión</th>
+        <th>Vence</th>
+
+
     </tr>
     </thead>
     <tbody id="tb">
@@ -51,30 +53,32 @@
             <td>
                 ${documento?.consultor?.nombre}
             </td>
+                <td>
+                    ${documento?.estacion?.nombre}
+                </td>
             <td>
                 ${documento?.tipo?.nombre}
             </td>
+                <td>
+                    ${documento?.referencia}
+                </td>
+                <td>
+                    <g:if test="${documento?.estado == "A"}">
+                        Aprobado
+                    </g:if>
+                    <g:else>
+                        No Aprobado
+                    </g:else>
+
+                </td>
+
             <td>
                 ${documento?.inicio?.format("dd-MM-yyyy")}
             </td>
             <td>
                 ${documento?.fin?.format("dd-MM-yyyy")}
             </td>
-            <td>
-                    ${documento?.referencia}
-            </td>
-                <td>
-                    <g:if test="${documento?.estado == "N"}">
-                        Negado
-                    </g:if>
-                    <g:else>
-                        Aprobado
-                    </g:else>
 
-                </td>
-                <td>
-                    ${documento?.estacion?.nombre}
-                </td>
 
             </g:if>
         </tr>

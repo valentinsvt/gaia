@@ -9,6 +9,6 @@
         <b>Consultor:</b>  <g:select name="consultor" from="${consultores}" id="consultorId" optionValue="nombre" optionKey="id" style="width: 200px"  noSelection="['-1': 'Todos']"/>
     </div>
     <div class="" style="width: 150px; margin-left: 140px">
-        <b>Fecha Inicio: </b>  <elm:datepicker name="inicio" id="inicioVal" class="required form-control input-sm" default="none" noSelection="['': '']"/>
-        <b>Fecha Fin: </b>     <elm:datepicker name="fin" id="finVal" class="required form-control input-sm" default="none" noSelection="['': '']" />
+        <b>Desde: </b>  <elm:datepicker name="inicio" id="inicioVal" class="required form-control input-sm" default="none" noSelection="['': '']"/>
+        <b>Hasta: </b>     <elm:datepicker name="fin" id="finVal" class="required form-control input-sm" default="none" noSelection="['': '']" />
     </div>

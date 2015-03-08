@@ -85,8 +85,10 @@
     <tr>
         <th style="width: 100px;">Estación</th>
         <th>Documento</th>
-        <th>Fecha Inicio</th>
-        <th>Fecha Fin</th>
+        <th>N° Referencia</th>
+        <th>Estado</th>
+        <th>Emisión</th>
+        <th>Vence</th>
     </tr>
     </thead>
     <tbody id="tb">
@@ -101,6 +103,21 @@
                 <g:each in="${documentos}" var="documento">
                     ${documento?.tipo?.nombre}<br/>
                 </g:each>
+            </td>
+            <td>
+        <g:each in="${documentos}" var="documentoR">
+                ${documentoR?.referencia?.replaceAll(/&/, "y")}<br/>
+        </g:each>
+            </td>
+            <td>
+        <g:each in="${documentos}" var="documentoE">
+                <g:if test="${documentoE?.estado == "A"}">
+                    Aprobado<br/>
+                </g:if>
+                <g:else>
+                   No Aprobado<br/>
+                </g:else>
+        </g:each>
             </td>
             <td style="text-align: center">
                 <g:each in="${documentos}" var="documentoI">
