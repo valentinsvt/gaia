@@ -82,7 +82,7 @@
                         </label>
                     </div>
                     <div class="col-md-5">
-                        <input type="file" name="file" id="file" class="form-control required"  style="border-right: none" accept=".pdf">
+                        <input type="file" name="file" id="file" class="form-control ${doc?'':'required'}"  style="border-right: none" accept=".pdf">
                     </div>
                     <div class="col-md-2">
                         <label>

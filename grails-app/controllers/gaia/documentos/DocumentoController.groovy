@@ -8,7 +8,7 @@ class DocumentoController extends Shield {
     def dashboardService
 
     def subir() {
-        println "params " + params
+       // println "params " + params
         def estacion = Estacion.findByCodigoAndAplicacion(params.id, 1)
         def tipos = TipoDocumento.findAllByTipo("N", [sort: "nombre"])
         def caducan = TipoDocumento.findAllByTipoAndCaduca("N", "S", [sort: "nombre"])
@@ -18,7 +18,7 @@ class DocumentoController extends Shield {
                 doc = Documento.get(params.doc)
             }
         }
-        println "doc " + doc + " " + session.tipo
+       // println "doc " + doc + " " + session.tipo
         caducan = caducan.collect { "'" + it.id + "'" }
         [estacion: estacion, tipos: tipos, caducan: caducan, tipo: params.tipo, doc: doc]
     }
@@ -29,12 +29,21 @@ class DocumentoController extends Shield {
         def pathPart = "documentos/${estacion.codigo}/"
         def path = servletContext.getRealPath("/") + pathPart
         def numero = Documento.list([sort: "id", order: "desc", max: 1])
+        def documento
         if (numero.size() == 1)
             numero = numero.pop().id + 1
         else
             numero = 1
         def codigo = "PS-DA-" + numero
+        def band =false
         new File(path).mkdirs()
+        if(params.id) {
+            documento=Documento.get(params.id)
+            documento.properties = params
+            documento.estado="N"
+            band=true
+        }else
+            documento = new Documento(params)
         def f = request.getFile('file')  //archivo = name del input type file
         def okContents = [
                 'application/pdf'     : 'pdf',
@@ -51,7 +60,7 @@ class DocumentoController extends Shield {
                 } catch (e) {
                     flash.message = "Ha ocurrido un error al guardar"
                 }
-                def documento = new Documento(params)
+
                 //println "path "+pathFile
                 //println "codigo "+codigo
                 documento.path = pathPart + nombre
@@ -59,6 +68,10 @@ class DocumentoController extends Shield {
                 documento.estacion = estacion
                 documento.codigo = codigo
                 if (documento.save(flush: true)) {
+                    if(band){
+                        def dash = new DashboardJob()
+                        dash.checkEstadoEstacion(documento.estacion)
+                    }
                     if (params.observaciones != "") {
                         def obs = new Observacion()
                         obs.documento = documento
@@ -76,7 +89,27 @@ class DocumentoController extends Shield {
                 flash.message = "Extensión no permitida"
 
             }
-        } //f && !f.empty
+        }else{
+
+            documento.fechaRegistro = new Date()
+            documento.estacion = estacion
+            documento.codigo = codigo
+            if(band){
+                def dash = new DashboardJob()
+                dash.checkEstadoEstacion(documento.estacion)
+            }
+            if (documento.save(flush: true)) {
+                if (params.observaciones != "") {
+                    def obs = new Observacion()
+                    obs.documento = documento
+                    obs.observacion = params.observaciones
+                }
+                flash.message = "Documento registrado "
+            } else {
+                println "errores " + documento.errors
+                flash.message = "Ha ocurrido un error al guardar: " + renderErrors(bean: documento)
+            }
+        }
 
         redirect(action: 'subir', id: estacion.codigo)
     }
