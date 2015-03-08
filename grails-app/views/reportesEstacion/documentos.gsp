@@ -43,6 +43,8 @@
     <tr>
         <th style="width: 100px;">Estación</th>
         <th>Documento</th>
+        <th>N° Referencia</th>
+        <th>Estado</th>
         <th>Fecha Inicio</th>
         <th>Fecha Fin</th>
     </tr>
@@ -62,6 +64,22 @@
                             ${documento?.tipo?.nombre}<br/>
                 </g:each>
             </td>
+            <td>
+                <g:each in="${documentos}" var="documentoR">
+                    ${documentoR?.referencia}<br/>
+                </g:each>
+            </td>
+            <td>
+                <g:each in="${documentos}" var="documentoE">
+                    <g:if test="${documentoE?.estado == "A"}">
+                        Aprobado<br/>
+                    </g:if>
+                    <g:else>
+                        No Aprobado<br/>
+                    </g:else>
+                </g:each>
+            </td>
+
             <td style="text-align: center">
                 <g:each in="${documentos}" var="documentoI">
                     ${documentoI?.inicio?.format("dd-MM-yyyy")}<br/>

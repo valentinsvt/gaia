@@ -151,7 +151,8 @@ class ReportesEstacionController {
 
     def documentosConsultor () {
         def consultores = Consultor.list()
-        def documentos = Documento.list()
+//        def documentos = Documento.list()
+        def documentos = []
 
         return [consultores: consultores, documentos: documentos]
 
@@ -185,7 +186,7 @@ class ReportesEstacionController {
 
             documentos = Documento.list()
         }else{
-            documentos = Documento.findAllByConsultorAndInicioBetween(consultor, fInicio, fFin)
+            documentos = Documento.findAllByConsultorAndInicioLessThanEqualsAndInicioGreaterThan(consultor,fFin, fInicio)
         }
 
             return [documentos: documentos, consultor: consultor]
