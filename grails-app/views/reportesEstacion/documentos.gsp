@@ -10,6 +10,14 @@
 <head>
     <meta name="layout" content="main"/>
     <title>Reporte Documentos por Estación</title>
+
+    <style type="text/css">
+    td {
+        padding : 3px;
+        border  : 1px solid #fff
+    }
+
+    </style>
 </head>
 
 
@@ -53,41 +61,41 @@
 
     <g:each in="${estaciones}" var="estacion">
         <tr>
-            <td>
+            <td >
                 <elm:textoBusqueda busca="${params.search}">
                     <g:fieldValue bean="${estacion}" field="nombre"/>
                 </elm:textoBusqueda>
             </td>
-            <td>
+            <td >
                <g:set var="documentos" value="${gaia.documentos.Documento.findAllByEstacion(estacion, [sort: "id"])}"/>
                 <g:each in="${documentos}" var="documento">
-                            ${documento?.tipo?.nombre}<br/>
+                            <p style="border-bottom: 1px solid">${documento?.tipo?.nombre}<br/></p>
                 </g:each>
             </td>
             <td>
                 <g:each in="${documentos}" var="documentoR">
-                    ${documentoR?.referencia}<br/>
+                    <p style="border-bottom: 1px solid"> ${documentoR?.referencia}<br/></p>
                 </g:each>
             </td>
             <td>
                 <g:each in="${documentos}" var="documentoE">
                     <g:if test="${documentoE?.estado == "A"}">
-                        Aprobado<br/>
+                        <p style="border-bottom: 1px solid"> Aprobado<br/></p>
                     </g:if>
                     <g:else>
-                        No Aprobado<br/>
+                        <p style="border-bottom: 1px solid">No Aprobado<br/></p>
                     </g:else>
                 </g:each>
             </td>
 
             <td style="text-align: center">
                 <g:each in="${documentos}" var="documentoI">
-                    ${documentoI?.inicio?.format("dd-MM-yyyy")}<br/>
+                    <p style="border-bottom: 1px solid"> ${documentoI?.inicio?.format("dd-MM-yyyy")}<br/></p>
                 </g:each>
             </td>
             <td style="text-align: center">
                 <g:each in="${documentos}" var="documentoF">
-                    ${documentoF?.fin?.format("dd-MM-yyyy")}<br/>
+                    <p style="border-bottom: 1px solid">${documentoF?.fin?.format("dd-MM-yyyy")}<br/></p>
                 </g:each>
             </td>
         </tr>
