@@ -67,18 +67,6 @@
             </div>
 
             <div class="btn-group">
-                <a href="#" id="btnCrearPerfil" class="btn btn-sm btn-info">
-                    <i class="fa fa-file-o"></i> Crear perfil
-                </a>
-                <a href="#" id="btnEditarPerfil" class="btn btn-sm btn-info">
-                    <i class="fa fa-pencil"></i> Editar perfil
-                </a>
-                <a href="#" id="btnBorrarPerfil" class="btn btn-sm btn-info">
-                    <i class="fa fa-trash-o"></i> Eliminar perfil
-                </a>
-            </div>
-
-            <div class="btn-group">
                 <a href="#" id="btnCrearModulo" class="btn btn-sm btn-success">
                     <i class="fa fa-file-o"></i> Crear módulo
                 </a>
@@ -110,115 +98,6 @@
                     }
                 });
             }
-
-            /* **************************************** PERFIL ******************************************************** */
-            function submitFormPerfil() {
-                var $form = $("#frmPrfl");
-                var $btn = $("#dlgCreateEdit").find("#btnSave");
-                if ($form.valid()) {
-                    $btn.replaceWith(spinner);
-                    openLoader("Guardando Perfil");
-                    $.ajax({
-                        type    : "POST",
-                        url     : $form.attr("action"),
-                        data    : $form.serialize(),
-                        success : function (msg) {
-                            var parts = msg.split("*");
-                            log(parts[1], parts[0] == "SUCCESS" ? "success" : "error"); // log(msg, type, title, hide)
-                            setTimeout(function () {
-                                if (parts[0] == "SUCCESS") {
-                                    location.reload(true);
-                                } else {
-                                    spinner.replaceWith($btn);
-                                    return false;
-                                }
-                            }, 1000);
-                        }
-                    });
-                } else {
-                    return false;
-                } //else
-            }
-            function deletePerfil(itemId) {
-                bootbox.dialog({
-                    title   : "Alerta",
-                    message : "<i class='fa fa-trash-o fa-3x pull-left text-danger text-shadow'></i><p>" +
-                              "¿Está seguro que desea eliminar el Perfil seleccionado (<strong>" + $("#perfil").find("option:selected").text() + "</strong>)? " +
-                              "Esta acción no se puede deshacer.</p>",
-                    buttons : {
-                        cancelar : {
-                            label     : "Cancelar",
-                            className : "btn-primary",
-                            callback  : function () {
-                            }
-                        },
-                        eliminar : {
-                            label     : "<i class='fa fa-trash-o'></i> Eliminar",
-                            className : "btn-danger",
-                            callback  : function () {
-                                openLoader("Eliminando Perfil");
-                                $.ajax({
-                                    type    : "POST",
-                                    url     : '${createLink(controller: 'perfil', action:'delete_ajax')}',
-                                    data    : {
-                                        id : itemId
-                                    },
-                                    success : function (msg) {
-                                        var parts = msg.split("*");
-                                        log(parts[1], parts[0] == "SUCCESS" ? "success" : "error"); // log(msg, type, title, hide)
-                                        if (parts[0] == "SUCCESS") {
-                                            setTimeout(function () {
-                                                location.reload(true);
-                                            }, 1000);
-                                        } else {
-                                            closeLoader();
-                                        }
-                                    }
-                                });
-                            }
-                        }
-                    }
-                });
-            }
-            function createEditPerfil(id) {
-                openLoader();
-                var title = id ? "Editar" : "Crear";
-                var data = id ? {id : id} : {};
-                $.ajax({
-                    type    : "POST",
-                    url     : "${createLink(controller: 'perfil', action:'form_ajax')}",
-                    data    : data,
-                    success : function (msg) {
-                        closeLoader();
-                        var b = bootbox.dialog({
-                            id    : "dlgCreateEdit",
-                            title : title + " Perfil",
-
-                            message : msg,
-                            buttons : {
-                                cancelar : {
-                                    label     : "Cancelar",
-                                    className : "btn-primary",
-                                    callback  : function () {
-                                    }
-                                },
-                                guardar  : {
-                                    id        : "btnSave",
-                                    label     : "<i class='fa fa-save'></i> Guardar",
-                                    className : "btn-success",
-                                    callback  : function () {
-                                        return submitFormPerfil();
-                                    } //callback
-                                } //guardar
-                            } //buttons
-                        }); //dialog
-                        setTimeout(function () {
-                            b.find(".form-control").first().focus()
-                        }, 500);
-                    } //success
-                }); //ajax
-            } //createEdit
-            /* **************************************** PERFIL ******************************************************** */
 
             /* **************************************** MODULO ******************************************************** */
             function submitFormModulo() {
@@ -292,11 +171,13 @@
             function createEditModulo(id) {
                 var title = id ? "Editar" : "Crear";
                 var data = id ? {id : id} : {};
+                openLoader();
                 $.ajax({
                     type    : "POST",
                     url     : "${createLink(controller: 'modulo', action:'form_ajax')}",
                     data    : data,
                     success : function (msg) {
+                        closeLoader();
                         var b = bootbox.dialog({
                             id    : "dlgCreateEdit",
                             title : title + " Módulo",

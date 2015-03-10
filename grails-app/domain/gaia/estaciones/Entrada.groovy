@@ -9,7 +9,7 @@ class Entrada {
     Persona persona
     String texto
     String path
-    String  tipo /*P-> pdf I->imagen*/
+    String tipo /*P-> pdf I->imagen*/
     Entrada entrada
 /**
  * Define los campos que se van a ignorar al momento de hacer logs
@@ -41,10 +41,10 @@ class Entrada {
      * Define las restricciones de cada uno de los campos
      */
     static constraints = {
-        persona(nullable: true,blank:true)
-        texto(nullable: true,blank:true)
-        path(nullable: true,blank:true,size: 1..100)
-        entrada(nullable: true,blank:true)
-        tipo(nullable: true,blank:true,size: 1..1)
+        persona(nullable: true, blank: true)
+        texto(nullable: true, blank: true)
+        path(nullable: true, blank: true, size: 1..100)
+        entrada(nullable: true, blank: true)
+        tipo(nullable: true, blank: true, size: 1..1)
     }
 }

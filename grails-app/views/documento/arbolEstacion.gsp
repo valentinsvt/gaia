@@ -45,8 +45,8 @@
 
     <div class="row" style="margin-bottom: 10px;">
         <div class="col-md-1">
-            <g:link controller="estacion" action="showEstacion" id="${params.codigo}" class="btn btn-default btn-sm">
-                Estación
+            <g:link controller="estacion" action="showEstacion" id="${params.codigo}" class="btn btn-default">
+               <i class="flaticon-fuel2"></i> Estación
             </g:link>
         </div>
 

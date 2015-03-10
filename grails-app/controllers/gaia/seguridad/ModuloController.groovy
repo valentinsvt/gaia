@@ -130,6 +130,11 @@ class ModuloController extends Shield {
                 render "ERROR*No se encontró Módulo."
                 return
             }
+            def c = Accion.countByModulo(moduloInstance) > 0
+            if (c) {
+                render "ERROR*El módulo tiene ${c} acci${c == 1 ? 'ón' : 'ones'} asociadas, no puede eliminarlo"
+                return
+            }
             try {
                 moduloInstance.delete(flush: true)
                 render "SUCCESS*Eliminación de Módulo exitosa."

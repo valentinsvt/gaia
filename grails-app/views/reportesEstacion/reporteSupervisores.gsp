@@ -14,143 +14,143 @@
 
 
 <html>
-<head>
+    <head>
 
-    <title>Reporte de Supervisores y Consultores por estación</title>
+        <title>Reporte de Supervisores y Consultores por estación</title>
 
-    <rep:estilos orientacion="p" pagTitle="Reporte de Supervisores y Consultores por estación"/>
-    <style type="text/css">
-    .titulo, .proyecto, .componente {
-        width : 16cm;
-    }
+        <rep:estilos orientacion="p" pagTitle="Reporte de Supervisores y Consultores por estación"/>
+        <style type="text/css">
+        .titulo, .proyecto, .componente {
+            width : 16cm;
+        }
 
-    .titulo {
-        height        : .5cm;
-        font-size     : 16pt;
-        font-weight   : bold;
-        text-align    : center;
-        margin-bottom : .5cm;
-    }
+        .titulo {
+            height        : .5cm;
+            font-size     : 16pt;
+            font-weight   : bold;
+            text-align    : center;
+            margin-bottom : .5cm;
+        }
 
-    .row {
-        width      : 100%;
-        height     : 14px;
-        margin-top : 10px;
-        font-size  : 12px;
-    }
+        .row {
+            width      : 100%;
+            height     : 14px;
+            margin-top : 10px;
+            font-size  : 12px;
+        }
 
-    .label {
-        width       : 150px;
-        font-weight : bold;
-    }
+        .label {
+            width       : 150px;
+            font-weight : bold;
+        }
 
-    /*td {*/
-    /*padding : 3px;*/
-    /*border  : 1px solid #fff*/
-    /*}*/
+        /*td {*/
+        /*padding : 3px;*/
+        /*border  : 1px solid #fff*/
+        /*}*/
 
-    table {
-        font-size       : 12px;
-        border-collapse : collapse;
-    }
+        table {
+            font-size       : 12px;
+            border-collapse : collapse;
+        }
 
-    th {
-        background-color : #3A5DAA;
-        color            : #ffffff;
-        font-weight      : bold;
-        font-size        : 12px;
-        border           : 1px solid #fff;
-        padding          : 3px;
-    }
+        th {
+            background-color : #3A5DAA;
+            color            : #ffffff;
+            font-weight      : bold;
+            font-size        : 12px;
+            border           : 1px solid #fff;
+            padding          : 3px;
+        }
 
-    .table {
-        font-size  : 10pt;
-        margin-top : 10px;
-    }
+        .table {
+            font-size  : 10pt;
+            margin-top : 10px;
+        }
 
-    .table td {
-        font-size : 10pt;
-    }
-    </style>
-</head>
+        .table td {
+            font-size : 10pt;
+        }
+        </style>
+    </head>
 
-<body>
+    <body>
 
-<rep:headerFooter title="Reporte de Supervisores y Consultores por estación"/>
+        <rep:headerFooter title="Reporte de Supervisores y Consultores por estación"/>
 
 
-<table border="1" class="table table-condensed table-bordered table-striped table-hover ">
-    <thead>
-    <tr>
-        <th style="width: 100px;">Estación</th>
-        <th style="width: 130px;">Consultor</th>
-        <th style="width: 130px;">Supervisor</th>
-    </tr>
-    </thead>
-    <tbody id="tb">
+        <table border="1" class="table table-condensed table-bordered table-striped table-hover ">
+            <thead>
+                <tr>
+                    <th style="width: 100px;">Estación</th>
+                    <th style="width: 130px;">Consultor</th>
+                    <th style="width: 130px;">Supervisor</th>
+                </tr>
+            </thead>
+            <tbody id="tb">
 
-    <g:each in="${estaciones}" var="estacion">
-        <tr>
-            <td>
-                ${estacion?.nombre}
-            </td>
-            <td>
-                <g:set var="consultores" value="${gaia.documentos.ConsultorEstacion.findAllByEstacion(estacion)}"/>
-                <g:if test="${consultores.size() > 0}">
-                    <ul>
-                        <g:each in="${consultores}" var="consultor">
-
-                            <li>
-                               ${consultor?.consultor?.nombre}
+                <g:each in="${estaciones}" var="estacion">
+                    <tr>
+                        <td>
+                            ${estacion?.nombre}
+                        </td>
+                        <td>
+                            <g:set var="consultores" value="${gaia.documentos.ConsultorEstacion.findAllByEstacion(estacion)}"/>
+                            <g:if test="${consultores.size() > 0}">
                                 <ul>
-                                    <li>
-                                        <b>RUC:</b>                                 <elm:textoBusqueda busca="${params.search}">
-                                        <g:fieldValue bean="${consultor.consultor}" field="ruc"/>
-                                    </elm:textoBusqueda>
-                                    </li>
-                                    <li>
-                                        <b>TELF:</b>                                 <elm:textoBusqueda busca="${params.search}">
-                                        <g:fieldValue bean="${consultor.consultor}" field="telefono"/>
-                                    </elm:textoBusqueda>
-                                    </li>
+                                    <g:each in="${consultores}" var="consultor">
+
+                                        <li>
+                                            ${consultor?.consultor?.nombre}
+                                            <ul>
+                                                <li>
+                                                    <b>RUC:</b>                                 <elm:textoBusqueda busca="${params.search}">
+                                                    <g:fieldValue bean="${consultor.consultor}" field="ruc"/>
+                                                </elm:textoBusqueda>
+                                                </li>
+                                                <li>
+                                                    <b>TELF:</b>                                 <elm:textoBusqueda busca="${params.search}">
+                                                    <g:fieldValue bean="${consultor.consultor}" field="telefono"/>
+                                                </elm:textoBusqueda>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </g:each>
                                 </ul>
-                            </li>
-                        </g:each>
-                    </ul>
-                </g:if>
-                <g:else>
-                    <li style="text-align: center; ">
-                        No tiene consultor
-                    </li>
-                </g:else>
-            </td>
-            <td>
-                <g:set var="supervisores" value="${gaia.documentos.InspectorEstacion.findAllByEstacion(estacion)}"/>
-                <g:if test="${supervisores.size() > 0}">
-                    <ul>
-                        <g:each in="${supervisores}" var="supervisor">
-                            <li>
-                                ${supervisor?.inspector?.nombre}
-                                ${supervisor?.inspector?.telefono}
-                                ${supervisor?.inspector?.mail}
+                            </g:if>
+                            <g:else>
+                                <li style="text-align: center; ">
+                                    No tiene consultor
+                                </li>
+                            </g:else>
+                        </td>
+                        <td>
+                            <g:set var="supervisores" value="${gaia.documentos.InspectorEstacion.findAllByEstacion(estacion)}"/>
+                            <g:if test="${supervisores.size() > 0}">
+                                <ul>
+                                    <g:each in="${supervisores}" var="supervisor">
+                                        <li>
+                                            ${supervisor?.inspector?.nombre}
+                                            ${supervisor?.inspector?.telefono}
+                                            ${supervisor?.inspector?.mail}
 
-                            </li>
+                                        </li>
 
-                        </g:each>
-                    </ul>
-                </g:if>
-                <g:else>
-                    <li style="text-align: center">
-                        Sin Supervisor
-                    </li>
+                                    </g:each>
+                                </ul>
+                            </g:if>
+                            <g:else>
+                                <li style="text-align: center">
+                                    Sin Supervisor
+                                </li>
 
-                </g:else>
-            </td>
-        </tr>
-    </g:each>
+                            </g:else>
+                        </td>
+                    </tr>
+                </g:each>
 
-    </tbody>
-</table>
+            </tbody>
+        </table>
 
-</body>
+    </body>
 </html>

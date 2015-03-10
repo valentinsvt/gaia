@@ -5,7 +5,7 @@
   Time: 22:01
 --%>
 
-<g:form name="frmUpload" enctype="multipart/form-data" method="post" action="subirPdf" >
+<g:form name="frmUpload" enctype="multipart/form-data" method="post" action="subirPdf">
     <g:hiddenField name="id" value="${idCon}"/>
     <div class="row">
         <div class="col-md-3">

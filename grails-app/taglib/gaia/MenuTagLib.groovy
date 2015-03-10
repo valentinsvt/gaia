@@ -79,6 +79,22 @@ class MenuTagLib {
                     items[ac.modulo.id]["items"][ac.id] = acc
                 }
             }
+
+            items.each { k, v ->
+                if (v.items.size() == 1) {
+                    v.items.each { ki, vi ->
+                        if (vi.label == v.label) {
+                            v.controller = vi.controller
+                            v.action = vi.action
+                            if (!v.icon) {
+                                v.icon = vi.icon
+                            }
+                            v.items = null
+                        }
+                    }
+                }
+            }
+
         } else {
             items = [
                     "Inicio": [
