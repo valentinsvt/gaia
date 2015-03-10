@@ -90,7 +90,7 @@
 
             <div class="btn-group" role="group">
                 <g:select name="td" from="${TipoDocumento.list(sort: 'nombre')}" optionKey="id" optionValue="nombre"
-                          noSelection="['': 'Todos los tipos de documento']" data-width="150px"
+                          noSelection="['': 'Todos los tipos de documento']" data-width="190px"
                           class="selectFiltro corner-left" data-live-search="true"/>
                 <a href="#" class="btn btn-info btnFiltro" style="float:right;">
                     <i class="fa fa-exchange"></i> Cambiar

@@ -301,7 +301,8 @@ class ElementosTagLib {
         def nameHiddenDay = name + "_day"
         def nameHiddenMonth = name + "_month"
         def nameHiddenYear = name + "_year"
-        def placeHolder = attrs.placeHolder
+        def placeHolder = attrs.placeHolder?:''
+
         def nameHiddenHour = name + "_hour"
         def nameHiddenMin = name + "_minute"
 
