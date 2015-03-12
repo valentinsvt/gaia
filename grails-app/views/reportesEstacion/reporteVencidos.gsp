@@ -6,69 +6,71 @@
 
         <rep:estilos orientacion="l" pagTitle="Documentos vencidos"/>
 
-        <style type="text/css">
-        .titulo, .proyecto, .componente {
-            width : 16cm;
-        }
+        %{--<style type="text/css">--}%
+        %{--/*.titulo, .proyecto, .componente {*/--}%
+            %{--/*width : 16cm;*/--}%
+        %{--/*}*/--}%
 
-        .titulo {
-            height        : .5cm;
-            font-size     : 16pt;
-            font-weight   : bold;
-            text-align    : center;
-            margin-bottom : .5cm;
-        }
+        %{--/*.titulo {*/--}%
+            %{--/*height        : .5cm;*/--}%
+            %{--/*font-size     : 16pt;*/--}%
+            %{--/*font-weight   : bold;*/--}%
+            %{--/*text-align    : center;*/--}%
+            %{--/*margin-bottom : .5cm;*/--}%
+        %{--/*}*/--}%
 
-        .row {
-            width      : 100%;
-            height     : 14px;
-            margin-top : 10px;
-            font-size  : 12px;
-        }
+        %{--/*.row {*/--}%
+            %{--/*width      : 100%;*/--}%
+            %{--/*height     : 14px;*/--}%
+            %{--/*margin-top : 10px;*/--}%
+            %{--/*font-size  : 12px;*/--}%
+        %{--/*}*/--}%
 
-        .label {
-            width       : 150px;
-            font-weight : bold;
-        }
+        %{--/*.label {*/--}%
+            %{--/*width       : 150px;*/--}%
+            %{--/*font-weight : bold;*/--}%
+        %{--/*}*/--}%
 
-        td {
-            padding : 3px;
-            border  : 1px solid #fff
-        }
+        %{--/*td {*/--}%
+            %{--/*padding : 3px;*/--}%
+            %{--/*border  : 1px solid #fff*/--}%
+        %{--/*}*/--}%
 
-        table {
-            font-size       : 12px;
-            border-collapse : collapse;
-        }
+        %{--table {--}%
+            %{--font-size       : 12px;--}%
+            %{--border-collapse : collapse;--}%
+        %{--}--}%
 
-        th {
-            background-color : #3A5DAA;
-            color            : #ffffff;
-            font-weight      : bold;
-            font-size        : 12px;
-            border           : 1px solid #fff;
-            padding          : 3px;
-        }
+        %{--/*th {*/--}%
+            %{--/*background-color : #3A5DAA;*/--}%
+            %{--/*color            : #ffffff;*/--}%
+            %{--/*font-weight      : bold;*/--}%
+            %{--/*font-size        : 12px;*/--}%
+            %{--/*border           : 1px solid #fff;*/--}%
+            %{--/*padding          : 3px;*/--}%
+        %{--/*}*/--}%
 
-        .table {
-            font-size  : 10pt;
-            margin-top : 10px;
-        }
+        %{--.table {--}%
+            %{--font-size  : 10pt;--}%
+            %{--margin-top : 10px;--}%
+        %{--}--}%
 
-        .table td {
-            font-size : 10pt;
-        }
-        </style>
+        %{--.table td {--}%
+            %{--font-size : 10pt;--}%
+        %{--}--}%
+        %{--</style>--}%
     </head>
 
     <body>
 
         <rep:headerFooter title="Documentos vencidos"/>
 
-        <table border="1" class="table" width="100%">
-            <thead>
+        %{--<table border="1" class="table" width="100%">--}%
+    <table border="1" class="table table-condensed table-bordered table-striped table-hover tablaSuperCon" width="100%">
+
+        <thead>
                 <tr>
-                    <th style="width: 100px;">Estación</th>
+                    <th style="width: 100px;">Estación1</th>
                     <th style="width: 130px;">Tipo Documento</th>
                     <th style="width: 70px;"># Referencia</th>
                     <th style="width: 70px;">Emisión</th>
@@ -81,13 +83,13 @@
                     <g:if test="${documentos.size() > 0}">
                         <tr>
                             <td>
-                                ${estacion.nombre}
+                                <util:clean str="${estacion?.nombre}"/>
                             </td>
                             <td>
                                 <ul>
                                     <g:each in="${documentos}" var="documento">
                                         <li>
-                                            ${documento.tipo.nombre}
+                                            <util:clean str="${documento?.tipo?.nombre}"/>
                                         </li>
                                     </g:each>
                                 </ul>
@@ -96,7 +98,8 @@
                                 <ul>
                                     <g:each in="${documentos}" var="documento">
                                         <li>
-                                            <g:fieldValue bean="${documento}" field="referencia"/>
+                                            %{--<g:fieldValue bean="${documento}" field="referencia"/>--}%
+                                            <util:clean str="${documento?.referencia}"/>
                                         </li>
                                     </g:each>
                                 </ul>

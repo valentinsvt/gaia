@@ -118,16 +118,16 @@
         <tr>
             <g:if test="${documento?.consultor?.nombre}">
                 <td>
-                    ${documento?.consultor?.nombre}
+                    <util:clean str="${documento?.consultor?.nombre}"/>
                 </td>
                 <td>
-                    ${documento?.estacion?.nombre}
+                    <util:clean str="${documento?.estacion?.nombre}"/>
                 </td>
                 <td>
-                    ${documento?.tipo?.nombre}
+                    <util:clean str="${documento?.tipo?.nombre}"/>
                 </td>
                 <td>
-                    ${documento?.referencia}
+                    <util:clean str="${documento?.referencia}"/>
                 </td>
                 <td>
                     <g:if test="${documento?.estado == "A"}">

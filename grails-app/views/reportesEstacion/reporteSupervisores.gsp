@@ -92,7 +92,7 @@
                 <g:each in="${estaciones}" var="estacion">
                     <tr>
                         <td>
-                            ${estacion?.nombre}
+                            <util:clean str="${estacion?.nombre}"/>
                         </td>
                         <td>
                             <g:set var="consultores" value="${gaia.documentos.ConsultorEstacion.findAllByEstacion(estacion)}"/>
@@ -101,7 +101,7 @@
                                     <g:each in="${consultores}" var="consultor">
 
                                         <li>
-                                            ${consultor?.consultor?.nombre}
+                                            <util:clean str="${consultor?.consultor?.nombre}"/>
                                             <ul>
                                                 <li>
                                                     <b>RUC:</b>                                 <elm:textoBusqueda busca="${params.search}">
@@ -130,7 +130,8 @@
                                 <ul>
                                     <g:each in="${supervisores}" var="supervisor">
                                         <li>
-                                            ${supervisor?.inspector?.nombre}
+                                            %{--${supervisor?.inspector?.nombre}--}%
+                                            <util:clean str="${supervisor?.inspector?.nombre}"/>
                                             ${supervisor?.inspector?.telefono}
                                             ${supervisor?.inspector?.mail}
 
