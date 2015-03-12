@@ -7,6 +7,9 @@
         <imp:js src="${resource(dir: 'js/plugins/jquery-highlight', file: 'jquery-highlight1.js')}"></imp:js>
         <link href="${g.resource(dir: 'css/custom/', file: 'pdfViewer.css')}" rel="stylesheet" type="text/css">
         <imp:js src="${resource(dir: 'js/plugins/pdfObject', file: 'pdfobject.min.js')}"/>
+
+        <imp:js src="${resource(dir: 'js/plugins/bootstrap-select-1.6.3/dist/js', file: 'bootstrap-select.js')}"/>
+        <imp:css src="${resource(dir: 'js/plugins/bootstrap-select-1.6.3/dist/css', file: 'bootstrap-select.min.css')}"/>
         <style>
         .td-semaforo {
             text-align : center;
@@ -65,7 +68,10 @@
                 </div>
 
                 <div class="col-md-4">
-                    <g:select name="estacion" id="estacion" from="${estaciones}" class="form-control input-sm" optionKey="codigo" optionValue="nombre" noSelection="['-1': 'Todos']"></g:select>
+                    %{--<g:select name="estacion" id="estacion" from="${estaciones}" class="form-control input-sm"--}%
+                              %{--optionKey="codigo" optionValue="nombre" noSelection="['-1': 'Todos']"/>--}%
+                    <g:select name="estacion" from="${estaciones}" optionKey="codigo" optionValue="nombre" noSelection="['': 'Todas las estaciones']"
+                              class="selectFiltro corner-left" data-live-search="true" />
                 </div>
 
                 <div class="col-md-1">
@@ -75,7 +81,8 @@
                 </div>
 
                 <div class="col-md-4">
-                    <g:select name="tipo" id="tipo_doc" from="${tipos}" class="form-control input-sm" optionKey="id" optionValue="nombre" noSelection="['-1': 'Todos']"></g:select>
+                    <g:select name="tipo" id="tipo_doc" from="${tipos}" class="form-control input-sm" optionKey="id"
+                              optionValue="nombre" noSelection="['-1': 'Todos']"/>
                 </div>
 
             </div>
@@ -102,7 +109,8 @@
                 </div>
 
                 <div class="col-md-4">
-                    <g:select name="consultor" id="consultor" from="${consultores}" class="form-control input-sm" optionKey="id" optionValue="nombre" noSelection="['-1': 'Todos']"></g:select>
+                    <g:select name="consultor" id="consultor" from="${consultores}" class="form-control input-sm"
+                              optionKey="id" optionValue="nombre" noSelection="['-1': 'Todos']"/>
                 </div>
             </div>
 
@@ -148,6 +156,8 @@
 
         </elm:container>
         <script type="text/javascript">
+            $(".selectFiltro").selectpicker();
+
             function showPdf(div) {
                 $("#msgNoPDF").show();
                 $("#doc").html("")
