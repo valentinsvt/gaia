@@ -133,7 +133,17 @@ class ReportesEstacionController {
         def mae = Entidad.findByCodigo("MAE");
         def arch = Entidad.findByCodigo("ARCH");
 
+
+        def estaciones = Estacion.findAll("from Estacion where aplicacion = 1 and estado='A' and tipo=1")
+
         def tiposDocumentosMae = TipoDocumento.findAllByEntidad(mae);
+
+        def estacion = Estacion.get(params.estacion)
+
+        def doc = Documento.findByTipo(tiposDocumentosMae)
+
+
+
         def tiposDocumentosArch = TipoDocumento.findAllByEntidad(arch);
 
         def documentos = Documento.list()

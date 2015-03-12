@@ -96,17 +96,17 @@
     <g:each in="${estaciones}" var="estacion">
         <tr>
             <td>
-            ${estacion?.nombre}
+            <util:clean str="${estacion?.nombre}"/>
             </td>
             <td>
                 <g:set var="documentos" value="${gaia.documentos.Documento.findAllByEstacion(estacion, [sort: "id"])}"/>
                 <g:each in="${documentos}" var="documento">
-                    ${documento?.tipo?.nombre}<br/>
+                    <util:clean str="${documento?.tipo?.nombre}"/><br/>
                 </g:each>
             </td>
             <td>
         <g:each in="${documentos}" var="documentoR">
-                ${documentoR?.referencia?.replaceAll(/&/, "y")}<br/>
+            <util:clean str="${documentoR?.referencia}"/><br/>
         </g:each>
             </td>
             <td>
