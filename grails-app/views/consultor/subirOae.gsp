@@ -9,7 +9,7 @@
     <g:hiddenField name="id" value="${idCon}"/>
     <div class="row">
         <div class="col-md-3">
-            <label>Archivo OAE:</label>
+            <label>Archivo:</label>
         </div>
         <div class="col-md-8">
             <input type="file" class="ui-corner-all" name="file" id="file" size="70"/>

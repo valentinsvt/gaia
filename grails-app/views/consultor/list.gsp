@@ -42,7 +42,7 @@
         <g:sortableColumn property="direccion" title="Direccion" />
 
         <g:sortableColumn property="mail" title="Mail" />
-        <th>OAE</th>
+        <th>Licencia de <br/>Operación</th>
 
     </tr>
     </thead>
@@ -65,7 +65,7 @@
                 <td style="text-align: center;width: 60px">
                     <g:if test="${consultorInstance.pathOae && consultorInstance.pathOae!=''}" >
                         <a href="${resource()}/consultores/${consultorInstance.ruc}/${consultorInstance.pathOae}" class="btn btn-info btn-sm " id="${consultorInstance.id}" title="Descargar" target="_blank">
-                            <i class="fa fa-download"></i> Oae
+                            <i class="fa fa-download"></i>
                         </a>
                     </g:if>
                 </td>
@@ -259,7 +259,7 @@
                     }
                 },
                 subir   : {
-                    label  : "Subir OAE",
+                    label  : "Subir Licencia de operación",
                     icon   : "fa fa-arrow-up",
                     action : function ($element) {
                         var id = $element.data("id");
@@ -296,7 +296,7 @@
             success : function (msg) {
                 var b = bootbox.dialog({
                     id      : "dlgVer",
-                    title   : "Cargar OAE",
+                    title   : "Cargar licencia de operación",
 //                    class   : "modal-sm",
                     message : msg,
                     buttons : {

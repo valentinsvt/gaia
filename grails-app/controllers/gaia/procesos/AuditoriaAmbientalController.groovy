@@ -16,14 +16,14 @@ class AuditoriaAmbientalController extends Shield {
 
     def showProcesos(){
         def estacion = Estacion.findByCodigo(params.id)
-        def tipos = TipoDocumento.findAllByCodigoInList(["TP02","TP35","TP36"])
+        def tipos = TipoDocumento.findAllByCodigoInList(["TP02","TP35","TP36","TP38"])
         def procesos = Proceso.findAllByEstacionAndTipoInList(estacion,tipos)
         [procesos:procesos,estacion: estacion,tipos:tipos]
     }
 
 
     def nuevoProceso(){
-        println "params "+params
+        //println "params "+params
         def estacion = Estacion.findByCodigo(params.id)
         def tipo = TipoDocumento.get(params.tipo)
         def proceso = new Proceso()
@@ -105,6 +105,11 @@ class AuditoriaAmbientalController extends Shield {
                 tipoDoc = TipoDocumento.findByCodigo("TP19")
                 redirectStr = "auditoriaPago"
                 break;
+            case "ofiPar":
+                tipoDoc = TipoDocumento.findByCodigo("TP39")
+                redirectStr = "auditoria"
+                break;
+
         }
         def pathPart = "documentos/${estacion.codigo}/"
         println "detalle? "+detalle
@@ -245,9 +250,10 @@ class AuditoriaAmbientalController extends Shield {
         def detalleAudt = Detalle.findByProcesoAndTipo(proceso,proceso.tipo)
         def detalleObs = Detalle.findAll("from Detalle where proceso=${proceso.id} and tipo="+TipoDocumento.findByCodigo("TP07").id+" and paso=2 order by id desc")
         def detalleAprobacion = Detalle.findByProcesoAndTipo(proceso,TipoDocumento.findByCodigo("TP17"))
+        def detallePar =  Detalle.findByProcesoAndTipo(proceso,TipoDocumento.findByCodigo("TP39"))
         if(detalleObs.size()>0)
             detalleObs =  detalleObs.pop()
-        [proceso:proceso,estacion: estacion,detalleObs: detalleObs,detalleApb: detalleAprobacion,detalleAudt:detalleAudt]
+        [proceso:proceso,estacion: estacion,detalleObs: detalleObs,detalleApb: detalleAprobacion,detalleAudt:detalleAudt,detallePar:detallePar]
     }
 
     def auditoriaPago(){

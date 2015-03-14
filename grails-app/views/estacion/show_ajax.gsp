@@ -91,7 +91,7 @@
 <g:if test="${estacionInstance?.codigo}">
     <div class="row">
         <div class="col-sm-2 show-label">
-            Codigo
+            Código
         </div>
 
         <div class="col-sm-8">

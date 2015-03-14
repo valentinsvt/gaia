@@ -21,7 +21,7 @@
                 <div class="input-group">
                     <input type="text" class="form-control input-search" placeholder="Buscar" value="${params.search}">
                     <span class="input-group-btn">
-                        <g:link controller="tipodocumento" action="list" class="btn btn-default btn-search">
+                        <g:link controller="tipoDocumento" action="list" class="btn btn-default btn-search">
                             <i class="fa fa-search"></i>&nbsp;
                         </g:link>
                     </span>

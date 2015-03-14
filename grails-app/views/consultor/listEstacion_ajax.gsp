@@ -12,8 +12,9 @@
         <th>Nombre</th>
         <th>Teléfono</th>
         <th>Dirección</th>
+        <th>Calificación<br/> Arch</th>
         <th>E-Mail</th>
-        <th style="width: 30px;">Oae</th>
+        <th style="width: 30px;">Licencia de <br/>Operación</th>
         <th style="width: 30px;"></th>
         <th style="width: 30px;"></th>
     </tr>
@@ -36,9 +37,12 @@
                     ${cons.direccion}
                 </td>
                 <td>
-                    ${cons.mail}
+                    ${cons.calificacionArch}
                 </td>
                 <td>
+                    ${cons.mail}
+                </td>
+                <td style="text-align: center">
                     <g:if test="${cons.pathOae && cons.pathOae!=''}" >
                         <a href="${resource()}/consultores/${cons.ruc}/${cons.pathOae}" class="btn btn-info btn-sm " id="${cons.id}" title="Descargar" target="_blank">
                             <i class="fa fa-download"></i>

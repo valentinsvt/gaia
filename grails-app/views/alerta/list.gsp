@@ -38,7 +38,8 @@
                     <th></th>
                     <th>Fecha</th>
                     <th>Mensaje</th>
-                    <th>Originador</th>
+                    <th>Documento</th>
+                    <th>Estación</th>
                     <th>Link</th>
                 </tr>
             </thead>
@@ -49,7 +50,8 @@
                             <td class="d${(((new Date()) - alertaInstance.fechaEnvio) > 2) ? "mas" : (new Date()) - alertaInstance.fechaEnvio}"></td>
                             <td><g:formatDate date="${alertaInstance.fechaEnvio}" format="dd-MM-yyyy"/></td>
                             <td><elm:textoBusqueda busca="${params.search}"><g:fieldValue bean="${alertaInstance}" field="mensaje"/></elm:textoBusqueda></td>
-                            <td>${alertaInstance.from}</td>
+                            <td>${alertaInstance.documento.referencia}</td>
+                            <td>${alertaInstance.documento.estacion}</td>
                             <td class="text-center">
                                 <g:link action="showAlerta" id="${alertaInstance.id}" class="btn btn-default">IR</g:link>
                             </td>

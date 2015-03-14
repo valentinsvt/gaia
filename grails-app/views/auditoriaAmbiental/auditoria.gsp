@@ -188,8 +188,6 @@
                 </g:form>
                 <g:if test="${detalleAudt?.documento}">
                     <util:displayChain detalle="${detalleObs}" paso="2" origen="auditoria" padre="${detalleAudt?.id}" controller="auditoriaAmbiental"></util:displayChain>
-
-
                     <fieldset>
                         <legend>Oficio de aprobación</legend>
                         <g:form class="frm-subir-apb" controller="auditoriaAmbiental" action="upload" enctype="multipart/form-data" >
@@ -269,6 +267,86 @@
                         </g:form>
                     </fieldset>
                 </g:if>
+            <g:if test="${detalleAudt?.documento}">
+                <fieldset>
+                    <legend>Participación social</legend>
+                    <g:form class="frm-subir-par" controller="auditoriaAmbiental" action="upload" enctype="multipart/form-data" >
+                        <input type="hidden" name="estacion_codigo" value="${estacion.codigo}" >
+                        <input type="hidden" name="proceso" value="${proceso?.id}" >
+                        <input type="hidden" name="id" value="${detallePar?.id}" >
+                        <input type="hidden" name="tipo" value="ofiPar" >
+                        <input type="hidden" name="paso" value="2" >
+                        <input type="hidden" name="origen" value="auditoria" >
+                        <div class="row" style="margin-top: 0px">
+                            <div class="col-md-2">
+                                <label>
+                                    Oficio de pariticipación social
+                                </label>
+                            </div>
+                            <div class="col-md-4" style="">
+                                <g:if test="${detallePar?.documento}">
+                                    <div id="botones-apb_${detallePar?.id}">
+                                        ${detallePar.documento.codigo}
+                                        <a href="#" data-file="${detallePar.documento.path}"
+                                           data-ref="${detallePar.documento.referencia}"
+                                           data-codigo="${detallePar.documento.codigo}"
+                                           data-tipo="${detallePar.documento.tipo.nombre}"
+                                           target="_blank" class="btn btn-info ver-doc" >
+                                            <i class="fa fa-search"></i> Ver
+                                        </a>
+                                        <a href="#" class="btn btn-info cambiar" iden="apb_${detallePar?.id}">
+                                            <i class="fa fa-refresh"></i> Cambiar
+                                        </a>
+                                        <util:displayEstadoDocumento documento="${detallePar.documento}"/>
+                                    </div>
+                                    <div id="div-file-apb_${detallePar?.id}" style="display: none">
+                                        <input type="file" name="file"  class="form-control "  style="border-right: none" accept=".pdf">
+                                    </div>
+                                </g:if>
+                                <g:else>
+                                    <input type="file" name="file" id="file" class="form-control required"  style="border-right: none" accept=".pdf">
+                                </g:else>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label>
+                                    N. referencia
+                                </label>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" name="referencia" class="form-control input-sm required" maxlength="20" value="${detallePar?.documento?.referencia}">
+                            </div>
+                            <div class="col-md-1">
+                                <label>
+                                    Emisión
+                                </label>
+                            </div>
+                            <div class="col-md-3">
+                                <elm:datepicker name="inicio" id="par__${detallePar?.id}" class="required form-control input-sm" value="${detallePar?.documento?.inicio}"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <label>
+                                    Observaciones
+                                </label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" name="descripcion" class="form-control input-sm required" required="" value="${detallePar?.documento?.descripcion}" maxlength="512">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-1">
+                                <a href="#" class="btn btn-primary" id="guardar-par">
+                                    <i class="fa fa-save"></i>
+                                    Guardar
+                                </a>
+                            </div>
+                        </div>
+                    </g:form>
+                </fieldset>
+            </g:if>
             </div>
         </div>
     </div>
@@ -325,6 +403,21 @@
             label.remove();
         }
     });
+    var validator = $(".frm-subir-par").validate({
+        errorClass     : "help-block",
+        errorPlacement : function (error, element) {
+            if (element.parent().hasClass("input-group")) {
+                error.insertAfter(element.parent());
+            } else {
+                error.insertAfter(element);
+            }
+            element.parents(".grupo").addClass('has-error');
+        },
+        success        : function (label) {
+            label.parents(".grupo").removeClass('has-error');
+            label.remove();
+        }
+    });
     var validator = $(".frm-subir-apb").validate({
         errorClass     : "help-block",
         errorPlacement : function (error, element) {
@@ -364,6 +457,10 @@
         return false
     })
     $("#guardar-apb").click(function(){
+        $(this).parents("form").submit()
+        return false
+    })
+    $("#guardar-par").click(function(){
         $(this).parents("form").submit()
         return false
     })

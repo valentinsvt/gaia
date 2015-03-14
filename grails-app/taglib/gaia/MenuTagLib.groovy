@@ -1,5 +1,6 @@
 package gaia
 
+import gaia.alertas.Alerta
 import gaia.seguridad.Permiso
 
 class MenuTagLib {
@@ -129,8 +130,8 @@ class MenuTagLib {
         }
 
         def alertas = "("
-//        def count = Alerta.countByPersonaAndFechaRecibidoIsNull(usuario)
-        def count = 0
+        def count = Alerta.countByPersonaAndFechaRecibidoIsNull(usuario)
+
         alertas += count
         alertas += ")"
 
