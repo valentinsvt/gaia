@@ -12,6 +12,7 @@ class DashboardJob {
 
     def execute() {
         // execute job
+        //println "dash job"
         Dashboard.list([sort: "id"]).each {d->
             def cont= 0
             def res = d.estacion.getColorLicencia()
