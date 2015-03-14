@@ -344,4 +344,19 @@ class DocumentoController extends Shield {
 
     }
 
+    def documentosPorAprobar(){
+        def docs = Documento.findAllByEstadoNotEqual("A")
+        def estaciones = [:]
+        docs.each {d->
+            if(!estaciones[d.estacion.codigo]){
+                estaciones.put(d.estacion.codigo,[d.estacion.nombre,1,d.estacion.codigo])
+            }else{
+               // println " add "+estaciones[d.estacion.codigo]
+                estaciones[d.estacion.codigo][1]=estaciones[d.estacion.codigo][1]+1
+            }
+        }
+        println "esta "+estaciones
+        [estaciones:estaciones]
+    }
+
 }

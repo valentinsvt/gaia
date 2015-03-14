@@ -171,31 +171,42 @@ class Estacion {
     }
     def getColorAuditoria(){
         //Todo esto hay que arreglar.. ordenar por fecha de registro no convence
-        def audi = Documento.findAll("from Documento where tipo in (${TipoDocumento.findByCodigo("TP02").id},${TipoDocumento.findByCodigo("TP35").id},${TipoDocumento.findByCodigo("TP36").id}) and estacion='${this.codigo}' and estado='A'  order by fechaRegistro asc")
-        // println "lics "+lic
+        def audi = Documento.findAll("from Documento where tipo in (${TipoDocumento.findByCodigo("TP02").id},${TipoDocumento.findByCodigo("TP35").id},${TipoDocumento.findByCodigo("TP36").id},${TipoDocumento.findByCodigo("TP38").id}) and estacion='${this.codigo}' and estado='A'  order by fechaRegistro asc")
+        def auditoria = null
+
+        println "auds  "+audi.referencia
         if(audi.size()>0) {
-            audi=audi.pop()
-            def ok = false
-            def proceso = Proceso.findByDocumento(audi)
-            def detalles = Detalle.findAllByProcesoAndPaso(proceso,2)
-            detalles.each {d->
-                if(d.documento){
-                    if(d.documento.tipo.codigo=="TP17"){
-                        if(d.documento.estado=="A"){
-                            ok=true
+            //audi=audi.pop()
+            audi.each {ad->
+                def ok = false
+                def proceso = Proceso.findByDocumento(ad)
+                //println "proceso "+proceso
+                def detalles = Detalle.findAllByProcesoAndPaso(proceso,2)
+                detalles.each {d->
+                   // println "detalle "+d.documento?.referencia+" "+d.documento?.tipo?.codigo+" "+d.documento?.estado
+                    if(d.documento){
+                        if(d.documento.tipo.codigo=="TP17"){
+                            if(d.documento.estado=="A"){
+                                ok=true
+                            }
                         }
                     }
                 }
-            }
-            if(!audi.fin && ok)
-                return ["card-bg-green",audi]
-            else{
-                if (audi.fin>new Date() && ok){
-                    return ["card-bg-green",audi]
-                }else{
-                    return ["svt-bg-danger",null]
+                if(!ad.fin && ok)
+                    auditoria=ad
+                else{
+                    if (ad.fin>new Date() && ok){
+                        auditoria=ad
+                    }
                 }
             }
+            if(auditoria)
+                return ["card-bg-green",auditoria]
+            else{
+                return ["svt-bg-danger",null]
+
+            }
+
         }else{
             return ["svt-bg-danger",null]
         }
@@ -247,7 +258,7 @@ class Estacion {
         def cont = 0
         reqs.each {r->
             def doc = this.getLastDoc(r.tipo)
-           // println "tipo "+r.tipo.nombre+" doc  "+doc?.referencia+"  "+doc?.fin
+            // println "tipo "+r.tipo.nombre+" doc  "+doc?.referencia+"  "+doc?.fin
             if(doc){
                 if(doc.estado=="A")
                     cont++

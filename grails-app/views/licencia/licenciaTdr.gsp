@@ -155,7 +155,7 @@
                             </label>
                         </div>
                         <div class="col-md-3">
-                            <elm:datepicker name="inicio" class="required form-control input-sm" value="${detalleTdr?.documento?.inicio}"/>
+                            <elm:datepicker name="inicio" class="required form-control input-sm"  id="tdr_${detalleTdr?.id}" value="${detalleTdr?.documento?.inicio}"/>
                         </div>
                     </div>
                     <div class="row">
@@ -236,7 +236,7 @@
                                     </label>
                                 </div>
                                 <div class="col-md-3">
-                                    <elm:datepicker name="inicio" id="apb__${detalleApb?.id}" class="required form-control input-sm" value="${detalleApb?.documento?.inicio}"/>
+                                    <elm:datepicker name="inicio" id="apb_${detalleApb?.id}" class="required form-control input-sm" value="${detalleApb?.documento?.inicio}"/>
                                 </div>
                             </div>
                             <div class="row">

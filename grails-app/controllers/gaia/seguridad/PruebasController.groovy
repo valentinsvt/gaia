@@ -1,5 +1,6 @@
 package gaia.seguridad
 
+import gaia.documentos.Dashboard
 import gaia.estaciones.Estacion
 
 class PruebasController {
@@ -13,7 +14,7 @@ class PruebasController {
         token+= new Date().format("ddMMyyyy").encodeAsMD5()
         token=usuario.login+"|"+perfil.codigo.encodeAsMD5()+"|"+token+"|"+usuario.password
         def linkUsu = "" +g.createLink(action: 'remoteLogin',controller: 'login')+"?token="+token
-        def estacion = Estacion.findByRuc("170449802001")
+        def estacion = Dashboard.list().pop().estacion
         perfil = Perfil.findByDescripcion("Cliente")
         token=""
         token+= new Date().format("ddMMyyyy").encodeAsMD5()

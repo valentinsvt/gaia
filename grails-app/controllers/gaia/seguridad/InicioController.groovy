@@ -33,7 +33,7 @@ class InicioController extends Shield {
                     docs++
                 if(it.monitoreo==1)
                     monitoreo++
-                if(it.licencia==1 && auditoria==1 && docs==1 && monitoreo==1)
+                if(it.licencia==1 && it.auditoria==1 && it.docs==1 && it.monitoreo==1)
                     ok++
                 tot++
             }

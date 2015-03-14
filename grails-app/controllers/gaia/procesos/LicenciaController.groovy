@@ -480,9 +480,9 @@ class LicenciaController extends Shield{
                         proceso.completado="S"
                         proceso.documento = detalle.documento
                         proceso.save(flush: true)
-                        def dash = Dashboard.findByEstacion(proceso.estacion)
-                        dash.licencia=1
-                        dash.save(flush: true)
+                        //def dash = Dashboard.findByEstacion(proceso.estacion)
+                        //dash.licencia=1
+                        //dash.save(flush: true)
                     }
                     flash.message="Datos guardados, por favor continue con el siguiente paso"
                     redirect(action: 'licenciaPago',controller: 'licencia',id: proceso.id)

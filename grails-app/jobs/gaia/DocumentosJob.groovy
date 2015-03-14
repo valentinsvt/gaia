@@ -36,9 +36,16 @@ class DocumentosJob {
                     alerta.mensaje = "El documento: ${d.referencia} de la estación ${d.estacion} está por caducar (${d.fin?.format('dd-MM-yyyy')})."
                     alerta.save(flush: true)
                 }
-
-
             }
+            alerta = new Alerta()
+            alerta.documento = d;
+            alerta.controlador = "documento"
+            alerta.accion = "ver"
+            alerta.id_remoto = d.id.toInteger()
+            alerta.fechaEnvio = new Date()
+            alerta.estacion = d.estacion
+            alerta.mensaje = "El documento: ${d.referencia} de la estación ${d.estacion} está por caducar (${d.fin?.format('dd-MM-yyyy')})."
+            alerta.save(flush: true)
         }
     }
 }

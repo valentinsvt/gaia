@@ -156,7 +156,7 @@
                             </label>
                         </div>
                         <div class="col-md-3">
-                            <elm:datepicker name="inicio" class="required form-control input-sm" value="${detalleEia?.documento?.inicio}"/>
+                            <elm:datepicker name="inicio" class="required form-control input-sm" id="eia_${detalleEia?.id}" value="${detalleEia?.documento?.inicio}"/>
                         </div>
                     </div>
                     <div class="row">

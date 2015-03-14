@@ -73,9 +73,11 @@
         <a href="${g.createLink(controller: 'documento', action: 'arbolEstacion', params: [codigo: estacion.codigo])}" class="btn btn-default mapa">
             <i class="fa fa-file-pdf-o"></i> Visor de documentos
         </a>
-        <g:link controller="estacion" action="documentosPorAprobar" class="btn btn-default" id="${estacion.codigo}">
-            <i class="fa fa-check"></i> Documentos por aprobar <span class="badge" style="line-height: 100%;background: #CE464A">${docsN}</span>
-        </g:link>
+        <g:if test="${session.tipo=='usuario'}">
+            <g:link controller="estacion" action="documentosPorAprobar" class="btn btn-default" id="${estacion.codigo}">
+                <i class="fa fa-check"></i> Documentos por aprobar <span class="badge" style="line-height: 100%;background: #CE464A">${docsN}</span>
+            </g:link>
+        </g:if>
         <a href="#" class="btn btn-default consultores">
             <i class="fa fa-users"></i> Consultores
         </a>
@@ -125,9 +127,9 @@
 
                 <div class="header-content">
                     <div class="circle-card ${auditoria[0]}"></div>
-                        <a href="#" class="btn btn-info btn-header btn-sm" id="detalles-audt">
-                            <i class="fa fa-street-view"></i> Detalles
-                        </a>
+                    <a href="#" class="btn btn-info btn-header btn-sm" id="detalles-audt">
+                        <i class="fa fa-street-view"></i> Detalles
+                    </a>
                 </div>
             </div>
 

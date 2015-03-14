@@ -267,7 +267,7 @@
                         </g:form>
                     </fieldset>
                 </g:if>
-            <g:if test="${detalleAudt?.documento}">
+            <g:if test="${detalleAudt?.documento && proceso.tipo.codigo=='TP02'}">
                 <fieldset>
                     <legend>Participación social</legend>
                     <g:form class="frm-subir-par" controller="auditoriaAmbiental" action="upload" enctype="multipart/form-data" >

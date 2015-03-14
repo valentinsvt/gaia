@@ -130,7 +130,11 @@ class MenuTagLib {
         }
 
         def alertas = "("
-        def count = Alerta.countByPersonaAndFechaRecibidoIsNull(usuario)
+        def count
+        if(session.tipo=="usuario")
+            count= Alerta.countByPersonaAndFechaRecibidoIsNull(usuario)
+        else
+            count= Alerta.countByEstacionAndFechaRecibidoIsNull(usuario)
 
         alertas += count
         alertas += ")"
