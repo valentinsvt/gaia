@@ -114,11 +114,15 @@ class AccionesController extends Shield {
      * Acción llamada con ajax que cambia el orden de una acción
      */
     def accionCambiarOrden_ajax() {
+        println params
         def accion = Accion.get(params.id)
+        println accion
         accion.orden = params.orden.toInteger()
-        if (accion.save()) {
+        println accion.orden
+        if (accion.save(flush:true)) {
             render "SUCCESS*Se ha cambiado el orden exitosamente"
         } else {
+            println renderErrors(bean: accion)
             render "ERROR*" + renderErrors(bean: accion)
         }
     }
@@ -128,7 +132,7 @@ class AccionesController extends Shield {
     def accionCambiarIcono_ajax() {
         def accion = Accion.get(params.id)
         accion.icono = params.icono
-        println "cambiar ico: " + params
+//        println "cambiar ico: " + params
         if (accion.save(flush: true)) {
             render "SUCCESS*Se ha cambiado el icono exitosamente"
         } else {
