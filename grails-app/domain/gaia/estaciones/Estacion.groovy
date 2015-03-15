@@ -174,7 +174,7 @@ class Estacion {
         def audi = Documento.findAll("from Documento where tipo in (${TipoDocumento.findByCodigo("TP02").id},${TipoDocumento.findByCodigo("TP35").id},${TipoDocumento.findByCodigo("TP36").id},${TipoDocumento.findByCodigo("TP38").id}) and estacion='${this.codigo}' and estado='A'  order by fechaRegistro asc")
         def auditoria = null
 
-        println "auds  "+audi.referencia
+        //println "auds  "+audi.referencia
         if(audi.size()>0) {
             //audi=audi.pop()
             audi.each {ad->
