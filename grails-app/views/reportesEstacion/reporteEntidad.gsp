@@ -78,14 +78,7 @@
 
 <rep:headerFooter title="Documentos por entidad"/>
 
-%{--<div role="tabpanel">--}%
-    <!-- Nav tabs -->
-
-
-    <!-- Tab panes -->
-    %{--<div class="tab-content">--}%
-        %{--<div role="tabpanel" class="tab-pane active" id="mae">--}%
-        <fieldset>
+ <fieldset>
     <legend>Ministerio del Ambiente</legend>
     </fieldset>
             <table border="1" class="table table-condensed table-bordered table-striped table-hover tablaSuperCon" width="100%">
@@ -154,11 +147,8 @@
                         </td>
                         <td>
                             <g:set var="docsArch" value="${gaia.documentos.Documento.findAllByTipo(documentosArch, [sort: "inicio"])}"/>
-
                             <g:if test="${docsArch.size() > 0}">
-                                %{--${docsArch?.referencia?.last()}--}%
                                 <util:clean str="${docsArch?.referencia?.last()}"/>
-
                             </g:if>
                             <g:else>
 

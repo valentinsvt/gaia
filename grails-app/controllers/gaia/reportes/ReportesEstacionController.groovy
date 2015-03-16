@@ -140,21 +140,19 @@ class ReportesEstacionController {
 
         def estacion = Estacion.get(params.estacion)
 
-        def doc = Documento.findByTipo(tiposDocumentosMae)
-
-
+        def docsEstacion = Documento.findAllByTipo(tiposDocumentosMae)
 
         def tiposDocumentosArch = TipoDocumento.findAllByEntidad(arch);
 
         def documentos = Documento.list()
-        def otros = []
+
+        def otros =[]
 
         tiposDocumentosMae.each {
+
             otros += Documento.findAllByTipo(it)
 
         }
-
-
         return [tiposDocumentosMae: tiposDocumentosMae, tiposDocumentosArch: tiposDocumentosArch]
 
     }
