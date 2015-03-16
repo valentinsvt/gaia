@@ -45,61 +45,47 @@
 
     <rep:headerFooter title="Documentos vencidos"/>
     <table border="1" class="table table-condensed table-bordered table-striped table-hover tablaSuperCon" width="100%">
-
         <thead>
-                <tr>
-                    <th style="width: 100px;">Estación</th>
-                    <th style="width: 130px;">Tipo Documento</th>
-                    <th style="width: 70px;"># Referencia</th>
-                    <th style="width: 70px;">Emisión</th>
-                    <th style="width: 70px;">Vencimiento</th>
-                </tr>
-            </thead>
-            <tbody>
-                <g:each in="${estaciones}" var="estacion">
-                    <g:set var="documentos" value="${gaia.documentos.Documento.findAllByEstacion(estacion)}"/>
-                    <g:if test="${documentos.size() > 0}">
-                        <tr>
-                            <td>
-                                <util:clean str="${estacion?.nombre}"/>
-                            </td>
-                            <td>
-                                <ul style="vertical-align: inherit !important;">
-                                    <g:each in="${documentos}" var="documentoR">
-                                        <g:if test="${documentoR?.tipo?.nombre}">
-                                            <li>
-                                                <util:clean str="${documentoR?.tipo?.nombre}"/>
-                                            </li>
-                                        </g:if>
-                                        <g:else>
-                                            <li>
-                                                NADA
-                                            </li>
-                                        </g:else>
-                                    </g:each>
-                                </ul>
-                            </td>
-                            <td>
-                                <ul>
-                                    <g:each in="${documentos}" var="documento">
-                                        <li>
-                                            <util:clean str="${documento?.referencia}"/>
-                                        </li>
-                                    </g:each>
-                                </ul>
-                            </td>
-                            <td>
-                                <ul>
-                                    <g:each in="${documentos}" var="documento">
-                                        <li>
-                                            ${documento?.inicio?.format("dd-MM-yyyy")}
-                                        </li>
-                                    </g:each>
-                                </ul>
-                            </td>
-                            <td>
-                                <ul>
-                                    <g:each in="${documentos}" var="documento">
+        <tr>
+            <th style="width: 100px;">Estación</th>
+            <th style="width: 130px;">Tipo Documento</th>
+            <th style="width: 70px;"># Referencia</th>
+            <th style="width: 70px;">Emisión</th>
+            <th style="width: 70px;">Vencimiento</th>
+        </tr>
+        </thead>
+        <tbody id="tb">
+
+        <g:each in="${estaciones}" var="estacion">
+            <g:set var="documentos" value="${gaia.documentos.Documento.findAllByEstacion(estacion)}"/>
+            <g:if test="${documentos.size() > 0}">
+                <g:each in="${documentos}" var="documento">
+                    <g:if test="${documento?.fin}">
+                        <g:if test="${documento.fin.clearTime() <= new Date().clearTime()}">
+                        </g:if>
+                        <g:elseif test="${(documento?.fin < new Date().plus(30))}">
+                            <tr>
+                                <td>
+                                   ${documento?.estacion?.nombre}
+                                </td>
+                                <td>
+                                    <ul>
+                                    ${documento?.tipo?.nombre}
+                                    </ul>
+                                </td>
+                                <td>
+                                    <ul>
+                                    ${documento?.referencia}
+                                    </ul>
+                                </td>
+                                <td>
+                                    <ul>
+                                        ${documento?.inicio?.format("dd-MM-yyyy")}
+                                    </ul>
+                                </td>
+                                <td>
+
+                                    <ul>
                                         <g:if test="${documento?.fin}">
                                             <g:if test="${documento.fin.clearTime() <= new Date().clearTime()}">
                                                 <li style="color: #ce464a">
@@ -122,14 +108,17 @@
                                                 Sin fecha de vencimiento
                                             </li>
                                         </g:else>
-                                    </g:each>
-                                </ul>
-                            </td>
-                        </tr>
+                                    </ul>
+                                </td>
+                            </tr>
+                        </g:elseif>
                     </g:if>
                 </g:each>
-            </tbody>
-        </table>
+            </g:if>
+        </g:each>
+
+        </tbody>
+    </table>
 
     </body>
 </html>
