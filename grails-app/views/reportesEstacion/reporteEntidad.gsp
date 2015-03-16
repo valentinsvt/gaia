@@ -78,12 +78,61 @@
 
 <rep:headerFooter title="Documentos por entidad"/>
 
- <fieldset>
-    <legend>Ministerio del Ambiente</legend>
-    </fieldset>
+
+<div>
+        <div>
+            <label>
+                <b>Estación:</b>
+            </label>
+            ${estacion?.nombre}
+        </div>
+          <div class="col-md-4">
+              <label>
+                 <b>Fecha:</b>
+              </label>
+              ${new java.util.Date().format("dd-MM-yyyy")}
+          </div>
+
+
+        <div>
+            <label>
+                <b>Provincia:</b>
+            </label>
+            ${estacion?.provincia}
+        </div>
+        <div>
+            <label>
+                <b>Canton:</b>
+            </label>
+            ${estacion?.canton}
+        </div>
+        <div>
+            <label>
+                <b>Parroquia:</b>
+            </label>
+            ${estacion?.parroquia}
+        </div>
+
+        <div>
+            <label>
+                <b>Propietario:</b>
+            </label>
+
+            ${estacion?.propetario}
+        </div>
+        <div>
+            <label>
+                <b>Teléfono:</b>
+            </label>
+            ${estacion?.telefono}
+        </div>
+
+</div>
+
             <table border="1" class="table table-condensed table-bordered table-striped table-hover tablaSuperCon" width="100%">
                 <thead>
                 <tr>
+                    <th style="width: 100px;">Entidad</th>
                     <th style="width: 130px;">Tipo Documento</th>
                     <th style="width: 70px;"># Referencia</th>
                     <th style="width: 70px;">Emisión</th>
@@ -91,90 +140,38 @@
                 </tr>
                 </thead>
                 <tbody>
-                <g:each in="${tiposDocumentosMae}" var="documentos" status="h">
+                <g:each in="${tipos}" var="tipo">
                     <tr>
+
                         <td>
-                            <g:if test="${tiposDocumentosMae.size() > 0}">
-                                <util:clean str="${documentos?.nombre}"/>
-                            </g:if>
-                            <g:else>
-                            </g:else>
+
+                            <util:clean str="${tipo?.tipo?.entidad?.nombre}"/>
                         </td>
                         <td>
-                            <g:set var="docs" value="${gaia.documentos.Documento.findAllByTipo(documentos, [sort: "inicio"])}"/>
 
-                            <g:if test="${docs.size() > 0}">
-                                  <util:clean str="${docs?.referencia?.last()}"/>
-                             </g:if>
-                        </td>
-                        <td style="text-align: center">
-                            <g:if test="${docs.size() > 0}">
-                                ${docs?.inicio?.last().format("dd-MM-yyyy")}
+                            <g:if test="${tipos.size() > 0}">
+                                <util:clean str="${tipo?.tipo?.nombre}"/>
                             </g:if>
                             <g:else>
-
                             </g:else>
                         </td>
-                        <td style="text-align: center">
-                            <g:if test="${docs.size() > 0}">
-                                ${docs?.fin?.last()?.format("dd-MM-yyyy")}
-                            </g:if>
-                            <g:else>
+                        <td>
+                            %{--<g:set var="docs" value="${gaia.documentos.Documento.findAllByTipo(tipo?.tipo, [sort: "inicio"])}"/>--}%
+                            <util:clean str="${tipo?.referencia}"/>
 
-                            </g:else>
+
+                        </td>
+                        <td style="text-align: center">
+
+                            ${tipo?.inicio?.format("dd-MM-yyyy")}
+
+                        </td>
+                        <td style="text-align: center">
+                                   ${tipo?.fin?.format("dd-MM-yyyy")}
                         </td>
                     </tr>
                 </g:each>
                 </tbody>
             </table>
-<fieldset>
-    <legend>Agencia de Regulación y Control Hidrocarburífero</legend>
-</fieldset>
-            <table border="1" class="table table-condensed table-bordered table-striped table-hover tablaSuperCon" width="100%">
-                <thead>
-                <tr>
-                    <th style="width: 130px;">Tipo Documento</th>
-                    <th style="width: 70px;"># Referencia</th>
-                    <th style="width: 70px;">Emisión</th>
-                    <th style="width: 70px;">Vencimiento</th>
-                </tr>
-                </thead>
-                <tbody id="tb">
-                <g:each in="${tiposDocumentosArch}" var="documentosArch">
-                    <tr>
-                        <td>
-                            <util:clean str="${documentosArch?.nombre}"/>
-                        </td>
-                        <td>
-                            <g:set var="docsArch" value="${gaia.documentos.Documento.findAllByTipo(documentosArch, [sort: "inicio"])}"/>
-                            <g:if test="${docsArch.size() > 0}">
-                                <util:clean str="${docsArch?.referencia?.last()}"/>
-                            </g:if>
-                            <g:else>
-
-                            </g:else>
-
-                        </td>
-                        <td style="text-align: center">
-                            <g:if test="${docsArch.size() > 0}">
-                                ${docsArch?.inicio?.last()?.format("dd-MM-yyyy")}
-                            </g:if>
-                            <g:else>
-
-                            </g:else>
-                        </td>
-                        <td style="text-align: center">
-                            <g:if test="${docsArch.size() > 0}">
-                                ${docsArch?.fin?.last()?.format("dd-MM-yyyy")}
-                            </g:if>
-                            <g:else>
-
-                            </g:else>
-                        </td>
-                    </tr>
-                </g:each>
-                </tbody>
-            </table>
-
 </body>
 </html>

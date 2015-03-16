@@ -115,6 +115,10 @@ class ReportesEstacionController {
         def tiposDocumentosMae = TipoDocumento.findAllByEntidad(mae);
         def tiposDocumentosArch = TipoDocumento.findAllByEntidad(arch);
 
+        def estaciones = Estacion.findAll("from Estacion where aplicacion = 1 and estado='A' and tipo=1")
+
+        def entidades = Entidad.list()
+
         def documentos = Documento.list()
         def otros = []
 
@@ -124,36 +128,90 @@ class ReportesEstacionController {
 
 //        print("-->" + otros)
 
-        return [tiposDocumentosMae: tiposDocumentosMae, tiposDocumentosArch: tiposDocumentosArch]
+        return [tiposDocumentosMae: tiposDocumentosMae, tiposDocumentosArch: tiposDocumentosArch, estaciones: estaciones, entidades: entidades]
 
     }
 
     def reporteEntidad () {
 
-        def mae = Entidad.findByCodigo("MAE");
-        def arch = Entidad.findByCodigo("ARCH");
+//        println("params " + params)
+
+        def tiposDocumentos
+        def documentos
+        def tipos = []
+        def estacion
+
+        //todos
 
 
-        def estaciones = Estacion.findAll("from Estacion where aplicacion = 1 and estado='A' and tipo=1")
+        if(params.entidadId == "-1"){
+            println("entrof")
+//            def estacion = Estacion.findByNombre(params.estacion)
+            estacion = Estacion.findByCodigo(params.estacionId)
+            def entidades = Entidad.list()
+            tipos = Documento.findAllByEstacion(estacion)
+        }else{
+            //estacion - entidad
 
-        def tiposDocumentosMae = TipoDocumento.findAllByEntidad(mae);
+            def entidad = Entidad.get(params.entidadId)
+//            def estacion = Estacion.findByNombre(params.estacion)
+            estacion = Estacion.findByCodigo(params.estacionId)
+            tiposDocumentos = TipoDocumento.findAllByEntidad(entidad)
+            documentos = Documento.findAllByEstacion(estacion)
 
-        def estacion = Estacion.get(params.estacion)
-
-        def docsEstacion = Documento.findAllByTipo(tiposDocumentosMae)
-
-        def tiposDocumentosArch = TipoDocumento.findAllByEntidad(arch);
-
-        def documentos = Documento.list()
-
-        def otros =[]
-
-        tiposDocumentosMae.each {
-
-            otros += Documento.findAllByTipo(it)
-
+            documentos.each {
+                if(it.tipo.entidad.id == entidad.id){
+                    tipos += it
+                }
+            }
         }
-        return [tiposDocumentosMae: tiposDocumentosMae, tiposDocumentosArch: tiposDocumentosArch]
+
+//        println("res " + tipos)
+
+        return [tipos: tipos, estacion: estacion]
+
+    }
+
+
+    def tablaEntidad () {
+
+//        println("params " + params)
+
+        def tiposDocumentos
+        def documentos
+        def tipos = []
+
+        //todos
+
+
+        if(params.entidad == "-1"){
+
+//            def estacion = Estacion.findByNombre(params.estacion)
+            def estacion = Estacion.findByCodigo(params.estacion)
+            def entidades = Entidad.list()
+            tipos = Documento.findAllByEstacion(estacion)
+        }else{
+            //estacion - entidad
+
+            def entidad = Entidad.get(params.entidad)
+//            def estacion = Estacion.findByNombre(params.estacion)
+            def estacion = Estacion.findByCodigo(params.estacion)
+            tiposDocumentos = TipoDocumento.findAllByEntidad(entidad)
+            documentos = Documento.findAllByEstacion(estacion)
+
+            documentos.each {
+                if(it.tipo.entidad.id == entidad.id){
+                    tipos += it
+                }
+            }
+        }
+
+
+
+
+//        println("res " + tipos)
+
+        return [tipos: tipos]
 
     }
 
@@ -247,27 +305,17 @@ class ReportesEstacionController {
 
         def documentos
 
-        println("fin " + fFin)
-        println("inicio " + fInicio)
-
         if(params.consultorId == '-1'){
-            println("entro -1")
-
-
-
             if(fFin != null && fInicio != null){
-                println("entro 1")
                 documentos = Documento.findAllByFinLessThanEqualsAndInicioGreaterThanEquals(fFin, fInicio)
             }
             else if(fInicio && !fFin) {
-                println("entro 2")
                 documentos = Documento.findAllByInicioGreaterThanEquals(fInicio)
             }
             else if(fFin && !fInicio){
                 documentos = Documento.findAllByFinLessThanEquals(fFin)
             }
             else{
-                println("list")
                 documentos = Documento.list()
             }
 
