@@ -192,13 +192,37 @@ class ReportesEstacionController {
         if(params.consultorId == '-1'){
             println("entro -1")
 
-            documentos = Documento.list()
+            if(fFin != null && fInicio != null){
+                println("entro 1")
+                documentos = Documento.findAllByFinLessThanEqualsAndInicioGreaterThanEquals(fFin, fInicio)
+            }
+            else if(fInicio && !fFin) {
+                println("entro 2")
+                documentos = Documento.findAllByInicioGreaterThanEquals(fInicio)
+            }
+            else if(fFin && !fInicio){
+                documentos = Documento.findAllByFinLessThanEquals(fFin)
+            }
+            else{
+                println("list")
+                documentos = Documento.list()
+            }
+
+
         }else{
-            if(fFin && fInicio){
-                documentos = Documento.findAllByConsultorAndInicioLessThanEqualsAndInicioGreaterThan(consultor,fFin, fInicio)
-            }else{
+            if(fFin != null && fInicio != null){
+                documentos = Documento.findAllByConsultorAndFinLessThanEqualsAndInicioGreaterThanEquals(consultor,fFin, fInicio)
+            }
+            else if(fInicio && !fFin) {
+                documentos = Documento.findAllByConsultorAndInicioGreaterThanEquals(consultor,fInicio)
+            }
+            else if(fFin && !fInicio){
+                documentos = Documento.findAllByConsultorAndFinLessThanEquals(consultor, fFin)
+            }
+            else{
                 documentos = Documento.findAllByConsultor(consultor)
             }
+
 
         }
 
@@ -223,16 +247,45 @@ class ReportesEstacionController {
 
         def documentos
 
+        println("fin " + fFin)
+        println("inicio " + fInicio)
+
         if(params.consultorId == '-1'){
             println("entro -1")
 
-            documentos = Documento.list()
+
+
+            if(fFin != null && fInicio != null){
+                println("entro 1")
+                documentos = Documento.findAllByFinLessThanEqualsAndInicioGreaterThanEquals(fFin, fInicio)
+            }
+            else if(fInicio && !fFin) {
+                println("entro 2")
+                documentos = Documento.findAllByInicioGreaterThanEquals(fInicio)
+            }
+            else if(fFin && !fInicio){
+                documentos = Documento.findAllByFinLessThanEquals(fFin)
+            }
+            else{
+                println("list")
+                documentos = Documento.list()
+            }
+
+
         }else{
-            if(fFin && fInicio){
-                documentos = Documento.findAllByConsultorAndInicioLessThanEqualsAndInicioGreaterThan(consultor,fFin, fInicio)
-            }else{
+            if(fFin != null && fInicio != null){
+                documentos = Documento.findAllByConsultorAndFinLessThanEqualsAndInicioGreaterThanEquals(consultor,fFin, fInicio)
+            }
+            else if(fInicio && !fFin) {
+                documentos = Documento.findAllByConsultorAndInicioGreaterThanEquals(consultor,fInicio)
+            }
+            else if(fFin && !fInicio){
+                documentos = Documento.findAllByConsultorAndFinLessThanEquals(consultor, fFin)
+            }
+            else{
                 documentos = Documento.findAllByConsultor(consultor)
             }
+
 
         }
 

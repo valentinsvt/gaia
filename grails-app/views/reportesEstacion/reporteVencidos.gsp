@@ -93,9 +93,9 @@
                                                 </li>
                                             </g:if>
                                             <g:elseif test="${documento?.fin < new Date().plus(30)}">
-                                                <li style="color: #ffa324">
+                                                %{--<li>--}%
                                                     Por vencer  ${documento?.fin?.format("dd-MM-yyyy")}
-                                                </li>
+                                                %{--</li>--}%
                                             </g:elseif>
                                             <g:else>
                                                 <li>
