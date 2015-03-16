@@ -205,4 +205,38 @@ class ReportesEstacionController {
             return [documentos: documentos, consultor: consultor]
 
     }
+
+    def tablaDocumentosConsultor () {
+
+        println("paramsdc " + params)
+
+        def fInicio
+        def fFin
+
+        if(params.fechaInicio){
+            fInicio = new Date().parse("dd-MM-yyyy", params.fechaInicio)
+        }
+        if(params.fechaFin){
+            fFin = new Date().parse("dd-MM-yyyy", params.fechaFin)
+        }
+        def consultor = Consultor.findById(params.consultorId)
+
+        def documentos
+
+        if(params.consultorId == '-1'){
+            println("entro -1")
+
+            documentos = Documento.list()
+        }else{
+            if(fFin && fInicio){
+                documentos = Documento.findAllByConsultorAndInicioLessThanEqualsAndInicioGreaterThan(consultor,fFin, fInicio)
+            }else{
+                documentos = Documento.findAllByConsultor(consultor)
+            }
+
+        }
+
+        return [documentos: documentos, consultor: consultor]
+
+    }
 }
