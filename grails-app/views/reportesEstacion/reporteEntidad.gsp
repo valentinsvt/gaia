@@ -44,8 +44,8 @@
     }
 
     /*td {*/
-        /*padding : 3px;*/
-        /*border  : 1px solid #fff*/
+    /*padding : 3px;*/
+    /*border  : 1px solid #fff*/
     /*}*/
 
     table {
@@ -70,7 +70,7 @@
     .table td {
         font-size : 10pt;
     }
-</style>
+    </style>
 
 </head>
 
@@ -79,99 +79,129 @@
 <rep:headerFooter title="Documentos por entidad"/>
 
 
-<div>
-        <div>
+<table>
+    <thead>
+
+    </thead>
+    <tbody>
+    <tr>
+        <td colspan="5">
             <label>
                 <b>Estación:</b>
             </label>
             ${estacion?.nombre}
-        </div>
-          <div class="col-md-4">
-              <label>
-                 <b>Fecha:</b>
-              </label>
-              ${new java.util.Date().format("dd-MM-yyyy")}
-          </div>
+        </td>
+        <td colspan="5">
 
+        </td>
+        <td colspan="5">
 
-        <div>
+        </td>
+        <td colspan="5">
+            <label>
+                <b>Fecha:</b>
+            </label>
+            ${new java.util.Date().format("dd-MM-yyyy")}
+        </td>
+    </tr>
+    <tr>
+        <td colspan="5">
             <label>
                 <b>Provincia:</b>
             </label>
             ${estacion?.provincia}
-        </div>
-        <div>
+        </td>
+        <td colspan="5">
+
+
+        </td>
+        <td colspan="5">
+
+        </td>
+        <td colspan="5">
             <label>
-                <b>Canton:</b>
+                <b>Cantón:</b>
             </label>
             ${estacion?.canton}
-        </div>
-        <div>
-            <label>
-                <b>Parroquia:</b>
-            </label>
-            ${estacion?.parroquia}
-        </div>
 
-        <div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="5">
             <label>
                 <b>Propietario:</b>
             </label>
 
             ${estacion?.propetario}
-        </div>
-        <div>
+        </td>
+        <td colspan="5">
+
+        </td>
+        <td colspan="5">
+
+        </td>
+        <td colspan="5">
             <label>
                 <b>Teléfono:</b>
             </label>
             ${estacion?.telefono}
-        </div>
+        </td>
+    </tr>
+    </tbody>
 
-</div>
+</table>
 
-            <table border="1" class="table table-condensed table-bordered table-striped table-hover tablaSuperCon" width="100%">
-                <thead>
+<g:each in="${entidades}" var="ent">
+
+    <table border="1" class="table table-condensed table-bordered table-striped table-hover tablaSuperCon" width="100%">
+        <thead>
+        <tr>
+            <th style="width: 100px;">Entidad</th>
+            <th style="width: 130px;">Tipo Documento</th>
+            <th style="width: 70px;"># Referencia</th>
+            <th style="width: 70px;">Emisión</th>
+            <th style="width: 70px;">Vencimiento</th>
+        </tr>
+        </thead>
+        <tbody>
+
+
+        <g:each in="${tipos}" var="tipo">
+            <g:if test="${tipo.tipo.entidad == ent}">
                 <tr>
-                    <th style="width: 100px;">Entidad</th>
-                    <th style="width: 130px;">Tipo Documento</th>
-                    <th style="width: 70px;"># Referencia</th>
-                    <th style="width: 70px;">Emisión</th>
-                    <th style="width: 70px;">Vencimiento</th>
+
+                    <td>
+
+                        <util:clean str="${tipo?.tipo?.entidad?.nombre}"/>
+                    </td>
+                    <td>
+
+                        <g:if test="${tipos.size() > 0}">
+                            <util:clean str="${tipo?.tipo?.nombre}"/>
+                        </g:if>
+                        <g:else>
+                        </g:else>
+                    </td>
+                    <td>
+                        <util:clean str="${tipo?.referencia}"/>
+                    </td>
+                    <td style="text-align: center">
+
+                        ${tipo?.inicio?.format("dd-MM-yyyy")}
+
+                    </td>
+                    <td style="text-align: center">
+                        ${tipo?.fin?.format("dd-MM-yyyy")}
+                    </td>
                 </tr>
-                </thead>
-                <tbody>
-                <g:each in="${tipos}" var="tipo">
-                    <tr>
-
-                        <td>
-
-                            <util:clean str="${tipo?.tipo?.entidad?.nombre}"/>
-                        </td>
-                        <td>
-
-                            <g:if test="${tipos.size() > 0}">
-                                <util:clean str="${tipo?.tipo?.nombre}"/>
-                            </g:if>
-                            <g:else>
-                            </g:else>
-                        </td>
-                        <td>
-                            %{--<g:set var="docs" value="${gaia.documentos.Documento.findAllByTipo(tipo?.tipo, [sort: "inicio"])}"/>--}%
-                            <util:clean str="${tipo?.referencia}"/>
+            </g:if>
 
 
-                        </td>
-                        <td style="text-align: center">
+        </g:each>
+        </tbody>
+    </table>
+</g:each>
 
-                            ${tipo?.inicio?.format("dd-MM-yyyy")}
 
-                        </td>
-                        <td style="text-align: center">
-                                   ${tipo?.fin?.format("dd-MM-yyyy")}
-                        </td>
-                    </tr>
-                </g:each>
-                </tbody>
-            </table>
 </body>
 </html>

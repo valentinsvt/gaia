@@ -135,26 +135,30 @@ class ReportesEstacionController {
     def reporteEntidad () {
 
 //        println("params " + params)
-
         def tiposDocumentos
         def documentos
         def tipos = []
         def estacion
+        def arr = []
 
         //todos
 
-
         if(params.entidadId == "-1"){
             println("entrof")
-//            def estacion = Estacion.findByNombre(params.estacion)
             estacion = Estacion.findByCodigo(params.estacionId)
             def entidades = Entidad.list()
             tipos = Documento.findAllByEstacion(estacion)
+
+            tipos.each {
+
+             arr += it.tipo.entidad
+            }
+
+            println("entidades" + arr.unique())
+
         }else{
             //estacion - entidad
-
             def entidad = Entidad.get(params.entidadId)
-//            def estacion = Estacion.findByNombre(params.estacion)
             estacion = Estacion.findByCodigo(params.estacionId)
             tiposDocumentos = TipoDocumento.findAllByEntidad(entidad)
             documentos = Documento.findAllByEstacion(estacion)
@@ -164,12 +168,16 @@ class ReportesEstacionController {
                     tipos += it
                 }
             }
+
+            tipos.each {
+
+                arr += it.tipo.entidad
+            }
         }
 
 //        println("res " + tipos)
 
-        return [tipos: tipos, estacion: estacion]
-
+        return [tipos: tipos, estacion: estacion, entidades: arr]
     }
 
 
