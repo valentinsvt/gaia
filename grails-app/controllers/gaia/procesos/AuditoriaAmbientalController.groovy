@@ -216,6 +216,7 @@ class AuditoriaAmbientalController extends Shield {
 
             detalle.documento.properties =params
             detalle.documento.consultor = proceso.consultor
+            detalle.documento.estado="N"
             if(params.plazo){
                 plazo = params.plazo.toInteger()
                 detalle.plazo=plazo
