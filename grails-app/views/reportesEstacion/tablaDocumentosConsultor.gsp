@@ -37,11 +37,11 @@
                     ${documento?.referencia}
                 </td>
                 <td>
-                    <g:if test="${documento?.estado == "A"}">
-                        Aprobado
+                    <g:if test="${documento?.estado == "N"}">
+                        No Aprobado
                     </g:if>
                     <g:else>
-                        No Aprobado
+                        Aprobado
                     </g:else>
 
                 </td>
