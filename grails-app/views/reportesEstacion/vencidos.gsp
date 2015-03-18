@@ -44,8 +44,6 @@
         <th style="width: 70px;"># Referencia</th>
         <th style="width: 70px;">Emisión</th>
         <th style="width: 70px;">Vencimiento</th>
-        <th style="width: 70px;">Consultor</th>
-        <th style="width: 70px;">Estado</th>
     </tr>
     </thead>
     <tbody id="tb">
@@ -94,7 +92,7 @@
                                         </g:if>
                                         <g:elseif test="${documento?.fin < new Date().plus(30)}">
                                             %{--<li>--}%
-                                                ${documento?.fin?.format("dd-MM-yyyy")}
+                                                Por vencer  ${documento?.fin?.format("dd-MM-yyyy")}
                                             %{--</li>--}%
                                         </g:elseif>
                                         <g:else>
@@ -109,18 +107,6 @@
                                         </li>
                                     </g:else>
                                 </ul>
-                            </td>
-                            <td>
-                                ${documento?.consultor?.nombre}
-                            </td>
-                            <td>
-                                <g:if test="${documento?.estado == 'N' }">
-                                    No Aprobado
-                                </g:if>
-                                <g:else>
-                                    Aprobado
-                                </g:else>
-
                             </td>
                         </tr>
                     </g:elseif>

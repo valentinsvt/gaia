@@ -8,6 +8,10 @@ import gaia.documentos.Documento
 import gaia.documentos.RequerimientosEstacion
 import gaia.documentos.TipoDocumento
 import gaia.documentos.Ubicacion
+import gaia.erp.ClienteErp
+import gaia.erp.Mangueras
+import gaia.erp.Surtidor
+import gaia.erp.Tanque
 import org.springframework.dao.DataIntegrityViolationException
 import gaia.seguridad.Shield
 
@@ -324,8 +328,13 @@ class EstacionController extends Shield {
         }else{
             entradas = Entrada.findAllByEstacion(estacion,[sort:"fecha",order:"desc",max:limite])
         }
+        def cliente = ClienteErp.findByCodigoAndAplicacion(params.id,1)
+        def tanques = Tanque.findAllByCliente(cliente)
+        def mangueras = []
+        if(tanques.size()>0)
+            mangueras=  Mangueras.findAllByTanqueInList(tanques)
         //println "entradas "+entradas
-        [estacion:estacion,entradas:entradas,limite:limite,inicio:params.inicio_input,fin:params.fin_input]
+        [estacion:estacion,entradas:entradas,limite:limite,inicio:params.inicio_input,fin:params.fin_input,mangueras: mangueras]
     }
 
     def nuevaEntrada(){
@@ -379,4 +388,15 @@ class EstacionController extends Shield {
         entrada.delete(flush: true)
         render "ok"
     }
+
+    def showEquipos(){
+        println "aqui "
+        def cliente = ClienteErp.findByCodigoAndAplicacion(params.id,1)
+        def tanques = Tanque.findAllByCliente(cliente)
+        def mangueras = []
+        if(tanques.size()>0)
+            mangueras=  Mangueras.findAllByTanqueInList(tanques)
+        [tanques:tanques,cliente:cliente,mangueras:mangueras]
+    }
+
 }

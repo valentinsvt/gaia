@@ -87,6 +87,9 @@
         <a href="${g.createLink(controller: 'estacion',action: 'calibracion',id:estacion.codigo)}" class="btn btn-default ">
             <i class="fa fa-gears"></i> Calibración diaria
         </a>
+        <a href="#" class="btn btn-default equipo">
+            <i class="fa flaticon-fuel2"></i> Equipo
+        </a>
     </div>
 </div>
 <elm:container tipo="horizontal" titulo="Estación: ${estacion.nombre}">
@@ -395,6 +398,28 @@
             }
         });
     }
+    function verEquipo() {
+        $.ajax({
+            type    : "POST",
+            url     : "${createLink(controller:'estacion', action:'showEquipos',id:estacion.codigo)}",
+            data    : "",
+            success : function (msg) {
+                bootbox.dialog({
+                    title   : "Equipos",
+                    class : "modal-lg",
+                    message : msg,
+                    buttons : {
+                        ok : {
+                            label     : "Aceptar",
+                            className : "btn-primary",
+                            callback  : function () {
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    }
 
     function buscar() {
         openLoader();
@@ -433,6 +458,10 @@
         });
         $(".supervisor").click(function () {
             verInspectores("${estacion.codigo}");
+            return false;
+        });
+        $(".equipo").click(function () {
+            verEquipo("${estacion.codigo}");
             return false;
         });
 

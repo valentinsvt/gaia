@@ -1,5 +1,6 @@
 package gaia.estaciones
 
+import gaia.erp.Mangueras
 import gaia.seguridad.Persona
 
 class Entrada {
@@ -11,6 +12,7 @@ class Entrada {
     String path
     String tipo /*P-> pdf I->imagen*/
     Entrada entrada
+    Mangueras manguera
 /**
  * Define los campos que se van a ignorar al momento de hacer logs
  */
@@ -34,6 +36,7 @@ class Entrada {
             path column: 'entrpath'
             entrada column: 'entrpdre'
             tipo column: 'entrtipo'
+            manguera column: 'mngr__id'
         }
     }
 
@@ -46,5 +49,6 @@ class Entrada {
         path(nullable: true, blank: true, size: 1..100)
         entrada(nullable: true, blank: true)
         tipo(nullable: true, blank: true, size: 1..1)
+        manguera(nullable: true, blank: true)
     }
 }

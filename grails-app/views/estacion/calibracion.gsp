@@ -204,9 +204,25 @@
                         <div class="col-md-1">
                             <label>Estación</label>
                         </div>
-
-                        <div class="col-md-8">
+                        <div class="col-md-4">
                             ${estacion.nombre}
+                        </div>
+                        <div class="col-md-1">
+                            <label>Manguera</label>
+                        </div>
+                        <div class="col-md-3">
+                            <g:select name="manguera" from="${mangueras}" optionKey="codigo" optionValue="codigo" id="manguera" class="form-control input-sm" noSelection="['-1':'Seleccione']"></g:select>
+                        </div>
+                        <div class="col-md-1">
+                            <a href="#" class="btn btn-default btn-sm" id="copiar">
+                                Copiar Código
+                            </a>
+                        </div>
+                        <div class="col-md-1">
+                            <a href="#" class="btn btn-default btn-sm" id="oficio">
+                                <i class="fa fa-file-pdf-o"></i>
+                                Oficio
+                            </a>
                         </div>
                     </div>
 
@@ -280,7 +296,7 @@
                         },
                         success : function (msg) {
                             boton.parent().parent().remove()
-                            console.log(boton.parent().parent())
+                           // console.log(boton.parent().parent())
                         }
                     });
                 }
@@ -304,6 +320,14 @@
     })
     $("#agregar").click(function () {
         $("#modal-entrada").modal("show")
+    })
+
+    $("#copiar").click(function(){
+        if($("#manguera").val()!="-1"){
+            CKEDITOR.instances.texto.setData(CKEDITOR.instances.texto.getData().substring(0,CKEDITOR.instances.texto.getData().length-5)+" "+$("#manguera").val()+"</p>")
+        }
+        return false
+        //$(".cke_contents_ltr").append($("#manguera").val())
     })
 
     $("#guardar").click(function () {

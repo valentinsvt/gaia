@@ -52,8 +52,6 @@
             <th style="width: 70px;"># Referencia</th>
             <th style="width: 70px;">Emisión</th>
             <th style="width: 70px;">Vencimiento</th>
-            <th style="width: 70px;">Consultor</th>
-            <th style="width: 70px;">Estado</th>
         </tr>
         </thead>
         <tbody id="tb">
@@ -68,19 +66,16 @@
                         <g:elseif test="${(documento?.fin < new Date().plus(30))}">
                             <tr>
                                 <td>
-                                   %{--${documento?.estacion?.nombre}--}%
-                                   <util:clean str="${documento?.estacion?.nombre}"/>
+                                   ${documento?.estacion?.nombre}
                                 </td>
                                 <td>
                                     <ul>
-                                    %{--${documento?.tipo?.nombre}--}%
-                                    <util:clean str="${documento?.tipo?.nombre}"/>
+                                    ${documento?.tipo?.nombre}
                                     </ul>
                                 </td>
                                 <td>
                                     <ul>
-                                    %{--${documento?.referencia}--}%
-                                    <util:clean str="${documento?.referencia}"/>
+                                    ${documento?.referencia}
                                     </ul>
                                 </td>
                                 <td>
@@ -99,7 +94,7 @@
                                             </g:if>
                                             <g:elseif test="${documento?.fin < new Date().plus(30)}">
                                                 %{--<li>--}%
-                                                    ${documento?.fin?.format("dd-MM-yyyy")}
+                                                    Por vencer  ${documento?.fin?.format("dd-MM-yyyy")}
                                                 %{--</li>--}%
                                             </g:elseif>
                                             <g:else>
@@ -114,19 +109,6 @@
                                             </li>
                                         </g:else>
                                     </ul>
-                                </td>
-                                <td>
-                                    %{--${documento?.consultor?.nombre}--}%
-                                    <util:clean str="${documento?.consultor?.nombre}"/>
-                                </td>
-                                <td>
-                                    <g:if test="${documento?.estado == 'N' }">
-                                        No Aprobado
-                                    </g:if>
-                                    <g:else>
-                                        Aprobado
-                                    </g:else>
-
                                 </td>
                             </tr>
                         </g:elseif>

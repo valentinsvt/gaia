@@ -118,7 +118,7 @@ class UtilitariosTagLib {
         def str = attrs.str
 
         replace.each { busca, nuevo ->
-            str = str.replaceAll(busca, nuevo)
+            str = str?.replaceAll(busca, nuevo)
          }
         out << str
     }
