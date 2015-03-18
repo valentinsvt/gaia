@@ -177,7 +177,7 @@ class ReportesEstacionController {
 
 //        println("res " + tipos)
 
-        return [tipos: tipos, estacion: estacion, entidades: arr]
+        return [tipos: tipos, estacion: estacion, entidades: arr.unique()]
     }
 
 

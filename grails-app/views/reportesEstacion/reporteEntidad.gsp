@@ -153,6 +153,12 @@
 
 <g:each in="${entidades}" var="ent">
 
+    <fieldset>
+        <legend>
+           <b>${ent.nombre}</b>
+        </legend>
+    </fieldset>
+
     <table border="1" class="table table-condensed table-bordered table-striped table-hover tablaSuperCon" width="100%">
         <thead>
         <tr>
