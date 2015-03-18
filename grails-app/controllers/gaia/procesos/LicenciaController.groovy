@@ -169,6 +169,7 @@ class LicenciaController extends Shield{
             params.remove("id")
             detalle.documento.properties =params
             detalle.dependencia = Dependencia.get(params.dependencia)
+            detalle.documento.estado="N"
             detalle.documento.save()
             detalle.save(flush: true)
             flash.message="Datos guardados, por favor continue con el siguiente paso"
@@ -327,6 +328,7 @@ class LicenciaController extends Shield{
 
             detalle.documento.properties =params
             detalle.documento.consultor = proceso.consultor
+            detalle.documento.estado="N"
             if(params.plazo){
                 plazo = params.plazo.toInteger()
                 detalle.plazo=plazo

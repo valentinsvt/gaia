@@ -162,7 +162,7 @@
                                 </div>
                             </div>
                         </g:if>
-                        <g:if test="${session.tipo=='usuairo'}">
+                        <g:if test="${session.tipo=='usuario'}">
                             <div class="delete">
                                 <a href="#" class="eliminar btn btn-danger btn-sm" id="${e.id}" title="Eliminar">
                                     <i class="fa fa-trash"></i>
