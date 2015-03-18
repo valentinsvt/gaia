@@ -33,26 +33,22 @@
             </td>
             <td>
                 <g:set var="docs" value="${gaia.documentos.Documento.findAllByTipo(tipo?.tipo, [sort: "inicio"])}"/>
-
-                %{--<g:if test="${docs.size() > 0}">--}%
-                    %{--${docs?.referencia?.last()}--}%
-                %{--</g:if>--}%
-                %{--<g:else>--}%
-
-                %{--</g:else>--}%
             ${tipo?.referencia}
-
+            </td>
+            <td>
+                ${tipo?.consultor?.nombre}
+            </td>
+            <td>
+                <g:if test="${tipo?.estado == 'N' }">
+                    No Aprobado
+                </g:if>
+                <g:else>
+                    Aprobado
+                </g:else>
 
             </td>
             <td style="text-align: center">
-                %{--<g:if test="${docs.size() > 0}">--}%
-                    %{--${docs?.inicio?.last().format("dd-MM-yyyy")}--}%
-                %{--</g:if>--}%
-                %{--<g:else>--}%
-
-                %{--</g:else>--}%
                 ${tipo?.inicio?.format("dd-MM-yyyy")}
-
             </td>
             <td style="text-align: center">
                 %{--<g:if test="${docs.size() > 0}">--}%

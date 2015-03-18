@@ -57,6 +57,8 @@
         <th style="width: 100px;">Entidad</th>
         <th style="width: 130px;">Tipo Documento</th>
         <th style="width: 70px;"># Referencia</th>
+        <th style="width: 70px;">Consultor</th>
+        <th style="width: 70px;">Estado</th>
         <th style="width: 70px;">Emisión</th>
         <th style="width: 70px;">Vencimiento</th>
     </tr>

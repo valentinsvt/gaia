@@ -165,6 +165,8 @@
             <th style="width: 100px;">Entidad</th>
             <th style="width: 130px;">Tipo Documento</th>
             <th style="width: 70px;"># Referencia</th>
+            <th style="width: 70px;">Consultor</th>
+            <th style="width: 70px;">Estado</th>
             <th style="width: 70px;">Emisión</th>
             <th style="width: 70px;">Vencimiento</th>
         </tr>
@@ -190,6 +192,18 @@
                     </td>
                     <td>
                         <util:clean str="${tipo?.referencia}"/>
+                    </td>
+                    <td>
+                        <util:clean str="${tipo?.consultor?.nombre}"/>
+                    </td>
+                    <td>
+                        <g:if test="${tipo?.estado == 'N' }">
+                            No Aprobado
+                        </g:if>
+                        <g:else>
+                            Aprobado
+                        </g:else>
+
                     </td>
                     <td style="text-align: center">
 

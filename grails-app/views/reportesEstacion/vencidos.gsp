@@ -42,8 +42,11 @@
         <th style="width: 100px;">Estación</th>
         <th style="width: 130px;">Tipo Documento</th>
         <th style="width: 70px;"># Referencia</th>
+        <th style="width: 70px;">Consultor</th>
+        <th style="width: 70px;">Estado</th>
         <th style="width: 70px;">Emisión</th>
         <th style="width: 70px;">Vencimiento</th>
+
     </tr>
     </thead>
     <tbody id="tb">
@@ -77,6 +80,18 @@
                                 </ul>
                             </td>
                             <td>
+                                ${documento?.consultor?.nombre}
+                            </td>
+                            <td>
+                                <g:if test="${documento?.estado == 'N' }">
+                                    No Aprobado
+                                </g:if>
+                                <g:else>
+                                    Aprobado
+                                </g:else>
+
+                            </td>
+                            <td>
                                 <ul>
                                     ${documento?.inicio?.format("dd-MM-yyyy")}
                                 </ul>
@@ -92,7 +107,7 @@
                                         </g:if>
                                         <g:elseif test="${documento?.fin < new Date().plus(30)}">
                                             %{--<li>--}%
-                                                Por vencer  ${documento?.fin?.format("dd-MM-yyyy")}
+                                                ${documento?.fin?.format("dd-MM-yyyy")}
                                             %{--</li>--}%
                                         </g:elseif>
                                         <g:else>
@@ -108,6 +123,7 @@
                                     </g:else>
                                 </ul>
                             </td>
+
                         </tr>
                     </g:elseif>
                 </g:if>

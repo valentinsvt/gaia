@@ -115,7 +115,7 @@ class UtilitariosTagLib {
 
                 "&hellip;": '...'
         ]
-        def str = attrs.str
+        def str = attrs?.str
 
         replace.each { busca, nuevo ->
             str = str?.replaceAll(busca, nuevo)

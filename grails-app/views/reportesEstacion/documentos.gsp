@@ -52,6 +52,7 @@
         <th style="width: 100px;">Estación</th>
         <th>Documento</th>
         <th>N° Referencia</th>
+        <th>Consultor</th>
         <th>Estado</th>
         <th>Fecha Inicio</th>
         <th>Fecha Fin</th>
@@ -78,12 +79,17 @@
                 </g:each>
             </td>
             <td>
+                <g:each in="${documentos}" var="documentoF">
+                    <p style="border-bottom: 1px solid"> ${documentoF?.consultor?.nombre}<br/></p>
+                </g:each>
+            </td>
+            <td>
                 <g:each in="${documentos}" var="documentoE">
-                    <g:if test="${documentoE?.estado == "A"}">
-                        <p style="border-bottom: 1px solid"> Aprobado<br/></p>
+                    <g:if test="${documentoE?.estado == "N"}">
+                        <p style="border-bottom: 1px solid"> No Aprobado<br/></p>
                     </g:if>
                     <g:else>
-                        <p style="border-bottom: 1px solid">No Aprobado<br/></p>
+                        <p style="border-bottom: 1px solid">Aprobado<br/></p>
                     </g:else>
                 </g:each>
             </td>
