@@ -112,7 +112,7 @@
                     <div class="row">
                         <div class="col-md-2">
                             <label>
-                                Terminos de referencia
+                                Términos de referencia
                             </label>
                         </div>
                         <div class="col-md-4">

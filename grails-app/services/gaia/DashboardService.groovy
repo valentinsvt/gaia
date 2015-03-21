@@ -56,6 +56,15 @@ class DashboardService {
                 }
                 //monitoreo
                 break;
+            case "TP41":
+                if(documento.fin){
+                    if(documento.fin>now)
+                        dash.controlAnual=1
+                }else{
+                    dash.controlAnual=1
+                }
+                //monitoreo
+                break;
             default:
                 def req = RequerimientosEstacion.findAllByEstacion(documento.estacion)
                 def cont = 0

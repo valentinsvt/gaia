@@ -63,13 +63,17 @@
                 <div class="circle-card card-bg-green circle-btn doc-green" title="Filtrar por color verde" mostrar="green-doc"></div>
                 <div class="circle-card svt-bg-danger circle-btn doc-red" title="Filtrar por color rojo" mostrar="red-doc"></div>
             </th>
+            <th class="td-semaforo">Control anual<br>
+                <div class="circle-card card-bg-green circle-btn control-green" title="Filtrar por color verde" mostrar="green-control"></div>
+                <div class="circle-card svt-bg-danger circle-btn control-red" title="Filtrar por color rojo" mostrar="red-control"></div>
+            </th>
 
             <th>Ver</th>
         </tr>
         </thead>
         <tbody>
         <g:each in="${dash}" var="d" status="">
-            <tr data-id="${d.estacion.codigo}" class=" tr-info ${d.monitoreo==1?'green-moni':'red-moni'} ${d.auditoria==1?'green-audt':'red-audt'} ${d.licencia==1?'green-lic':'red-lic'} ${d.docs==1?'green-doc':(d.docs==0)?'red-doc':'orange-doc'}">
+            <tr data-id="${d.estacion.codigo}" class=" tr-info   ${d.controlAnual==1?'green-control':'red-control'} ${d.monitoreo==1?'green-moni':'red-moni'} ${d.auditoria==1?'green-audt':'red-audt'} ${d.licencia==1?'green-lic':'red-lic'} ${d.docs==1?'green-doc':(d.docs==0)?'red-doc':'orange-doc'}">
                 <td class="desc">${d.estacion}</td>
                 <td class="td-semaforo">
                     <div class="circle-card ${d.licencia==1?'card-bg-green':'svt-bg-danger'}"></div>
@@ -84,8 +88,12 @@
                     <div class="circle-card ${d.docs==1?'card-bg-green':(d.docs==0)?'svt-bg-danger':'svt-bg-warning'}"></div>
                 </td>
                 <td class="td-semaforo">
+                    <div class="circle-card ${d.controlAnual==1?'card-bg-green':'svt-bg-danger'}"></div>
+                </td>
+                <td class="td-semaforo">
                     <a href="${g.createLink(controller: 'estacion',action: 'showEstacion',id: d.estacion.codigo)}" class="btn btn-primary btn-sm" title="Ver"><i class="fa fa-search"></i></a>
                 </td>
+
             </tr>
         </g:each>
         </tbody>

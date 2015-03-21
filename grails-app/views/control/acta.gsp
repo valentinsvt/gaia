@@ -6,7 +6,7 @@
     <link href="${g.resource(dir: 'css/custom/', file: 'pdfViewer.css')}" rel="stylesheet" type="text/css">
     <imp:js src="${resource(dir: 'js/plugins/pdfObject', file: 'pdfobject.min.js')}"/>
     <title>
-        Registrar auditoría ambiental
+        Registrar acta de control anual
     </title>
     <style type="text/css">
     label{
@@ -71,77 +71,65 @@
         <div class="panel-heading">${proceso.tipo.nombre}</div>
         <div class="panel-body" style="padding:0px">
             <div class="header-flow">
+                <g:link controller="control" action="registrarControl" id="${proceso.id}" style="text-decoration: none">
+                    <div class="header-flow-item before">
+                        <span class="badge before">1</span>
+                        Pago y documentos iniciales
+                        <span class="arrow"></span>
+                    </div>
+                </g:link>
 
                 <div class="header-flow-item active">
-                    <span class="badge active">1</span>
-                    Términos de referencia
+                    <span class="badge active">2</span>
+                    Acta de control
                     <span class="arrow"></span>
                 </div>
-                <g:if test="${detalleApb?.documento}">
-                    <g:link controller="auditoriaAmbiental" action="auditoria" id="${proceso.id}" style="text-decoration: none">
+                <g:if test="${detalleActa}">
+                    <g:link controller="control" action="certificado" id="${proceso.id}" style="text-decoration: none">
                         <div class="header-flow-item disabled">
-                            <span class="badge disabled">2</span>
-                            Auditoría ambiental
-                            <span class="arrow"></span>
+                            <span class="badge disabled ">3</span>
+                            Certificado de control anual
                         </div>
                     </g:link>
                 </g:if>
                 <g:else>
-                    <div class="header-flow-item disabled">
-                        <span class="badge disabled">2</span>
-                        Auditoría ambiental
-                        <span class="arrow"></span>
+                    <div class="header-flow-item active">
+                        <span class="badge active">3</span>
+                        Certificado de control anual
                     </div>
                 </g:else>
-                <div class="header-flow-item disabled">
-                    <span class="badge disabled">3</span>
-                    Pago
-                </div>
+
             </div>
             <div class="flow-body">
-                <div class="row" style="border-bottom: 1px solid #3A5DAA;width: 99%;padding-bottom: 10px;margin-bottom: 5px">
-                    <div class="col-md-3">
-                        <label>
-                            Consultor encargado del proceso:
-                        </label>
-                    </div>
-                    <div class="col-md-4">
-                        <g:select name="consultor"  id="consultor" class="form-control input-sm" from="${gaia.documentos.ConsultorEstacion.findAllByEstacion(estacion)?.consultor}" optionKey="id" optionValue="nombre" value="${proceso?.consultor?.id}"/>
-                    </div>
-                    <div class="col-md-1">
-                        <a href="#" class="btn btn-success" id="consultor-btn">
-                            <i class="fa fa-disk"></i> Guardar
-                        </a>
-                    </div>
-                </div>
-                <g:form class="frm-subir-tdr" controller="auditoriaAmbiental" action="upload" enctype="multipart/form-data" >
+
+                <g:form class="frm-subir-acta" controller="control" action="upload" enctype="multipart/form-data" >
                     <input type="hidden" name="estacion_codigo" value="${estacion.codigo}" >
                     <input type="hidden" name="proceso" value="${proceso?.id}" >
-                    <input type="hidden" name="id" value="${detalleTdr?.id}" >
-                    <input type="hidden" name="tipo" value="tdr" >
-                    <input type="hidden" name="paso" value="1" >
-                    <input type="hidden" name="origen" value="registrarAuditoria" >
+                    <input type="hidden" name="id" value="${detalleActa?.id}" >
+                    <input type="hidden" name="tipo" value="acta" >
+                    <input type="hidden" name="paso" value="2" >
+                    <input type="hidden" name="origen" value="acta" >
                     <div class="row">
                         <div class="col-md-2">
                             <label>
-                                Términos de referencia
+                                Acta
                             </label>
                         </div>
                         <div class="col-md-4">
-                            <g:if test="${detalleTdr?.documento}">
+                            <g:if test="${detalleActa?.documento}">
                                 <div id="botones-tdr">
-                                    ${detalleTdr.documento.codigo}
-                                    <a href="#" data-file="${detalleTdr.documento.path}"
-                                       data-ref="${detalleTdr.documento.referencia}"
-                                       data-codigo="${detalleTdr.documento.codigo}"
-                                       data-tipo="${detalleTdr.documento.tipo.nombre}"
+                                    ${detalleActa.documento.codigo}
+                                    <a href="#" data-file="${detalleActa.documento.path}"
+                                       data-ref="${detalleActa.documento.referencia}"
+                                       data-codigo="${detalleActa.documento.codigo}"
+                                       data-tipo="${detalleActa.documento.tipo.nombre}"
                                        target="_blank" class="btn btn-info ver-doc" >
                                         <i class="fa fa-search"></i> Ver
                                     </a>
                                     <a href="#" class="btn btn-info cambiar" iden="tdr">
                                         <i class="fa fa-refresh"></i> Cambiar
                                     </a>
-                                    <util:displayEstadoDocumento documento="${detalleTdr.documento}"/>
+                                    <util:displayEstadoDocumento documento="${detalleActa.documento}"/>
                                 </div>
                                 <div id="div-file-tdr" style="display: none">
                                     <input type="file" name="file"  class="form-control "  style="border-right: none" accept=".pdf">
@@ -159,7 +147,7 @@
                             </label>
                         </div>
                         <div class="col-md-4">
-                            <input type="text" name="referencia" class="form-control input-sm required" maxlength="20" value="${detalleTdr?.documento?.referencia}">
+                            <input type="text" name="referencia" class="form-control input-sm required" maxlength="20" value="${detalleActa?.documento?.referencia}">
                         </div>
                         <div class="col-md-1">
                             <label>
@@ -167,7 +155,7 @@
                             </label>
                         </div>
                         <div class="col-md-3">
-                            <elm:datepicker name="inicio" class="required form-control input-sm" value="${detalleTdr?.documento?.inicio}"/>
+                            <elm:datepicker name="inicio" class="required form-control input-sm" value="${detalleActa?.documento?.inicio}"/>
                         </div>
                     </div>
                     <div class="row">
@@ -177,101 +165,18 @@
                             </label>
                         </div>
                         <div class="col-md-8">
-                            <input type="text" name="descripcion" class="form-control input-sm required" required="" value="${detalleTdr?.documento?.descripcion}" maxlength="512">
+                            <input type="text" name="descripcion" class="form-control input-sm required" required="" value="${detalleActa?.documento?.descripcion}" maxlength="512">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-1">
-                            <a href="#" class="btn btn-primary" id="guardar-tdr">
+                            <a href="#" class="btn btn-primary" id="guardar-apb">
                                 <i class="fa fa-save"></i>
                                 Guardar
                             </a>
                         </div>
                     </div>
                 </g:form>
-                <g:if test="${detalleTdr?.documento}">
-                    <util:displayChain detalle="${detalleObs}" paso="1" origen="registrarAuditoria" padre="${detalleTdr?.id}" controller="auditoriaAmbiental"></util:displayChain>
-
-
-                    <fieldset>
-                        <legend>Oficio de aprobación</legend>
-                        <g:form class="frm-subir-apb" controller="auditoriaAmbiental" action="upload" enctype="multipart/form-data" >
-                            <input type="hidden" name="estacion_codigo" value="${estacion.codigo}" >
-                            <input type="hidden" name="proceso" value="${proceso?.id}" >
-                            <input type="hidden" name="id" value="${detalleApb?.id}" >
-                            <input type="hidden" name="tipo" value="apbTdr" >
-                            <input type="hidden" name="paso" value="1" >
-                            <input type="hidden" name="origen" value="registrarAuditoria" >
-                            <div class="row" style="margin-top: 0px">
-                                <div class="col-md-2">
-                                    <label>
-                                        Oficio
-                                    </label>
-                                </div>
-                                <div class="col-md-4" style="">
-                                    <g:if test="${detalleApb?.documento}">
-                                        <div id="botones-apb_${detalleApb?.id}">
-                                            ${detalleApb.documento.codigo}
-                                            <a href="#" data-file="${detalleApb.documento.path}"
-                                               data-ref="${detalleApb.documento.referencia}"
-                                               data-codigo="${detalleApb.documento.codigo}"
-                                               data-tipo="${detalleApb.documento.tipo.nombre}"
-                                               target="_blank" class="btn btn-info ver-doc" >
-                                                <i class="fa fa-search"></i> Ver
-                                            </a>
-                                            <a href="#" class="btn btn-info cambiar" iden="apb_${detalleApb?.id}">
-                                                <i class="fa fa-refresh"></i> Cambiar
-                                            </a>
-                                            <util:displayEstadoDocumento documento="${detalleApb.documento}"/>
-                                        </div>
-                                        <div id="div-file-apb_${detalleApb?.id}" style="display: none">
-                                            <input type="file" name="file"  class="form-control "  style="border-right: none" accept=".pdf">
-                                        </div>
-                                    </g:if>
-                                    <g:else>
-                                        <input type="file" name="file" id="file" class="form-control required"  style="border-right: none" accept=".pdf">
-                                    </g:else>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-2">
-                                    <label>
-                                        N. referencia
-                                    </label>
-                                </div>
-                                <div class="col-md-4">
-                                    <input type="text" name="referencia" class="form-control input-sm required" maxlength="20" value="${detalleApb?.documento?.referencia}">
-                                </div>
-                                <div class="col-md-1">
-                                    <label>
-                                        Emisión
-                                    </label>
-                                </div>
-                                <div class="col-md-3">
-                                    <elm:datepicker name="inicio" id="apb__${detalleApb?.id}" class="required form-control input-sm" value="${detalleApb?.documento?.inicio}"/>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-2">
-                                    <label>
-                                        Observaciones
-                                    </label>
-                                </div>
-                                <div class="col-md-8">
-                                    <input type="text" name="descripcion" class="form-control input-sm required" required="" value="${detalleApb?.documento?.descripcion}" maxlength="512">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-1">
-                                    <a href="#" class="btn btn-primary" id="guardar-apb">
-                                        <i class="fa fa-save"></i>
-                                        Guardar
-                                    </a>
-                                </div>
-                            </div>
-                        </g:form>
-                    </fieldset>
-                </g:if>
             </div>
         </div>
     </div>
@@ -328,7 +233,7 @@
             label.remove();
         }
     });
-    var validator = $(".frm-subir-apb").validate({
+    var validator = $(".frm-subir-acta").validate({
         errorClass     : "help-block",
         errorPlacement : function (error, element) {
             if (element.parent().hasClass("input-group")) {

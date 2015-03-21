@@ -64,7 +64,7 @@
                     <g:link controller="licencia" action="licenciaTdr" id="${proceso.id}">
                         <div class="header-flow-item disabled">
                             <span class="badge disabled">2</span>
-                            Terminos de referencia
+                            Términos de referencia
                             <span class="arrow"></span>
                         </div>
                     </g:link>
@@ -72,7 +72,7 @@
                 <g:else>
                     <div class="header-flow-item disabled">
                         <span class="badge disabled">2</span>
-                        Terminos de referencia
+                        Términos de referencia
                         <span class="arrow"></span>
                     </div>
                 </g:else>
@@ -110,7 +110,7 @@
                     <div class="row">
                         <div class="col-md-2">
                             <label>
-                                Certidicado
+                                Certificado
                             </label>
                         </div>
                         <div class="col-md-4">

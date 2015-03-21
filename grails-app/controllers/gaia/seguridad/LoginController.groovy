@@ -262,6 +262,8 @@ class LoginController {
                 session.perfil = perfil
                 session.usuarioKerberos = usuario.login
                 session.tipo="usuario"
+                /*Comentar esto cuando esten configurados los perfiles*/
+                session.perfil =  Perfil.findByCodigo("1")
                 redirect(controller: "inicio",action: "index")
             }
 

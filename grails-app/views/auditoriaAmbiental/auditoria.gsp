@@ -74,7 +74,7 @@
                 <g:link controller="auditoriaAmbiental" action="registrarAuditoria" id="${proceso.id}" style="text-decoration: none">
                     <div class="header-flow-item before">
                         <span class="badge before">1</span>
-                        Terminos de referencia
+                        Términos de referencia
                         <span class="arrow"></span>
                     </div>
                 </g:link>

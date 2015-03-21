@@ -6,7 +6,7 @@
     <link href="${g.resource(dir: 'css/custom/', file: 'pdfViewer.css')}" rel="stylesheet" type="text/css">
     <imp:js src="${resource(dir: 'js/plugins/pdfObject', file: 'pdfobject.min.js')}"/>
     <title>
-        Registrar licencia ambiental
+        Registrar acta de control anual
     </title>
     <style type="text/css">
     label{
@@ -22,6 +22,10 @@
         border-color: #3A87AD;
         color: #3A87AD;
     }
+    .header-flow-item{
+        width: 33%;
+    }
+
 
     </style>
 </head>
@@ -64,73 +68,61 @@
 </div>
 <elm:container tipo="horizontal" titulo="Estación: ${estacion.nombre}" >
     <div class="panel panel-info" style="margin-top: 20px">
-        <div class="panel-heading">Licencia ambiental</div>
+        <div class="panel-heading">${proceso.tipo.nombre}</div>
         <div class="panel-body" style="padding:0px">
             <div class="header-flow">
-                <g:link action="registrarLicencia" id="${estacion.codigo}" style="text-decoration: none">
+                <g:link controller="control" action="registrarControl" id="${proceso.id}" style="text-decoration: none">
                     <div class="header-flow-item before">
-                        <span class="badge before">1</span> Certificado de intersección
+                        <span class="badge before">1</span>
+                        Pago y documentos iniciales
                         <span class="arrow"></span>
                     </div>
                 </g:link>
-                <g:link action="licenciaTdr" id="${proceso.id}" style="text-decoration: none">
+                <g:link controller="control" action="acta" id="${proceso.id}" style="text-decoration: none">
                     <div class="header-flow-item before">
                         <span class="badge before">2</span>
-                        Términos de referencia
+                        Acta de control
                         <span class="arrow"></span>
                     </div>
                 </g:link>
+
                 <div class="header-flow-item active">
                     <span class="badge active">3</span>
-                    Estudio de impacto ambiental
-                    <span class="arrow"></span>
+                    Certificado de control anual
                 </div>
-                <g:if test="${detalleApb?.documento}">
-                    <g:link controller="licencia" action="licenciaPago" id="${proceso.id}" style="text-decoration: none">
-                        <div class="header-flow-item disabled">
-                            <span class="badge disabled">4</span>
-                            Pago y licencia
-                            <span class="arrow"></span>
-                        </div>
-                    </g:link>
-                </g:if>
-                <g:else>
-                    <div class="header-flow-item disabled">
-                        <span class="badge disabled">4</span>
-                        Pago y licencia
-                        <span class="arrow"></span>
-                    </div>
-                </g:else>
+
+
             </div>
             <div class="flow-body">
-                <g:form class="frm-subir-eia" controller="licencia" action="upload" enctype="multipart/form-data" >
+
+                <g:form class="frm-subir-acta" controller="control" action="upload" enctype="multipart/form-data" >
                     <input type="hidden" name="estacion_codigo" value="${estacion.codigo}" >
                     <input type="hidden" name="proceso" value="${proceso?.id}" >
-                    <input type="hidden" name="id" value="${detalleEia?.id}" >
-                    <input type="hidden" name="tipo" value="eia" >
+                    <input type="hidden" name="id" value="${detalleCert?.id}" >
+                    <input type="hidden" name="tipo" value="cert" >
                     <input type="hidden" name="paso" value="3" >
-                    <input type="hidden" name="origen" value="licenciaEia" >
+                    <input type="hidden" name="origen" value="certificado" >
                     <div class="row">
                         <div class="col-md-2">
                             <label>
-                                Estudio de impacto ambiental
+                                Certificado
                             </label>
                         </div>
                         <div class="col-md-4">
-                            <g:if test="${detalleEia?.documento}">
+                            <g:if test="${detalleCert?.documento}">
                                 <div id="botones-tdr">
-                                    ${detalleEia.documento.codigo}
-                                    <a href="#" data-file="${detalleEia.documento.path}"
-                                       data-ref="${detalleEia.documento.referencia}"
-                                       data-codigo="${detalleEia.documento.codigo}"
-                                       data-tipo="${detalleEia.documento.tipo.nombre}"
+                                    ${detalleCert.documento.codigo}
+                                    <a href="#" data-file="${detalleCert.documento.path}"
+                                       data-ref="${detalleCert.documento.referencia}"
+                                       data-codigo="${detalleCert.documento.codigo}"
+                                       data-tipo="${detalleCert.documento.tipo.nombre}"
                                        target="_blank" class="btn btn-info ver-doc" >
                                         <i class="fa fa-search"></i> Ver
                                     </a>
                                     <a href="#" class="btn btn-info cambiar" iden="tdr">
                                         <i class="fa fa-refresh"></i> Cambiar
                                     </a>
-                                    <util:displayEstadoDocumento documento="${detalleEia.documento}"/>
+                                    <util:displayEstadoDocumento documento="${detalleCert.documento}"/>
                                 </div>
                                 <div id="div-file-tdr" style="display: none">
                                     <input type="file" name="file"  class="form-control "  style="border-right: none" accept=".pdf">
@@ -148,15 +140,26 @@
                             </label>
                         </div>
                         <div class="col-md-4">
-                            <input type="text" name="referencia" class="form-control input-sm required" maxlength="20" value="${detalleEia?.documento?.referencia}">
+                            <input type="text" name="referencia" class="form-control input-sm required" maxlength="20" value="${detalleCert?.documento?.referencia}">
                         </div>
-                        <div class="col-md-1">
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
                             <label>
                                 Emisión
                             </label>
                         </div>
                         <div class="col-md-3">
-                            <elm:datepicker name="inicio" class="required form-control input-sm" id="eia_${detalleEia?.id}" value="${detalleEia?.documento?.inicio}"/>
+                            <elm:datepicker name="inicio" class="required form-control input-sm" value="${detalleCert?.documento?.inicio}"/>
+                        </div>
+                        <div class="col-md-2">
+                            <label>
+                                Vence
+                            </label>
+                        </div>
+                        <div class="col-md-3">
+                            <elm:datepicker name="fin" class="required form-control input-sm" value="${detalleCert?.documento?.fin}"/>
                         </div>
                     </div>
                     <div class="row">
@@ -166,101 +169,18 @@
                             </label>
                         </div>
                         <div class="col-md-8">
-                            <input type="text" name="descripcion" class="form-control input-sm required" required="" value="${detalleEia?.documento?.descripcion}" maxlength="512">
+                            <input type="text" name="descripcion" class="form-control input-sm required" required="" value="${detalleCert?.documento?.descripcion}" maxlength="512">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-1">
-                            <a href="#" class="btn btn-primary" id="guardar-tdr">
+                            <a href="#" class="btn btn-primary" id="guardar-apb">
                                 <i class="fa fa-save"></i>
                                 Guardar
                             </a>
                         </div>
                     </div>
                 </g:form>
-                <g:if test="${detalleEia?.documento}">
-                    <util:displayChain detalle="${detalleObs}" paso="3" origen="licenciaEia" padre="${detalleEia?.id}"></util:displayChain>
-
-
-                    <fieldset>
-                        <legend>Oficio de aprobación</legend>
-                        <g:form class="frm-subir-apb" controller="licencia" action="upload" enctype="multipart/form-data" >
-                            <input type="hidden" name="estacion_codigo" value="${estacion.codigo}" >
-                            <input type="hidden" name="proceso" value="${proceso?.id}" >
-                            <input type="hidden" name="id" value="${detalleApb?.id}" >
-                            <input type="hidden" name="tipo" value="apbEia" >
-                            <input type="hidden" name="paso" value="3" >
-                            <input type="hidden" name="origen" value="licenciaEia" >
-                            <div class="row" style="margin-top: 0px">
-                                <div class="col-md-2">
-                                    <label>
-                                        Oficio
-                                    </label>
-                                </div>
-                                <div class="col-md-4">
-                                    <g:if test="${detalleApb?.documento}">
-                                        <div id="botones-apb_${detalleApb?.id}">
-                                            ${detalleApb.documento.codigo}
-                                            <a href="#" data-file="${detalleApb.documento.path}"
-                                               data-ref="${detalleApb.documento.referencia}"
-                                               data-codigo="${detalleApb.documento.codigo}"
-                                               data-tipo="${detalleApb.documento.tipo.nombre}"
-                                               target="_blank" class="btn btn-info ver-doc" >
-                                                <i class="fa fa-search"></i> Ver
-                                            </a>
-                                            <a href="#" class="btn btn-info cambiar" iden="apb_${detalleApb?.id}">
-                                                <i class="fa fa-refresh"></i> Cambiar
-                                            </a>
-                                            <util:displayEstadoDocumento documento="${detalleApb.documento}"/>
-                                        </div>
-                                        <div id="div-file-apb_${detalleApb?.id}" style="display: none">
-                                            <input type="file" name="file"  class="form-control "  style="border-right: none" accept=".pdf">
-                                        </div>
-                                    </g:if>
-                                    <g:else>
-                                        <input type="file" name="file" id="file" class="form-control required"  style="border-right: none" accept=".pdf">
-                                    </g:else>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-2">
-                                    <label>
-                                        N. referencia
-                                    </label>
-                                </div>
-                                <div class="col-md-4">
-                                    <input type="text" name="referencia" class="form-control input-sm required" maxlength="20" value="${detalleApb?.documento?.referencia}">
-                                </div>
-                                <div class="col-md-1">
-                                    <label>
-                                        Emisión
-                                    </label>
-                                </div>
-                                <div class="col-md-3">
-                                    <elm:datepicker name="inicio" id="apb__${detalleApb?.id}" class="required form-control input-sm" value="${detalleApb?.documento?.inicio}"/>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-2">
-                                    <label>
-                                        Observaciones
-                                    </label>
-                                </div>
-                                <div class="col-md-8">
-                                    <input type="text" name="descripcion" class="form-control input-sm required" required="" value="${detalleApb?.documento?.descripcion}" maxlength="512">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-1">
-                                    <a href="#" class="btn btn-primary" id="guardar-apb">
-                                        <i class="fa fa-save"></i>
-                                        Guardar
-                                    </a>
-                                </div>
-                            </div>
-                        </g:form>
-                    </fieldset>
-                </g:if>
             </div>
         </div>
     </div>
@@ -317,7 +237,7 @@
             label.remove();
         }
     });
-    var validator = $(".frm-subir-apb").validate({
+    var validator = $(".frm-subir-acta").validate({
         errorClass     : "help-block",
         errorPlacement : function (error, element) {
             if (element.parent().hasClass("input-group")) {
@@ -342,7 +262,7 @@
     })
 
     $("#guardar-tdr").click(function(){
-        $(".frm-subir-eia").submit()
+        $(".frm-subir-tdr").submit()
         return false
     })
     $(".cambiar").click(function(){
@@ -358,6 +278,19 @@
     $("#guardar-apb").click(function(){
         $(this).parents("form").submit()
         return false
+    })
+    $("#consultor-btn").click(function(){
+        $.ajax({
+            type: "POST",
+            url: "${createLink(controller:'licencia', action:'cambiarConsultor')}",
+            data: {
+                id: $("#consultor").val(),
+                proceso : "${proceso?.id}"
+            },
+            success: function (msg) {
+                log("Datos guardados")
+            }
+        });
     })
 </script>
 </body>

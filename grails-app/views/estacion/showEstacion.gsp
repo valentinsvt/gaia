@@ -97,6 +97,7 @@
     <g:set var="auditoria" value="${estacion.getColorAuditoria()}"/>
     <g:set var="docs" value="${estacion.getColorDocs()}"/>
     <g:set var="monitoreo" value="${estacion.getColorMonitoreoSinEstado()}"/>
+    <g:set var="control" value="${estacion.getColorControlSinEstado()}"/>
 
     <div class="row" style="margin-top: 0">
         <div class="header-panel">
@@ -170,6 +171,18 @@
 
                 </div>
             </div>
+            <div class="header-item">
+                <div class="titulo-card" style="text-align: left;padding-left: 15px">
+                   Control anual
+                </div>
+
+                <div class="header-content">
+                    <div class="circle-card ${control[0]}"></div>
+                    <a href="#" class="btn btn-info btn-header btn-sm" id="detalles-control">
+                        <i class="fa fa-tachometer"></i> Detalles
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -204,7 +217,7 @@
         </div>
     </div>
 
-    <div class="row" style="height: 400px;overflow-y: auto;width: 82%">
+    <div class="row" style="height: 400px;overflow-y: auto;width: 99.2%">
         <table class="table table-striped table-hover table-bordered" style="font-size: 11px">
             <thead>
             <tr>
@@ -398,6 +411,28 @@
             }
         });
     }
+    function verControles() {
+        $.ajax({
+            type    : "POST",
+            url     : "${createLink(controller:'control', action:'showControles',id:estacion.codigo)}",
+            data    : "",
+            success : function (msg) {
+                bootbox.dialog({
+                    title   : "Controles anuales",
+                    class : "modal-lg",
+                    message : msg,
+                    buttons : {
+                        ok : {
+                            label     : "Aceptar",
+                            className : "btn-primary",
+                            callback  : function () {
+                            }
+                        }
+                    }
+                });
+            }
+        });
+    }
     function verEquipo() {
         $.ajax({
             type    : "POST",
@@ -474,6 +509,9 @@
         })
         $("#detalles-audt").click(function(){
             verProcesos();
+        })
+        $("#detalles-control").click(function(){
+            verControles();
         })
     });
 </script>

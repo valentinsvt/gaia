@@ -9,6 +9,7 @@ class Dashboard {
     Integer auditoria = 0
     Integer docs = 0
     Integer monitoreo = 0
+    Integer controlAnual=0
 
     /**
      * Define el mapeo entre los campos del dominio y las columnas de la base de datos
@@ -24,6 +25,7 @@ class Dashboard {
             auditoria column: 'dashaudt'
             docs column: 'dashdocs'
             monitoreo column: 'dashmnto'
+            controlAnual column: 'dashcnan'
         }
     }
 }

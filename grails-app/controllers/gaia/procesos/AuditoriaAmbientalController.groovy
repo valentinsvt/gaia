@@ -15,7 +15,7 @@ class AuditoriaAmbientalController extends Shield {
 
 
     def showProcesos(){
-        def estacion = Estacion.findByCodigo(params.id)
+        def estacion = Estacion.findByCodigoAndAplicacion(params.id,1)
         def tipos = TipoDocumento.findAllByCodigoInList(["TP02","TP35","TP36","TP38"])
         def procesos = Proceso.findAllByEstacionAndTipoInList(estacion,tipos)
         [procesos:procesos,estacion: estacion,tipos:tipos]

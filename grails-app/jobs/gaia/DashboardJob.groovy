@@ -6,7 +6,7 @@ import gaia.estaciones.Estacion
 
 class DashboardJob {
     static triggers = {
-        simple name: 'dashJob', startDelay: 1000*20, repeatInterval: 1000*60*60*6
+        simple name: 'dashJob', startDelay: 1000*20, repeatInterval: 1000*60*60
         //simple name: 'mySimpleTrigger', startDelay: 60000, repeatInterval: 1000
     }
 
@@ -43,6 +43,13 @@ class DashboardJob {
                 cont++
             }else
                 d.monitoreo=0
+            res = d.estacion.getColorControl()
+            if(res[0]=="card-bg-green") {
+                //println "canbio dash "+d.estacion.nombre+" en mon"
+                d.controlAnual = 1
+                cont++
+            }else
+                d.controlAnual=0
             d.save(flush: true)
 
 

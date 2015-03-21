@@ -183,7 +183,7 @@ class Estacion {
                 //println "proceso "+proceso
                 def detalles = Detalle.findAllByProcesoAndPaso(proceso,2)
                 detalles.each {d->
-                   // println "detalle "+d.documento?.referencia+" "+d.documento?.tipo?.codigo+" "+d.documento?.estado
+                    // println "detalle "+d.documento?.referencia+" "+d.documento?.tipo?.codigo+" "+d.documento?.estado
                     if(d.documento){
                         if(d.documento.tipo.codigo=="TP17"){
                             if(d.documento.estado=="A"){
@@ -214,8 +214,18 @@ class Estacion {
     def getColorMonitoreo(){
         def doc = Documento.findAll("from Documento where tipo=${TipoDocumento.findByCodigo("TP12").id} and estacion='${this.codigo}' and estado='A' order by fechaRegistro asc")
         //def doc = Documento.findByTipoAndEstacion(TipoDocumento.findByCodigo("TP12"),this)
-        if(doc) {
-            return ["card-bg-green",doc]
+        def d = null
+        if(doc.size()>0) {
+            doc=doc.pop()
+            if(!doc.fin)
+                return ["card-bg-green",doc]
+            else{
+                if (doc.fin>new Date()){
+                    return ["card-bg-green",doc]
+                }else{
+                    return ["svt-bg-danger",null]
+                }
+            }
         }else{
             return ["svt-bg-danger",null]
         }
@@ -287,6 +297,64 @@ class Estacion {
             return doc
         }else
             return null
+    }
+    def getColorControlSinEstado(){
+        //Todo esto hay que arreglar.. ordenar por fecha de registro no convence
+        def controles = Documento.findAll("from Documento where tipo =${TipoDocumento.findByCodigo('TP41').id} and estacion='${this.codigo}'  order by fechaRegistro asc")
+
+        def now = new Date()
+        def control = null
+        //println "copntroles  "+audi.referencia
+        if(controles.size()>0) {
+
+            controles.each {ad->
+                if(ad.fin>now){
+                    control=ad
+                }
+
+            }
+            if(control){
+                if(control.estado=="A")
+                    return ["card-bg-green",control]
+                else
+                    return ["svt-bg-danger",control]
+            }else{
+                return ["svt-bg-danger",null]
+
+            }
+
+        }else{
+            return ["svt-bg-danger",null]
+        }
+    }
+    def getColorControl(){
+        //Todo esto hay que arreglar.. ordenar por fecha de registro no convence
+        def controles = Documento.findAll("from Documento where tipo =${TipoDocumento.findByCodigo('TP41').id} and estacion='${this.codigo}'  order by fechaRegistro asc")
+
+        def now = new Date()
+        def control = null
+        //println "copntroles  "+audi.referencia
+        if(controles.size()>0) {
+
+            controles.each {ad->
+                if(ad.fin>now){
+                    control=ad
+                }
+
+            }
+            if(control){
+                if(control.estado=="A")
+                    return ["card-bg-green",control]
+                else
+                    return ["svt-bg-danger",null]
+            }else{
+                return ["svt-bg-danger",null]
+
+            }
+
+        }else{
+            return ["svt-bg-danger",null]
+        }
     }
 
 }

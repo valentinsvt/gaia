@@ -1,22 +1,23 @@
 <%@ page import="gaia.documentos.Consultor" %>
-<div class="row">
-    <div class="col-md-1">Consultor</div>
+<g:if test="${session.tipo=='usuario'}">
+    <div class="row">
+        <div class="col-md-1">Consultor</div>
 
-    <div class="col-md-3">
-        <g:select name="cons" from="${Consultor.list([sort: 'nombre'])}" class="form-control input-sm"
-                  optionKey="id" optionValue="nombre"/>
+        <div class="col-md-3">
+            <g:select name="cons" from="${Consultor.list([sort: 'nombre'])}" class="form-control input-sm"
+                      optionKey="id" optionValue="nombre"/>
+        </div>
+
+        <div class="col-md-3">
+            <a href="#" class="btn btn-success btn-sm" title="Agregar" id="btnAddCons">
+                <i class="fa fa-plus"></i>
+            </a>
+            <a href="#" class="btn btn-success btn-sm" title="Registrar nuevo consultor" id="btnCreateCons">
+                <i class="fa fa-file-o"></i> Registrar nuevo consultor
+            </a>
+        </div>
     </div>
-
-    <div class="col-md-3">
-        <a href="#" class="btn btn-success btn-sm" title="Agregar" id="btnAddCons">
-            <i class="fa fa-plus"></i>
-        </a>
-        <a href="#" class="btn btn-success btn-sm" title="Registrar nuevo consultor" id="btnCreateCons">
-            <i class="fa fa-file-o"></i> Registrar nuevo consultor
-        </a>
-    </div>
-</div>
-
+</g:if>
 <div class="row">
     <div class="col-md-12" id="divConsultores">
 
