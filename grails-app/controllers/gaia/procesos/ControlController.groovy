@@ -32,11 +32,12 @@ class ControlController extends Shield {
             println "error proceso "+proceso.errors
             redirect(controller: "estacion",action: "showEstacion",id: estacion.codigo)
         }else{
-            redirect(action: "resgistrarControl",id: proceso.id)
+            redirect(action: "registrarControl",id: proceso.id)
         }
     }
 
     def registrarControl(){
+        println "registrar control "+params
         def proceso = Proceso.get(params.id)
         def estacion = proceso.estacion
         def now = new Date()
