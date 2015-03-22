@@ -7,42 +7,44 @@
 
 <table class="table table-bordered table-condensed table-hover">
     <thead>
-        <tr>
-            <th>Nombre</th>
-            <th>Teléfono</th>
-            <th>E-Mail</th>
-            <th style="width: 30px;"></th>
-        </tr>
+    <tr>
+        <th>Nombre</th>
+        <th>Teléfono</th>
+        <th>E-Mail</th>
+        <th style="width: 30px;"></th>
+    </tr>
     </thead>
     <tbody id="tbIns">
-        <g:if test="${inspectores.size() > 0}">
-            <g:each in="${inspectores}" var="inspector">
-                <g:set var="ins" value="${inspector.inspector}"/>
-                <tr data-cons="${ins.id}" data-id="${inspector.id}">
-                    <td>
-                        ${ins.nombre}
-                    </td>
-                    <td>
-                        ${ins.telefono}
-                    </td>
-                    <td>
-                        ${ins.mail}
-                    </td>
-                    <td>
+    <g:if test="${inspectores.size() > 0}">
+        <g:each in="${inspectores}" var="inspector">
+            <g:set var="ins" value="${inspector.inspector}"/>
+            <tr data-cons="${ins.id}" data-id="${inspector.id}">
+                <td>
+                    ${ins.nombre}
+                </td>
+                <td>
+                    ${ins.telefono}
+                </td>
+                <td>
+                    ${ins.mail}
+                </td>
+                <td>
+                    <g:if test="${session.tipo=='usuario'}">
                         <a href="#" class="btn btn-danger btn-sm btnDeleteIns">
                             <i class="fa fa-trash-o"></i>
                         </a>
-                    </td>
-                </tr>
-            </g:each>
-        </g:if>
-        <g:else>
-            <tr>
-                <td colspan="5" class="info text-center">
-                    No se encontraron supervisores
+                    </g:if>
                 </td>
             </tr>
-        </g:else>
+        </g:each>
+    </g:if>
+    <g:else>
+        <tr>
+            <td colspan="5" class="info text-center">
+                No se encontraron supervisores
+            </td>
+        </tr>
+    </g:else>
     </tbody>
 </table>
 

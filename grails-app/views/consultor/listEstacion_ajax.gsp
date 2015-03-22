@@ -50,14 +50,18 @@
                     </g:if>
                 </td>
                 <td>
-                    <a href="#" class="btn btn-info btn-sm btn-edit" id="${cons.id}">
-                        <i class="fa fa-pencil"></i>
-                    </a>
+                    <g:if test="${session.tipo=='usuario'}">
+                        <a href="#" class="btn btn-info btn-sm btn-edit" id="${cons.id}">
+                            <i class="fa fa-pencil"></i>
+                        </a>
+                    </g:if>
                 </td>
                 <td>
-                    <a href="#" class="btn btn-danger btn-sm btnDeleteCons">
-                        <i class="fa fa-trash-o"></i>
-                    </a>
+                    <g:if test="${session.tipo=='usuario'}">
+                        <a href="#" class="btn btn-danger btn-sm btnDeleteCons">
+                            <i class="fa fa-trash-o"></i>
+                        </a>
+                    </g:if>
                 </td>
             </tr>
         </g:each>

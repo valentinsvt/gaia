@@ -21,6 +21,7 @@ class InicioController extends Shield {
             def auditoria = 0
             def docs = 0
             def monitoreo = 0
+            def control = 0
             def ok = 0
             def tot = 0
             def colores = ["card-bg-green","svt-bg-warning","svt-bg-danger"]
@@ -33,7 +34,9 @@ class InicioController extends Shield {
                     docs++
                 if(it.monitoreo==1)
                     monitoreo++
-                if(it.licencia==1 && it.auditoria==1 && it.docs==1 && it.monitoreo==1)
+                if(it.controlAnual==1)
+                    control++
+                if(it.licencia==1 && it.auditoria==1 && it.docs==1 && it.monitoreo==1 && it.controlAnual)
                     ok++
                 tot++
             }
@@ -42,6 +45,7 @@ class InicioController extends Shield {
             def colorDocs = 0
             def colorAuditoria = 0
             def colorMonitoreo = 0
+            def colorControl = 0
             def colorOk
             def porcentaje = (licencia*100)/tot
            // println "% lic "+licencia+" tot "+tot+"  % "+porcentaje
@@ -79,10 +83,17 @@ class InicioController extends Shield {
                 colorMonitoreo=1
             if(porcentaje<40)
                 colorMonitoreo=2
+            porcentaje = control*100/tot
+            if(porcentaje>80)
+                colorControl=0
+            if(porcentaje>40 &&  porcentaje<80)
+                colorControl=1
+            if(porcentaje<40)
+                colorControl=2
 
             [ok:ok,licencia:licencia,auditoria:auditoria,docs:docs,tot:tot,colorLicencia:colorLicencia,
              colorAuditoria:colorAuditoria,colorDocs:colorDocs,colores:colores,alertas:alertas,colorOk:colorOk,
-             documentos:documentos,monitoreo:monitoreo,colorMonitoreo:colorMonitoreo]
+             documentos:documentos,monitoreo:monitoreo,colorMonitoreo:colorMonitoreo,control:control,colorControl:colorControl]
         }
     }
 

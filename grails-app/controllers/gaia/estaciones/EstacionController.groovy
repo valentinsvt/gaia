@@ -399,4 +399,16 @@ class EstacionController extends Shield {
         [tanques:tanques,cliente:cliente,mangueras:mangueras]
     }
 
+    def oficio(){
+        def estacion = Estacion.findByCodigoAndAplicacion(params.id,1)
+        def entrada = new Entrada()
+        entrada.estacion=estacion
+        entrada.texto=params.texto_oficio
+        if(session.tipo=="usuario")
+            entrada.persona=session.usuario
+        entrada.save(flush: true)
+        flash.message="Entrada registrada"
+        redirect(action: "calibracion",id:estacion.codigo)
+    }
+
 }

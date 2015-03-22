@@ -40,21 +40,7 @@
         </g:link>
     </div>
 
-    <div class="card" style="width: 318px">
-        <div class="titulo-card"><i class="fa fa-server"></i> Documentos de soporte</div>
-        <g:link controller="estacion" action="listaSemaforos" params="[search:'green-doc']" style="text-decoration: none">
-            <div class="cardContent">
-                <div class="circle-card ${colores[colorDocs]}">${docs}</div>
-                Estaciones con documentos de soporte
-            </div>
-        </g:link>
-        <g:link controller="estacion" action="listaSemaforos" params="[search:'red-doc']" style="text-decoration: none">
-            <div class="cardContent">
-                <div class="circle-card ${colores[colorDocs]}">${tot-docs}</div>
-                Estaciones sin documentos de soporte
-            </div>
-        </g:link>
-    </div>
+
     <div class="card" style="width:273px;">
         <div class="titulo-card"><i class="fa fa-newspaper-o"></i>Monitoreo vigente</div>
         <g:link controller="estacion" action="listaSemaforos" params="[search:'green-moni']" style="text-decoration: none">
@@ -71,7 +57,21 @@
         </g:link>
     </div>
 
-
+    <div class="card" style="width: 318px">
+        <div class="titulo-card"><i class="fa fa-server"></i> Documentos de soporte</div>
+        <g:link controller="estacion" action="listaSemaforos" params="[search:'green-doc']" style="text-decoration: none">
+            <div class="cardContent">
+                <div class="circle-card ${colores[colorDocs]}">${docs}</div>
+                Estaciones con documentos de soporte
+            </div>
+        </g:link>
+        <g:link controller="estacion" action="listaSemaforos" params="[search:'red-doc']" style="text-decoration: none">
+            <div class="cardContent">
+                <div class="circle-card ${colores[colorDocs]}">${tot-docs}</div>
+                Estaciones sin documentos de soporte
+            </div>
+        </g:link>
+    </div>
 </div>
 <div class="row">
     <div class="card">
@@ -89,6 +89,22 @@
             </div>
         </g:link>
     </div>
+
+    <div class="card" style="width: 272px">
+        <div class="titulo-card"><i class="fa fa-tachometer"></i> Control anual</div>
+        <g:link controller="estacion" action="listaSemaforos" params="[search:'green-control']" style="text-decoration: none">
+            <div class="cardContent">
+                <div class="circle-card ${colores[colorControl]}">${control}</div>
+                Estaciones con control anual
+            </div>
+        </g:link>
+        <g:link controller="estacion" action="listaSemaforos" params="[search:'red-control']" style="text-decoration: none">
+            <div class="cardContent">
+                <div class="circle-card ${colores[colorControl]}">${tot-control}</div>
+                Estaciones sin control anual
+            </div>
+        </g:link>
+    </div>
     <div class="card">
         <div class="titulo-card"><i class="fa fa-server"></i> Documentación completa</div>
 
@@ -99,14 +115,6 @@
         <div class="cardContent">
             <div class="circle-card ${colores[colorOk]}">${tot-ok}</div>
             Estaciones sin documentación completa
-        </div>
-    </div>
-    <div class="card" style="width: 272px">
-        <div class="titulo-card"><i class="fa fa-warning"></i> Alertas</div>
-
-        <div class="cardContent">
-            <div class="circle-card ${alertas>0?colores[2]:colores[0]}">${alertas}</div>
-            Pendientes
         </div>
     </div>
 </div>
@@ -142,6 +150,14 @@
 
                 </tbody>
             </table>
+        </div>
+    </div>
+    <div class="card" style="width: 272px">
+        <div class="titulo-card"><i class="fa fa-warning"></i> Alertas</div>
+
+        <div class="cardContent">
+            <div class="circle-card ${alertas>0?colores[2]:colores[0]}">${alertas}</div>
+            Pendientes
         </div>
     </div>
 

@@ -1,22 +1,23 @@
 <%@ page import="gaia.documentos.Inspector" %>
-<div class="row">
-    <div class="col-md-1">Supervisor</div>
+<g:if test="${session.usuario=='usuario'}">
+    <div class="row">
+        <div class="col-md-1">Supervisor</div>
 
-    <div class="col-md-3">
-        <g:select name="ins" from="${Inspector.list([sort: 'nombre'])}" class="form-control input-sm"
-                  optionKey="id" optionValue="nombre"/>
+        <div class="col-md-3">
+            <g:select name="ins" from="${Inspector.list([sort: 'nombre'])}" class="form-control input-sm"
+                      optionKey="id" optionValue="nombre"/>
+        </div>
+
+        <div class="col-md-3">
+            <a href="#" class="btn btn-success btn-sm" title="Agregar" id="btnAddIns">
+                <i class="fa fa-plus"></i>
+            </a>
+            <a href="#" class="btn btn-success btn-sm" title="Registrar nuevo supervisor" id="btnCreateIns">
+                <i class="fa fa-file-o"></i> Registrar nuevo supervisor
+            </a>
+        </div>
     </div>
-
-    <div class="col-md-3">
-        <a href="#" class="btn btn-success btn-sm" title="Agregar" id="btnAddIns">
-            <i class="fa fa-plus"></i>
-        </a>
-        <a href="#" class="btn btn-success btn-sm" title="Registrar nuevo supervisor" id="btnCreateIns">
-            <i class="fa fa-file-o"></i> Registrar nuevo supervisor
-        </a>
-    </div>
-</div>
-
+</g:if>
 <div class="row">
     <div class="col-md-12" id="divInspectores">
 

@@ -101,7 +101,7 @@
         <g:if test="${consultorInstance?.pathOae}">
             <div class="row">
                 <div class="col-sm-3 show-label">
-                    Oae
+                    Licencia
                 </div>
                 
                 <div class="col-sm-4">

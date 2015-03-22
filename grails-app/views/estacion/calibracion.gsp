@@ -86,7 +86,7 @@
 <elm:container tipo="horizontal" titulo="Calibración diaria de la estación: ${estacion.nombre}" style="margin-top:0px">
 
     <div class="row">
-        <div class="col-md-2">
+        <div class="col-md-3">
             <div class="btn-toolbar toolbar">
                 <div class="btn-group">
                     <g:link controller="estacion" action="showEstacion" id="${estacion.codigo}" class="btn btn-default btn-sm">
@@ -96,6 +96,12 @@
                         <i class="fa fa-plus"></i>
                         Agregar entrada
                     </a>
+
+                    <a href="#" class="btn btn-default btn-sm" id="oficio">
+                        <i class="fa fa-file-pdf-o"></i>
+                        Oficio
+                    </a>
+
                 </div>
             </div>
         </div>
@@ -218,13 +224,8 @@
                                 Copiar Código
                             </a>
                         </div>
-                        <div class="col-md-1">
-                            <a href="#" class="btn btn-default btn-sm" id="oficio">
-                                <i class="fa fa-file-pdf-o"></i>
-                                Oficio
-                            </a>
-                        </div>
                     </div>
+
 
                     <div class="row">
                         <div class="col-md-12">
@@ -247,6 +248,72 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
                 <button type="button" class="btn btn-info" id="guardar">Guardar</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<div class="modal fade" id="modal-oficio">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Oficio</h4>
+            </div>
+
+            <div class="modal-body">
+                <g:form class="frm-oficio" controller="estacion" action="oficio" >
+                    <input type="hidden" name="id" value="${estacion.codigo}">
+
+                    <div class="row">
+                        <div class="col-md-1">
+                            <label>Estación</label>
+                        </div>
+                        <div class="col-md-4">
+                            ${estacion.nombre}
+                        </div>
+                        <div class="col-md-1">
+                            <label>Manguera</label>
+                        </div>
+                        <div class="col-md-3">
+                            <g:select name="manguera" from="${mangueras}" optionKey="codigo" optionValue="codigo" id="manguera_oficio" class="form-control input-sm" noSelection="['-1':'Seleccione']"></g:select>
+                        </div>
+
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-1">
+                            <label>Para: </label>
+                        </div>
+                        <div class="col-md-4">
+                            <input type="text" name="para" id="para" class="form-control input-sm">
+                        </div>
+                        <div class="col-md-1">
+                            <label>Número: </label>
+                        </div>
+                        <div class="col-md-3">
+                            <input type="text" name="numero" id="numero" class="form-control input-sm">
+                        </div>
+                        <div class="col-md-1">
+                            <a href="#" id="generar" class="btn btn-info btn-sm">Generar</a>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+                            <textarea id="texto_oficio" name="texto_oficio" class="form-control input-sm ckeditor"></textarea>
+                        </div>
+                    </div>
+
+
+                </g:form>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-info" id="guardar_oficio">Guardar</button>
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
@@ -296,7 +363,7 @@
                         },
                         success : function (msg) {
                             boton.parent().parent().remove()
-                           // console.log(boton.parent().parent())
+                            // console.log(boton.parent().parent())
                         }
                     });
                 }
@@ -321,6 +388,33 @@
     $("#agregar").click(function () {
         $("#modal-entrada").modal("show")
     })
+    $("#oficio").click(function () {
+        $("#modal-oficio").modal("show")
+    })
+
+    $("#generar").click(function(){
+        var m_names = new Array("Enero", "Febrero", "Marzo",
+                "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre",
+                "Octubre", "Noviembre", "Diciembre");
+
+        var d = new Date();
+        var curr_date = d.getDate();
+        var curr_month = d.getMonth();
+        var curr_year = d.getFullYear();
+
+        var fecha =""+curr_date + " de " + m_names[curr_month]+ " de " + curr_year
+        var texto = "<p>Quito, "+fecha+"</p>"
+        texto+="<p>Oficio número: "+$("#numero").val()+"</p>"
+        texto+="<p>Para: "+$("#para").val()+"</p>"
+        texto+="<p>Calibración de la manguera: "+$("#manguera_oficio").val()+"</p>"
+       // console.log(CKEDITOR.instances)
+
+        if($("#manguera_oficio").val()!="-1"){
+            CKEDITOR.instances.texto_oficio.setData(texto)
+        }
+        return false
+    })
+
 
     $("#copiar").click(function(){
         if($("#manguera").val()!="-1"){
@@ -334,6 +428,19 @@
         var data = CKEDITOR.instances.texto.getData()
         if (data.length > 0) {
             $(".frm-subir").submit()
+        } else {
+            bootbox.alert({
+                message : "Por favor, ingrese el texto de la entrada",
+                title   : "Error",
+                class   : "modal-error"
+
+            })
+        }
+    });
+    $("#guardar_oficio").click(function () {
+        var data = CKEDITOR.instances.texto_oficio.getData()
+        if (data.length > 0) {
+            $(".frm-oficio").submit()
         } else {
             bootbox.alert({
                 message : "Por favor, ingrese el texto de la entrada",
