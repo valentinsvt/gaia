@@ -130,10 +130,19 @@
                                 <ul>
                                     <g:each in="${supervisores}" var="supervisor">
                                         <li>
-                                            %{--${supervisor?.inspector?.nombre}--}%
-                                            <util:clean str="${supervisor?.inspector?.nombre}"/>
-                                            ${supervisor?.inspector?.telefono}
-                                            ${supervisor?.inspector?.mail}
+                                            ${supervisor?.inspector?.nombre}
+                                            <ul>
+                                                <li>
+                                                    <b>TELF:</b>
+                                                    ${supervisor?.inspector?.telefono}
+                                                </li>
+                                                <li>
+                                                    <b>
+                                                        EMAIL:
+                                                    </b>
+                                                    ${supervisor?.inspector?.mail}
+                                                </li>
+                                            </ul>
 
                                         </li>
 

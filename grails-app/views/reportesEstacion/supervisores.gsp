@@ -90,10 +90,21 @@
                         <g:each in="${supervisores}" var="supervisor">
                             <li>
                                 ${supervisor?.inspector?.nombre}
-                                ${supervisor?.inspector?.telefono}
-                                ${supervisor?.inspector?.mail}
+                           <ul>
+                                <li>
+                                    <b>TELF:</b>
+                                    ${supervisor?.inspector?.telefono}
+                                </li>
+                                <li>
+                                    <b>
+                                        EMAIL:
+                                    </b>
+                                    ${supervisor?.inspector?.mail}
+                                </li>
+                           </ul>
 
                             </li>
+
 
                         </g:each>
                     </ul>
