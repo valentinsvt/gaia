@@ -167,7 +167,11 @@ class MenuTagLib {
         html += '<li class="dropdown">'
         html += '<a href="#" class="dropdown-toggle" data-toggle="dropdown">' + session.usuario + ' (' + session.perfil + ')' + ' <b class="caret"></b></a>'
         html += '<ul class="dropdown-menu">'
-        html += '<li><a href="' + g.resource(file: 'manual.pdf') + '" target="_blank"><i class="fa fa-file-pdf-o"></i> Manual de usuario</a></li>'
+       // println "tipo "+session.tipo
+        if(session.tipo=="usuario")
+            html += '<li><a href="' + g.resource(file: 'manual.pdf') + '" target="_blank"><i class="fa fa-file-pdf-o"></i> Manual de usuario</a></li>'
+        else
+            html += '<li><a href="' + g.resource(file: 'manual_estacion.pdf') + '" target="_blank"><i class="fa fa-file-pdf-o"></i> Manual de usuario</a></li>'
         html += '<li class="divider"></li>'
         html += '<li><a href="' + g.createLink(controller: 'login', action: 'logout') + '"><i class="fa fa-power-off"></i> Salir</a></li>'
         html += '</ul>'
