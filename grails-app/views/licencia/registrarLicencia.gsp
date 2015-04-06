@@ -60,7 +60,7 @@
                     <span class="badge active">1</span> Certificado de intersección
                     <span class="arrow"></span>
                 </div>
-                <g:if test="${detalle?.documento}">
+                %{--<g:if test="${detalle?.documento}">--}%
                     <g:link controller="licencia" action="licenciaTdr" id="${proceso.id}">
                         <div class="header-flow-item disabled">
                             <span class="badge disabled">2</span>
@@ -68,14 +68,14 @@
                             <span class="arrow"></span>
                         </div>
                     </g:link>
-                </g:if>
-                <g:else>
-                    <div class="header-flow-item disabled">
-                        <span class="badge disabled">2</span>
-                        Términos de referencia
-                        <span class="arrow"></span>
-                    </div>
-                </g:else>
+                %{--</g:if>--}%
+                %{--<g:else>--}%
+                    %{--<div class="header-flow-item disabled">--}%
+                        %{--<span class="badge disabled">2</span>--}%
+                        %{--Términos de referencia--}%
+                        %{--<span class="arrow"></span>--}%
+                    %{--</div>--}%
+                %{--</g:else>--}%
                 <div class="header-flow-item disabled">
                     <span class="badge disabled">3</span>
                     Estudio de impacto ambiental

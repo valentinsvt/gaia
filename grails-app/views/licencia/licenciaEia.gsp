@@ -85,7 +85,7 @@
                     Estudio de impacto ambiental
                     <span class="arrow"></span>
                 </div>
-                <g:if test="${detalleApb?.documento}">
+                %{--<g:if test="${detalleApb?.documento}">--}%
                     <g:link controller="licencia" action="licenciaPago" id="${proceso.id}" style="text-decoration: none">
                         <div class="header-flow-item disabled">
                             <span class="badge disabled">4</span>
@@ -93,14 +93,14 @@
                             <span class="arrow"></span>
                         </div>
                     </g:link>
-                </g:if>
-                <g:else>
-                    <div class="header-flow-item disabled">
-                        <span class="badge disabled">4</span>
-                        Pago y licencia
-                        <span class="arrow"></span>
-                    </div>
-                </g:else>
+                %{--</g:if>--}%
+                %{--<g:else>--}%
+                    %{--<div class="header-flow-item disabled">--}%
+                        %{--<span class="badge disabled">4</span>--}%
+                        %{--Pago y licencia--}%
+                        %{--<span class="arrow"></span>--}%
+                    %{--</div>--}%
+                %{--</g:else>--}%
             </div>
             <div class="flow-body">
                 <g:form class="frm-subir-eia" controller="licencia" action="upload" enctype="multipart/form-data" >

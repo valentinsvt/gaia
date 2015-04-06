@@ -80,7 +80,7 @@
                     Términos de referencia
                     <span class="arrow"></span>
                 </div>
-                <g:if test="${detalleApb?.documento}">
+                %{--<g:if test="${detalleApb?.documento}">--}%
                     <g:link controller="licencia" action="licenciaEia" id="${proceso.id}" style="text-decoration: none">
                         <div class="header-flow-item disabled">
                             <span class="badge disabled">3</span>
@@ -88,14 +88,14 @@
                             <span class="arrow"></span>
                         </div>
                     </g:link>
-                </g:if>
-                <g:else>
-                    <div class="header-flow-item disabled">
-                        <span class="badge disabled">3</span>
-                        Estudio de impacto ambiental
-                        <span class="arrow"></span>
-                    </div>
-                </g:else>
+                %{--</g:if>--}%
+                %{--<g:else>--}%
+                    %{--<div class="header-flow-item disabled">--}%
+                        %{--<span class="badge disabled">3</span>--}%
+                        %{--Estudio de impacto ambiental--}%
+                        %{--<span class="arrow"></span>--}%
+                    %{--</div>--}%
+                %{--</g:else>--}%
                 <div class="header-flow-item disabled">
                     <span class="badge disabled">4</span>
                     Pago y licencia
