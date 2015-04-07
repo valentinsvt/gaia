@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: svt
-  Date: 06/02/2015
-  Time: 18:52
---%>
-
 <%@ page import="gaia.documentos.TipoDocumento" contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
@@ -297,6 +290,7 @@
 </elm:modal>
 <script type="text/javascript">
     function verConsultores(id) {
+        openLoader()
         $.ajax({
             type    : "POST",
             url     : "${createLink(controller:'estacion', action:'consultores_ajax')}",
@@ -304,6 +298,7 @@
                 codigo : id
             },
             success : function (msg) {
+                closeLoader()
                 bootbox.dialog({
                     title   : "Consultores",
                     message : msg,
@@ -343,6 +338,7 @@
         })
     }
     function verInspectores(id) {
+        openLoader()
         $.ajax({
             type    : "POST",
             url     : "${createLink(controller:'estacion', action:'inspectores_ajax')}",
@@ -350,6 +346,7 @@
                 codigo : id
             },
             success : function (msg) {
+                closeLoader()
                 bootbox.dialog({
                     title   : "Supervisores",
                     message : msg,
@@ -367,6 +364,7 @@
         });
     }
     function verEstacion(id) {
+        openLoader()
         $.ajax({
             type    : "POST",
             url     : "${createLink(controller:'estacion', action:'show_ajax')}",
@@ -374,6 +372,7 @@
                 id : id
             },
             success : function (msg) {
+                closeLoader()
                 bootbox.dialog({
                     title   : "Datos de la estación",
                     message : msg,

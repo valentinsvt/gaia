@@ -227,9 +227,9 @@ class LoginController {
         def data = params.token.split("\\|")
         def usuario = null
         def perfil = null
-        def perfilCliente = Perfil.findByDescripcion("Cliente")
+        def perfilCliente = Perfil.findByCodigo("28")
         def token = new Date().format("ddMMyyyy").encodeAsMD5()
-        println "data "+data
+//        println "data "+data
         if(data.size()!=4)
             response.sendError(403)
         if(data[1]==perfilCliente.codigo.encodeAsMD5()){
@@ -263,7 +263,7 @@ class LoginController {
                 session.usuarioKerberos = usuario.login
                 session.tipo="usuario"
                 /*Comentar esto cuando esten configurados los perfiles*/
-                session.perfil =  Perfil.findByCodigo("1")
+                session.perfil =  Perfil.findByCodigo("30")
                 redirect(controller: "inicio",action: "index")
             }
 

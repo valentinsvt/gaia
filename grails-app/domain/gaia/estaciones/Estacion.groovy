@@ -50,6 +50,8 @@ class Estacion {
     String placaAutotanque
     Double capacidadAutotanque
 
+    String codigoSupervisor
+
     /**
      * Define los campos que se van a ignorar al momento de hacer logs
      */
@@ -89,6 +91,7 @@ class Estacion {
             cedulaAdministrador column: 'cedula_administrador'
             placaAutotanque column: 'placa_autotanque'
             capacidadAutotanque column: 'capacidad_autotanque'
+            codigoSupervisor column: 'codigo_supervisor'
         }
     }
 

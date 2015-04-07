@@ -11,7 +11,7 @@
         <th>Nombre</th>
         <th>Teléfono</th>
         <th>E-Mail</th>
-        <th style="width: 30px;"></th>
+        %{--<th style="width: 30px;"></th>--}%
     </tr>
     </thead>
     <tbody id="tbIns">
@@ -28,13 +28,13 @@
                 <td>
                     ${ins.mail}
                 </td>
-                <td>
-                    <g:if test="${session.tipo=='usuario'}">
-                        <a href="#" class="btn btn-danger btn-sm btnDeleteIns">
-                            <i class="fa fa-trash-o"></i>
-                        </a>
-                    </g:if>
-                </td>
+                %{--<td>--}%
+                    %{--<g:if test="${session.tipo=='usuario'}">--}%
+                        %{--<a href="#" class="btn btn-danger btn-sm btnDeleteIns">--}%
+                            %{--<i class="fa fa-trash-o"></i>--}%
+                        %{--</a>--}%
+                    %{--</g:if>--}%
+                %{--</td>--}%
             </tr>
         </g:each>
     </g:if>
@@ -50,26 +50,26 @@
 
 <script type="text/javascript">
     $(function () {
-        $(".btnDeleteIns").click(function () {
-            var id = $(this).parents("tr").data("id");
-            bootbox.confirm("¿Está seguro que desea eliminar este supervisor?", function (res) {
-                if (res) {
-                    $.ajax({
-                        type    : "POST",
-                        url     : "${createLink(controller:'inspector', action:'deleteInspector_ajax')}",
-                        data    : {
-                            id : id
-                        },
-                        success : function (msg) {
-                            var parts = msg.split("*");
-                            log(parts[1], parts[0].toLowerCase());
-                            if (parts[0] == "SUCCESS") {
-                                loadInspectores();
-                            }
-                        }
-                    });
-                }
-            });
-        });
+        %{--$(".btnDeleteIns").click(function () {--}%
+            %{--var id = $(this).parents("tr").data("id");--}%
+            %{--bootbox.confirm("¿Está seguro que desea eliminar este supervisor?", function (res) {--}%
+                %{--if (res) {--}%
+                    %{--$.ajax({--}%
+                        %{--type    : "POST",--}%
+                        %{--url     : "${createLink(controller:'inspector', action:'deleteInspector_ajax')}",--}%
+                        %{--data    : {--}%
+                            %{--id : id--}%
+                        %{--},--}%
+                        %{--success : function (msg) {--}%
+                            %{--var parts = msg.split("*");--}%
+                            %{--log(parts[1], parts[0].toLowerCase());--}%
+                            %{--if (parts[0] == "SUCCESS") {--}%
+                                %{--loadInspectores();--}%
+                            %{--}--}%
+                        %{--}--}%
+                    %{--});--}%
+                %{--}--}%
+            %{--});--}%
+        %{--});--}%
     });
 </script>

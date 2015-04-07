@@ -5,6 +5,7 @@ class Inspector {
     String nombre
     String telefono
     String mail
+    String codigo
 
     /**
      * Define los campos que se van a ignorar al momento de hacer logs
@@ -24,6 +25,7 @@ class Inspector {
             nombre column: 'inspnmbr'
             telefono column: 'insptelf'
             mail column: 'inspmail'
+            codigo column: 'inspcdgo'
         }
     }
 

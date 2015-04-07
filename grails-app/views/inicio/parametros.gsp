@@ -88,6 +88,20 @@
                                 <p>Listado de Inspectores</p>
                             </div>
                         </li>
+                        <li>
+                            %{--<i class="fa-li fa fa-server text-info"></i>--}%
+                            <i class="fa-li fa fa-cogs text-info"></i>
+                            <g:link class="over" controller="parametros" action="list">
+                                Parámetros
+                            </g:link>
+
+                            <div class="descripcion hidden">
+                                %{--<h4><i class=" fa fa-server fa-2x"></i> Inspectores</h4>--}%
+                                <h4><i class=" fa fa-cogs"></i> Parámetros del sistema</h4>
+
+                                <p>Parámetros</p>
+                            </div>
+                        </li>
                     </ul>
                 </elm:container>
             %{--</div>--}%

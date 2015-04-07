@@ -142,6 +142,7 @@ class ControlController extends Shield {
             }
 
         }
+//        println "detalle licencia "+detalleLicencia.id+"  "+detalleLicencia?.documento+" "+detalleLicencia.tipo.id
         def detallesOtros= Detalle.findAllByProcesoAndTipo(proceso,TipoDocumento.findByCodigo("TP46"))
 
         [estacion:estacion,proceso:proceso,detallePago:detallePago,detalleBomberos:detalleBomberos

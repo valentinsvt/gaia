@@ -5,6 +5,8 @@ import gaia.DashboardService
 import gaia.documentos.ConsultorEstacion
 import gaia.documentos.Dashboard
 import gaia.documentos.Documento
+import gaia.documentos.Inspector
+import gaia.documentos.InspectorEstacion
 import gaia.documentos.RequerimientosEstacion
 import gaia.documentos.TipoDocumento
 import gaia.documentos.Ubicacion
@@ -30,11 +32,11 @@ class EstacionController extends Shield {
         //  dj.execute()
 
         def estacion
-        if (session.tipo == "cliente") {
-            estacion = session.usuario
-        } else {
+//        if (session.tipo == "cliente") {
+//            estacion = session.usuario
+//        } else {
             estacion = Estacion.findByCodigoAndAplicacion(params.id, 1)
-        }
+//        }
 
 //        def documentos = Documento.findAllByEstacion(estacion)
         def documentos = Documento.withCriteria {
@@ -54,7 +56,19 @@ class EstacionController extends Shield {
     }
 
     def listaSemaforos() {
-        def dash = Dashboard.list([sort: "id"])
+        def estaciones
+        def dash
+        if(session.tipo=="cliente"){
+            def estacion = Estacion.findByCodigo(session.usuario.codigo)
+            estaciones=InspectorEstacion.findAllByInspector(Inspector.findByCodigo(estacion.codigoSupervisor))
+            println "estaciones- "+estaciones.estacion+"  "+Inspector.findByCodigo(estacion.codigoSupervisor)
+            dash = Dashboard.findAllByEstacionInList(estaciones.estacion,[sort: "id"])
+            println "dash "+dash
+        }else{
+            dash = Dashboard.list([sort: "id"])
+        }
+
+
 
         [dash: dash, search: params.search]
     }
@@ -390,7 +404,7 @@ class EstacionController extends Shield {
     }
 
     def showEquipos(){
-        println "aqui "
+//        println "aqui "
         def cliente = ClienteErp.findByCodigoAndAplicacion(params.id,1)
         def tanques = Tanque.findAllByCliente(cliente)
         def mangueras = []

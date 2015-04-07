@@ -17,9 +17,18 @@ environments {
     development {
         dataSource {
             dbCreate = "update" // one of 'create', 'create-drop','update'
-            url = "jdbc:mysql://192.168.1.132/esicc?useUnicode=yes&characterEncoding=UTF-8"
+            url = "jdbc:mysql://190.107.66.50/esicc?useUnicode=yes&characterEncoding=UTF-8"
             username = "root"
-            password = "mysql"
+            password = "eldia2k"
+        }
+        dataSource_erp {
+            pooled = false
+            driverClassName ="com.sybase.jdbc4.jdbc.SybDriver"
+            username = "sa"
+            password = ""
+            dialect = org.hibernate.dialect.SybaseDialect
+            dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
+            url = "jdbc:sybase:Tds:192.168.2.100:5000/PYS"
         }
 
     }
@@ -32,9 +41,18 @@ environments {
     production {
         dataSource {
             dbCreate = "update" // one of 'create', 'create-drop','update'
-            url = "jdbc:mysql://192.168.1.132/esicc?useUnicode=yes&characterEncoding=UTF-8"
+            url = "jdbc:mysql://190.107.66.50/esicc?useUnicode=yes&characterEncoding=UTF-8"
             username = "root"
-            password = "mysql"
+            password = "eldia2k"
+        }
+        dataSource_erp {
+            pooled = false
+            driverClassName ="com.sybase.jdbc4.jdbc.SybDriver"
+            username = "sa"
+            password = ""
+            dialect = org.hibernate.dialect.SybaseDialect
+            dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
+            url = "jdbc:sybase:Tds:192.168.2.100:5000/PYS"
         }
     }
 }

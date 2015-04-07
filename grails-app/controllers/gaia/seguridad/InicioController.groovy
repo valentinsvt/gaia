@@ -9,8 +9,37 @@ class InicioController extends Shield {
 
     def index() {
 
+
+    }
+
+    def modulos(){
+        switch (params.modulo){
+            case "ambiente":
+                if(session.tipo=="usuario")
+                    session.perfil =  Perfil.findByCodigo("31")
+                else
+                    session.perfil =  Perfil.findByCodigo("28")
+                redirect(action: 'dash')
+                return
+                break;
+            case "contratos":
+                if(session.tipo=="usuario")
+                    session.perfil =  Perfil.findByCodigo("32")
+                else
+                    session.perfil =  Perfil.findByCodigo("33")
+                redirect(controller: 'dashBoardContratos', action: 'dash')
+                return
+                break;
+            default:
+                redirect(controller: 'inicio', action: 'index')
+                break;
+        }
+
+    }
+
+    def dash(){
         if(session.tipo=="cliente") {
-            redirect(controller: "estacion", action: "showEstacion")
+            redirect(controller: "estacion", action: "listaSemaforos")
         }else{
             def alertas = Alerta.findAllByPersonaAndFechaRecibidoIsNull(session.usuario).size()
             //alertas+= Alerta.findAllByPersonaIsNullAndEstacionIsNull().size()
@@ -48,7 +77,7 @@ class InicioController extends Shield {
             def colorControl = 0
             def colorOk
             def porcentaje = (licencia*100)/tot
-           // println "% lic "+licencia+" tot "+tot+"  % "+porcentaje
+            // println "% lic "+licencia+" tot "+tot+"  % "+porcentaje
             if(porcentaje>80)
                 colorLicencia=0
             if(porcentaje>40 &&  porcentaje<80)
