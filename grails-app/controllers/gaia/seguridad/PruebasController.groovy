@@ -21,13 +21,14 @@ class PruebasController {
         token+= new Date().format("ddMMyyyy").encodeAsMD5()
         token=usuario.login+"|"+perfil.codigo.encodeAsMD5()+"|"+token+"|"+usuario.password
         def linkUsu = "" +g.createLink(action: 'remoteLogin',controller: 'login')+"?token="+token
-        def estacion = Dashboard.list().pop().estacion
-        perfil = Perfil.findByCodigo("28")
-        token=""
+        def linkEstacion
+        usuario = Persona.findByLogin("ZAPATAV")
+        perfil = Perfil.findByCodigo("2")
+        println "usuario "+usuario.nombre
+        token =""
         token+= new Date().format("ddMMyyyy").encodeAsMD5()
-        token=estacion.ruc+"|"+perfil.codigo.encodeAsMD5()+"|"+token+"|"+estacion.codigo
-        def linkEstacion = g.createLink(action: 'remoteLogin',controller: 'login')+"?token="+token
-        println "estacion "+estacion.nombre
+        token=usuario.login+"|"+perfil.codigo.encodeAsMD5()+"|"+token+"|"+usuario.password
+        linkEstacion = "" +g.createLink(action: 'remoteLogin',controller: 'login')+"?token="+token
         [linkUsu:linkUsu,linkEstacion:linkEstacion]
 
     }
@@ -85,6 +86,12 @@ class PruebasController {
             supEst.save(flush: true)
         }
         render "ok"
+    }
+
+    def pruebaControladores(){
+        grailsApplication.controllerClasses.each { ct ->
+            println ct.getPropertyValue("sistema")
+        }
     }
 
 }

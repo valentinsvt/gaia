@@ -12,7 +12,7 @@ class AuditoriaAmbientalController extends Shield {
 
     def diasLaborablesService
     def alertasService
-
+    static final sistema="AMBT"
 
     def showProcesos(){
         def estacion = Estacion.findByCodigoAndAplicacion(params.id,1)

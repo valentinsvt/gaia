@@ -7,7 +7,7 @@ import gaia.seguridad.Shield
  * Controlador que muestra las pantallas de manejo de Alerta
  */
 class AlertaController extends Shield {
-
+    static final sistema="T"
     static allowedMethods = [save_ajax: "POST", delete_ajax: "POST"]
 
     /**

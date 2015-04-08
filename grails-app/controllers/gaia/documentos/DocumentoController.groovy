@@ -6,9 +6,9 @@ import gaia.seguridad.Shield
 
 class DocumentoController extends Shield {
     def dashboardService
-
+    static final sistema="AMBT"
     def subir() {
-       // println "params " + params
+        // println "params " + params
         def estacion = Estacion.findByCodigoAndAplicacion(params.id, 1)
         def tipos = TipoDocumento.findAllByTipo("N", [sort: "nombre"])
         def caducan = TipoDocumento.findAllByTipoAndCaduca("N", "S", [sort: "nombre"])
@@ -18,7 +18,7 @@ class DocumentoController extends Shield {
                 doc = Documento.get(params.doc)
             }
         }
-       // println "doc " + doc + " " + session.tipo
+        // println "doc " + doc + " " + session.tipo
         caducan = caducan.collect { "'" + it.id + "'" }
         [estacion: estacion, tipos: tipos, caducan: caducan, tipo: params.tipo, doc: doc]
     }
@@ -119,6 +119,7 @@ class DocumentoController extends Shield {
     }
 
     def arbolEstacion() {
+//        println "params estacion "+params
         params.combo = true
         if (params.id) {
 //            println "es doc: " + params
@@ -133,13 +134,17 @@ class DocumentoController extends Shield {
                 params.codigo = session.usuario.codigo
             }
             if (!params.codigo) {
-                params.codigo = Estacion.list([sort: 'nombre', max: 1]).first().codigo
+                def estacion =  Estacion.findAllByAplicacionAndEstado(1,'A',[sort: 'nombre', max: 1]).first()
+                params.codigo =estacion.codigo
+//                println "estacion "+ estacion
+//                println "codigo "+params.codigo
             }
         }
         return [arbol: makeTree(params), params: params]
     }
 
     private String makeTree(params) {
+//        println "params make tree "+params
         def estacion = Estacion.findByCodigoAndAplicacion(params.codigo, 1)
         def res = ""
         res += "<ul>"
@@ -351,7 +356,7 @@ class DocumentoController extends Shield {
             if(!estaciones[d.estacion.codigo]){
                 estaciones.put(d.estacion.codigo,[d.estacion.nombre,1,d.estacion.codigo])
             }else{
-               // println " add "+estaciones[d.estacion.codigo]
+                // println " add "+estaciones[d.estacion.codigo]
                 estaciones[d.estacion.codigo][1]=estaciones[d.estacion.codigo][1]+1
             }
         }

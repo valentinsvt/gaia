@@ -9,7 +9,7 @@ import gaia.seguridad.Shield
  * Controlador que muestra las pantallas de manejo de Inspector
  */
 class InspectorController extends Shield {
-
+    static final sistema="AMBT"
     static allowedMethods = [save_ajax: "POST", delete_ajax: "POST"]
 
     /**

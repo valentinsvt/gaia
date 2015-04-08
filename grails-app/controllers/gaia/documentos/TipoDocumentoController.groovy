@@ -8,7 +8,7 @@ import gaia.seguridad.Shield
  * Controlador que muestra las pantallas de manejo de TipoDocumento
  */
 class TipoDocumentoController extends Shield {
-
+    static final sistema="AMBT"
     static allowedMethods = [save_ajax: "POST", delete_ajax: "POST"]
 
     /**

@@ -4,7 +4,7 @@ import gaia.Contratos.DashBoardContratos
 import gaia.parametros.Parametros
 
 class DashBoardContratosController {
-
+    static final sistema="CNTR"
     def dash(){
         if(session.tipo=="cliente") {
             redirect(controller: "contratos", action: "listaSemaforos")

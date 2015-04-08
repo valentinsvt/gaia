@@ -67,6 +67,9 @@
             </div>
 
             <div class="btn-group">
+                <a href="${g.createLink(controller: 'sistema',action: 'list')}" target="_blank" id="btnCrearSistema" class="btn btn-sm btn-success">
+                    <i class="icon-grails-alt"></i> Administrar Sistemas
+                </a>
                 <a href="#" id="btnCrearModulo" class="btn btn-sm btn-success">
                     <i class="fa fa-file-o"></i> Crear módulo
                 </a>

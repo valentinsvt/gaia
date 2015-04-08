@@ -14,7 +14,7 @@ import gaia.seguridad.Shield
  */
 class ReportesEstacionController {
     def diasLaborablesService
-
+    static final sistema="AMBT"
     def index() {}
 
     def getList(params, all) {

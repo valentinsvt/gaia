@@ -36,6 +36,10 @@ class Accion {
      * Clase para el ícono (fontawesome, glyohicons, mfizz, flaticons)
      */
     String icono = ""
+    /**
+     * Sistema al que peretence
+     */
+    Sistema sistema
 
     /**
      * Define las relaciones uno a varios
@@ -65,6 +69,7 @@ class Accion {
             tipo column: 'tpac__id'
             orden column: 'accnordn'
             icono column: 'accnicno'
+            sistema column: 'sstm__id'
         }
     }
 
@@ -76,6 +81,7 @@ class Accion {
         accnAuditable(blank: true, nullable: true)
         icono nullable: true
         orden nullable: true
+        sistema (nullable: true,blank:true)
     }
 
     /**

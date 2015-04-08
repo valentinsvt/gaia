@@ -6,7 +6,7 @@ import groovy.json.JsonBuilder
 import groovy.time.TimeCategory
 
 class CalendarioController extends Shield {
-
+    static final sistema="AMBT"
     def calendarioGeneral() {
         def mes = new Date().format("MM")
         def anio = new Date().format("yyyy")

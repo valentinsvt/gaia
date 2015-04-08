@@ -6,7 +6,7 @@ import org.springframework.dao.DataIntegrityViolationException
  * Controlador que muestra las pantallas de manejo de Prfl
  */
 class PerfilController extends Shield {
-
+    static final sistema="T"
     static allowedMethods = [save_ajax: "POST", delete_ajax: "POST"]
 
     /**

@@ -4,7 +4,7 @@ import gaia.seguridad.Shield
 import groovy.json.JsonBuilder
 
 class DiaLaborableController extends Shield {
-
+    static final sistema="T"
     static allowedMethods = [save: "POST", update: "POST", delete: "POST"]
 
     def diasLaborablesService

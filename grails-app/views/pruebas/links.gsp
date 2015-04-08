@@ -15,7 +15,7 @@
 <h1>Links</h1>
 <ul>
     <li><a href="${linkUsu}"> Link usuario</a> </li>
-    <li><a href="${linkEstacion}"> Link estacion</a> </li>
+    <li><a href="${linkEstacion}"> Link supervisor</a> </li>
 </ul>
 </body>
 </html>

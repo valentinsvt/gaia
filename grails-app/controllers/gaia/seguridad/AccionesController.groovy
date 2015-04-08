@@ -2,6 +2,8 @@ package gaia.seguridad
 
 class AccionesController extends Shield {
 
+    static final sistema="T"  //todos
+
     /**
      * Acción que redirecciona a acciones
      */
@@ -110,6 +112,32 @@ class AccionesController extends Shield {
         }
     }
 
+    def accionCambiarSistema_ajax(){
+        def errores = ""
+        def cont = 0
+
+        params.each { k, v ->
+            if (k.toString().startsWith("sis")) {
+                def parts = k.split("_")
+                if (parts.size() == 2) {
+                    def id = parts[1].toLong()
+                    def accion = Accion.get(id)
+                    accion.sistema = Sistema.get(v.toLong())
+                    if (!accion.save(flush: true)) {
+                        errores += renderErrors(bean: accion)
+                    } else {
+                        cont++
+                    }
+                }
+            }
+        }
+        if (errores == "") {
+            render "SUCCESS*Sistema de ${cont} acci${cont == 1 ? 'ón' : 'ones'} modificado${cont == 1 ? '' : 's'} exitosamente"
+        } else {
+            render "ERROR*" + errores
+        }
+    }
+
     /**
      * Acción llamada con ajax que cambia el orden de una acción
      */
@@ -167,9 +195,17 @@ class AccionesController extends Shield {
         def total = 0
         def ignoreAcciones = ["afterInterceptor", "beforeInterceptor", "getList"]
         def ignoreAccionesLike = ["ajax", "old"]
-        def ignoreControladores = ["Assets", "Dbdoc", "Shield", "Login", "Pdf"]
+        def ignoreControladores = ["Assets", "Dbdoc", "Shield", "Login", "Pdf","Pruebas"]
         def errores = ""
         grailsApplication.controllerClasses.each { ct ->
+            def sistema = ct.getPropertyValue("sistema")
+            if(sistema){
+                sistema=Sistema.findByCodigo(sistema)
+                if(!sistema)
+                    sistema=Sistema.findByCodigo("T")
+            }
+            if(!sistema)
+                sistema=Sistema.findByCodigo("T")
             if (!ignoreControladores.contains(ct.getName())) {
                 def t = []
                 ct.getURIs().each {
@@ -203,6 +239,7 @@ class AccionesController extends Shield {
                                             accn.orden = 1
 //                                    if (s[2] =~ "save" || s[2] =~ "update" || s[2] =~ "delete" || s[2] =~ "guardar")
                                             accn.tipo = TipoAccion.findByCodigo("P")
+                                            accn.sistema = sistema
 //                                    else
 //                                        accn.tipo = TipoAccion.findByCodigo("M")
                                             accn.modulo = Modulo.findByNombre("noAsignado")
@@ -216,6 +253,12 @@ class AccionesController extends Shield {
                                                 println "errores " + accn.errors
                                             }
                                             total++
+                                        }else{
+                                            if(accn.sistema!=sistema){
+                                                println "${accn} cambio de sistema --> "+sistema
+                                                accn.sistema=sistema
+                                                accn.save(flush: true)
+                                            }
                                         }
                                         t.add(s.getAt(2))
                                     } else {
@@ -251,7 +294,7 @@ class AccionesController extends Shield {
      * Acción llamada con ajax que guarda los permisos de un perfil
      */
     def guardarPermisos_ajax() {
-        println "guardar " + params
+//        println "guardar " + params
         def perfil = Perfil.findByCodigo(params.perfil)
         def modulo = Modulo.get(params.modulo.toLong())
 

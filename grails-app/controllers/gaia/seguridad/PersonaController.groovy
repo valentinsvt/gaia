@@ -13,7 +13,7 @@ import static java.awt.RenderingHints.VALUE_INTERPOLATION_BICUBIC
  * Controlador que muestra las pantallas de manejo de Persona
  */
 class PersonaController extends Shield {
-
+    static final sistema="T"
     static allowedMethods = [save_ajax: "POST", delete_ajax: "POST"]
 
     /**

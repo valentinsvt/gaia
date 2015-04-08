@@ -213,12 +213,12 @@
         <!-- http://wrapbootstrap.com/preview/WB0P8S4X3 -->
 
         %{--<mn:bannerTop/>--}%
-        <g:if test="${session.tipo == 'usuario'}">
+        %{--<g:if test="${session.tipo == 'usuario'}">--}%
             <g:set var="alertas" value="${Alerta.findAllByPersonaAndFechaRecibidoIsNull(session.usuario)}"/>
-        </g:if>
-        <g:else>
-            <g:set var="alertas" value="${Alerta.findAllByEstacionAndFechaRecibidoIsNull(session.usuario)}"/>
-        </g:else>
+        %{--</g:if>--}%
+        %{--<g:else>--}%
+            %{--<g:set var="alertas" value="${Alerta.findAllByEstacionAndFechaRecibidoIsNull(session.usuario)}"/>--}%
+        %{--</g:else>--}%
 
         <g:set var="clase" value="success"/>
 

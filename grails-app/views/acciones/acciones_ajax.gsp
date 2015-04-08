@@ -1,4 +1,4 @@
-<%@ page import="gaia.seguridad.Permiso; gaia.seguridad.Modulo; gaia.seguridad.TipoAccion" %>
+<%@ page import="gaia.seguridad.Sistema; gaia.seguridad.Permiso; gaia.seguridad.Modulo; gaia.seguridad.TipoAccion" %>
 
 <script src="${resource(dir: 'js/plugins/fixed-header-table-1.3', file: 'jquery.fixedheadertable.js')}"></script>
 <link rel="stylesheet" type="text/css" href="${resource(dir: 'js/plugins/fixed-header-table-1.3/css', file: 'defaultTheme.css')}"/>
@@ -13,15 +13,20 @@
                 </a>
             </th>
             <th width="15%">Acción</th>
-            <th width="25%">
+            <th width="20%">
                 Nombre
                 <a href="#" title="Guardar todos los nombre modificados" class="btn btn-save-desc btn-success btn-sm pull-right">
                     <i class="fa fa-save"></i>
                 </a>
             </th>
             <th width="15%">Controlador</th>
-            <th width="25%">Módulo
+            <th width="15%">Módulo
                 <a href="#" title="Guardar todos los módulos modificados" class="btn btn-save-mod btn-success btn-sm pull-right">
+                    <i class="fa fa-save"></i>
+                </a>
+            </th>
+            <th width="15%">Sistema
+                <a href="#" title="Guardar todas las tuplas modificadas" class="btn btn-save-sistema btn-success btn-sm pull-right">
                     <i class="fa fa-save"></i>
                 </a>
             </th>
@@ -57,6 +62,11 @@
                               tabindex="${i + 1 + acciones.size()}"/>
                 </td>
                 <td>
+                    <g:select name="sistema" from="${Sistema.list([sort: 'nombre'])}" optionKey="id" optionValue="nombre" data-id="${accion.id}"
+                              value="${accion.sistema?.id}" class="form-control input-sm input-sm select-sis" data-original="${accion.sistema?.id}"
+                              tabindex="${i + 1 + acciones.size()}"/>
+                </td>
+                <td>
                     <a href="#" class="btn btn-switch btn-xs ${esMenu ? 'btn-info' : 'btn-success'}" data-id="${accion.id}"
                        title="Cambiar a ${esMenu ? 'proceso' : 'menú'}" data-tipo="${accion.tipo.codigo}">
                         <i class="fa ${esMenu ? 'fa-cog' : 'fa-navicon'}"></i>
@@ -68,7 +78,7 @@
                 <td class="text-right orden">
                     ${accion.orden}
                 </td>
-                <td class="text-right icono">
+                <td class="text-right icono" style="width: 10%">
                     <g:if test="${accion.icono}">
                         <i class="${accion.icono}"></i>
                     </g:if>
@@ -202,6 +212,18 @@
             $this.removeClass("select-changed");
         }
     });
+    $(".select-sis").change(function () {
+        var $this = $(this);
+        var valOrig = $.trim($this.data("original"));
+        var val = $.trim($this.val());
+        if (valOrig != val) {
+            $this.parents("tr").addClass("warning");
+            $this.addClass("select-changed-sis");
+        } else {
+            $this.parents("tr").removeClass("warning");
+            $this.removeClass("select-changed-sis");
+        }
+    });
 
     $(".input-desc").blur(function () {
         var $this = $(this);
@@ -253,6 +275,32 @@
         $.ajax({
             type    : "POST",
             url     : "${createLink(controller:'acciones', action:'accionCambiarModulo_ajax')}",
+            data    : data,
+            success : function (msg) {
+                var parts = msg.split("*");
+                log(parts[1], parts[0] == "SUCCESS" ? "success" : "error"); // log(msg, type, title, hide)
+                closeLoader();
+                if (parts[0] == "SUCCESS") {
+                    $(".select-changed").each(function () {
+                        var $input = $(this);
+                        $input.parents("tr").remove();
+                    });
+                }
+            }
+        });
+        return false;
+    });
+
+    $(".btn-save-sistema").click(function () {
+        var data = {};
+        $(".select-changed-sis").each(function () {
+            var $input = $(this);
+            data["sis_" + $input.data("id")] = $input.val();
+        });
+        openLoader("Guardando");
+        $.ajax({
+            type    : "POST",
+            url     : "${createLink(controller:'acciones', action:'accionCambiarSistema_ajax')}",
             data    : data,
             success : function (msg) {
                 var parts = msg.split("*");

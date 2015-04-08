@@ -2,6 +2,7 @@ package gaia
 
 import gaia.alertas.Alerta
 import gaia.seguridad.Permiso
+import gaia.seguridad.Sistema
 
 class MenuTagLib {
 //    static defaultEncodeAs = 'html'
@@ -41,15 +42,16 @@ class MenuTagLib {
     def menu = { attrs ->
 
         def items = [:]
-        def usuario, perfil, dpto
+        def usuario, perfil, dpto,sistema
         if (session.usuario) {
             usuario = session.usuario
             perfil = session.perfil
-            dpto = session.departamento
+//            dpto = session.departamento
+            sistema=session.sistema
         }
         def strItems = ""
         if (!attrs.title) {
-            attrs.title = "Sistema de documentación ambiental"
+            attrs.title = sistema.descripcion
         }
         if (usuario) {
             def acciones = Permiso.withCriteria {
@@ -58,6 +60,16 @@ class MenuTagLib {
                     modulo {
                         order("orden", "asc")
                     }
+                    if(sistema.codigo!="T"){
+                        or{
+                            eq("sistema",sistema)
+                            eq("sistema",Sistema.findByCodigo("T"))
+                        }
+                    }else{
+                        eq("sistema",sistema)
+                    }
+
+
                     order("orden", "asc")
                 }
             }.accion
@@ -131,10 +143,10 @@ class MenuTagLib {
 
         def alertas = "("
         def count
-        if(session.tipo=="usuario")
+//        if(session.tipo=="usuario")
             count= Alerta.countByPersonaAndFechaRecibidoIsNull(usuario)
-        else
-            count= Alerta.countByEstacionAndFechaRecibidoIsNull(usuario)
+//        else
+//            count= Alerta.countByEstacionAndFechaRecibidoIsNull(usuario)
 
         alertas += count
         alertas += ")"

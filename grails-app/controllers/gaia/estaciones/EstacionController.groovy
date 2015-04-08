@@ -8,6 +8,7 @@ import gaia.documentos.Documento
 import gaia.documentos.Inspector
 import gaia.documentos.InspectorEstacion
 import gaia.documentos.RequerimientosEstacion
+import gaia.documentos.Responsable
 import gaia.documentos.TipoDocumento
 import gaia.documentos.Ubicacion
 import gaia.erp.ClienteErp
@@ -22,7 +23,7 @@ import gaia.seguridad.Shield
  * Controlador que muestra las pantallas de manejo de Estacion
  */
 class EstacionController extends Shield {
-
+    static final sistema="AMBT"
     static allowedMethods = [save_ajax: "POST", delete_ajax: "POST"]
     def dashboardService
 
@@ -59,11 +60,13 @@ class EstacionController extends Shield {
         def estaciones
         def dash
         if(session.tipo=="cliente"){
-            def estacion = Estacion.findByCodigo(session.usuario.codigo)
-            estaciones=InspectorEstacion.findAllByInspector(Inspector.findByCodigo(estacion.codigoSupervisor))
-            println "estaciones- "+estaciones.estacion+"  "+Inspector.findByCodigo(estacion.codigoSupervisor)
+//            def estacion = Estacion.findByCodigo(session.usuario.codigo)
+            def responsable = Responsable.findByLogin(session.usuario.login)
+            def supervisor = Inspector.findByCodigo(responsable.codigoSupervisor)
+            estaciones=InspectorEstacion.findAllByInspector(supervisor)
+//            println "estaciones- "+estaciones.estacion+"  "
             dash = Dashboard.findAllByEstacionInList(estaciones.estacion,[sort: "id"])
-            println "dash "+dash
+//            println "dash "+dash
         }else{
             dash = Dashboard.list([sort: "id"])
         }

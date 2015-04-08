@@ -12,7 +12,7 @@ class ControlController extends Shield {
     def diasLaborablesService
     def alertasService
 
-
+    static final sistema="AMBT"
    def showControles(){
        def estacion = Estacion.findByCodigoAndAplicacion(params.id,1)
        def tipos = TipoDocumento.findAllByCodigo("TP41")

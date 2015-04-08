@@ -57,31 +57,24 @@
 </head>
 <body>
 <div class="row">
-    <g:link controller="inicio" action="modulos" params="[modulo:'ambiente']" >
-        <div class="col-md-3">
-            <div class="link-modulo">
-                <div class="imagen-link" style="padding-left: 14px">
-                    <img src="${resource(dir: 'images',file: 'eco9.png')}" height="100%" >
+    <g:each in="${gaia.seguridad.Sistema.list([sort: "id"])}" var="sistema" >
+        <g:if test="${sistema.codigo!='T'}">
+            <g:link controller="inicio" action="modulos" params="[sistema:sistema.codigo]" title="${sistema.descripcion}" >
+                <div class="col-md-3">
+                    <div class="link-modulo">
+                        <div class="imagen-link" style="padding-left: 14px">
+                            <img src="${resource(dir: 'images',file: sistema.imagen)}" height="100%" >
+                        </div>
+                        <div class="texto-link">
+                            ${sistema.nombre}
+                        </div>
+                    </div>
                 </div>
-                <div class="texto-link">
-                    Gestion Ambiental
-                </div>
-            </div>
-        </div>
-    </g:link>
-    <g:link controller="inicio" action="modulos" params="[modulo:'contratos']" >
-        <div class="col-md-3">
-            <div class="link-modulo">
-                <div class="imagen-link" style="padding-left: 12px">
-                    <img src="${resource(dir: 'images',file: 'contrato.png')}" height="100%" >
-                </div>
-                <div class="texto-link">
-                    Contratos
-                </div>
+            </g:link>
+        </g:if>
+    </g:each>
 
-            </div>
-        </div>
-    </g:link>
+
 </div>
 </body>
 </html>

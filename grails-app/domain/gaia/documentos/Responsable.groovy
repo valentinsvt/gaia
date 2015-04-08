@@ -1,11 +1,12 @@
 package gaia.documentos
 
-class Reponsable {
+class Responsable {
 
     String cedula
     String login
     String nombre
     String mail
+    String codigoSupervisor
     static auditable = [ignore: []]
 
     /**
@@ -22,6 +23,7 @@ class Reponsable {
             nombre column: 'nombre_responsable'
             mail column: 'direcion_electronica'
             login column: 'login_user'
+            codigoSupervisor column: 'codigo_supervisor'
         }
     }
     static constraints = {

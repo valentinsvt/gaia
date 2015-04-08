@@ -8,7 +8,7 @@ import gaia.seguridad.Shield
  * Controlador que muestra las pantallas de manejo de Observacion
  */
 class ObservacionController extends Shield {
-
+    static final sistema="AMBT"
     def showObservacionesDoc_ajax() {
         def doc = Documento.get(params.id)
         def obs = Observacion.findAllByDocumento(doc, [sort: "fecha", order: "desc"])

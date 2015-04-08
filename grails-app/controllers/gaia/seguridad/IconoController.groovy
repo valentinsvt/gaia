@@ -1,7 +1,7 @@
 package gaia.seguridad
 
 class IconoController {
-
+    static final sistema="T"
     /**
      * Acción llamada con ajax que muestra los iconos disponibles para acciones y módulos
      */

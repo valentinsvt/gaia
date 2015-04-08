@@ -4,21 +4,33 @@ import gaia.Contratos.Adendum
 import gaia.Contratos.DashBoardContratos
 import gaia.documentos.Inspector
 import gaia.documentos.InspectorEstacion
+import gaia.documentos.Responsable
 import gaia.estaciones.Estacion
 import gaia.parametros.Parametros
 import groovy.sql.Sql
 
 
 class ContratosController {
+    static final sistema="CNTR"
     def dataSource_erp
+
+    def index(){
+        if(session.tipo=="cliente"){
+            redirect(action: 'listaSemaforos')
+        }else{
+            redirect(controller: 'dashBoardContratos',action: 'dash')
+        }
+    }
+
     def listaSemaforos(){
         def estaciones
         def dash
         def dias = Parametros.getDiasContrato()
         def check = new Date().plus(dias)
         if(session.tipo=="cliente"){
-            def estacion = Estacion.findByCodigo(session.usuario.codigo)
-            estaciones=InspectorEstacion.findAllByInspector(Inspector.findByCodigo(estacion.codigoSupervisor))
+            def responsable = Responsable.findByLogin(session.usuario.login)
+            def supervisor = Inspector.findByCodigo(responsable.codigoSupervisor)
+            estaciones=InspectorEstacion.findAllByInspector(supervisor)
             dash = DashBoardContratos.findAllByEstacionInList(estaciones.estacion,[sort: "id"])
         }else{
             dash = DashBoardContratos.list([sort: "id"])
