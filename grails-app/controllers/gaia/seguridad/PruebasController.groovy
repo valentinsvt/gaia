@@ -12,6 +12,7 @@ import groovy.sql.Sql
 
 class PruebasController {
     def dataSource_erp
+    def dataSource
     def links(){
 
         def usuario = Persona.findByLogin("OROZCOP")
@@ -88,10 +89,35 @@ class PruebasController {
         render "ok"
     }
 
-    def pruebaControladores(){
-        grailsApplication.controllerClasses.each { ct ->
-            println ct.getPropertyValue("sistema")
+    def cargarDatosEstaciones(){
+        def sql =  new Sql(dataSource_erp)
+        def sqlCli = new Sql(dataSource)
+        sql.eachRow("select  * from CLIENTE where TIPO_CLIENTE=1 and ESTADO_CLIENTE='A'".toString()) { r ->
+            println("update cliente set representante_legal='${r['NOMBRE_REPRESENTANTE']?r['NOMBRE_REPRESENTANTE']:''}', cedula_representante='${r['CEDULA_REPRESENTANTE']?r['CEDULA_REPRESENTANTE']:''}',arrendatario='${r['ARRENDATARIO']?r['ARRENDATARIO']:''}',representante_arrendatario='${r['REPRESENTANTE_ARRENDATARIO']?r['REPRESENTANTE_ARRENDATARIO']:''}',provincia='${r['CODIGO_UBICACION'].substring(0,2)}' ,canton='${r['CODIGO_UBICACION'].substring(0,4)}',parroquia='${r['CODIGO_UBICACION']}'  where codigo_cliente = '${r['CODIGO_CLIENTE']}' and codigo_aplicacion=1 and estado_cliente='A' ")
+            println "update ${r['CODIGO_CLIENTE']}"+sqlCli.execute("update cliente set representante_legal=${r['NOMBRE_REPRESENTANTE']}, cedula_representante=${r['CEDULA_REPRESENTANTE']},arrendatario=${r['ARRENDATARIO']},representante_arrendatario=${r['REPRESENTANTE_ARRENDATARIO']},provincia=${r['CODIGO_UBICACION'].substring(0,2)} ,canton=${r['CODIGO_UBICACION'].substring(0,4)},parroquia=${r['CODIGO_UBICACION']}  where codigo_cliente = ${r['CODIGO_CLIENTE']} and codigo_aplicacion=1 and estado_cliente='A' ")
+//            println "r "+r
+//            println "r representante "+r["NOMBRE_REPRESENTANTE"]+"  cr "+r["CEDULA_REPRESENTANTE"]+" adm "+r["CEDULA_REPRESENTANTE"]+" arr  "+r["ARRENDATARIO"]+"  "+r["REPRESENTANTE_ARRENDATARIO"]
+//            def estacion = Estacion.findByCodigo(r["CODIGO_CLIENTE"])
+//            println "actualizando "+estacion
+////            if(estacion){
+////                estacion.representante=r["NOMBRE_REPRESENTANTE"]
+////                estacion.cedulaRepresentante=r["CEDULA_REPRESENTANTE"]
+//////                estacion.administrador=r["ADMINISTRADOR"]
+//////                estacion.cedulaAdministrador=r[""]
+////                estacion.arrendatario=r["ARRENDATARIO"]
+////                estacion.representanteArrendatario=r["REPRESENTANTE_ARRENDATARIO"]
+////                if(r["CODIGO_UBICACION"]){
+////                    println "UBICACION "+r["CODIGO_UBICACION"]+" canton "+r["CODIGO_UBICACION"].substring(0,4)+" prov "+r["CODIGO_UBICACION"].substring(0,2)
+////                    estacion.parroquia = r["CODIGO_UBICACION"]
+////                    estacion.canton = r["CODIGO_UBICACION"].substring(0,4)
+////                    estacion.provincia = r["CODIGO_UBICACION"].substring(0,2)
+////                }
+////
+////                if(!estacion.save(flush: true))
+////                    println "errores save estacion "+estacion.errors
+////            }
         }
+        render "ok"
     }
 
 }

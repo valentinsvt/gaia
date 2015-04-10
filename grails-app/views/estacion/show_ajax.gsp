@@ -151,37 +151,37 @@
 </div>
 
 
-<div class="row">
-    <div class="col-sm-2 show-label">
-        Cédula representante
-    </div>
+%{--<div class="row">--}%
+    %{--<div class="col-sm-2 show-label">--}%
+        %{--Cédula representante--}%
+    %{--</div>--}%
 
-    <div class="col-sm-8">
-        ${estacionInstance.cedulaRepresentante}
-    </div>
-</div>
-
-
-<div class="row">
-    <div class="col-sm-2 show-label">
-        Administrador
-    </div>
-
-    <div class="col-sm-8">
-        ${estacionInstance.administrador}
-    </div>
-</div>
+    %{--<div class="col-sm-8">--}%
+        %{--${estacionInstance.cedulaRepresentante}--}%
+    %{--</div>--}%
+%{--</div>--}%
 
 
-<div class="row">
-    <div class="col-sm-2 show-label">
-        Cédula administrador
-    </div>
+%{--<div class="row">--}%
+    %{--<div class="col-sm-2 show-label">--}%
+        %{--Administrador--}%
+    %{--</div>--}%
 
-    <div class="col-sm-8">
-        ${estacionInstance.administrador}
-    </div>
-</div>
+    %{--<div class="col-sm-8">--}%
+        %{--${estacionInstance.administrador}--}%
+    %{--</div>--}%
+%{--</div>--}%
+
+
+%{--<div class="row">--}%
+    %{--<div class="col-sm-2 show-label">--}%
+        %{--Cédula administrador--}%
+    %{--</div>--}%
+
+    %{--<div class="col-sm-8">--}%
+        %{--${estacionInstance.cedulaAdministrador}--}%
+    %{--</div>--}%
+%{--</div>--}%
 
 
 <div class="row">

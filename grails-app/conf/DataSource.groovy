@@ -40,8 +40,9 @@ environments {
     }
     production {
         dataSource {
+            pooled = true
             dbCreate = "update" // one of 'create', 'create-drop','update'
-            url = "jdbc:mysql://190.107.66.50/esicc?useUnicode=yes&characterEncoding=UTF-8"
+            url = "jdbc:mysql://localhost/esicc?useUnicode=yes&characterEncoding=UTF-8"
             username = "root"
             password = "eldia2k"
         }

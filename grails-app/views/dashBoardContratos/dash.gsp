@@ -33,7 +33,7 @@
         </g:link>
         <g:link controller="contratos" action="listaSemaforos" params="[search:'red-contrato']" style="text-decoration: none">
             <div class="cardContent">
-                <div class="circle-card svt-bg-danger">${total-contrato}</div>
+                <div class="circle-card svt-bg-danger">${total-(contrato+contratoWarning)}</div>
                 Estaciones sin contrato vigente
             </div>
         </g:link>

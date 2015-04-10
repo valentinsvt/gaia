@@ -77,7 +77,7 @@
         <div class="header-panel">
             <div class="header-item">
                 <div class="titulo-card" style="text-align: left;padding-left: 15px">
-                    Contrato
+                    Último Contrato
                 </div>
                 <div class="header-content" style="position: relative">
                     <div class="circle-card ${contrato[0]}"  ></div>

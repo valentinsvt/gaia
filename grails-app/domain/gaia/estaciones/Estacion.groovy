@@ -104,6 +104,13 @@ class Estacion {
         telefono(nullable: true,blank: true)
         propetario(nullable: true,blank: true)
         representante(nullable: true,blank: true)
+        administrador(nullable: true,blank: true)
+        arrendatario(nullable: true,blank: true)
+        capacidadAutotanque(nullable: true,blank: true)
+        cedulaAdministrador(nullable: true,blank: true)
+        cedulaRepresentanteArrendatario(nullable: true,blank: true)
+        placaAutotanque(nullable: true,blank: true)
+        representanteArrendatario(nullable: true,blank: true)
     }
 
     /**

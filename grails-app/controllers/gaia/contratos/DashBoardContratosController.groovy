@@ -13,7 +13,7 @@ class DashBoardContratosController {
             def now = new Date()
             def dias = Parametros.getDiasContrato()
             def check = new Date().plus(dias)
-            println "check "+check.format("dd-MM-yyyy")
+            //println "check "+check.format("dd-MM-yyyy")
             def colores = ["card-bg-green", "svt-bg-warning", "svt-bg-danger"]
             def contrato = 0
             def contratoWarning = 0
