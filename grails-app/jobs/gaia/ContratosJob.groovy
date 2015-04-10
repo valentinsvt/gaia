@@ -8,7 +8,7 @@ import groovy.sql.Sql
 
 class ContratosJob {
     static triggers = {
-        simple name: 'dashJob', startDelay: 1000 * 50, repeatInterval: 1000 * 60 * 60
+        simple name: 'contratosJob', startDelay: 1000 * 50, repeatInterval: 1000 * 60 * 60
     }
     def dataSource_erp
 
