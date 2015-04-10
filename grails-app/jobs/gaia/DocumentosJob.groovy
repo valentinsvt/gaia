@@ -9,7 +9,7 @@ import javax.print.Doc
 
 class DocumentosJob {
     static triggers = {
-        simple name: 'documentosJob', startDelay: 1000*50, repeatInterval: 1000*60*60*3
+        simple name: 'documentosJob', startDelay: 1000*50, repeatInterval: 1000*60*60*7
         //simple name: 'mySimpleTrigger', startDelay: 60000, repeatInterval: 1000
     }
 

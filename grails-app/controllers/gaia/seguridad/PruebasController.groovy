@@ -95,27 +95,60 @@ class PruebasController {
         sql.eachRow("select  * from CLIENTE where TIPO_CLIENTE=1 and ESTADO_CLIENTE='A'".toString()) { r ->
             println("update cliente set representante_legal='${r['NOMBRE_REPRESENTANTE']?r['NOMBRE_REPRESENTANTE']:''}', cedula_representante='${r['CEDULA_REPRESENTANTE']?r['CEDULA_REPRESENTANTE']:''}',arrendatario='${r['ARRENDATARIO']?r['ARRENDATARIO']:''}',representante_arrendatario='${r['REPRESENTANTE_ARRENDATARIO']?r['REPRESENTANTE_ARRENDATARIO']:''}',provincia='${r['CODIGO_UBICACION'].substring(0,2)}' ,canton='${r['CODIGO_UBICACION'].substring(0,4)}',parroquia='${r['CODIGO_UBICACION']}'  where codigo_cliente = '${r['CODIGO_CLIENTE']}' and codigo_aplicacion=1 and estado_cliente='A' ")
             println "update ${r['CODIGO_CLIENTE']}"+sqlCli.execute("update cliente set representante_legal=${r['NOMBRE_REPRESENTANTE']}, cedula_representante=${r['CEDULA_REPRESENTANTE']},arrendatario=${r['ARRENDATARIO']},representante_arrendatario=${r['REPRESENTANTE_ARRENDATARIO']},provincia=${r['CODIGO_UBICACION'].substring(0,2)} ,canton=${r['CODIGO_UBICACION'].substring(0,4)},parroquia=${r['CODIGO_UBICACION']}  where codigo_cliente = ${r['CODIGO_CLIENTE']} and codigo_aplicacion=1 and estado_cliente='A' ")
-//            println "r "+r
-//            println "r representante "+r["NOMBRE_REPRESENTANTE"]+"  cr "+r["CEDULA_REPRESENTANTE"]+" adm "+r["CEDULA_REPRESENTANTE"]+" arr  "+r["ARRENDATARIO"]+"  "+r["REPRESENTANTE_ARRENDATARIO"]
-//            def estacion = Estacion.findByCodigo(r["CODIGO_CLIENTE"])
-//            println "actualizando "+estacion
-////            if(estacion){
-////                estacion.representante=r["NOMBRE_REPRESENTANTE"]
-////                estacion.cedulaRepresentante=r["CEDULA_REPRESENTANTE"]
-//////                estacion.administrador=r["ADMINISTRADOR"]
-//////                estacion.cedulaAdministrador=r[""]
-////                estacion.arrendatario=r["ARRENDATARIO"]
-////                estacion.representanteArrendatario=r["REPRESENTANTE_ARRENDATARIO"]
-////                if(r["CODIGO_UBICACION"]){
-////                    println "UBICACION "+r["CODIGO_UBICACION"]+" canton "+r["CODIGO_UBICACION"].substring(0,4)+" prov "+r["CODIGO_UBICACION"].substring(0,2)
-////                    estacion.parroquia = r["CODIGO_UBICACION"]
-////                    estacion.canton = r["CODIGO_UBICACION"].substring(0,4)
-////                    estacion.provincia = r["CODIGO_UBICACION"].substring(0,2)
-////                }
-////
-////                if(!estacion.save(flush: true))
-////                    println "errores save estacion "+estacion.errors
-////            }
+
+        }
+        render "ok"
+    }
+
+
+    def checkDashboards(){
+        Dashboard.list().each {d->
+            if(d.estacion.estado!='A'){
+                println "borrando dashboard "+d.id+"  "+d.estacion
+                d.delete(flush: true)
+            }
+        }
+        DashBoardContratos.list().each {d->
+            if(d.estacion.estado!='A'){
+                println "borrando dashboard "+d.id+"  "+d.estacion
+                d.delete(flush: true)
+            }
+        }
+        Estacion.findAll("from Estacion where aplicacion = 1 and estado='A' and tipo=1").each {
+            def dash = new Dashboard()
+            dash.estacion=it
+            dash.save(flush: true)
+            dash = new DashBoardContratos()
+            dash.estacion=it
+            dash.save(flush: true)
+        }
+    }
+
+    def cargarPorcentaje(){
+        def sql =  new Sql(dataSource_erp)
+        def select = "select  c.CODIGO_CLIENTE as codigo,l.MARGEN_LISTA_PRECIO as margen \n" +
+                "from CLIENTE c,LISTA_PRECIO l,CLIENTE_LISTA_PRECIO cl \n" +
+                " where c.TIPO_CLIENTE=1 and c.ESTADO_CLIENTE='A' \n" +
+                "and cl.CODIGO_LISTA_PRECIO = \tl.CODIGO_LISTA_PRECIO\n" +
+                "and c.CODIGO_CLIENTE = cl.CODIGO_CLIENTE\n" +
+                "and cl.VIGENTE='S'"
+        sql.eachRow(select.toString()) { r ->
+            def estacion = Estacion.findByCodigoAndAplicacion(r["codigo"],1)
+            def dash = DashBoardContratos.findByEstacion(estacion)
+            dash.porcentajeComercializacion=r["margen"]
+            dash.save(flush: true)
+        }
+        render "ok"
+    }
+
+
+    def cargarCodigoArch(){
+        def sql =  new Sql(dataSource_erp)
+        def sqlCli = new Sql(dataSource)
+        sql.eachRow("select  * from CLIENTE where TIPO_CLIENTE=1 and ESTADO_CLIENTE='A'".toString()) { r ->
+            println("update cliente set codigo_dnh='${r['CODIGO_DNH']}' where codigo_cliente = '${r['CODIGO_CLIENTE']}' and codigo_aplicacion=1 and estado_cliente='A' and tipo_cliente=1 ")
+            println "update ${r['CODIGO_CLIENTE']} "+sqlCli.execute("update cliente set codigo_dnh='${r['CODIGO_DNH']}' where codigo_cliente = '${r['CODIGO_CLIENTE']}' and codigo_aplicacion=1 and estado_cliente='A' and tipo_cliente=1 ".toString())
+
         }
         render "ok"
     }

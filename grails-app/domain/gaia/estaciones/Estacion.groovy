@@ -25,6 +25,8 @@ class Estacion {
 
     String telefono
 
+    String fax
+
     String ruc
 
     String propetario
@@ -49,7 +51,7 @@ class Estacion {
     String cedulaAdministrador
     String placaAutotanque
     Double capacidadAutotanque
-
+    String codigoArch
     String codigoSupervisor
 
     /**
@@ -74,7 +76,8 @@ class Estacion {
             nombre column: 'nombre_cliente'
             aplicacion column: 'codigo_aplicacion'
             direccion column: 'direccion_cliente'
-            telefono column: 'felefono_cliente'
+            telefono column: 'telefono_cliente'
+            fax column: 'fax_cliente'
             ruc column: 'ruc_cliente'
             propetario column: 'propietario_1'
             representante column: 'representante_legal'
@@ -92,6 +95,7 @@ class Estacion {
             placaAutotanque column: 'placa_autotanque'
             capacidadAutotanque column: 'capacidad_autotanque'
             codigoSupervisor column: 'codigo_supervisor'
+            codigoArch column: 'codigo_dnh'
         }
     }
 
@@ -111,6 +115,7 @@ class Estacion {
         cedulaRepresentanteArrendatario(nullable: true,blank: true)
         placaAutotanque(nullable: true,blank: true)
         representanteArrendatario(nullable: true,blank: true)
+        fax(nullable: true,blank: true)
     }
 
     /**

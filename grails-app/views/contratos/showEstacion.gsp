@@ -204,6 +204,7 @@
                 closeLoader()
                 bootbox.dialog({
                     title   : "Datos de la estación",
+                    class   : 'modal-lg',
                     message : msg,
                     buttons : {
                         ok : {

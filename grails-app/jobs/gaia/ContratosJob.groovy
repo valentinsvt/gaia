@@ -28,7 +28,7 @@ class ContratosJob {
                // println "no adendums verificando en cliente"
                 def sql = new Sql(dataSource_erp)
                 sql.eachRow("select * from CLIENTE where TIPO_CLIENTE=1 and ESTADO_CLIENTE='A' and CODIGO_CLIENTE='${estacion.codigo}'".toString()) { r ->
-                    println "termina contrato " + r["FECHA_TERMINA_CONTRATO"]
+                    //println "termina contrato " + r["FECHA_TERMINA_CONTRATO"]
                     if (r["FECHA_TERMINA_CONTRATO"] != null) {
                         dash.ultimoContrato = r["FECHA_TERMINA_CONTRATO"]
                     }

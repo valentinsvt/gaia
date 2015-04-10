@@ -7,10 +7,11 @@ import gaia.documentos.InspectorEstacion
 import gaia.documentos.Responsable
 import gaia.estaciones.Estacion
 import gaia.parametros.Parametros
+import gaia.seguridad.Shield
 import groovy.sql.Sql
 
 
-class ContratosController {
+class ContratosController extends Shield {
     static final sistema="CNTR"
     def dataSource_erp
 

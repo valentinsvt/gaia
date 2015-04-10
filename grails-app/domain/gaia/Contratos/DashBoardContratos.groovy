@@ -8,6 +8,7 @@ class DashBoardContratos {
     Estacion estacion
     Date ultimoContrato
     Date ultimaPintura
+    Double porcentajeComercializacion
 
     static mapping = {
         table 'dhcn'
@@ -18,11 +19,13 @@ class DashBoardContratos {
             estacion column: 'stcn__id'
             ultimoContrato column: 'dhcnfccn'
             ultimaPintura column: 'dhcnfcpn'
+            porcentajeComercializacion column: 'prctcmlz'
         }
     }
     static constraints = {
         ultimaPintura(nullable: true,blank:true)
         ultimoContrato(nullable: true,blank:true)
+        porcentajeComercializacion(nullable: true,blank:true)
     }
 
     def getColorSemaforoContrato(fecha){

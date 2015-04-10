@@ -7,7 +7,7 @@
 <div class="modal-contenido">
 <g:if test="${estacionInstance?.nombre}">
     <div class="row">
-        <div class="col-sm-2 show-label">
+        <div class="col-sm-3 show-label">
             Nombre
         </div>
 
@@ -20,7 +20,7 @@
 
 <g:if test="${estacionInstance?.ruc}">
     <div class="row">
-        <div class="col-sm-2 show-label">
+        <div class="col-sm-3 show-label">
             Ruc
         </div>
 
@@ -33,7 +33,7 @@
 
 <g:if test="${estacionInstance?.direccion}">
     <div class="row">
-        <div class="col-sm-2 show-label">
+        <div class="col-sm-3 show-label">
             Direccion
         </div>
 
@@ -46,7 +46,7 @@
 
 <g:if test="${estacionInstance?.mail}">
     <div class="row">
-        <div class="col-sm-2 show-label">
+        <div class="col-sm-3 show-label">
             Mail
         </div>
 
@@ -59,7 +59,7 @@
 
 <g:if test="${estacionInstance?.telefono}">
     <div class="row">
-        <div class="col-sm-2 show-label">
+        <div class="col-sm-3 show-label">
             Telefono
         </div>
 
@@ -69,10 +69,40 @@
 
     </div>
 </g:if>
+<g:if test="${estacionInstance?.fax}">
+    <div class="row">
+        <div class="col-sm-3 show-label">
+            Fax
+        </div>
 
+        <div class="col-sm-8">
+            <g:fieldValue bean="${estacionInstance}" field="fax"/>
+        </div>
+
+    </div>
+</g:if>
 
 <div class="row">
-    <div class="col-sm-2 show-label">
+    <div class="col-sm-3 show-label">
+        Código ARCH
+    </div>
+    <div class="col-sm-8">
+        <g:fieldValue bean="${estacionInstance}" field="codigoArch"/>
+    </div>
+
+</div>
+<div class="row">
+    <div class="col-sm-3 show-label">
+        Porcentaje comercialización
+    </div>
+    <div class="col-sm-8">
+        ${gaia.Contratos.DashBoardContratos.findByEstacion(estacionInstance)?.porcentajeComercializacion?.round(2)}
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-sm-3 show-label">
         Propetario
     </div>
 
@@ -90,7 +120,7 @@
 
 <g:if test="${estacionInstance?.codigo}">
     <div class="row">
-        <div class="col-sm-2 show-label">
+        <div class="col-sm-3 show-label">
             Código
         </div>
 
@@ -103,7 +133,7 @@
 
 <g:if test="${estacionInstance?.codigo}">
     <div class="row">
-        <div class="col-sm-2 show-label">
+        <div class="col-sm-3 show-label">
             Provincia
         </div>
 
@@ -116,7 +146,7 @@
 </g:if>
 <g:if test="${estacionInstance?.codigo}">
     <div class="row">
-        <div class="col-sm-2 show-label">
+        <div class="col-sm-3 show-label">
             Cantón
         </div>
 
@@ -128,7 +158,7 @@
 </g:if>
 <g:if test="${estacionInstance?.codigo}">
     <div class="row">
-        <div class="col-sm-2 show-label">
+        <div class="col-sm-3 show-label">
             Parroquia
         </div>
 
@@ -140,7 +170,7 @@
 </g:if>
 
 <div class="row">
-    <div class="col-sm-2 show-label">
+    <div class="col-sm-3 show-label">
         Representante
     </div>
 
@@ -152,40 +182,40 @@
 
 
 %{--<div class="row">--}%
-    %{--<div class="col-sm-2 show-label">--}%
-        %{--Cédula representante--}%
-    %{--</div>--}%
+%{--<div class="col-sm-3 show-label">--}%
+%{--Cédula representante--}%
+%{--</div>--}%
 
-    %{--<div class="col-sm-8">--}%
-        %{--${estacionInstance.cedulaRepresentante}--}%
-    %{--</div>--}%
+%{--<div class="col-sm-8">--}%
+%{--${estacionInstance.cedulaRepresentante}--}%
+%{--</div>--}%
 %{--</div>--}%
 
 
 %{--<div class="row">--}%
-    %{--<div class="col-sm-2 show-label">--}%
-        %{--Administrador--}%
-    %{--</div>--}%
+%{--<div class="col-sm-3 show-label">--}%
+%{--Administrador--}%
+%{--</div>--}%
 
-    %{--<div class="col-sm-8">--}%
-        %{--${estacionInstance.administrador}--}%
-    %{--</div>--}%
+%{--<div class="col-sm-8">--}%
+%{--${estacionInstance.administrador}--}%
+%{--</div>--}%
 %{--</div>--}%
 
 
 %{--<div class="row">--}%
-    %{--<div class="col-sm-2 show-label">--}%
-        %{--Cédula administrador--}%
-    %{--</div>--}%
+%{--<div class="col-sm-3 show-label">--}%
+%{--Cédula administrador--}%
+%{--</div>--}%
 
-    %{--<div class="col-sm-8">--}%
-        %{--${estacionInstance.cedulaAdministrador}--}%
-    %{--</div>--}%
+%{--<div class="col-sm-8">--}%
+%{--${estacionInstance.cedulaAdministrador}--}%
+%{--</div>--}%
 %{--</div>--}%
 
 
 <div class="row">
-    <div class="col-sm-2 show-label">
+    <div class="col-sm-3 show-label">
         Arrendatario
     </div>
 
@@ -196,7 +226,7 @@
 
 
 <div class="row">
-    <div class="col-sm-2 show-label">
+    <div class="col-sm-3 show-label">
         Representante arrendatario
     </div>
 
@@ -207,7 +237,7 @@
 
 
 <div class="row">
-    <div class="col-sm-2 show-label">
+    <div class="col-sm-3 show-label">
         Cédula representante arrendatario
     </div>
 

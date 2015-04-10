@@ -2,8 +2,9 @@ package gaia.contratos
 
 import gaia.Contratos.DashBoardContratos
 import gaia.parametros.Parametros
+import gaia.seguridad.Shield
 
-class DashBoardContratosController {
+class DashBoardContratosController extends Shield {
     static final sistema="CNTR"
     def dash(){
         if(session.tipo=="cliente") {
