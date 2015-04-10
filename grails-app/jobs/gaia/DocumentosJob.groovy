@@ -15,7 +15,7 @@ class DocumentosJob {
 
     def execute() {
         // execute job
-        //println "job de docs "
+        println "Ejecución documentosJob "+new Date().format("dd-MM-yyyy HH:mm:ss")
         def now = new Date()
         def fechaFin = new Date().plus(15)
         def docs = Documento.findAllByFinBetween(now,fechaFin)
@@ -47,5 +47,6 @@ class DocumentosJob {
             alerta.mensaje = "El documento: ${d.referencia} de la estación ${d.estacion} está por caducar (${d.fin?.format('dd-MM-yyyy')})."
             alerta.save(flush: true)
         }
+        println "fin de la ejecución documentosJob "+new Date().format("dd-MM-yyyy HH:mm:ss")
     }
 }

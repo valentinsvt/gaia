@@ -12,7 +12,7 @@ class DashboardJob {
 
     def execute() {
         // execute job
-        //println "dash job"
+        println "Ejecución DashBoardJob "+new Date().format("dd-MM-yyyy HH:mm:ss")
         Dashboard.list([sort: "id"]).each {d->
             def cont= 0
             def res = d.estacion.getColorLicencia()
@@ -54,7 +54,7 @@ class DashboardJob {
 
 
         }
-
+        println "fin de la ejecución dashboardJob "+new Date().format("dd-MM-yyyy HH:mm:ss")
     }
 
     def checkEstadoEstacion(Estacion estacion){
@@ -90,4 +90,5 @@ class DashboardJob {
             d.monitoreo=0
         d.save(flush: true)
     }
+
 }

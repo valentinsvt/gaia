@@ -48,19 +48,24 @@ class ContratosController extends Shield {
         estacion = Estacion.findByCodigoAndAplicacion(params.id, 1)
 //        }
         def dash = DashBoardContratos.findByEstacion(estacion)
-
-        def contratos= Adendum.findAllByCliente(estacion.codigo,[sort:"fin",order:"desc"])
-        def inicial = [:]
-        def sql =  new Sql(dataSource_erp)
         def dias = Parametros.getDiasContrato()
         def check = new Date().plus(dias)
-        sql.eachRow("select * from CLIENTE where TIPO_CLIENTE=1 and ESTADO_CLIENTE='A' and CODIGO_CLIENTE='${estacion.codigo}'".toString()) { r ->
-            //if(r["FECHA_TERMINA_CONTRATO"]!=null){
-            inicial["tipo"]="INICIAL"
-            inicial["inicio"]=r["FECHA_PRIMER_CONTRATO"]
-            inicial["fin"]=r["FECHA_TERMINA_CONTRATO"]
-            //}
+        def contratos= Adendum.findAllByCliente(estacion.codigo,[sort:"fin",order:"desc"])
+        def inicial = [:]
+        try {
+            def sql = new Sql(dataSource_erp)
+
+            sql.eachRow("select * from CLIENTE where TIPO_CLIENTE=1 and ESTADO_CLIENTE='A' and CODIGO_CLIENTE='${estacion.codigo}'".toString()) { r ->
+                //if(r["FECHA_TERMINA_CONTRATO"]!=null){
+                inicial["tipo"] = "INICIAL"
+                inicial["inicio"] = r["FECHA_PRIMER_CONTRATO"]
+                inicial["fin"] = r["FECHA_TERMINA_CONTRATO"]
+                //}
+            }
+        }catch (e){
+            println "error de sybase "+e.printStackTrace()
         }
         [estacion: estacion, contratos: contratos, params: params,dash:dash,inicial:inicial,check:check]
+
     }
 }
