@@ -39,7 +39,7 @@
         </g:link>
     </div>
     <div class="card" style="width:310px;">
-        <div class="titulo-card"><i class="fa fa-shopping-cart"></i> Dotación semestral</div>
+        <div class="titulo-card"><i class="fa fa-shopping-cart"></i> Dotación de uniformes</div>
         <g:link controller="contratos" action="listaSemaforos" params="[search:'green-equipo']" style="text-decoration: none">
             <div class="cardContent">
                 <div class="circle-card ${colores[0]}">${equipo}</div>
@@ -60,7 +60,7 @@
         </g:link>
     </div>
     <div class="card" style="width:310px;">
-        <div class="titulo-card"><i class="fa fa-paint-brush"></i> Pintura</div>
+        <div class="titulo-card"><i class="fa fa-paint-brush"></i> Pintura y mantenimiento</div>
         <g:link controller="contratos" action="listaSemaforos" params="[search:'green-pintura']" style="text-decoration: none">
             <div class="cardContent">
                 <div class="circle-card ${colores[0]}">${pintura}</div>

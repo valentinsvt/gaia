@@ -52,14 +52,13 @@
                 <div class="circle-card svt-bg-danger circle-btn licencia-red" title="Filtrar por color rojo" mostrar="red-contrato"></div>
             </th>
             <th class="td-semaforo">
-                Dotación semestral<br>
+                Dotación de unfirmes<br>
                 <div class="circle-card card-bg-green circle-btn equipo-green" title="Filtrar por color verde" mostrar="green-equipo"></div>
                 <div class="circle-card svt-bg-warning circle-btn equipo-orange" title="Filtrar por color naranja" mostrar="orange-equipo"></div>
                 <div class="circle-card svt-bg-danger circle-btn equipo-red" title="Filtrar por color rojo" mostrar="red-equipo"></div>
             </th>
             <th class="td-semaforo">
-                <br>
-                Pintura<br>
+                Pintura y mantenimiento<br>
                 <div class="circle-card card-bg-green circle-btn pintura-green" title="Filtrar por color verde" mostrar="green-pintura"></div>
                 <div class="circle-card svt-bg-warning circle-btn pintura-orange" title="Filtrar por color naranja" mostrar="orange-pintura"></div>
                 <div class="circle-card svt-bg-danger circle-btn pintura-red" title="Filtrar por color rojo" mostrar="red-pintura"></div>

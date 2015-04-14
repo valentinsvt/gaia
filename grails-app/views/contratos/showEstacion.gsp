@@ -123,8 +123,8 @@
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
                 <li role="presentation" class="active bg-info"><a href="#contratos" aria-controls="home" role="tab" data-toggle="tab"><i class="fa fa-newspaper-o"></i> Contratos</a></li>
-                <li role="presentation" class=" bg-info"><a href="#uniforme" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-shopping-cart"></i> Dotación semestral</a></li>
-                <li role="presentation" class=" bg-info"><a href="#pintura" aria-controls="messages" role="tab" data-toggle="tab"><i class="fa fa-paint-brush"></i> Pintura</a></li>
+                <li role="presentation" class=" bg-info"><a href="#uniforme" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-shopping-cart"></i> Dotación de uniformes</a></li>
+                <li role="presentation" class=" bg-info"><a href="#pintura" aria-controls="messages" role="tab" data-toggle="tab"><i class="fa fa-paint-brush"></i> Pintura y mantenimiento</a></li>
             </ul>
             <!-- Tab panes -->
             <div class="tab-content">
