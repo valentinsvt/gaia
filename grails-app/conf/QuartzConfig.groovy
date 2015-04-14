@@ -20,4 +20,9 @@ environments {
             autoStartup = true
         }
     }
+    development {
+        quartz {
+            autoStartup = false
+        }
+    }
 }

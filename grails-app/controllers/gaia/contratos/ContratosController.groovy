@@ -2,6 +2,12 @@ package gaia.contratos
 
 import gaia.Contratos.Adendum
 import gaia.Contratos.DashBoardContratos
+import gaia.Contratos.DetalleEgreso
+import gaia.Contratos.DetallePintura
+import gaia.Contratos.Egreso
+import gaia.Contratos.SubDetallePintura
+import gaia.Contratos.esicc.Dotacion
+import gaia.Contratos.esicc.Pedido
 import gaia.documentos.Inspector
 import gaia.documentos.InspectorEstacion
 import gaia.documentos.Responsable
@@ -52,8 +58,9 @@ class ContratosController extends Shield {
         def check = new Date().plus(dias)
         def contratos= Adendum.findAllByCliente(estacion.codigo,[sort:"fin",order:"desc"])
         def inicial = [:]
+        def sql
         try {
-            def sql = new Sql(dataSource_erp)
+            sql = new Sql(dataSource_erp)
 
             sql.eachRow("select * from CLIENTE where TIPO_CLIENTE=1 and ESTADO_CLIENTE='A' and CODIGO_CLIENTE='${estacion.codigo}'".toString()) { r ->
                 //if(r["FECHA_TERMINA_CONTRATO"]!=null){
@@ -65,7 +72,26 @@ class ContratosController extends Shield {
         }catch (e){
             println "error de sybase "+e.printStackTrace()
         }
-        [estacion: estacion, contratos: contratos, params: params,dash:dash,inicial:inicial,check:check]
+        finally {
+            sql.close()
+        }
+        
+        def uniformes = Pedido.findAllByEstacion(estacion,[sort:"fecha",order: "desc"])
+        def pinturas = DetallePintura.findAllByCliente(estacion.codigo,[sort: "fin",order: "desc"])
+        [estacion: estacion, contratos: contratos, params: params,dash:dash,inicial:inicial,check:check,uniformes:uniformes,pinturas:pinturas]
 
+    }
+
+    def verUniforme(){
+
+        def pedido = Pedido.findByCodigo(params.dotacion)
+        def detalle = Dotacion.findAllByPedido(pedido)
+        [pedido:pedido,detalle:detalle]
+
+    }
+
+    def verPintura(){
+        def detalle = SubDetallePintura.findAllBySecuencialAndCliente(params.secuencial,params.cliente)
+        [detalle:detalle]
     }
 }

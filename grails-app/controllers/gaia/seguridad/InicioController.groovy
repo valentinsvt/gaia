@@ -16,7 +16,7 @@ class InicioController extends Shield {
 
         def sistema = Sistema.findByCodigo(params.sistema)
         session.sistema=sistema
-        println "controlador "+sistema.controlador.nombre
+//        println "controlador "+sistema.controlador.nombre
         redirect(controller: sistema.controlador.nombre)
 
 

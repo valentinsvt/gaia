@@ -1,6 +1,7 @@
 package gaia.seguridad
 
 import gaia.alertas.Alerta
+import gaia.documentos.Responsable
 import gaia.estaciones.Estacion
 
 class LoginController {
@@ -222,7 +223,7 @@ class LoginController {
     }
 
     def remoteLogin(){
-        println "params "+params
+//        println "params "+params
         if(!params.token)
             response.sendError(403)
         def data = params.token.split("\\|")
@@ -249,8 +250,15 @@ class LoginController {
             session.perfil = perfil
             session.usuarioKerberos = usuario.login
             session.tipo="usuario"
-            if(perfil==perfilSupervisor)
-                session.tipo="cliente"
+//            if(perfil==perfilSupervisor)
+//                session.tipo="cliente"
+
+            def resposable = Responsable.findByLogin(usuario.login)
+
+            if(resposable){
+                if(resposable.codigoSupervisor!="" && resposable.codigoSupervisor!=null)
+                    session.tipo="cliente"
+            }
             println "tipo "+session.tipo
             redirect(controller: "inicio",action: "index")
         }

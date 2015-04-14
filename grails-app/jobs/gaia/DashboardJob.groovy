@@ -6,10 +6,10 @@ import gaia.estaciones.Estacion
 
 class DashboardJob {
     static triggers = {
-        simple name: 'dashJob', startDelay: 1000*20, repeatInterval: 1000*60*60
+        simple name: 'dashJob', startDelay: 1000*100, repeatInterval: 1000*60*60
         //simple name: 'mySimpleTrigger', startDelay: 60000, repeatInterval: 1000
     }
-
+    final static descripcion="Proceso que se encarga de refrescar los indicadores para la documentación de gestión ambiental "
     def execute() {
         // execute job
         println "Ejecución DashBoardJob "+new Date().format("dd-MM-yyyy HH:mm:ss")

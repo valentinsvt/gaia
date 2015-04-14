@@ -9,10 +9,10 @@ import javax.print.Doc
 
 class DocumentosJob {
     static triggers = {
-        simple name: 'documentosJob', startDelay: 1000*50, repeatInterval: 1000*60*60*7
+        simple name: 'documentosJob', startDelay: 1000*150, repeatInterval: 1000*60*60*7
         //simple name: 'mySimpleTrigger', startDelay: 60000, repeatInterval: 1000
     }
-
+    final static descripcion="Proceso que se encarga de generar alertas de los documentos por vencer en el módulo de gestión ambiental"
     def execute() {
         // execute job
         println "Ejecución documentosJob "+new Date().format("dd-MM-yyyy HH:mm:ss")

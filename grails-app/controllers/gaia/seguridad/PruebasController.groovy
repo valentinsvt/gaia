@@ -2,7 +2,11 @@ package gaia.seguridad
 
 import gaia.Contratos.Adendum
 import gaia.Contratos.DashBoardContratos
+import gaia.Contratos.DetallePintura
+import gaia.Contratos.Egreso
 import gaia.Contratos.TipoContrato
+import gaia.Contratos.esicc.Pedido
+import gaia.Contratos.esicc.PeriodoDotacion
 import gaia.documentos.Dashboard
 import gaia.documentos.Inspector
 import gaia.documentos.InspectorEstacion
@@ -149,6 +153,51 @@ class PruebasController {
             println("update cliente set codigo_dnh='${r['CODIGO_DNH']}' where codigo_cliente = '${r['CODIGO_CLIENTE']}' and codigo_aplicacion=1 and estado_cliente='A' and tipo_cliente=1 ")
             println "update ${r['CODIGO_CLIENTE']} "+sqlCli.execute("update cliente set codigo_dnh='${r['CODIGO_DNH']}' where codigo_cliente = '${r['CODIGO_CLIENTE']}' and codigo_aplicacion=1 and estado_cliente='A' and tipo_cliente=1 ".toString())
 
+        }
+        render "ok"
+    }
+
+
+    def cargaUniforme(){
+        def periodo = PeriodoDotacion.findByEstado("A")
+        Estacion.findAll("from Estacion where aplicacion = 1 and estado='A' and tipo=1").each { estacion ->
+            def dash = DashBoardContratos.findByEstacion(estacion)
+
+            if (!dash) {
+                dash = new DashBoardContratos()
+                dash.estacion = estacion
+            }
+            dash.ultimoUniforme=null
+            def pedido = Pedido.findAllByEstacionAndPeriodo(estacion,periodo)
+            println "pedido "+pedido
+            if(pedido.size()>0){
+                pedido.each {p->
+                    if(p.estado=="A")
+                        dash.ultimoUniforme=periodo.fecha
+                }
+
+            }
+
+            dash.save(flush: true)
+
+        }
+        render "ok"
+    }
+
+    def cargarPintura(){
+        Estacion.findAll("from Estacion where aplicacion = 1 and estado='A' and tipo=1").each { estacion ->
+            def dash = DashBoardContratos.findByEstacion(estacion)
+            if (!dash) {
+                dash = new DashBoardContratos()
+                dash.estacion = estacion
+            }
+
+            def detalles = DetallePintura.findAllByCliente(estacion.codigo,[sort: "fin",order: "desc"])
+            println "detalles "+detalles
+            if(detalles.size()>0){
+                dash.ultimaPintura=detalles.first().fin
+            }
+            dash.save(flush: true)
         }
         render "ok"
     }

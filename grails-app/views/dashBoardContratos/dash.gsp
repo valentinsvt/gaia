@@ -38,6 +38,48 @@
             </div>
         </g:link>
     </div>
+    <div class="card" style="width:310px;">
+        <div class="titulo-card"><i class="fa fa-shopping-cart"></i> Dotación semestral</div>
+        <g:link controller="contratos" action="listaSemaforos" params="[search:'green-equipo']" style="text-decoration: none">
+            <div class="cardContent">
+                <div class="circle-card ${colores[0]}">${equipo}</div>
+                Estaciones con dotación vigente
+            </div>
+        </g:link>
+        <g:link controller="contratos" action="listaSemaforos" params="[search:'orange-equipo']" style="text-decoration: none">
+            <div class="cardContent">
+                <div class="circle-card ${colores[1]}">${equipoWarning}</div>
+                Estaciones con dotación por caducar
+            </div>
+        </g:link>
+        <g:link controller="contratos" action="listaSemaforos" params="[search:'red-equipo']" style="text-decoration: none">
+            <div class="cardContent">
+                <div class="circle-card svt-bg-danger">${total-(equipo+equipoWarning)}</div>
+                Estaciones sin dotación vigente
+            </div>
+        </g:link>
+    </div>
+    <div class="card" style="width:310px;">
+        <div class="titulo-card"><i class="fa fa-paint-brush"></i> Pintura</div>
+        <g:link controller="contratos" action="listaSemaforos" params="[search:'green-pintura']" style="text-decoration: none">
+            <div class="cardContent">
+                <div class="circle-card ${colores[0]}">${pintura}</div>
+                Estaciones con pintura vigente
+            </div>
+        </g:link>
+        <g:link controller="contratos" action="listaSemaforos" params="[search:'orange-pintura']" style="text-decoration: none">
+            <div class="cardContent">
+                <div class="circle-card ${colores[1]}">${pinturaWarning}</div>
+                Estaciones con pintura por caducar
+            </div>
+        </g:link>
+        <g:link controller="contratos" action="listaSemaforos" params="[search:'red-pintura']" style="text-decoration: none">
+            <div class="cardContent">
+                <div class="circle-card svt-bg-danger">${total-(pintura+pinturaWarning)}</div>
+                Estaciones sin pintura vigente
+            </div>
+        </g:link>
+    </div>
 </div>
 
 

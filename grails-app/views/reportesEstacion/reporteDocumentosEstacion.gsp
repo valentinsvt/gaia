@@ -1,17 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: Fabricio
-  Date: 07/03/2015
-  Time: 11:12
---%>
-
-<%--
-  Created by IntelliJ IDEA.
-  User: Fabricio
-  Date: 17/02/2015
-  Time: 12:36
---%>
-
 <%@ page contentType="text/html;charset=UTF-8" %>
 <html>
 <head>
