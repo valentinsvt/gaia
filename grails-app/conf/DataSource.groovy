@@ -45,6 +45,12 @@ environments {
             url = "jdbc:mysql://localhost/esicc?useUnicode=yes&characterEncoding=UTF-8"
             username = "root"
             password = "eldia2k"
+            properties {
+                validationQuery="select 1"
+                testWhileIdle=true
+                timeBetweenEvictionRunsMillis=60000
+
+            }
         }
         dataSource_erp {
             pooled = false
