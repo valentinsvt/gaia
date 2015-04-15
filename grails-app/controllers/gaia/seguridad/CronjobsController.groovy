@@ -9,7 +9,7 @@ import org.quartz.impl.matchers.GroupMatcher
 
 import static org.quartz.impl.matchers.GroupMatcher.jobGroupEquals
 
-class CronjobsController {
+class CronjobsController extends Shield {
     Scheduler quartzScheduler
     static final Map<String, Trigger> triggers = [:]
     def index() {

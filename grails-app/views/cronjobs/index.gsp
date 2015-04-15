@@ -98,7 +98,7 @@
                                         <a href="<g:createLink action="resume" params="[jobName:job.name, jobGroup:job.group]"/>"><img class="quartz-tooltip" data-tooltip="Activar la ejecución del proceso" src="<g:resource dir="images" file="resume.png" plugin="quartz-monitor"/>"></a>
                                     </g:if>
                                     <g:elseif test="${job.trigger.mayFireAgain()}">
-                                        <a href="<g:createLink action="pause" params="[jobName:job.name, jobGroup:job.group]"/>"><img class="quartz-tooltip" data-tooltip="Pausar la ejecucuón del proceso" src="<g:resource dir="images" file="pause.png" plugin="quartz-monitor"/>"></a>
+                                        <a href="<g:createLink action="pause" params="[jobName:job.name, jobGroup:job.group]"/>"><img class="quartz-tooltip" data-tooltip="Pausar la ejecución del proceso" src="<g:resource dir="images" file="pause.png" plugin="quartz-monitor"/>"></a>
                                     </g:elseif>
                                 </g:if>
                                 <g:else>
