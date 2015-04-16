@@ -57,10 +57,11 @@
 </head>
 <body>
 <div class="row">
-    <g:each in="${gaia.seguridad.Sistema.list([sort: "id"])}" var="sistema" >
+    <g:each in="${gaia.seguridad.Sistema.list([sort: "id"])}" var="sistema" status="i" >
         <g:if test="${sistema.codigo!='T'}">
-            <g:link controller="inicio" action="modulos" params="[sistema:sistema.codigo]" title="${sistema.descripcion}" >
-                <div class="col-md-3">
+
+            <div class="col-md-3">
+                <g:link controller="inicio" action="modulos" params="[sistema:sistema.codigo]" title="${sistema.descripcion}" id="link_${i}" >
                     <div class="link-modulo">
                         <div class="imagen-link" style="padding-left: 14px">
                             <img src="${resource(dir: 'images',file: sistema.imagen)}" height="100%" >
@@ -69,12 +70,10 @@
                             ${sistema.nombre}
                         </div>
                     </div>
-                </div>
-            </g:link>
+                </g:link>
+            </div>
         </g:if>
     </g:each>
-
-
 </div>
 </body>
 </html>
