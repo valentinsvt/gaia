@@ -1,6 +1,6 @@
 package gaia.seguridad
 
-class IconoController {
+class IconoController extends Shield{
     static final sistema="T"
     /**
      * Acción llamada con ajax que muestra los iconos disponibles para acciones y módulos

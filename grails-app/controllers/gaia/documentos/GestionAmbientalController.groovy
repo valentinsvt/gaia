@@ -1,8 +1,9 @@
 package gaia.documentos
 
 import gaia.alertas.Alerta
+import gaia.seguridad.Shield
 
-class GestionAmbientalController {
+class GestionAmbientalController extends Shield {
     static final sistema="AMBT"
     def index() {
         if(session.tipo=="cliente") {
