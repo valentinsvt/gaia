@@ -18,7 +18,7 @@ class ContratosJob {
     def dataSource_erp
 
     def execute() {
-        //println "Ejecución contratosJob "+new Date().format("dd-MM-yyyy HH:mm:ss")
+        println "Ejecución contratosJob "+new Date().format("dd-MM-yyyy HH:mm:ss")
         def periodo = PeriodoDotacion.findByEstado("A")
         //println "periodo  "+periodo
         /*Indicador de los contratos*/

@@ -1,5 +1,9 @@
 package gaia.reportes
 
+import gaia.Contratos.DetallePintura
+import gaia.Contratos.ItemImagen
+import gaia.Contratos.SubDetallePintura
+import gaia.Contratos.esicc.PeriodoDotacion
 import gaia.documentos.Consultor
 import gaia.documentos.Documento
 import gaia.documentos.Entidad
@@ -347,5 +351,52 @@ class ReportesEstacionController {
 
         return [documentos: documentos, consultor: consultor]
 
+    }
+
+    def reporteItemPintura(){
+        def items = ItemImagen.list([sort: "descripcion"])
+        [items:items]
+    }
+
+    def itemsPintura(){
+
+        def item = ItemImagen.findByCodigo(params.codigo)
+
+        def detalles = DetallePintura.findAllByFinBetween(new Date().parse("dd-MM-yyyy",params.desde),new Date().parse("dd-MM-yyyy",params.hasta),[sort: "cliente"])
+        def datos = []
+        detalles.each{d->
+           def sub = SubDetallePintura.findAll("from SubDetallePintura where item=${item.codigo} and secuencial=${d.secuencial}")
+            if(sub.size()>0){
+                sub=sub.first()
+                def tmp = [:]
+                tmp.put("estacion",Estacion.findByCodigoAndAplicacion(d.cliente,1))
+                tmp.put("fecha",d.fin)
+                tmp.put("factura",d.numeroFactura)
+                tmp.put("sub",sub)
+                datos.add(tmp)
+            }
+
+        }
+       [datos:datos]
+    }
+    def itemsPinturaPdf(){
+        def item = ItemImagen.findByCodigo(params.codigo)
+
+        def detalles = DetallePintura.findAllByFinBetween(new Date().parse("dd-MM-yyyy",params.desde),new Date().parse("dd-MM-yyyy",params.hasta),[sort: "cliente"])
+        def datos = []
+        detalles.each{d->
+            def sub = SubDetallePintura.findAll("from SubDetallePintura where item=${item.codigo} and secuencial=${d.secuencial}")
+            if(sub.size()>0){
+                sub=sub.first()
+                def tmp = [:]
+                tmp.put("estacion",Estacion.findByCodigoAndAplicacion(d.cliente,1))
+                tmp.put("fecha",d.fin)
+                tmp.put("factura",d.numeroFactura)
+                tmp.put("sub",sub)
+                datos.add(tmp)
+            }
+
+        }
+        [datos:datos,item:item]
     }
 }
