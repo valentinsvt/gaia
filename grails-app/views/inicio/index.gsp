@@ -34,7 +34,7 @@
         border-radius: 5px;
         height: 85px;
         padding: 3px;
-        width: 59%;
+        width: 55%;
         display: inline-table;
         line-height: 78px;
         vertical-align: middle;
@@ -56,24 +56,25 @@
     <link href="${g.resource(dir: 'css/custom/', file: 'dashboard.css')}" rel="stylesheet" type="text/css">
 </head>
 <body>
-<div class="row">
-    <g:each in="${gaia.seguridad.Sistema.list([sort: "id"])}" var="sistema" status="i" >
-        <g:if test="${sistema.codigo!='T'}">
-
-            <div class="col-md-3">
-                <g:link controller="inicio" action="modulos" params="[sistema:sistema.codigo]" title="${sistema.descripcion}" id="link_${i}" >
-                    <div class="link-modulo">
-                        <div class="imagen-link" style="padding-left: 14px">
-                            <img src="${resource(dir: 'images',file: sistema.imagen)}" height="100%" >
+<elm:container titulo=" Panel de control Petróleos y servicios - Seleccione el módulo para ingresar" tipo="horizontal">
+    <div class="row">
+        <g:each in="${session.sistemas}" var="sistema" status="i" >
+            <g:if test="${sistema.codigo!='T'}">
+                <div class="col-md-3" style="margin-top:20px;">
+                    <g:link controller="inicio" action="modulos" params="[sistema:sistema.codigo]" title="${sistema.descripcion}" id="link_${i}"  >
+                        <div class="link-modulo">
+                            <div class="imagen-link" style="padding-left: 8px">
+                                <img src="${resource(dir: 'images',file: sistema.imagen)}" height="100%" >
+                            </div>
+                            <div class="texto-link">
+                                ${sistema.nombre}
+                            </div>
                         </div>
-                        <div class="texto-link">
-                            ${sistema.nombre}
-                        </div>
-                    </div>
-                </g:link>
-            </div>
-        </g:if>
-    </g:each>
-</div>
+                    </g:link>
+                </div>
+            </g:if>
+        </g:each>
+    </div>
+</elm:container>
 </body>
 </html>

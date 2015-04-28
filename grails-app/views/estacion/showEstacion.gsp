@@ -376,6 +376,7 @@
                 bootbox.dialog({
                     title   : "Datos de la estación",
                     message : msg,
+                    class: "modal-lg",
                     buttons : {
                         ok : {
                             label     : "Aceptar",

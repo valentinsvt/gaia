@@ -1,6 +1,7 @@
 package gaia.contratos
 
 import gaia.Contratos.Adendum
+import gaia.Contratos.Cliente
 import gaia.Contratos.DashBoardContratos
 import gaia.Contratos.DetalleEgreso
 import gaia.Contratos.DetallePintura
@@ -19,7 +20,7 @@ import groovy.sql.Sql
 
 class ContratosController extends Shield {
     static final sistema="CNTR"
-    def dataSource_erp
+
 
     def index(){
         if(session.tipo=="cliente"){
@@ -57,28 +58,19 @@ class ContratosController extends Shield {
         def dias = Parametros.getDiasContrato()
         def check = new Date().plus(dias)
         def contratos= Adendum.findAllByCliente(estacion.codigo,[sort:"fin",order:"desc"])
+        def cliente = Cliente.findByCodigoAndTipo(params.id,1)
         def inicial = [:]
-        def sql
-        try {
-            sql = new Sql(dataSource_erp)
+        inicial["tipo"] = "INICIAL"
+        inicial["inicio"] = cliente.fechaPrimerContrato
+        inicial["fin"] = cliente.fechaTerminaContrato
 
-            sql.eachRow("select * from CLIENTE where TIPO_CLIENTE=1 and ESTADO_CLIENTE='A' and CODIGO_CLIENTE='${estacion.codigo}'".toString()) { r ->
-                //if(r["FECHA_TERMINA_CONTRATO"]!=null){
-                inicial["tipo"] = "INICIAL"
-                inicial["inicio"] = r["FECHA_PRIMER_CONTRATO"]
-                inicial["fin"] = r["FECHA_TERMINA_CONTRATO"]
-                //}
-            }
-        }catch (e){
-            println "error de sybase "+e.printStackTrace()
-        }
-        finally {
-            sql.close()
-        }
-        
+
         def uniformes = Pedido.findAllByEstacion(estacion,[sort:"fecha",order: "desc"])
         def pinturas = DetallePintura.findAllByCliente(estacion.codigo,[sort: "fin",order: "desc"])
-        [estacion: estacion, contratos: contratos, params: params,dash:dash,inicial:inicial,check:check,uniformes:uniformes,pinturas:pinturas]
+
+
+
+        [estacion: estacion, contratos: contratos, params: params,dash:dash,inicial:inicial,check:check,uniformes:uniformes,pinturas:pinturas,cliente:cliente]
 
     }
 
@@ -94,4 +86,19 @@ class ContratosController extends Shield {
         def detalle = SubDetallePintura.findAllBySecuencialAndCliente(params.secuencial,params.cliente)
         [detalle:detalle]
     }
+
+    def show_ajax() {
+
+        if (params.id) {
+            def estacionInstance = Estacion.findByCodigoAndAplicacion(params.id, 1)
+            def cliente = Cliente.findByCodigoAndTipo(params.id, 1)
+            if (!estacionInstance) {
+                render "ERROR*No se encontró Estacion."
+                return
+            }
+            return [estacionInstance: estacionInstance,cliente: cliente]
+        } else {
+            render "ERROR*No se encontró Estacion."
+        }
+    } //show para cargar con ajax en un dialog
 }

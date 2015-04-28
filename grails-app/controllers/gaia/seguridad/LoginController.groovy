@@ -210,16 +210,15 @@ class LoginController {
         def permisos = Permiso.findAllByPerfil(session.perfil)
         def hp = [:]
         permisos.each {
-//                println(it.accion.nombre+ " " + it.accion.control.nombre)
             if (hp[it.accion.control.nombre.toLowerCase()]) {
                 hp[it.accion.control.nombre.toLowerCase()].add(it.accion.nombre.toLowerCase())
             } else {
                 hp.put(it.accion.control.nombre.toLowerCase(), [it.accion.nombre.toLowerCase()])
             }
-
         }
+        session.sistemas = permisos.accion.sistema.unique().sort { it?.id }
+
         session.permisos = hp
-//        println "permisos menu "+session.permisos
     }
 
     def remoteLogin(){
@@ -260,6 +259,8 @@ class LoginController {
                     session.tipo="cliente"
             }
             println "tipo "+session.tipo
+            cargarPermisos()
+            println "sistemas "+session.sistemas
             redirect(controller: "inicio",action: "index")
         }
 

@@ -91,7 +91,7 @@
 .header-item{
     width: 19%;
     height: 100%;
-    display: inline-table;
+    display: inline-block;
     padding: 5px;
 }
 .header-content {

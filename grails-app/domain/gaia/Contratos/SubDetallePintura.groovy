@@ -14,9 +14,9 @@ class SubDetallePintura  implements Serializable{
         datasource 'erp'
         table 'SUBDETALLE_PINTURA'
         cache usage: 'read-write', include: 'non-lazy'
-        id composite:['secuencial', 'cliente','item']
         version false
         columns {
+            id column: 'ID'
             secuencial column: 'SECUENCIAL_PINTURA'
             cliente column: 'CODIGO_CLIENTE'
             item column: 'CODIGO_ITEM'

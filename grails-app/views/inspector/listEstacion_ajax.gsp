@@ -14,18 +14,18 @@
         %{--<th style="width: 30px;"></th>--}%
     </tr>
     </thead>
-    <tbody id="tbIns">
+    <tbody id="tbIns" style="font-size: 16px !important;">
     <g:if test="${inspectores.size() > 0}">
         <g:each in="${inspectores}" var="inspector">
             <g:set var="ins" value="${inspector.inspector}"/>
             <tr data-cons="${ins.id}" data-id="${inspector.id}">
-                <td>
+                <td style="font-weight: bold">
                     ${ins.nombre}
                 </td>
-                <td>
+                <td  style="font-weight: bold">
                     ${ins.telefono}
                 </td>
-                <td>
+                <td  style="font-weight: bold">
                     ${ins.mail}
                 </td>
                 %{--<td>--}%

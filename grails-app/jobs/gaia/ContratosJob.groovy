@@ -43,6 +43,8 @@ class ContratosJob {
             def detalles = DetallePintura.findAllByCliente(estacion.codigo,[sort: "fin",order: "desc"])
             if(detalles.size()>0){
                 dash.ultimaPintura=detalles.first().fin
+            }else{
+                dash.ultimaPintura=null
             }
             /*Indicador de la dotación semestral*/
 
@@ -54,6 +56,8 @@ class ContratosJob {
                     if(p.estado=="A")
                         dash.ultimoUniforme=periodo.fecha
                 }
+            }else{
+                dash.ultimoUniforme=null
             }
             dash.save(flush: true)
         }

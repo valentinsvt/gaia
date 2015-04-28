@@ -3,11 +3,12 @@ package gaia.Contratos
 class ItemImagen implements Serializable{
 
     Integer codigo
-    String tipo
+    String tipoItem
     String descripcion
     Double valor
     String unidad
     String estado
+    String tipo
 
     static auditable = false
     static mapping = {
@@ -19,10 +20,11 @@ class ItemImagen implements Serializable{
         columns {
             codigo column: 'CODIGO_ITEM'
             descripcion column: 'DESCRIPCION_ITEM'
-            tipo column: 'TIPO_ITEM'
+            tipoItem column: 'TIPO_ITEM'
             valor column: 'VALOR_ITEM'
             unidad column: 'UNIDAD_ITEM'
             estado column: 'ESTADO_ITEM'
+            tipo column: 'TIPO'
         }
     }
     static constraints = {

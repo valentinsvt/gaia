@@ -100,6 +100,7 @@ class SistemaController extends Shield {
      * Acción llamada con ajax que guarda la información de un elemento
      */
     def save_ajax() {
+
         def sistemaInstance = new Sistema()
         if(params.id) {
             sistemaInstance = Sistema.get(params.id)

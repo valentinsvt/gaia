@@ -7,83 +7,68 @@
 <div class="modal-contenido">
 <g:if test="${estacionInstance?.nombre}">
     <div class="row">
-        <div class="col-sm-3 show-label">
+        <div class="col-sm-2 show-label">
             Nombre
         </div>
-
-        <div class="col-sm-8">
+        <div class="col-sm-3">
             <g:fieldValue bean="${estacionInstance}" field="nombre"/>
         </div>
-
-    </div>
-</g:if>
-
-<g:if test="${estacionInstance?.ruc}">
-    <div class="row">
-        <div class="col-sm-3 show-label">
+        <div class="col-sm-1 show-label">
             Ruc
         </div>
-
-        <div class="col-sm-8">
+        <div class="col-sm-3">
             <g:fieldValue bean="${estacionInstance}" field="ruc"/>
         </div>
 
     </div>
 </g:if>
-
 <g:if test="${estacionInstance?.direccion}">
     <div class="row">
-        <div class="col-sm-3 show-label">
+        <div class="col-sm-2 show-label">
+            Mail
+        </div>
+        <div class="col-sm-3">
+            <g:fieldValue bean="${estacionInstance}" field="mail"/>
+        </div>
+        <div class="col-sm-1 show-label">
             Direccion
         </div>
-
-        <div class="col-sm-8">
+        <div class="col-sm-4">
             <g:fieldValue bean="${estacionInstance}" field="direccion"/>
         </div>
 
     </div>
 </g:if>
-
-<g:if test="${estacionInstance?.mail}">
-    <div class="row">
-        <div class="col-sm-3 show-label">
-            Mail
-        </div>
-
-        <div class="col-sm-8">
-            <g:fieldValue bean="${estacionInstance}" field="mail"/>
-        </div>
-
-    </div>
-</g:if>
-
 <g:if test="${estacionInstance?.telefono}">
     <div class="row">
-        <div class="col-sm-3 show-label">
+        <div class="col-sm-2 show-label">
             Telefono
         </div>
 
-        <div class="col-sm-8">
+        <div class="col-sm-3">
             <g:fieldValue bean="${estacionInstance}" field="telefono"/>
         </div>
-
-    </div>
-</g:if>
-<g:if test="${estacionInstance?.fax}">
-    <div class="row">
-        <div class="col-sm-3 show-label">
+        <div class="col-sm-1 show-label">
             Fax
         </div>
 
-        <div class="col-sm-8">
+        <div class="col-sm-3">
             <g:fieldValue bean="${estacionInstance}" field="fax"/>
         </div>
-
     </div>
 </g:if>
+<div class="row">
+    <div class="col-sm-2 show-label">
+        % comercialización
+    </div>
+    <div class="col-sm-3">
+        ${gaia.Contratos.DashBoardContratos.findByEstacion(estacionInstance)?.porcentajeComercializacion?.round(2)}
+    </div>
+
+</div>
 
 <div class="row">
-    <div class="col-sm-3 show-label">
+    <div class="col-sm-2 show-label">
         Código ARCH
     </div>
     <div class="col-sm-8">
@@ -91,18 +76,10 @@
     </div>
 
 </div>
-<div class="row">
-    <div class="col-sm-3 show-label">
-        Porcentaje comercialización
-    </div>
-    <div class="col-sm-8">
-        ${gaia.Contratos.DashBoardContratos.findByEstacion(estacionInstance)?.porcentajeComercializacion?.round(2)}
-    </div>
 
-</div>
 
 <div class="row">
-    <div class="col-sm-3 show-label">
+    <div class="col-sm-2 show-label">
         Propetario
     </div>
 
@@ -120,7 +97,7 @@
 
 <g:if test="${estacionInstance?.codigo}">
     <div class="row">
-        <div class="col-sm-3 show-label">
+        <div class="col-sm-2 show-label">
             Código
         </div>
 
@@ -133,7 +110,7 @@
 
 <g:if test="${estacionInstance?.codigo}">
     <div class="row">
-        <div class="col-sm-3 show-label">
+        <div class="col-sm-2 show-label">
             Provincia
         </div>
 
@@ -146,7 +123,7 @@
 </g:if>
 <g:if test="${estacionInstance?.codigo}">
     <div class="row">
-        <div class="col-sm-3 show-label">
+        <div class="col-sm-2 show-label">
             Cantón
         </div>
 
@@ -158,7 +135,7 @@
 </g:if>
 <g:if test="${estacionInstance?.codigo}">
     <div class="row">
-        <div class="col-sm-3 show-label">
+        <div class="col-sm-2 show-label">
             Parroquia
         </div>
 
@@ -170,7 +147,7 @@
 </g:if>
 
 <div class="row">
-    <div class="col-sm-3 show-label">
+    <div class="col-sm-2 show-label">
         Representante
     </div>
 
@@ -215,7 +192,7 @@
 
 
 <div class="row">
-    <div class="col-sm-3 show-label">
+    <div class="col-sm-2 show-label">
         Arrendatario
     </div>
 
@@ -226,7 +203,7 @@
 
 
 <div class="row">
-    <div class="col-sm-3 show-label">
+    <div class="col-sm-2 show-label">
         Representante arrendatario
     </div>
 
@@ -237,7 +214,7 @@
 
 
 <div class="row">
-    <div class="col-sm-3 show-label">
+    <div class="col-sm-2 show-label">
         Cédula representante arrendatario
     </div>
 
@@ -245,7 +222,5 @@
         ${estacionInstance.cedulaRepresentanteArrendatario}
     </div>
 </div>
-
-
 </div>
 </g:else>

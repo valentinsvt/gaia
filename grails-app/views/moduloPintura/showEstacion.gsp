@@ -57,7 +57,7 @@
 <body>
 <div class="btn-toolbar toolbar" style="margin-top: 10px;margin-bottom: 0;margin-left: -20px">
     <div class="btn-group">
-        <g:link controller="contratos" action="listaSemaforos" class="btn btn-default">
+        <g:link controller="moduloPintura" action="listaSemaforos" class="btn btn-default">
             <i class="fa fa-list"></i> Estaciones
         </g:link>
         <a href="#" class="btn btn-default detalles">
@@ -72,8 +72,7 @@
     </div>
 </div>
 <elm:container tipo="horizontal" titulo="Estación: ${estacion.nombre} - ${estacion.mail} - ${dash.porcentajeComercializacion}%">
-    <g:set var="contrato" value="${dash.getColorSemaforoContrato(check)}"/>
-    <g:set var="uniforme" value="${dash.getColorSemaforoUniforme()}"/>
+
     <g:set var="pintura" value="${dash.getColorSemaforoPintura()}"/>
     <div class="row" style="margin-top: 0">
         <div class="header-panel">
@@ -85,24 +84,7 @@
                     <i class="fa fa-info-circle" style="color:#FFA324 "></i> <b>Días crédito: </b> ${cliente.plazo?.toInteger()} <b style="margin-left: 45px">% comercialización:  </b>${dash.porcentajeComercializacion}%<br/>
                 </div>
             </div>
-            <div class="header-item">
-                <div class="titulo-card" style="text-align: left;padding-left: 15px">
-                    <i class="fa fa-newspaper-o"></i> Último Contrato
-                </div>
-                <div class="header-content" style="position: relative">
-                    <div class="circle-card ${contrato[0]}"  ></div>
-                    <div style="position: absolute;right: 40px;bottom: 20px">${dash.ultimoContrato?dash.ultimoContrato?.format("dd-MM-yyyy"):'N.A.'}</div>
-                </div>
-            </div>
-            <div class="header-item" style="background: transparent">
-                <div class="titulo-card" style="text-align: left;padding-left: 15px">
-                    <i class="fa fa-shopping-cart"></i> Última dotación
-                </div>
-                <div class="header-content" style="position: relative">
-                    <div class="circle-card ${uniforme[0]}"  ></div>
-                    <div style="position: absolute;right: 40px;bottom: 20px">${dash.ultimoUniforme?dash.ultimoUniforme?.format("dd-MM-yyyy"):'N.A.'}</div>
-                </div>
-            </div>
+
             <div class="header-item" style="background: transparent">
                 <div class="titulo-card" style="text-align: left;padding-left: 15px">
                     <i class="fa fa-paint-brush"></i> Última pintura
@@ -112,6 +94,22 @@
                     <div style="position: absolute;right: 40px;bottom: 20px">${dash.ultimaPintura?dash.ultimaPintura?.format("dd-MM-yyyy"):'N.A.'}</div>
                 </div>
             </div>
+            <div class="header-item" style="background: transparent">
+                <div class="titulo-card" style="text-align: left;padding-left: 15px">
+
+                </div>
+                <div class="header-content " style="background: transparent">
+                   &nbsp;
+                </div>
+            </div>
+            <div class="header-item" style="background: transparent">
+                <div class="titulo-card" style="text-align: left;padding-left: 15px">
+
+                </div>
+                <div class="header-content" style="background: transparent">
+                    &nbsp;
+                </div>
+            </div>
 
         </div>
     </div>
@@ -119,81 +117,13 @@
         <div role="tabpanel">
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
-                <li role="presentation" class="active bg-info"><a href="#contratos" aria-controls="home" role="tab" data-toggle="tab"><i class="fa fa-newspaper-o"></i> Contratos</a></li>
-                <li role="presentation" class=" bg-info"><a href="#uniforme" aria-controls="profile" role="tab" data-toggle="tab"><i class="fa fa-shopping-cart"></i> Dotación de uniformes</a></li>
+
                 <li role="presentation" class=" bg-info"><a href="#pintura" aria-controls="messages" role="tab" data-toggle="tab"><i class="fa fa-paint-brush"></i> Pintura y mantenimiento</a></li>
             </ul>
             <!-- Tab panes -->
             <div class="tab-content">
-                <div role="tabpanel" class="tab-pane active" id="contratos" style="padding-top: 20px;overflow-y: auto;height: 350px">
-                    <table class="table table-striped table-hover table-bordered" style="font-size: 11px">
-                        <thead>
-                        <tr>
-                            <th>Tipo</th>
-                            <th>Registro</th>
-                            <th>Vence</th>
-                            <th>Duración</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <g:each in="${contratos}" var="contrato">
-                            <tr class="tr-info ${contrato.tipo.id}">
-                                <td >${contrato.tipo.descripcion}</td>
-                                <td style="text-align: center">${contrato.inicio?.format("dd-MM-yyyy")}</td>
-                                <td style="text-align: center">${contrato.fin?.format("dd-MM-yyyy")}</td>
-                                <td style="text-align: center;width: 80px">${contrato.anios}</td>
-                            </tr>
-                        </g:each>
-                        <tr>
-                            <td>${inicial["tipo"]}</td>
-                            <td style="text-align: center">${inicial["inicio"]?.format("dd-MM-yyyy")}</td>
-                            <td style="text-align: center">${inicial["fin"]?.format("dd-MM-yyyy")}</td>
-                            <td></td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div role="tabpanel" class="tab-pane" id="uniforme" style="padding-top: 20px;overflow-y: auto;height: 350px">
-                    <table class="table table-striped table-hover table-bordered" style="font-size: 11px">
-                        <thead>
-                        <tr>
-                            <th>Supervisor</th>
-                            <th>Periodo</th>
-                            <th>Estado</th>
-                            <th>Solicitado</th>
-                            <th>Entregado</th>
-                            <th>Total</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <g:set var="total" value="${0}"></g:set>
-                        <g:each in="${uniformes}" var="uniforme">
 
-                            <g:set var="total" value="${total+uniforme.getTotal()}"></g:set>
-
-                            <tr class="tr-info">
-                                <td style="text-align: center">${gaia.documentos.Inspector.findByCodigo(uniforme.supervisor).nombre}</td>
-                                <td style="text-align: center">${uniforme.periodo}</td>
-                                <td style="text-align: right">${uniforme.estado}</td>
-                                <td style="text-align: center">${uniforme.fecha?.format('dd-MM-yyyy')}</td>
-                                <td style="text-align: center">${uniforme.estado=="A"?uniforme.periodo.fecha?.format("dd-MM-yyyy"):'N.A.'}</td>
-                                <td style="text-align: right">${uniforme.getTotal()}</td>
-                                <td style="text-align: center;width: 50px">
-                                    <a href="#" title="Ver" class="ver-uniforme btn btn-sm btn-primary" iden="${uniforme.codigo}">
-                                        <i class="fa fa-search"></i>
-                                    </a>
-                                </td>
-                            </tr>
-                        </g:each>
-                        <tr>
-                            <td colspan="5" style="font-weight: bold">TOTAL</td>
-                            <td style="text-align: right;font-weight: bold">${total.toDouble().round(2)}</td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div role="tabpanel" class="tab-pane" id="pintura" style="padding-top: 20px;overflow-y: auto;height: 350px">
+                <div role="tabpanel" class="tab-pane active" id="pintura" style="padding-top: 20px;overflow-y: auto;height: 350px">
                     <table class="table table-striped table-hover table-bordered" style="font-size: 11px">
                         <thead>
                         <tr>

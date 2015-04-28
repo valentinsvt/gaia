@@ -50,9 +50,9 @@ class DashBoardContratos {
         if(!this.ultimoUniforme)
             return [colores[2],"red-equipo"]
         def now = new Date()
-        def check = 180
+        def check = 360
         def fechaMaxima = this.ultimoUniforme.plus(check)
-        def fechaNaranja = this.ultimoUniforme.plus(check-30)
+        def fechaNaranja = this.ultimoUniforme.plus(check-100)
 
         if (fechaMaxima > now) {
             if(fechaNaranja<now){
@@ -83,4 +83,31 @@ class DashBoardContratos {
         }
         return [colores[2],"red-pintura"]
     }
+
+    def getParcialesPintura(inicio,fin){
+
+        def pintura = DetallePintura.findByClienteAndFinBetween(this.estacion.codigo,inicio,fin,[sort: "fin",order: "desc"])
+        def parametros = ["pintura":[1,2],"mantenimiento":[3],"rotulacion":[4,5,6,7,8,9]]
+        def p=0,r=0,m=0
+        if(pintura){
+            def detalles = SubDetallePintura.findAllBySecuencialAndCliente(pintura.secuencial,estacion.codigo)
+            detalles.each {d->
+                if(parametros["pintura"].contains(d.item.codigo)){
+//                    println "item "+d.item.descripcion +" suma en pintura"
+                    p+=d.total
+                }
+                if(parametros["mantenimiento"].contains(d.item.codigo)){
+//                    println "item "+d.item.descripcion +" suma en mantenimiento"
+                    m+=d.total
+                }
+                if(parametros["rotulacion"].contains(d.item.codigo)){
+//                    println "item "+d.item.descripcion +" suma en rotulacion"
+                    r+=d.total
+                }
+            }
+        }
+        return ["Pintura":p,"Rotulación":r,"Mantenimiento":m,"factura":pintura?.numeroFactura]
+    }
+
+
 }
