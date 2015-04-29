@@ -4,13 +4,13 @@ class Cliente {
 
     String codigo
     String ubicaicon
-    int tipo
+    Integer tipo
     String supervisor
     String filial
     String nombre
     String propietario
     String direccion
-    int tipoVenta
+    Integer tipoVenta
     String nombreRepresentante
     String telefono
     Date fechaInscripcion

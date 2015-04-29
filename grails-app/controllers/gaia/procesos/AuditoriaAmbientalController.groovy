@@ -109,6 +109,10 @@ class AuditoriaAmbientalController extends Shield {
                 tipoDoc = TipoDocumento.findByCodigo("TP39")
                 redirectStr = "auditoria"
                 break;
+            case "pma":
+                tipoDoc = TipoDocumento.findByCodigo("TP51")
+                redirectStr = "auditoria"
+                break;
 
         }
         def pathPart = "documentos/${estacion.codigo}/"
@@ -252,9 +256,10 @@ class AuditoriaAmbientalController extends Shield {
         def detalleObs = Detalle.findAll("from Detalle where proceso=${proceso.id} and tipo="+TipoDocumento.findByCodigo("TP07").id+" and paso=2 order by id desc")
         def detalleAprobacion = Detalle.findByProcesoAndTipo(proceso,TipoDocumento.findByCodigo("TP17"))
         def detallePar =  Detalle.findByProcesoAndTipo(proceso,TipoDocumento.findByCodigo("TP39"))
+        def detallePma =  Detalle.findByProcesoAndTipo(proceso,TipoDocumento.findByCodigo("TP51"))
         if(detalleObs.size()>0)
             detalleObs =  detalleObs.pop()
-        [proceso:proceso,estacion: estacion,detalleObs: detalleObs,detalleApb: detalleAprobacion,detalleAudt:detalleAudt,detallePar:detallePar]
+        [proceso:proceso,estacion: estacion,detalleObs: detalleObs,detalleApb: detalleAprobacion,detalleAudt:detalleAudt,detallePar:detallePar,detallePma:detallePma]
     }
 
     def auditoriaPago(){
