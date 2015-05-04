@@ -17,9 +17,11 @@ environments {
     development {
         dataSource {
             dbCreate = "update" // one of 'create', 'create-drop','update'
-            url = "jdbc:mysql://localhost/esicc?useUnicode=yes&characterEncoding=UTF-8"
+            url = "jdbc:mysql://190.107.66.50/esicc?useUnicode=yes&characterEncoding=UTF-8"
+//            url = "jdbc:mysql://localhost/esicc?useUnicode=yes&characterEncoding=UTF-8"
             username = "root"
-            password = ""
+            password = "eldia2k"
+//            password = ""
         }
         dataSource_erp {
             pooled = false
@@ -29,6 +31,36 @@ environments {
             dialect = org.hibernate.dialect.SybaseDialect
             dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
             url = "jdbc:sybase:Tds:192.168.2.100:5000/PYS"
+//            properties {
+//                validationQuery="select 1"
+//                testWhileIdle=true
+//                minEvictableIdleTimeMillis=1000 * 60 * 10
+//                timeBetweenEvictionRunsMillis=1000 * 60 * 10
+//                numTestsPerEvictionRun=3
+//                testOnBorrow=true
+//                testWhileIdle=false
+//                testOnReturn=true
+//            }
+        }
+
+        dataSource_nomina {
+            pooled = false
+            driverClassName ="com.sybase.jdbc4.jdbc.SybDriver"
+            username = "sa"
+            password = ""
+            dialect = org.hibernate.dialect.SybaseDialect
+            dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
+            url = "jdbc:sybase:Tds:192.168.2.100:5000/NOMINA"
+//            properties {
+//                validationQuery="select 1"
+//                testWhileIdle=true
+//                minEvictableIdleTimeMillis=1000 * 60 * 10
+//                timeBetweenEvictionRunsMillis=1000 * 60 * 10
+//                numTestsPerEvictionRun=3
+//                testOnBorrow=true
+//                testWhileIdle=false
+//                testOnReturn=true
+//            }
         }
 
     }
