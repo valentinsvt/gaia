@@ -93,5 +93,24 @@ environments {
             dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
             url = "jdbc:sybase:Tds:192.168.2.100:5000/PYS"
         }
+        dataSource_nomina {
+            pooled = false
+            driverClassName ="com.sybase.jdbc4.jdbc.SybDriver"
+            username = "sa"
+            password = ""
+            dialect = org.hibernate.dialect.SybaseDialect
+            dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
+            url = "jdbc:sybase:Tds:192.168.2.100:5000/NOMINA"
+//            properties {
+//                validationQuery="select 1"
+//                testWhileIdle=true
+//                minEvictableIdleTimeMillis=1000 * 60 * 10
+//                timeBetweenEvictionRunsMillis=1000 * 60 * 10
+//                numTestsPerEvictionRun=3
+//                testOnBorrow=true
+//                testWhileIdle=false
+//                testOnReturn=true
+//            }
+        }
     }
 }
