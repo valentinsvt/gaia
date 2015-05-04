@@ -254,11 +254,11 @@ class AccionesController extends Shield {
                                             }
                                             total++
                                         }else{
-                                            if(accn.sistema!=sistema){
-                                                println "${accn} cambio de sistema --> "+sistema
-                                                accn.sistema=sistema
-                                                accn.save(flush: true)
-                                            }
+//                                            if(accn.sistema!=sistema){
+//                                                println "${accn} cambio de sistema --> "+sistema
+//                                                accn.sistema=sistema
+//                                                accn.save(flush: true)
+//                                            }
                                         }
                                         t.add(s.getAt(2))
                                     } else {

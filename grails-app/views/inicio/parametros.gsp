@@ -91,7 +91,7 @@
                         <li>
                             %{--<i class="fa-li fa fa-server text-info"></i>--}%
                             <i class="fa-li fa fa-cogs text-info"></i>
-                            <g:link class="over" controller="parametros" action="list">
+                            <g:link class="over" controller="administracion" action="list">
                                 Parámetros
                             </g:link>
 

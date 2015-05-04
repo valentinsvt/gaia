@@ -102,13 +102,14 @@
     function verEstacion(id) {
         $.ajax({
             type: "POST",
-            url: "${createLink(controller:'estacion', action:'show_ajax')}",
+            url: "${createLink(controller:'contratos', action:'show_ajax')}",
             data: {
                 id: id
             },
             success: function (msg) {
                 bootbox.dialog({
                     title: "Datos de la estación",
+                    class:"modal-lg",
                     message: msg,
                     buttons: {
                         ok: {

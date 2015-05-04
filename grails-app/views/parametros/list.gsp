@@ -21,7 +21,7 @@
                 <div class="input-group">
                     <input type="text" class="form-control input-search" placeholder="Buscar" value="${params.search}">
                     <span class="input-group-btn">
-                        <g:link controller="parametros" action="list" class="btn btn-default btn-search">
+                        <g:link controller="administracion" action="list" class="btn btn-default btn-search">
                             <i class="fa fa-search"></i>&nbsp;
                         </g:link>
                     </span>
@@ -117,7 +117,7 @@
                                 openLoader("Eliminando Parametros");
                                 $.ajax({
                                     type    : "POST",
-                                    url     : '${createLink(controller:'parametros', action:'delete_ajax')}',
+                                    url     : '${createLink(controller:'administracion', action:'delete_ajax')}',
                                     data    : {
                                         id : itemId
                                     },
@@ -147,7 +147,7 @@
                 var data = id ? { id: id } : {};
                 $.ajax({
                     type    : "POST",
-                    url     : "${createLink(controller:'parametros', action:'form_ajax')}",
+                    url     : "${createLink(controller:'administracion', action:'form_ajax')}",
                     data    : data,
                     success : function (msg) {
                         var b = bootbox.dialog({
@@ -182,7 +182,7 @@
             function verParametros(id) {
             $.ajax({
                     type    : "POST",
-                    url     : "${createLink(controller:'parametros', action:'show_ajax')}",
+                    url     : "${createLink(controller:'administracion', action:'show_ajax')}",
                     data    : {
                         id : id
                     },

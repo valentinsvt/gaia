@@ -101,4 +101,19 @@ class ContratosController extends Shield {
             render "ERROR*No se encontró Estacion."
         }
     } //show para cargar con ajax en un dialog
+    def show_ajax_industria() {
+//        println "show idus "+params
+        if (params.id) {
+//            def estacionInstance = Estacion.findByCodigoAndAplicacion(params.id, 1)
+            def cliente = Cliente.findByCodigoAndTipo(params.id, 2)
+//            println "cliente "+cliente
+            if (!cliente) {
+                render "No se encontró el cliente."
+                return
+            }
+            return [cliente: cliente]
+        } else {
+            render "ERROR*No se encontró Estacion."
+        }
+    } //show para cargar con ajax en un dialog
 }

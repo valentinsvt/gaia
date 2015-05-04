@@ -2,13 +2,13 @@
 <html>
 <head>
     <meta name="layout" content="main"/>
-    <title>Estado documentación por estación</title>
+    <title>Empleados</title>
     <link href="${g.resource(dir: 'css/custom/', file: 'dashboard.css')}" rel="stylesheet" type="text/css">
     <imp:js src="${resource(dir: 'js/plugins/jquery-highlight',file: 'jquery-highlight1.js')}"></imp:js>
     <style>
     .td-semaforo{
         text-align: center;
-        width: 110px;
+        width: 90px;
     }
     .circle-card{
         width: 22px ;
@@ -21,14 +21,14 @@
     </style>
 </head>
 <body>
-<elm:container tipo="horizontal" titulo="Pintura y mantenimiento por estación">
+<elm:container tipo="horizontal" titulo="Empleados">
 
     <table class="table table-striped table-hover table-bordered" style="margin-top: 15px;font-size: 12px">
         <thead>
         <tr>
             <th>
                 <div class="row" style="margin-top: 0px">
-                    <div class="col-md-5">
+                    <div class="col-md-6">
                         <div class="input-group" >
                             <input type="text" class="form-control input-sm" id="txt-buscar" placeholder="Buscar">
                             <span class="input-group-addon svt-bg-primary " id="btn-buscar" style="cursor: pointer" >
@@ -36,37 +36,48 @@
                             </span>
                         </div>
                     </div>
-                    <div class="col-md-2">
-                        Estación
+                    <div class="col-md-1">
+                        Empleado
                     </div>
-                    <div class="col-md-3 col-md-offset-2">
+                    <div class="col-md-3 col-md-offset-1">
                         <a href="#" class="btn btn-primary btn-sm" id="reset"><i class="fa fa-refresh"></i> Resetear filtros</a>
                     </div>
                 </div>
             </th>
-
+            <th>Email</th>
+            <th>Telefono</th>
+            <th>Ubicación</th>
             <th class="td-semaforo">
-                Pintura y mantenimiento<br>
-                <div class="circle-card card-bg-green circle-btn pintura-green" title="Filtrar por color verde" mostrar="green-pintura"></div>
-                <div class="circle-card svt-bg-warning circle-btn pintura-orange" title="Filtrar por color naranja" mostrar="orange-pintura"></div>
-                <div class="circle-card svt-bg-danger circle-btn pintura-red" title="Filtrar por color rojo" mostrar="red-pintura"></div>
+                Activo<br>
+                <div class="circle-card card-bg-green circle-btn licencia-green" title="Filtrar por color verde" mostrar="1"></div>
             </th>
-            <th>Ver</th>
+            <th class="td-semaforo">
+                Cesante<br>
+                <div class="circle-card svt-bg-danger circle-btn pintura-red" title="Filtrar por color rojo" mostrar="0"></div>
+            </th>
+            <th style="width: 60px">Ver</th>
         </tr>
         </thead>
         <tbody>
-        <g:each in="${dash}" var="d" status="">
+        <g:each in="${empleados}" var="d" status="">
 
-            <g:set var="colorPintura" value="${d.getColorSemaforoPintura()}"></g:set>
-            <tr data-id="${d.estacion.codigo}" class=" tr-info   ${colorPintura[1]}   ">
-                <td class="desc">${d.estacion}</td>
-
-                <td class="td-semaforo" style="text-align: left">
-                    <div class="circle-card ${colorPintura[0]}" ></div>
-                    ${d.ultimaPintura?d.ultimaPintura?.format("dd-MM-yyyy"):'N.A.'}
+            <tr data-id="${d.cedula}" class=" tr-info  ${d.estado.trim()} ">
+                <td class="desc">${d.apellido} ${d.nombre} </td>
+                <td>${d.email}</td>
+                <td>${d.telefono}</td>
+                <td>${d.ciudadTrabajo}</td>
+                <td class="td-semaforo" >
+                    <g:if test="${d.estado=='1'}">
+                        <div class="circle-card ${colores[0]}" ></div>
+                    </g:if>
                 </td>
-                <td class="td-semaforo">
-                    <a href="${g.createLink(controller: 'moduloPintura',action: 'showEstacion',id: d.estacion.codigo)}" class="btn btn-primary btn-sm" title="Ver"><i class="fa fa-search"></i></a>
+                <td class="td-semaforo" >
+                    <g:if test="${d.estado=='0'}">
+                        <div class="circle-card ${colores[2]}" ></div>
+                    </g:if>
+                </td>
+                <td  style="width: 60px;text-align: center">
+                    <a href="#" class="btn btn-primary btn-sm detalles" title="Ver" iden="${d.cedula}"><i class="fa fa-search"></i></a>
                 </td>
 
             </tr>
@@ -79,18 +90,19 @@
         $(".tr-info").hide()
         $("."+clase).show()
     }
-    function verEstacion(id) {
+    function verEmpleado(id) {
+
         $.ajax({
             type: "POST",
-            url: "${createLink(controller:'contratos', action:'show_ajax')}",
+            url: "${createLink(controller:'agenda', action:'show_empleado_ajax')}",
             data: {
                 id: id
             },
             success: function (msg) {
                 bootbox.dialog({
-                    title: "Datos de la estación",
-                    class:"modal-lg",
+                    title: "Datos del empleado",
                     message: msg,
+                    class:"modal-lg",
                     buttons: {
                         ok: {
                             label: "Aceptar",
@@ -104,29 +116,7 @@
         });
         return false
     }
-    function verEstacionMapa(id) {
-        $.ajax({
-            type: "POST",
-            url: "${createLink(controller:'estacion', action:'showMap_ajax')}",
-            data: {
-                id: id
-            },
-            success: function (msg) {
-                bootbox.dialog({
-                    title: "Datos de la estación",
-                    message: msg,
-                    buttons: {
-                        ok: {
-                            label: "Aceptar",
-                            className: "btn-primary",
-                            callback: function () {
-                            }
-                        }
-                    }
-                });
-            }
-        });
-    }
+
     $(function () {
         <g:if test="${search}">
         openLoader();
@@ -165,7 +155,7 @@
                     icon: "fa fa-search",
                     action: function ($element) {
                         var id = $element.data("id");
-                        verEstacion(id);
+                        verEmpleado(id);
                         return false;
                     }
                 }
@@ -176,6 +166,10 @@
             onHide: function ($element) {
                 $(".success").removeClass("success");
             }
+        });
+        $(".detalles").click(function(){
+            verEmpleado($(this).attr("iden"))
+            return false
         });
     });
 </script>

@@ -57,7 +57,7 @@
                 Cesante<br>
                 <div class="circle-card svt-bg-danger circle-btn pintura-red" title="Filtrar por color rojo" mostrar="C"></div>
             </th>
-            %{--<th>Ver</th>--}%
+            <th>Ver</th>
         </tr>
         </thead>
         <tbody>
@@ -80,9 +80,9 @@
                         <div class="circle-card ${colores[2]}" ></div>
                     </g:if>
                 </td>
-                %{--<td class="td-semaforo">--}%
-                    %{--<a href="${g.createLink(controller: 'Agenda',action: 'showEstacion',params: [id: d.codigo,tipo:1])}" class="btn btn-primary btn-sm" title="Ver"><i class="fa fa-search"></i></a>--}%
-                %{--</td>--}%
+                <td class="td-semaforo">
+                    <a href="#" class="btn btn-primary btn-sm detalles" title="Ver" iden="${d.codigo}"><i class="fa fa-search"></i></a>
+                </td>
 
             </tr>
         </g:each>
@@ -95,9 +95,10 @@
         $("."+clase).show()
     }
     function verEstacion(id) {
+
         $.ajax({
             type: "POST",
-            url: "${createLink(controller:'estacion', action:'show_ajax')}",
+            url: "${createLink(controller:'contratos', action:'show_ajax_industria')}",
             data: {
                 id: id
             },
@@ -105,6 +106,7 @@
                 bootbox.dialog({
                     title: "Datos de la estación",
                     message: msg,
+                    class:"modal-lg",
                     buttons: {
                         ok: {
                             label: "Aceptar",
@@ -168,6 +170,11 @@
             onHide: function ($element) {
                 $(".success").removeClass("success");
             }
+        });
+
+        $(".detalles").click(function(){
+            verEstacion($(this).attr("iden"))
+            return false
         });
     });
 </script>

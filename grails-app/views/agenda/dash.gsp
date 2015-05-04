@@ -43,7 +43,7 @@
     </div>
     <div class="card" style="width:273px;">
         <div class="titulo-card" style="font-size: 22px">
-            <i class="fa flaticon-worker5"></i > Industrias
+            <i class="fa flaticon-worker5"></i> Industrias
         </div>
         <g:link controller="agenda" action="listaIndustrias" params="[search:'A']" style="text-decoration: none">
             <div class="cardContent">

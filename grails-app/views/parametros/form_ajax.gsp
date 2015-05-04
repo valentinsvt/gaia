@@ -8,7 +8,7 @@
     
     <div class="modal-contenido">
     <g:form class="form-horizontal" name="frmParametros" id="${parametrosInstance?.id}"
-            role="form" controller="parametros" action="save_ajax" method="POST">
+            role="form" controller="administracion" action="save_ajax" method="POST">
 
         
         <elm:fieldRapido claseLabel="col-sm-2" label="Dias Alerta Contratos" claseField="col-sm-2">

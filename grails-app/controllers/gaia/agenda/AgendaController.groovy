@@ -1,6 +1,7 @@
 package gaia.agenda
 
 import gaia.Contratos.Cliente
+import gaia.nomina.Empleado
 import gaia.seguridad.Shield
 
 class AgendaController extends Shield {
@@ -42,7 +43,7 @@ class AgendaController extends Shield {
                         cesantesI++
                     break;
                 default:
-                    println "default "+c.codigo+"  "+c.nombre+" "+c.estado
+//                    println "default "+c.codigo+"  "+c.nombre+" "+c.estado
                     break;
             }
         }
@@ -59,6 +60,18 @@ class AgendaController extends Shield {
         def estaciones =  Cliente.findAllByTipoAndEstadoInList(1,["A","S","C"],[sort:"codigo"])
         def colores = ["card-bg-green", "svt-bg-warning", "svt-bg-danger"]
         [estaciones:estaciones,colores: colores,search:params.search]
+    }
+
+    def empleados(){
+        def empleados = Empleado.list([sort: "apellido"])
+
+        def colores = ["card-bg-green", "svt-bg-warning", "svt-bg-danger"]
+        [empleados:empleados,colores: colores]
+    }
+
+    def show_empleado_ajax(){
+        def empleado =Empleado.findByCedula(params.id)
+        [empleado:empleado]
     }
 
 }
