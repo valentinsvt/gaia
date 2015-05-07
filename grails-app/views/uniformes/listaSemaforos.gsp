@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="layout" content="main"/>
-    <title>Contratos, dotaciones y pintura por estación</title>
+    <title>Dotaciones por estación</title>
     <link href="${g.resource(dir: 'css/custom/', file: 'dashboard.css')}" rel="stylesheet" type="text/css">
     <imp:js src="${resource(dir: 'js/plugins/jquery-highlight',file: 'jquery-highlight1.js')}"></imp:js>
     <style>
@@ -21,7 +21,7 @@
     </style>
 </head>
 <body>
-<elm:container tipo="horizontal" titulo="Contratos, dotaciones y pintura por estación">
+<elm:container tipo="horizontal" titulo="Dotaciones por estación">
 
     <table class="table table-striped table-hover table-bordered" style="margin-top: 15px;font-size: 12px">
         <thead>
@@ -44,49 +44,32 @@
                     </div>
                 </div>
             </th>
-            <th class="td-semaforo">
-                <br>
-                Contrato<br>
-                <div class="circle-card card-bg-green circle-btn licencia-green" title="Filtrar por color verde" mostrar="green-contrato"></div>
-                <div class="circle-card svt-bg-warning circle-btn licencia-orange" title="Filtrar por color naranja" mostrar="orange-contrato"></div>
-                <div class="circle-card svt-bg-danger circle-btn licencia-red" title="Filtrar por color rojo" mostrar="red-contrato"></div>
-            </th>
+
             <th class="td-semaforo">
                 Dotación de unfirmes<br>
                 <div class="circle-card card-bg-green circle-btn equipo-green" title="Filtrar por color verde" mostrar="green-equipo"></div>
                 <div class="circle-card svt-bg-warning circle-btn equipo-orange" title="Filtrar por color naranja" mostrar="orange-equipo"></div>
                 <div class="circle-card svt-bg-danger circle-btn equipo-red" title="Filtrar por color rojo" mostrar="red-equipo"></div>
             </th>
-            <th class="td-semaforo">
-                Pintura y mantenimiento<br>
-                <div class="circle-card card-bg-green circle-btn pintura-green" title="Filtrar por color verde" mostrar="green-pintura"></div>
-                <div class="circle-card svt-bg-warning circle-btn pintura-orange" title="Filtrar por color naranja" mostrar="orange-pintura"></div>
-                <div class="circle-card svt-bg-danger circle-btn pintura-red" title="Filtrar por color rojo" mostrar="red-pintura"></div>
-            </th>
+
             <th>Ver</th>
         </tr>
         </thead>
         <tbody>
         <g:each in="${dash}" var="d" status="">
-            <g:set var="color" value="${d.getColorSemaforoContrato(check)}"></g:set>
+
             <g:set var="colorUniforme" value="${d.getColorSemaforoUniforme()}"></g:set>
-            <g:set var="colorPintura" value="${d.getColorSemaforoPintura()}"></g:set>
-            <tr data-id="${d.estacion.codigo}" class=" tr-info  ${color[1]} ${colorPintura[1]}  ${colorUniforme[1]} ">
+
+            <tr data-id="${d.estacion.codigo}" class=" tr-info   ${colorUniforme[1]} ">
                 <td class="desc">${d.estacion}</td>
-                <td class="td-semaforo" style="text-align: left">
-                    <div class="circle-card ${color[0]}" ></div>
-                    ${d.ultimoContrato?d.ultimoContrato?.format("dd-MM-yyyy"):'N.A.'}
-                </td>
+
                 <td class="td-semaforo" style="text-align: left">
                     <div class="circle-card ${colorUniforme[0]}" ></div>
                     ${d.ultimoUniforme?d.ultimoUniforme?.format("dd-MM-yyyy"):'N.A.'}
                 </td>
-                <td class="td-semaforo" style="text-align: left">
-                    <div class="circle-card ${colorPintura[0]}" ></div>
-                    ${d.ultimaPintura?d.ultimaPintura?.format("dd-MM-yyyy"):'N.A.'}
-                </td>
+
                 <td class="td-semaforo">
-                    <a href="${g.createLink(controller: 'contratos',action: 'showEstacion',id: d.estacion.codigo)}" class="btn btn-primary btn-sm" title="Ver"><i class="fa fa-search"></i></a>
+                    <a href="${g.createLink(controller: 'uniformes',action: 'showEstacion',id: d.estacion.codigo)}" class="btn btn-primary btn-sm" title="Ver"><i class="fa fa-search"></i></a>
                 </td>
 
             </tr>

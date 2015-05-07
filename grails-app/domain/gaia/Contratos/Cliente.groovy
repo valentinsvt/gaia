@@ -77,7 +77,7 @@ class Cliente {
         }
     }
     static constraints = {
-
+        codigo(size: 1..8)
     }
 
     String toString(){

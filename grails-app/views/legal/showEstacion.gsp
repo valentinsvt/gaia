@@ -57,7 +57,7 @@
 <body>
 <div class="btn-toolbar toolbar" style="margin-top: 10px;margin-bottom: 0;margin-left: -20px">
     <div class="btn-group">
-        <g:link controller="moduloPintura" action="listaSemaforos" class="btn btn-default">
+        <g:link controller="legal" action="listaSemaforos" class="btn btn-default">
             <i class="fa fa-list"></i> Estaciones
         </g:link>
         <a href="#" class="btn btn-default detalles">
@@ -69,14 +69,11 @@
         <a href="#" class="btn btn-default equipo">
             <i class="fa flaticon-fuel2"></i> Equipo
         </a>
-        <g:link action="ingreso" class="btn btn-default" params="[estacion:estacion.codigo]">
-            <i class="fa fa-plus"></i> Registrar pintura
-        </g:link>
     </div>
 </div>
 <elm:container tipo="horizontal" titulo="Estación: ${estacion.nombre} - ${estacion.mail} - ${dash.porcentajeComercializacion}%">
+    <g:set var="contrato" value="${dash.getColorSemaforoContrato(check)}"/>
 
-    <g:set var="pintura" value="${dash.getColorSemaforoPintura()}"/>
     <div class="row" style="margin-top: 0">
         <div class="header-panel">
             <div class="header-item" style="width:430px">
@@ -87,29 +84,28 @@
                     <i class="fa fa-info-circle" style="color:#FFA324 "></i> <b>Días crédito: </b> ${cliente.plazo?.toInteger()} <b style="margin-left: 45px">% comercialización:  </b>${dash.porcentajeComercializacion}%<br/>
                 </div>
             </div>
-
-            <div class="header-item" style="background: transparent">
+            <div class="header-item">
                 <div class="titulo-card" style="text-align: left;padding-left: 15px">
-                    <i class="fa fa-paint-brush"></i> Última pintura
+                    <i class="fa fa-newspaper-o"></i> Último Contrato
                 </div>
                 <div class="header-content" style="position: relative">
-                    <div class="circle-card ${pintura[0]}"  ></div>
-                    <div style="position: absolute;right: 40px;bottom: 20px">${dash.ultimaPintura?dash.ultimaPintura?.format("dd-MM-yyyy"):'N.A.'}</div>
+                    <div class="circle-card ${contrato[0]}"  ></div>
+                    <div style="position: absolute;right: 40px;bottom: 20px">${dash.ultimoContrato?dash.ultimoContrato?.format("dd-MM-yyyy"):'N.A.'}</div>
                 </div>
             </div>
             <div class="header-item" style="background: transparent">
                 <div class="titulo-card" style="text-align: left;padding-left: 15px">
-
+                    &nbsp;
                 </div>
-                <div class="header-content " style="background: transparent">
-                   &nbsp;
+                <div class="header-content" style="position: relative;background: transparent">
+                    &nbsp;
                 </div>
             </div>
             <div class="header-item" style="background: transparent">
                 <div class="titulo-card" style="text-align: left;padding-left: 15px">
-
+                    &nbsp;
                 </div>
-                <div class="header-content" style="background: transparent">
+                <div class="header-content" style="position: relative;background: transparent">
                     &nbsp;
                 </div>
             </div>
@@ -120,56 +116,40 @@
         <div role="tabpanel">
             <!-- Nav tabs -->
             <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active bg-info"><a href="#contratos" aria-controls="home" role="tab" data-toggle="tab"><i class="fa fa-newspaper-o"></i> Contratos</a></li>
 
-                <li role="presentation" class=" bg-info"><a href="#pintura" aria-controls="messages" role="tab" data-toggle="tab"><i class="fa fa-paint-brush"></i> Pintura y mantenimiento</a></li>
             </ul>
             <!-- Tab panes -->
             <div class="tab-content">
-
-                <div role="tabpanel" class="tab-pane active" id="pintura" style="padding-top: 20px;overflow-y: auto;height: 350px">
+                <div role="tabpanel" class="tab-pane active" id="contratos" style="padding-top: 20px;overflow-y: auto;height: 350px">
                     <table class="table table-striped table-hover table-bordered" style="font-size: 11px">
                         <thead>
                         <tr>
-                            <th>Factura</th>
-                            <th>Finalización de trabajo</th>
-                            <th>Rotulación</th>
-                            <th>Pintura</th>
-                            <th>Total</th>
-                            <th></th>
-                            <th></th>
+                            <th>Tipo</th>
+                            <th>Registro</th>
+                            <th>Vence</th>
+                            <th>Duración</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <g:set var="totalPintura" value="${0}"></g:set>
-                        <g:each in="${pinturas}" var="pintura">
-                            <g:if test="${pintura.total}">
-                                <g:set var="totalPintura" value="${totalPintura+pintura.total}"></g:set>
-                            </g:if>
-                            <tr class="tr-info">
-                                <td >${pintura.numeroFactura}</td>
-                                <td style="text-align: center">${pintura.fin?.format("dd-MM-yyyy")}</td>
-                                <td style="text-align: right">${pintura.getRotulacion()}</td>
-                                <td style="text-align: right">${pintura.getPintura()}</td>
-                                <td style="text-align: right">${pintura.getTotal()}</td>
-                                <td style="text-align: center;width: 50px">
-                                    <a href="#" title="Ver" class="ver-pintura btn btn-sm btn-primary" iden="${pintura.id}" cliente="${pintura.cliente}">
-                                        <i class="fa fa-search"></i>
-                                    </a>
-                                </td>
-                                <td style="text-align: center;width: 50px">
-                                    <a href="${g.createLink(action: 'ingreso',params: [id: pintura.id,estacion: pintura.cliente.codigo])}" title="Editar" class="editar-pintura btn btn-sm btn-primary" iden="${pintura.id}" cliente="${pintura.cliente}">
-                                        <i class="fa fa-pencil"></i>
-                                    </a>
-                                </td>
+                        <g:each in="${contratos}" var="contrato">
+                            <tr class="tr-info ${contrato.tipo.id}">
+                                <td >${contrato.tipo.descripcion}</td>
+                                <td style="text-align: center">${contrato.inicio?.format("dd-MM-yyyy")}</td>
+                                <td style="text-align: center">${contrato.fin?.format("dd-MM-yyyy")}</td>
+                                <td style="text-align: center;width: 80px">${contrato.anios}</td>
                             </tr>
                         </g:each>
                         <tr>
-                            <td colspan="4" style="font-weight: bold">TOTAL</td>
-                            <td style="text-align: right;font-weight: bold">${totalPintura.toDouble().round(2)}</td>
+                            <td>${inicial["tipo"]}</td>
+                            <td style="text-align: center">${inicial["inicio"]?.format("dd-MM-yyyy")}</td>
+                            <td style="text-align: center">${inicial["fin"]?.format("dd-MM-yyyy")}</td>
+                            <td></td>
                         </tr>
                         </tbody>
                     </table>
                 </div>
+
             </div>
 
         </div>
@@ -328,7 +308,8 @@
                 type    : "POST",
                 url     : "${createLink(controller:'contratos', action:'verPintura')}",
                 data    : {
-                    secuencial:$(this).attr("iden")
+                    secuencial:$(this).attr("iden"),
+                    cliente:$(this).attr("cliente")
                 },
                 success : function (msg) {
                     closeLoader()

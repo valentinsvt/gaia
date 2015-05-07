@@ -1,9 +1,10 @@
-package gaia.Contratos
+package gaia.pintura
+
+import gaia.pintura.ItemImagen
 
 class SubDetallePintura  implements Serializable{
 
-    Integer secuencial
-    String cliente
+    DetallePintura detallePintura
     ItemImagen item
     Double cantidad
     Double unitario
@@ -12,14 +13,14 @@ class SubDetallePintura  implements Serializable{
     static auditable = false
     static mapping = {
         datasource 'erp'
-        table 'SUBDETALLE_PINTURA'
+        table 'SUBDETALLE_PINTURA_N'
         cache usage: 'read-write', include: 'non-lazy'
+        id column:'ID',sqlType: "int"
+        id generator: "increment"
         version false
         columns {
-            id column: 'ID'
-            secuencial column: 'SECUENCIAL_PINTURA'
-            cliente column: 'CODIGO_CLIENTE'
-            item column: 'CODIGO_ITEM'
+            detallePintura column: 'DETALLE_ID', sqlType: "int"
+            item column: "CODIGO_ITEM", sqlType: "int"
             cantidad column: 'CANTIDAD'
             unitario column: 'VALOR_UNITARIO'
             total column: 'VALOR_TOTAL'

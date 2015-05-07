@@ -199,9 +199,8 @@
                         <tr>
                             <th>Factura</th>
                             <th>Finalización de trabajo</th>
-                            <th>Subtotal</th>
-                            <th>Iva</th>
-                            <th>Total Iva</th>
+                            <th>Rotulación</th>
+                            <th>Pintura</th>
                             <th>Total</th>
                             <th></th>
                         </tr>
@@ -212,22 +211,21 @@
                             <g:if test="${pintura.total}">
                                 <g:set var="totalPintura" value="${totalPintura+pintura.total}"></g:set>
                             </g:if>
-                            <tr class="tr-info ${pintura.secuencial}">
+                            <tr class="tr-info">
                                 <td >${pintura.numeroFactura}</td>
                                 <td style="text-align: center">${pintura.fin?.format("dd-MM-yyyy")}</td>
-                                <td style="text-align: right">${pintura.subTotal}</td>
-                                <td style="text-align: right">${pintura.iva}</td>
-                                <td style="text-align: right">${pintura.totalIva}</td>
-                                <td style="text-align: right">${pintura.total}</td>
+                                <td style="text-align: right">${pintura.getRotulacion()}</td>
+                                <td style="text-align: right">${pintura.getPintura()}</td>
+                                <td style="text-align: right">${pintura.getTotal()}</td>
                                 <td style="text-align: center;width: 50px">
-                                    <a href="#" title="Ver" class="ver-pintura btn btn-sm btn-primary" iden="${pintura.secuencial}" cliente="${pintura.cliente}">
+                                    <a href="#" title="Ver" class="ver-pintura btn btn-sm btn-primary" iden="${pintura.id}" cliente="${pintura.cliente}">
                                         <i class="fa fa-search"></i>
                                     </a>
                                 </td>
                             </tr>
                         </g:each>
                         <tr>
-                            <td colspan="5" style="font-weight: bold">TOTAL</td>
+                            <td colspan="4" style="font-weight: bold">TOTAL</td>
                             <td style="text-align: right;font-weight: bold">${totalPintura.toDouble().round(2)}</td>
                         </tr>
                         </tbody>

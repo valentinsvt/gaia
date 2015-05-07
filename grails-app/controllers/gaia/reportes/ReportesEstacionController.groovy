@@ -1,17 +1,13 @@
 package gaia.reportes
 
-import gaia.Contratos.DetallePintura
-import gaia.Contratos.ItemImagen
-import gaia.Contratos.SubDetallePintura
-import gaia.Contratos.esicc.PeriodoDotacion
+import gaia.pintura.DetallePintura
+import gaia.pintura.ItemImagen
+import gaia.pintura.SubDetallePintura
 import gaia.documentos.Consultor
 import gaia.documentos.Documento
 import gaia.documentos.Entidad
 import gaia.documentos.TipoDocumento
 import gaia.estaciones.Estacion
-import org.springframework.dao.DataIntegrityViolationException
-import gaia.seguridad.Shield
-
 
 /**
  * Controlador de las pantallas de reportes por estación

@@ -27,7 +27,7 @@
     </g:each>
     <tr>
         <th style="font-weight: bold" colspan="5">Total</th>
-        <th style="font-weight: bold;text-align: right"><g:formatNumber number="${total}" type="currency"></g:formatNumber></th>
+        <th style="font-weight: bold;text-align: right"><g:formatNumber number="${total}" type="currency" currencySymbol="\$"></g:formatNumber></th>
     </tr>
     </tbody>
 </table>

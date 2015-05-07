@@ -1,7 +1,8 @@
 package gaia.Contratos
 
 import gaia.estaciones.Estacion
-import gaia.parametros.Parametros
+import gaia.pintura.DetallePintura
+import gaia.pintura.SubDetallePintura
 
 class DashBoardContratos {
 

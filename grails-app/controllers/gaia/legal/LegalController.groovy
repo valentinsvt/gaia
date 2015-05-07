@@ -1,52 +1,48 @@
-package gaia.uniformes
+package gaia.legal
 
+import gaia.Contratos.Adendum
 import gaia.Contratos.Cliente
 import gaia.Contratos.DashBoardContratos
-
-import gaia.Contratos.esicc.Pedido
 import gaia.documentos.Inspector
 import gaia.documentos.InspectorEstacion
 import gaia.documentos.Responsable
 import gaia.estaciones.Estacion
 import gaia.parametros.Parametros
 
-class UniformesController {
-
-    static sistema="UNFR"
-
+class LegalController {
+    static sistema="LGAL"
     def index() {
-        redirect(action: "dash")
+        redirect(action: 'dash')
     }
 
     def dash(){
         def dash = DashBoardContratos.list([sort: "id"])
         def dias = Parametros.getDiasContrato()
         def check = new Date().plus(dias)
-        //println "check "+check.format("dd-MM-yyyy")
         def colores = ["card-bg-green", "svt-bg-warning", "svt-bg-danger"]
-
-        def equipo = 0
-        def equipoWarning = 0
+        def contrato = 0
+        def contratoWarning = 0
         def total = 0
         dash.each { d ->
 
-            switch (d.getColorSemaforoUniforme()[0]){
+            switch (d.getColorSemaforoContrato(check)[0]){
                 case colores[0]:
-                    equipo++
+                    contrato++
                     break;
                 case colores[1]:
-                    equipoWarning++
+                    contratoWarning++
                     break;
                 case colores[2]:
                     break;
             }
-
             total++
         }
 
 
-        [equipo:equipo,equipoWarning:equipoWarning,total: total, colores: colores]
+        [contrato: contrato, contratoWarning:contratoWarning,total: total, colores: colores]
+
     }
+
     def listaSemaforos() {
         def estaciones
         def dash
@@ -66,17 +62,20 @@ class UniformesController {
 
     def showEstacion(){
         def estacion
-//        if (session.tipo == "cliente") {
-//            estacion = session.usuario
-//        } else {
+        def dias = Parametros.getDiasContrato()
+        def check = new Date().plus(dias)
         estacion = Estacion.findByCodigoAndAplicacion(params.id, 1)//        }
         def dash = DashBoardContratos.findByEstacion(estacion)
-        def uniformes = Pedido.findAllByEstacion(estacion,[sort:"fecha",order: "desc"])
-
+        def contratos= Adendum.findAllByCliente(estacion.codigo,[sort:"fin",order:"desc"])
         def cliente = Cliente.findByCodigoAndTipo(params.id,1)
+        def inicial = [:]
+        inicial["tipo"] = "INICIAL"
+        inicial["inicio"] = cliente.fechaPrimerContrato
+        inicial["fin"] = cliente.fechaTerminaContrato
 
-        [estacion: estacion, params: params,dash:dash,uniformes:uniformes,cliente:cliente]
+        [estacion: estacion, params: params,dash:dash,contratos: contratos,inicial:inicial,cliente:cliente,check: check]
 
     }
+
 
 }

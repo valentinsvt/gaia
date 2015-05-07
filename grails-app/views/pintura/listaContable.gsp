@@ -38,12 +38,13 @@
     </div>
 </elm:container>
 <script type="text/javascript">
+
     $("#ver").click(function(){
         if($("#desde_input").val()!="" && $("#hasta_input").val()!=""){
             openLoader()
             $.ajax({
                 type: "POST",
-                url: "${createLink(controller:'pintura', action:'tablaImagen')}",
+                url: "${createLink(controller:'pintura', action:'tablaContable')}",
                 data: {
                     desde: $("#desde_input").val(),
                     hasta: $("#hasta_input").val()
@@ -60,7 +61,7 @@
     })
     $("#imprimir").click(function () {
         if($("#desde_input").val()!="" && $("#hasta_input").val()!=""){
-            var url = "${createLink(controller: 'reportePintura',action: 'listaImagenPdf')}?desde="+$("#desde_input").val()+"Whasta="+$("#hasta_input").val() ;
+            var url = "${createLink(controller: 'reportePintura',action: 'listaContablePdf')}?desde="+$("#desde_input").val()+"Whasta="+$("#hasta_input").val() ;
             location.href = "${g.createLink(controller:'pdf',action:'pdfLink')}?url=" + url+"&filename=ReporteDePinturaYMantenimiento.pdf";
         }else{
             bootbox.alert('Por favor seleccione las fechas "Desde" y "Hasta"')

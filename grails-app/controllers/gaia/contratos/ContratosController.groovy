@@ -3,10 +3,8 @@ package gaia.contratos
 import gaia.Contratos.Adendum
 import gaia.Contratos.Cliente
 import gaia.Contratos.DashBoardContratos
-import gaia.Contratos.DetalleEgreso
-import gaia.Contratos.DetallePintura
-import gaia.Contratos.Egreso
-import gaia.Contratos.SubDetallePintura
+import gaia.pintura.DetallePintura
+import gaia.pintura.SubDetallePintura
 import gaia.Contratos.esicc.Dotacion
 import gaia.Contratos.esicc.Pedido
 import gaia.documentos.Inspector
@@ -15,8 +13,6 @@ import gaia.documentos.Responsable
 import gaia.estaciones.Estacion
 import gaia.parametros.Parametros
 import gaia.seguridad.Shield
-import groovy.sql.Sql
-
 
 class ContratosController extends Shield {
     static final sistema="CNTR"
@@ -66,7 +62,7 @@ class ContratosController extends Shield {
 
 
         def uniformes = Pedido.findAllByEstacion(estacion,[sort:"fecha",order: "desc"])
-        def pinturas = DetallePintura.findAllByCliente(estacion.codigo,[sort: "fin",order: "desc"])
+        def pinturas = DetallePintura.findAllByCliente(cliente,[sort: "fin",order: "desc"])
 
 
 
@@ -83,7 +79,7 @@ class ContratosController extends Shield {
     }
 
     def verPintura(){
-        def detalle = SubDetallePintura.findAllBySecuencialAndCliente(params.secuencial,params.cliente)
+        def detalle = SubDetallePintura.findAllByDetallePintura(DetallePintura.get(params.secuencial))
         [detalle:detalle]
     }
 

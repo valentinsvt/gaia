@@ -8,52 +8,8 @@
         height : 190px;
     }
 
-    i {
-        margin-right : 5px;
-    }
-    .link-modulo{
-        width: 100%;
-        height: 100px;
-        border-radius: 5px;
-        /*border: 1px solid #000;*/
-        padding: 7px;
-        background: #006EB7;
-    }
-    .imagen-link{
-        border-radius: 5px;
-        height: 85px;
-        width: 40%;
-        display: inline-table;
-        line-height: 100%;
-        padding: 5px;
-        /*border: 1px solid #000000;*/
-        margin: 0px;
-        background: #ffffff;
-        text-decoration: none;
 
-    }
-    .texto-link{
-        border-radius: 5px;
-        height: 85px;
-        padding: 3px;
-        width: 55%;
-        display: inline-table;
-        line-height: 78px;
-        vertical-align: middle;
-        font-weight: bold;
-        text-align: center;
-        /*border: 1px solid #000000;*/
-        margin: 0px;
-        color: #E14429;
-        text-shadow: #ffffff;
-        font-size: 14px;
-        text-shadow:
-        -1px -1px 0 #fff,
-        1px -1px 0 #fff,
-        -1px 1px 0 #fff,
-        1px 1px 0 #fff;
-        text-decoration: none;
-    }
+
     .fondo{
         width: 100%;
         height: 381px;
@@ -62,25 +18,44 @@
         background-repeat: no-repeat;
         position: relative;
         margin-bottom: 0px;
-        margin-top: -11px;
+        margin-top: 0px;
+    }
+    .overlay{
+        width: 100%;
+        height: 381px;
+        background: rgba(0,0,0,0.15);
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        z-index: 1;
+        margin: 0px;
     }
     .barra{
         width: 100%;
         margin-top: 0px;
-        height: 150px;
-        background: #82A22F;
+        height: 140px;
+        /*background: #82A22F;*/
+        margin-bottom: 0px;
+        background: #006EB7;
+
     }
     .modulo{
         position: absolute;
         border-radius: 50%;
         height: 120px;
         width: 120px;
+        /*background: #006EB7;*/
         background: #243038;
+        /*background: #de0b00;*/
         text-align: center;
+
         line-height: 120px;
-        color: #fff;
+
+        /*color: #fff;*/
         font-size: 60px;
+        z-index: 2;
     }
+
     .titulo{
         background: transparent;
         color: #ffffff;
@@ -90,59 +65,123 @@
         position: absolute;
         text-align: center;
         font-weight: bold;
-        text-shadow:
+        text-decoration: none;
 
+    }
+    .titulo:hover{
+        text-decoration: none;
+        color: #ffffff;
+    }
+    .texto-modulo{
+        color: #ffffff;
+    }
+    .menu-link{
+        color: #fff;
+    }
+    .menu-link:hover{
+        color: #FEDF39;
     }
     </style>
     <link href="${g.resource(dir: 'css/custom/', file: 'dashboard.css')}" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div class="fondo">
-    <g:each in="${session.sistemas}" var="sistema" status="i" >
-        <g:if test="${sistema.codigo!='T'}">
-            <g:link controller="inicio" action="modulos" params="[sistema:sistema.codigo]" title="${sistema.descripcion}" id="link_${i}"  >
-                <div class="modulo" style="bottom: -70px;left: ${60+220*(i-1)}px">
-                %{--<img src="${resource(dir: 'images',file: sistema.imagen)}" height="50%" >--}%
-                    <g:if test="${i==1}">
-                        <i class="fa flaticon-fuel2"></i>
-                    </g:if>
-                    <g:if test="${i==2}">
-                        <i class="fa fa-dashboard"></i>
-                    </g:if>
-                    <g:if test="${i==3}">
-                        <i class="fa fa-sort-alpha-desc"></i>
-                    </g:if>
-                    <g:if test="${i==4}">
-                        <i class="fa flaticon-car24"></i>
-                    </g:if>
-                    <g:if test="${i==5}">
-                        <i class="fa fa-cogs"></i>
-                    </g:if>
-                    <g:if test="${i==6}">
-                        <i class="fa laticon-handy"></i>
-                    </g:if>
+    <div class="overlay"></div>
+    <g:set var="display" value="${null}"></g:set>
+    <g:if test="${session.sistemas.size()>5}">
+        <g:set var="display" value="display:none;"></g:set>
+        <g:set var="y" value="${390}"></g:set>
+        <g:set var="x" value="${1}"></g:set>
+        <g:each in="${session.sistemas}" var="sistema" status="i" >
+            <g:if test="${sistema.codigo!='T'}">
+                <g:if test="${(i-1)%5==0}">
+                    <g:set var="y" value="${y-150}"></g:set>
+                    <g:set var="x" value="${1}"></g:set>
+                </g:if>
+                <div class="modulo menu-item" style="${display}${display?'bottom: -70px;left: 45%':''}"  val-bottom="${y}" val-left="${70+220*(x.toInteger()-1)}" >
+                    <g:link class="menu-link" controller="inicio" action="modulos" params="[sistema:sistema.codigo]" title="${sistema.nombre}" id="link_${i}"  >
+                        <p><i class=" fa ${sistema.imagen}"></i> </p>
+                    %{--<p style=";margin-top: -60px"><span style="font-size: 12px !important">${sistema.nombre}</span></p>--}%
+                    </g:link>
                 </div>
-            </g:link>
-            <g:link controller="inicio" action="modulos" params="[sistema:sistema.codigo]" title="${sistema.descripcion}" id="link_${i}"  >
-                <div class="titulo" style="bottom: -120px;left: ${60+220*(i-1)}px">
-                    ${sistema.nombre}
+                <g:set var="x" value="${x+1}"></g:set>
+            </g:if>
+        </g:each>
+        <g:if test="${display}">
+            <div class="modulo " style="bottom: -70px;left: 45%;" >
+                <a href="#" style="color:#ffffff" class="menu-boton "  >
+                    <i class=" texto-modulo fa fa-list"></i>
+                </a>
+            </div>
+            <a href="#" class="menu-boton ">
+                <div class="titulo" style="bottom: -120px;left: 45%">
+                    Clic para empezar
                 </div>
-            </g:link>
+            </a>
         </g:if>
-    </g:each>
-%{--<div class="modulo" style="bottom: -70px;left: 60px">--}%
+    </g:if>
+    <g:else>
+        <g:each in="${session.sistemas}" var="sistema" status="i" >
+            <g:if test="${sistema.codigo!='T'}">
+                <div class="modulo menu-item" style="left:${70+220*(i-1)}px;bottom:-60px  "  >
+                    <g:link class="menu-link" controller="inicio" action="modulos" params="[sistema:sistema.codigo]" title="${sistema.descripcion}" id="link_${i}"  >
+                        <p><i class=" fa ${sistema.imagen}"></i> </p>
+                    %{--<p style=";margin-top: -60px"><span style="font-size: 12px !important">${sistema.nombre}</span></p>--}%
+                    </g:link>
+                </div>
+                <g:link controller="inicio" action="modulos" params="[sistema:sistema.codigo]"
+                        title="${sistema.descripcion}" id="link_${i}"
+                        style="bottom: -100px;left:${70+220*(i-1)}px "
+                        class="menu-item titulo"  val-bottom="10" val-left="${20+150*(i-1)}">
+                    <div class=""  >
+                        ${sistema.nombre}
+                    </div>
+                </g:link>
+            </g:if>
+        </g:each>
+    </g:else>
 
-%{--</div>--}%
-%{--<div class="modulo" style="bottom: -70px;left: 270px">--}%
-%{--<img src="${resource(dir: 'images',file: "ambiente.png")}" height="50%" >--}%
-%{--</div>--}%
-%{--<div class="modulo" style="bottom: -70px;left: 490px"></div>--}%
-%{--<div class="modulo" style="bottom: -70px;left: 710px"></div>--}%
-%{--<div class="modulo" style="bottom: -70px;left: 930px"></div>--}%
 </div>
 <div class="barra">
 
 </div>
 
+<script type="text/javascript">
+    $(".menu-boton").click(function(){
+        var band=false
+        $(".menu-item").each(function(){
+            if($(this).hasClass("active")){
+                band=true;
+                $(this).removeClass("active")
+
+                $(this).animate({
+                    bottom:-70,
+                    left:"45%"
+                },1000)
+
+
+            }else{
+                $(this).addClass("active")
+                $(this).toggle()
+                var b = $(this).attr("val-bottom")
+                var l = $(this).attr("val-left")
+                $(this).animate({
+                    bottom:b,
+                    left:l
+                },1000)
+            }
+
+        })
+        if(band){
+            $(".titulo").html("Clic para empezar")
+            setTimeout(function(){ $(".menu-item").toggle(); }, 1000);
+
+        }else{
+            $(".titulo").html("Cerrar")
+
+        }
+        return false
+    })
+</script>
 </body>
 </html>

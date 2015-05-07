@@ -1,3 +1,21 @@
+<div class="row" style="margin-top: 0px;margin-bottom: 10px">
+    <div class="col-md-2">
+        <label>Contratista:</label>
+    </div>
+    <div class="col-md-10">
+        ${pintura.contratista.nombre} - ${pintura.contratista.ruc}
+    </div>
+</div>
+<g:if test="${pintura.observaciones}">
+    <div class="row" style="margin-top: 0px;margin-bottom: 10px">
+        <div class="col-md-2">
+            <label>Observaciones:</label>
+        </div>
+        <div class="col-md-10">
+            ${pintura.observaciones}
+        </div>
+    </div>
+</g:if>
 <table class="table table-striped table-bordered table-condensed table-hover">
     <thead>
     <tr>

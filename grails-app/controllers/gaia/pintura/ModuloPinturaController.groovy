@@ -2,8 +2,6 @@ package gaia.pintura
 
 import gaia.Contratos.Cliente
 import gaia.Contratos.DashBoardContratos
-import gaia.Contratos.DetallePintura
-import gaia.Contratos.SubDetallePintura
 import gaia.documentos.Inspector
 import gaia.documentos.InspectorEstacion
 import gaia.documentos.Responsable
@@ -81,7 +79,7 @@ class ModuloPinturaController extends Shield {
 
         def cliente = Cliente.findByCodigoAndTipo(params.id,1)
 
-        def pinturas = DetallePintura.findAllByCliente(estacion.codigo,[sort: "fin",order: "desc"])
+        def pinturas = DetallePintura.findAllByCliente(cliente,[sort: "fin",order: "desc"])
 
 
 
@@ -94,6 +92,59 @@ class ModuloPinturaController extends Shield {
     def verPintura(){
         def detalle = SubDetallePintura.findAllBySecuencialAndCliente(params.secuencial,params.cliente)
         [detalle:detalle]
+    }
+
+    def ingreso(){
+
+        def estacion = Estacion.findByCodigoAndAplicacion(params.estacion, 1)
+        def ingreso = null
+        def detalle = []
+        if(params.id) {
+            ingreso = DetallePintura.get(params.id)
+            detalle = SubDetallePintura.findAllByDetallePintura(ingreso)
+        }
+        def items = ItemImagen.findAllByPadreIsNull()
+        [items:items,estacion: estacion,ingreso:ingreso,detalle: detalle]
+    }
+
+    def saveIngreso(){
+//        println "params "+params
+        def ingreso
+        params.remove("total")
+        if(params.id)
+            ingreso=DetallePintura.get(params.id)
+        else
+            ingreso = new DetallePintura()
+        ingreso.properties=params
+        ingreso.cliente=Cliente.findByCodigoAndTipo(params.estacion,1)
+        ingreso.contratista=Contratista.findByCodigo(params.contrat)
+
+        if(!ingreso.save(flush: true)) {
+            println "error save ingreso " + ingreso.errors
+        }else{
+            SubDetallePintura.findAllByDetallePintura(ingreso).each {
+                it.delete(flush: true)
+            }
+            if(params.data!=""){
+                def data = params.data.split("W")
+//                println "data "+data
+                data.each {d->
+                    if(d!=""){
+                        def datos = d.split(";")
+//                        println "datos "+datos
+                        def detalle = new SubDetallePintura()
+                        detalle.item=ItemImagen.get(datos[0])
+                        detalle.cantidad=datos[1].toDouble()
+                        detalle.unitario=datos[2].toDouble()
+                        detalle.total=datos[1].toDouble()*datos[2].toDouble()
+                        detalle.detallePintura=ingreso
+                        if(!detalle.save(flush: true))
+                            println "error save detalle "+detalle.errors
+                    }
+                }
+            }
+        }
+        redirect(action: "showEstacion",params: [id:ingreso.cliente.codigo])
     }
 
 

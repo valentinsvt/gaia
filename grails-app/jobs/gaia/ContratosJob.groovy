@@ -1,8 +1,9 @@
 package gaia
 
 import gaia.Contratos.Adendum
+import gaia.Contratos.Cliente
 import gaia.Contratos.DashBoardContratos
-import gaia.Contratos.DetallePintura
+import gaia.pintura.DetallePintura
 import gaia.Contratos.esicc.Pedido
 import gaia.Contratos.esicc.PeriodoDotacion
 import gaia.estaciones.Estacion
@@ -24,6 +25,7 @@ class ContratosJob {
         /*Indicador de los contratos*/
         Estacion.findAll("from Estacion where aplicacion = 1 and estado='A' and tipo=1").each { estacion ->
             def dash = DashBoardContratos.findByEstacion(estacion)
+            def cliente = Cliente.findByCodigoAndTipo(estacion.codigo,1)
             if (!dash) {
                 dash = new DashBoardContratos()
                 dash.estacion = estacion
@@ -32,15 +34,12 @@ class ContratosJob {
             if (contratos.size() > 0) {
                 dash.ultimoContrato = contratos.first().fin
             } else {
-                def sql = new Sql(dataSource_erp)
-                sql.eachRow("select * from CLIENTE where TIPO_CLIENTE=1 and ESTADO_CLIENTE='A' and CODIGO_CLIENTE='${estacion.codigo}'".toString()) { r ->
-                    if (r["FECHA_TERMINA_CONTRATO"] != null) {
-                        dash.ultimoContrato = r["FECHA_TERMINA_CONTRATO"]
-                    }
+                if (cliente.fechaTerminaContrato!= null) {
+                    dash.ultimoContrato = cliente.fechaTerminaContrato
                 }
             }
             /*Indicador de la pintura*/
-            def detalles = DetallePintura.findAllByCliente(estacion.codigo,[sort: "fin",order: "desc"])
+            def detalles = DetallePintura.findAllByCliente(cliente,[sort: "fin",order: "desc"])
             if(detalles.size()>0){
                 dash.ultimaPintura=detalles.first().fin
             }else{

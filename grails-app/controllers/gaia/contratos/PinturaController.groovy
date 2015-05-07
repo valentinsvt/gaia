@@ -1,29 +1,47 @@
 package gaia.contratos
 
 import gaia.Contratos.DashBoardContratos
-import gaia.Contratos.DetallePintura
-import gaia.Contratos.SubDetallePintura
+import gaia.pintura.DetallePintura
+import gaia.pintura.SubDetallePintura
 import gaia.seguridad.Shield
 
 class PinturaController extends Shield {
     static final sistema="CNTR"
 
     def lista(){
-        def estaciones
-        def dash
-        dash = DashBoardContratos.list([sort: "id"])
-        def now = new Date()
-        def inicio = new Date().parse("dd-MM-yyyy","01-01-"+now.format("yyyy"))
-        def fin = new Date().parse("dd-MM-yyyy","31-12-"+now.format("yyyy"))
-        [dash:dash,now:now,inicio:inicio,fin:fin]
+
     }
 
+    def tablaImagen(){
+        def inicio = new Date().parse("dd-MM-yyyy",params.desde)
+        def fin = new Date().parse("dd-MM-yyyy",params.hasta)
+        def datos = DetallePintura.findAllByFinBetween(inicio,fin)
+        [datos:datos,inicio:inicio,fin:fin]
+    }
+
+    def listaContable(){
+
+
+    }
+
+    def tablaContable(){
+        def inicio = new Date().parse("dd-MM-yyyy",params.desde)
+        def fin = new Date().parse("dd-MM-yyyy",params.hasta)
+        def datos = DetallePintura.findAllByFinBetween(inicio,fin)
+        def items = gaia.pintura.ItemImagen.findAllByPadreIsNull()
+        def totales = [:]
+        items.each {
+            totales.put(it.id,0)
+        }
+        [datos:datos,items:items,totales:totales]
+    }
+
+
+
     def verDetalles(){
-        def now = new Date()
-        def inicio = new Date().parse("dd-MM-yyyy","01-01-"+now.format("yyyy"))
-        def fin = new Date().parse("dd-MM-yyyy","31-12-"+now.format("yyyy"))
-        def pintura = DetallePintura.findByClienteAndFinBetween(params.id,inicio,fin,[sort: "fin",order: "desc"])
-        def detalle = SubDetallePintura.findAllBySecuencialAndCliente(pintura.secuencial,params.id)
+
+        def pintura = DetallePintura.get(params.id)
+        def detalle = SubDetallePintura.findAllByDetallePintura(pintura)
 
 
 
