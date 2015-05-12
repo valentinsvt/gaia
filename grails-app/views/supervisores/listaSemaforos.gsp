@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta name="layout" content="main"/>
-    <title>Estado documentación por estación</title>
+    <title>Estaciones</title>
     <link href="${g.resource(dir: 'css/custom/', file: 'dashboard.css')}" rel="stylesheet" type="text/css">
     <imp:js src="${resource(dir: 'js/plugins/jquery-highlight',file: 'jquery-highlight1.js')}"></imp:js>
     <style>
@@ -21,11 +21,12 @@
     </style>
 </head>
 <body>
-<elm:container tipo="horizontal" titulo="Pintura y mantenimiento por estación">
+<elm:container tipo="horizontal" titulo="Estado de la documentación por estación">
 
     <table class="table table-striped table-hover table-bordered" style="margin-top: 15px;font-size: 12px">
         <thead>
         <tr>
+            <th></th>
             <th>
                 <div class="row" style="margin-top: 0px">
                     <div class="col-md-5">
@@ -44,28 +45,27 @@
                     </div>
                 </div>
             </th>
-            <th class="td-semaforo">
-                Pintura y mantenimiento<br>
-                <div class="circle-card card-bg-green circle-btn pintura-green" title="Filtrar por color verde" mostrar="green-pintura"></div>
-                <div class="circle-card svt-bg-warning circle-btn pintura-orange" title="Filtrar por color naranja" mostrar="orange-pintura"></div>
-                <div class="circle-card svt-bg-danger circle-btn pintura-red" title="Filtrar por color rojo" mostrar="red-pintura"></div>
-            </th>
-            <th>Ver</th>
+
+            <th>Historial</th>
+            <th>Análisis de ventas</th>
         </tr>
         </thead>
         <tbody>
-        <g:each in="${dash}" var="d" status="">
-
-            <g:set var="colorPintura" value="${d.getColorSemaforoPintura()}"></g:set>
-            <tr data-id="${d.estacion.codigo}" class=" tr-info   ${colorPintura[1]}   ">
-                <td class="desc">${d.estacion.codigo+" - "+d.estacion.nombre }</td>
-
-                <td class="td-semaforo" style="text-align: left">
-                    <div class="circle-card ${colorPintura[0]}" ></div>
-                    ${d.ultimaPintura?d.ultimaPintura?.format("dd-MM-yyyy"):'N.A.'}
+        <g:each in="${dash}" var="d" status="i">
+            <tr data-id="${d.estacion.codigo}" class=" tr-info   ">
+                <td>${i+1}</td>
+                <td class="desc">${d.estacion}</td>
+                <td class="td-semaforo">
+                    <a href="${g.createLink(controller: 'supervisores',action: 'historial',params: [codigo: d.estacion.codigo])}"
+                       class="btn btn-info btn-sm" title="Historial">
+                        <i class="fa fa-history"></i>
+                    </a>
                 </td>
                 <td class="td-semaforo">
-                    <a href="${g.createLink(controller: 'moduloPintura',action: 'showEstacion',id: d.estacion.codigo)}" class="btn btn-primary btn-sm" title="Ver"><i class="fa fa-search"></i></a>
+                    <a href="${g.createLink(controller: 'supervisores',action: 'analisisVentas',params: [codigo: d.estacion.codigo])}"
+                       class="btn btn-info btn-sm" title="Análisis de ventas">
+                        <i class="fa icon-line-graph"></i>
+                    </a>
                 </td>
 
             </tr>
@@ -81,15 +81,15 @@
     function verEstacion(id) {
         $.ajax({
             type: "POST",
-            url: "${createLink(controller:'contratos', action:'show_ajax')}",
+            url: "${createLink(controller:'estacion', action:'show_ajax')}",
             data: {
                 id: id
             },
             success: function (msg) {
                 bootbox.dialog({
                     title: "Datos de la estación",
-                    class:"modal-lg",
                     message: msg,
+                    class:"modal-lg",
                     buttons: {
                         ok: {
                             label: "Aceptar",

@@ -52,7 +52,7 @@
     </style>
 </head>
 <body>
-<div class="row">
+<div class="row" style="margin-top: 0px">
     <div class="col-md-10" style="font-size: 20px;color: #3A5DAA;border-bottom: 1px solid #91bf36;padding-bottom: 5px;">
         Registro de pintura y mantenimiento, estación: ${estacion}
     </div>
@@ -71,7 +71,7 @@
         <div class="col-md-1">
             <label>Atención a</label>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
             <input type="text" class="form-control input-sm required" maxlength="30" name="atencionA" value="${ingreso?.atencionA}">
         </div>
     </div>
@@ -87,8 +87,14 @@
         <div class="col-md-1">
             <label>Factura</label>
         </div>
-        <div class="col-md-3">
-            <input type="text" class="form-control input-sm required" maxlength="30" name="numeroFactura" value="${ingreso?.numeroFactura}" >
+        <div class="col-md-2">
+            <input type="text" class="form-control input-sm " maxlength="30" name="numeroFactura" value="${ingreso?.numeroFactura}" >
+        </div>
+        <div class="col-md-1">
+            <label>Autorización de pago</label>
+        </div>
+        <div class="col-md-2">
+            <input type="text" class="form-control input-sm " maxlength="25" name="numeroAp" value="${ingreso?.numeroAp}" >
         </div>
     </div>
     <div class="row">

@@ -7,6 +7,7 @@ class DetallePintura  implements Serializable{
     Cliente cliente
     Contratista contratista
     String numeroFactura
+    String numeroAp
     String atencionA
     String observaciones
     Date fin
@@ -23,6 +24,7 @@ class DetallePintura  implements Serializable{
             cliente column: 'CODIGO_CLIENTE'
             contratista column: 'CODIGO_CONTRATISTA'
             numeroFactura column: 'NUMERO_FACTURA'
+            numeroAp column: 'NUMERO_AP'
             fin column: 'FECHA_FIN_TRABAJO'
             observaciones column: 'OBSERVACIONES_PINTURA'
             atencionA column: 'ATENCION_A'
@@ -30,7 +32,8 @@ class DetallePintura  implements Serializable{
     }
     static constraints = {
         cliente(size:1..8,nullable: false,blank:false)
-        numeroFactura(size: 1..50)
+        numeroFactura(size: 1..50,nullable: true,blank: true)
+        numeroAp(size: 1..20,nullable: true,blank: true)
         atencionA(size: 1..30,nullable: true,blank: true)
         observaciones(nullable: true,blank: true,size: 1..255)
     }

@@ -20,6 +20,7 @@
     <thead>
     <tr>
         <th># Factura</th>
+        <th># AP</th>
         <th>Item</th>
         <th>Cantidad</th>
         <th>Valor <br> unitario</th>
@@ -32,6 +33,7 @@
         <g:set var="total" value="${total+=d.total}"></g:set>
         <tr>
             <td>${pintura.numeroFactura}</td>
+            <td>${pintura.numeroAp}</td>
             <td>${d.item.descripcion}</td>
             <td style="text-align: right">${d.cantidad}</td>
             <td style="text-align: right">${d.unitario}</td>
@@ -39,7 +41,7 @@
         </tr>
     </g:each>
     <tr>
-        <td colspan="4" style="font-weight: bold">TOTAL</td>
+        <td colspan="5" style="font-weight: bold">TOTAL</td>
         <td style="text-align: right;font-weight: bold">${total.toDouble().round(2)}</td>
     </tr>
     </tbody>

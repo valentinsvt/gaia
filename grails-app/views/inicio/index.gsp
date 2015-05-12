@@ -88,7 +88,7 @@
 <div class="fondo">
     <div class="overlay"></div>
     <g:set var="display" value="${null}"></g:set>
-    <g:if test="${session.sistemas.size()>5}">
+    <g:if test="${session.sistemas.size()>6}">
         <g:set var="display" value="display:none;"></g:set>
         <g:set var="y" value="${390}"></g:set>
         <g:set var="x" value="${1}"></g:set>

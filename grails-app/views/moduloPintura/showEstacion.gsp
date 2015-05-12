@@ -70,7 +70,7 @@
             <i class="fa flaticon-fuel2"></i> Equipo
         </a>
         <g:link action="ingreso" class="btn btn-default" params="[estacion:estacion.codigo]">
-            <i class="fa fa-plus"></i> Registrar pintura
+            <i class="fa fa-plus"></i> Registrar pintura y mantenimiento
         </g:link>
     </div>
 </div>
@@ -131,6 +131,7 @@
                         <thead>
                         <tr>
                             <th>Factura</th>
+                            <th>Autorización <br/> de pago</th>
                             <th>Finalización de trabajo</th>
                             <th>Rotulación</th>
                             <th>Pintura</th>
@@ -147,6 +148,7 @@
                             </g:if>
                             <tr class="tr-info">
                                 <td >${pintura.numeroFactura}</td>
+                                <td >${pintura.numeroAp}</td>
                                 <td style="text-align: center">${pintura.fin?.format("dd-MM-yyyy")}</td>
                                 <td style="text-align: right">${pintura.getRotulacion()}</td>
                                 <td style="text-align: right">${pintura.getPintura()}</td>
@@ -164,7 +166,7 @@
                             </tr>
                         </g:each>
                         <tr>
-                            <td colspan="4" style="font-weight: bold">TOTAL</td>
+                            <td colspan="5" style="font-weight: bold">TOTAL</td>
                             <td style="text-align: right;font-weight: bold">${totalPintura.toDouble().round(2)}</td>
                         </tr>
                         </tbody>

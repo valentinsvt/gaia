@@ -4,6 +4,9 @@
     <meta name="layout" content="main"/>
     <title>Detalle de pintura y mantenimiento por estación</title>
     <imp:js src="${resource(dir: 'js/plugins/jquery-highlight',file: 'jquery-highlight1.js')}"></imp:js>
+    <style>
+    .highlight { background-color: yellow; }
+    </style>
 </head>
 <body>
 <elm:container tipo="horizontal" titulo="Detalle de pintura y mantenimiento por estación">

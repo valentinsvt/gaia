@@ -36,7 +36,7 @@
         <g:set var="totalR" value="${totalR+tR}"></g:set>
 
         <tr class="tr-info">
-            <td class="desc">${d.cliente.nombre}</td>
+            <td class="desc">${d.cliente}</td>
             <td class="desc">${d.numeroFactura}</td>
             <td style="text-align: right">
                 <g:formatNumber number="${tP}" type="currency" currencySymbol="" minFractionDigits="2"></g:formatNumber>
@@ -96,6 +96,7 @@
                 bootbox.dialog({
                     title: "Detalle de rubros",
                     message: msg,
+                    class:"modal-lg",
                     buttons: {
                         ok: {
                             label: "Aceptar",

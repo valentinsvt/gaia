@@ -35,7 +35,7 @@
     <g:each in="${datos}" var="d" status="">
         <g:set var="tot" value="${d.getTotal()}"></g:set>
         <tr class="tr-info">
-            <td class="desc">${d.cliente.nombre}</td>
+            <td class="desc">${d.cliente}</td>
             <td class="desc">${d.numeroFactura}</td>
             <g:each in="${items}" var="item">
                 <g:set var="valor" value="${d.getTotalGrupo(item)}"></g:set>
@@ -79,6 +79,7 @@
             success: function (msg) {
                 bootbox.dialog({
                     title: "Detalle de rubros",
+                    class:"modal-lg",
                     message: msg,
                     buttons: {
                         ok: {
