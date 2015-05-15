@@ -15,7 +15,7 @@ class Shield {
 //        return true
         /** **************************************************************************/
         if (!session.usuario) {
-            redirect(controller: 'login', action: 'login')
+            redirect(controller: 'login', action: 'logout')
             session.finalize()
             return false
         } else {

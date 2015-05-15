@@ -24,10 +24,16 @@ class SupervisoresController  extends Shield{
         def supervisores = Inspector.list([sort: "nombre"])
         def objetivos = ObjetivoSupervisores.list([sort: "periocidad",order: "desc"])
         def meses = ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"]
-        def colores = ["card-bg-green", "svt-bg-warning", "svt-bg-danger"]
-        def mes = new java.util.Date().format("MM")
-        def anio =  new java.util.Date().format("yyyy")
-        [supervisores:supervisores,objetivos:objetivos,meses: meses,colores:colores,mes:mes,mesint:mes.toInteger(),anio:anio]
+        def colores = ["#CE464A","#BB594D","#A86C50","#FFA324","#e8ff61","#9feb87","#5CB85C"]
+//        def colores = ["card-bg-green", "svt-bg-warning", "svt-bg-danger"]
+        def mes
+        use( TimeCategory ) {
+            mes = new Date() - 1.months
+
+        }
+        def anio =  mes.format("yyyy")
+        def fecha = mes
+        [supervisores:supervisores,objetivos:objetivos,meses: meses,colores:colores,mes:mes.format("MM"),mesint:mes.format("MM").toInteger(),anio:anio,fecha:fecha]
     }
 
     def listaSemaforos() {

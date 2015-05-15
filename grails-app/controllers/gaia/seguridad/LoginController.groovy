@@ -199,7 +199,7 @@ class LoginController {
         session.an = null
         session.cn = null
         session.invalidate()
-        redirect(controller: 'login', action: 'login')
+        redirect(url: "http://www.petroleosyservicios.com/esicc/bienvenida.php")
     }
 
     def finDeSesion() {
