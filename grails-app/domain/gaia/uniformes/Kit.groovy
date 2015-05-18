@@ -10,7 +10,7 @@ class Kit {
         table 'kit'
         cache usage: 'read-write', include: 'non-lazy'
         version false
-        sort fecha: "asc"
+        sort nombre: "asc"
         columns {
             id column: 'kit__id'
             nombre column: 'kit_nmbr'

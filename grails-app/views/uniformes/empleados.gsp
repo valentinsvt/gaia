@@ -50,7 +50,7 @@
 <elm:message tipo="info" clase="">
     <ul style="margin-top: -20px;margin-left: 10px">
         <li>Recuerde que cualquier cambio a la nómina de la estación debe ser
-        respaldada con un certificado del IESS que refleje lo registrado en el sistema.
+        respaldado con un certificado del IESS que refleje lo registrado en el sistema.
         </li>
         <li>No olvide registrar las tallas de los empleados de la estación, con un clic en el botón:
             <a href="#" title="Tallas" class="btn btn-info btn-sm">

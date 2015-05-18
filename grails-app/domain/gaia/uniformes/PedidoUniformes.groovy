@@ -9,8 +9,9 @@ class PedidoUniformes {
     PeriodoDotacion periodo
     Estacion estacion
     Inspector supervisor
+    String observaciones
     Date registro = new Date()
-    String estado="S" /*S-> solicitado A-> aprobado*/
+    String estado="P" /*P-> pendiente de envio  S-> solicitado y esperando aprobacion  A-> aprobado    N-> negado*/
 
 
     static mapping = {
@@ -25,6 +26,7 @@ class PedidoUniformes {
             supervisor column: 'insp__id'
             registro column: 'pdunfcha'
             estado column: 'pdunetdo'
+            observaciones column: 'pdunobsr'
 
         }
     }
@@ -34,5 +36,6 @@ class PedidoUniformes {
      */
     static constraints = {
         estado(size: 1..1)
+        observaciones(size: 1..255,blank: true,nullable: true)
     }
 }

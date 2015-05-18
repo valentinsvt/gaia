@@ -11,7 +11,6 @@ class DetallePedido {
         table 'dtpd'
         cache usage: 'read-write', include: 'non-lazy'
         version false
-        sort fecha: "asc"
         columns {
             id column: 'dtpd__id'
             pedido column: 'pdun__id'

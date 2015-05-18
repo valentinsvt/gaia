@@ -52,8 +52,9 @@
                 <div class="circle-card svt-bg-danger circle-btn equipo-red" title="Filtrar por color rojo" mostrar="red-equipo"></div>
             </th>
 
-            <th>Ver</th>
-            <th>Empleados</th>
+            <th style="width: 70px">Ver</th>
+            <th style="width: 70px">Empleados</th>
+            <th style="width: 70px">Solicitar</th>
         </tr>
         </thead>
         <tbody>
@@ -73,6 +74,11 @@
                 <td style="text-align: center">
                     <g:link action="empleados" id="${d.estacion.codigo}" class="btn btn-info btn-sm" title="Empleados">
                         <i class="fa fa-group"></i>
+                    </g:link>
+                </td>
+                <td style="text-align: center">
+                    <g:link action="solicitar" controller="solicitudes" id="${d.estacion.codigo}" class="btn btn-info btn-sm" title="Solicitar">
+                        <i class="fa fa-file-archive-o"></i>
                     </g:link>
                 </td>
             </tr>

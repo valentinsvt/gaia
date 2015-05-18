@@ -82,7 +82,7 @@
         <div class="col-md-3">
             <g:select name="contrat" from="${gaia.pintura.Contratista.list([sort: 'nombre'])}"
                       class="form-control input-sm required"
-                      optionKey="codigo" optionValue="nombre" value="${ingreso?.contratista?.id}"/>
+                      optionKey="codigo" optionValue="nombre" value="${ingreso?.contratista?.codigo}"/>
         </div>
         <div class="col-md-1">
             <label>Factura</label>
