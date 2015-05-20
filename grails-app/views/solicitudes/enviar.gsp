@@ -77,58 +77,75 @@
                 </div>
             </div>
             <div class="flow-body">
-
-                <div class="row">
-                    <div class="col-md-1">
-                        <label>Observaciones: </label>
+                <g:form action="enviarSolicitud" class="frmPedido">
+                    <input type="hidden" name="id" value="${sol.id}">
+                    <elm:message tipo="info" clase="">
+                        <ul style="margin-top: -20px;margin-left: 10px">
+                            <li>
+                                Revise los datos ingresados, registre alguna observación de ser necesario
+                                y presione en botón enviar para terminar el proceso y solicitar la aprobación de la solicitud.
+                            </li>
+                            <li>
+                                Una vez enviada la solicitud no podrá modificarla
+                            </li>
+                            <li>Si necesita hacer modificaciones a la solicitud, hágalo
+                                <g:link action="detalle" params="[id:estacion.codigo,pedido:sol?.id]" class="btn btn-warning btn-sm" >
+                                    <i class="fa fa-warning"></i> Aquí
+                                </g:link>
+                            </li>
+                        </ul>
+                    </elm:message>
+                    <div class="row">
+                        <div class="col-md-1">
+                            <label>Observaciones: </label>
+                        </div>
+                        <div class="col-md-11">
+                            <input type="text" id="obs"  name="observaciones" value="${sol?.observaciones}" class="form-control input-sm">
+                        </div>
                     </div>
-                    <div class="col-md-9">
-                        <input type="text" id="obs" value="${sol?.observaciones}" class="form-control input-sm">
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-md-10">
-
-                        <g:if test="${detalle.size()>0}">
-                            <table class="table table-striped table-bordered">
-                                <thead>
-                                <tr>
-                                    <th colspan="7">
-                                        Detalle del pedido
-                                    </th>
-                                </tr>
-                                <tr>
-                                    <th>Cédula</th>
-                                    <th>Nombre</th>
-                                    <th>Sexo</th>
-                                    <th>Kit</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <g:each in="${detalle}" var="d">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <g:if test="${detalle.size()>0}">
+                                <table class="table table-striped table-bordered">
+                                    <thead>
                                     <tr>
-                                        <td>${d.empleado.cedula}</td>
-                                        <td>${d.empleado.nombre}</td>
-                                        <td style="text-align: center">${d.empleado.sexo}</td>
-                                        <td>
-                                            ${d.kit.nombre}
-                                        </td>
+                                        <th colspan="5">
+                                            Detalle del pedido
+                                        </th>
                                     </tr>
-                                </g:each>
-                                </tbody>
-                            </table>
-                        </g:if>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Cédula</th>
+                                        <th>Nombre</th>
+                                        <th>Sexo</th>
+                                        <th>Dotación</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <g:each in="${detalle}" var="d" status="i">
+                                        <tr>
+                                            <td style="text-align: center;width: 30px">${i+1}</td>
+                                            <td>${d.empleado.cedula}</td>
+                                            <td>${d.empleado.nombre}</td>
+                                            <td style="text-align: center">${d.empleado.sexo}</td>
+                                            <td>
+                                                ${d.kit.getListaUiformes(d.empleado)}
+                                            </td>
+                                        </tr>
+                                    </g:each>
+                                    </tbody>
+                                </table>
+                            </g:if>
+                        </div>
                     </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-1">
-                        <a href="#" class="btn btn-success" id="Guardar">
-                            <i class="fa fa-save"></i>   Guardar y enviar
-                        </a>
+                    <div class="row">
+                        <div class="col-md-1">
+                            <a href="#" class="btn btn-success" id="guardar">
+                                <i class="fa fa-save"></i>   Guardar y enviar
+                            </a>
+                        </div>
                     </div>
-                </div>
-
+                </g:form>
             </div>
         </div>
     </div>
@@ -165,7 +182,7 @@
         verKit(id)
     })
     $("#guardar").click(function(){
-
+        $(".frmPedido").submit()
     });
 </script>
 </body>

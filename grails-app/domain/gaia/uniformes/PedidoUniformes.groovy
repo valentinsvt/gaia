@@ -18,7 +18,7 @@ class PedidoUniformes {
         table 'pdun'
         cache usage: 'read-write', include: 'non-lazy'
         version false
-        sort fecha: "asc"
+        sort registro: "asc"
         columns {
             id column: 'pdun__id'
             estacion column: 'estn__id'

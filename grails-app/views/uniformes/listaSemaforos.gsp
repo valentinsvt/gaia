@@ -26,7 +26,7 @@
     <table class="table table-striped table-hover table-bordered" style="margin-top: 15px;font-size: 12px">
         <thead>
         <tr>
-            <th style="width: 70%">
+            <th style="width: 50%">
                 <div class="row" style="margin-top: 0px">
                     <div class="col-md-5">
                         <div class="input-group" >
@@ -55,6 +55,7 @@
             <th style="width: 70px">Ver</th>
             <th style="width: 70px">Empleados</th>
             <th style="width: 70px">Solicitar</th>
+            <th style="width: 70px">Solicitudes</th>
         </tr>
         </thead>
         <tbody>
@@ -79,6 +80,11 @@
                 <td style="text-align: center">
                     <g:link action="solicitar" controller="solicitudes" id="${d.estacion.codigo}" class="btn btn-info btn-sm" title="Solicitar">
                         <i class="fa fa-file-archive-o"></i>
+                    </g:link>
+                </td>
+                <td style="text-align: center">
+                    <g:link action="listaSolicitudesEstacion" controller="solicitudes" id="${d.estacion.codigo}" class="btn btn-info btn-sm" title="Historial de solicitudes">
+                        <i class="fa fa-folder"></i>
                     </g:link>
                 </td>
             </tr>

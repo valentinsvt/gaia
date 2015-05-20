@@ -115,3 +115,16 @@ log4j.main = {
            'org.hibernate',
            'net.sf.ehcache.hibernate'
 }
+
+grails {
+    mail {
+        host = "smtp.gmail.com"
+        port = 465
+        username = "pys@petroleosyservicios.com"
+        password = "pys2014."
+        props = ["mail.smtp.auth":"true",
+                 "mail.smtp.socketFactory.port":"465",
+                 "mail.smtp.socketFactory.class":"javax.net.ssl.SSLSocketFactory",
+                 "mail.smtp.socketFactory.fallback":"false"]
+    }
+}

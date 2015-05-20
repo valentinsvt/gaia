@@ -65,10 +65,12 @@ grails.project.dependency.resolution = {
         compile ":quartz:1.0.2"
         compile ":mysql-connectorj:5.1.22.1"
         compile ":quartz-monitor:1.0"
+        compile ":mail:1.0.7"
         // plugins needed at runtime but not for compilation
         runtime ":hibernate4:4.3.6.1" // or ":hibernate:3.6.10.18"
         runtime ":database-migration:1.4.0"
         runtime ":jquery:1.11.1"
+
 
 //        runtime 'com.sybase.jdbc:jconnect:6.0.5'
         // Uncomment these to enable additional asset-pipeline capabilities

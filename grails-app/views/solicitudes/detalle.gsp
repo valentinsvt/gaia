@@ -118,7 +118,7 @@
                                             <td style="width: 300px">
                                                 <div class="input-group">
                                                     <g:select name="kit" from="${Kit.findAllByGenero(emp.sexo)}" optionKey="id" emp="${emp.id}"
-                                                              optionValue="nombre" class="form-control kit input-sm" id="cmb_${emp.id}"/>
+                                                              optionValue="nombre" class="form-control kit input-sm" id="cmb_${emp.id}" value="${gaia.uniformes.DetallePedido.findByEmpleadoAndPedido(emp,solicitud)?.kit?.id}"/>
                                                     <span class="input-group-addon ver" style="cursor: pointer" kit="#cmb_${emp.id}"  id="basic-addon2">
                                                         <i class="fa fa-search"></i> Ver kit
                                                     </span>
