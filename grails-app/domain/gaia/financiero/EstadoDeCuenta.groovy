@@ -1,4 +1,4 @@
-package gaia.EstadoDeCuenta
+package gaia.financiero
 
 import gaia.Contratos.Cliente
 

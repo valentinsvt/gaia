@@ -1,6 +1,6 @@
 package gaia
 
-import gaia.EstadoDeCuenta.EstadoDeCuenta
+import gaia.financiero.EstadoDeCuenta
 import org.codehaus.groovy.grails.web.context.ServletContextHolder as SCH
 import org.codehaus.groovy.grails.web.servlet.GrailsApplicationAttributes as GA
 

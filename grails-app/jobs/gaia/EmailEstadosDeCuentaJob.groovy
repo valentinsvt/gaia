@@ -1,6 +1,6 @@
 package gaia
 
-import gaia.EstadoDeCuenta.EstadoDeCuenta
+import gaia.financiero.EstadoDeCuenta
 import org.codehaus.groovy.grails.web.context.ServletContextHolder
 import org.codehaus.groovy.grails.web.servlet.GrailsApplicationAttributes
 import org.springframework.context.ApplicationContext
@@ -43,12 +43,12 @@ class EmailEstadosDeCuentaJob {
                     }
                 }
                 def pruebas = ["valentinsvt@hotmail.com"]
-                println "email estacion "+e.cliente.codigo+"  "+emails
+//                println "email estacion "+e.cliente.codigo+"  "+emails
                 Byte[] pdfData = file.readBytes()
                 mailService.sendMail {
                     multipart true
-                    to pruebas
-//                    to emails
+//                    to pruebas
+                    to emails
                     subject "Estado de cuenta PyS";
                     attachBytes "Estado-de-cuenta-${e.mes}.pdf", "application/x-pdf", pdfData
                     body( view:"/estadoDeCuenta/estadoDeCuenta")

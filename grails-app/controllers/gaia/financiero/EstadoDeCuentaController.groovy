@@ -1,22 +1,22 @@
-package gaia.supervisores
+package gaia.financiero
 
 
 import gaia.Contratos.Cliente
-import gaia.EstadoDeCuenta.EstadoDeCuenta
 import gaia.documentos.Inspector
+import gaia.seguridad.Shield
 import org.quartz.Scheduler
 import org.quartz.Trigger
 
 import static org.quartz.impl.matchers.GroupMatcher.jobGroupEquals
 
-class EstadoDeCuentaController {
-
+class EstadoDeCuentaController extends Shield{
+    static sistema="FNCR"
     Scheduler quartzScheduler
     def mailService
     def estadosDeCuentaService
     def index() {
         def supervisores = estadosDeCuentaService.getSupervisores()
-        //estadosDeCuentaService.generaPdf(EstadoDeCuenta.get(35))
+        //estadosDeCuentaService.generaPdf(financiero.get(35))
         def mes = new Date().format("MM").toInteger()
         def anio = new Date().format("yyyy").toInteger()
         def meses = [:]

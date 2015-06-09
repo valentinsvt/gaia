@@ -10,11 +10,9 @@ import com.itextpdf.text.pdf.PdfContentByte
 import com.itextpdf.text.pdf.PdfPCell
 import com.itextpdf.text.pdf.PdfPTable
 import com.itextpdf.text.pdf.PdfWriter
-import gaia.EstadoDeCuenta.EstadoDeCuenta
+import gaia.financiero.EstadoDeCuenta
 import groovy.sql.Sql
 import org.codehaus.groovy.grails.web.context.ServletContextHolder as SCH
-import org.codehaus.groovy.grails.web.servlet.mvc.GrailsWebRequest
-import org.springframework.context.NoSuchMessageException
 import org.springframework.util.StringUtils
 
 import java.math.RoundingMode
