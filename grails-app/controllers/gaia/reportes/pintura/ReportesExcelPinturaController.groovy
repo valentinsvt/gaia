@@ -68,7 +68,7 @@ class ReportesExcelPinturaController {
             def curCol = iniCol
             Workbook wb = new Workbook()
             Sheet sheet = wb.createSheet("Rotulación")
-            def abolutePath =request.getSession().getServletContext().getRealPath("/images/logo-login.png")
+            def abolutePath =request.getSession().getServletContext().getRealPath("//images/logo-login.png")
             InputStream inputStream = new FileInputStream(abolutePath);
             byte[] bytes = IOUtils.toByteArray(inputStream);
             int pictureIdx = wb.addPicture(bytes, Workbook.PICTURE_TYPE_PNG);
@@ -295,7 +295,7 @@ class ReportesExcelPinturaController {
             def curCol = iniCol
             Workbook wb = new Workbook()
             Sheet sheet = wb.createSheet("Pintura")
-            def abolutePath =request.getSession().getServletContext().getRealPath("/images/logo-login.png")
+            def abolutePath =request.getSession().getServletContext().getRealPath("//images/logo-login.png")
             InputStream inputStream = new FileInputStream(abolutePath);
             byte[] bytes = IOUtils.toByteArray(inputStream);
             int pictureIdx = wb.addPicture(bytes, Workbook.PICTURE_TYPE_PNG);
@@ -524,7 +524,7 @@ class ReportesExcelPinturaController {
             def curCol = iniCol
             Workbook wb = new Workbook()
             Sheet sheet = wb.createSheet("Pintura")
-            def abolutePath =request.getSession().getServletContext().getRealPath("/images/logo-login.png")
+            def abolutePath =request.getSession().getServletContext().getRealPath("//images/logo-login.png")
             InputStream inputStream = new FileInputStream(abolutePath);
             byte[] bytes = IOUtils.toByteArray(inputStream);
             int pictureIdx = wb.addPicture(bytes, Workbook.PICTURE_TYPE_PNG);

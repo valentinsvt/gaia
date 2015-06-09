@@ -217,8 +217,8 @@ class SolicitudesController extends Shield {
             subject "Nueva solicitud de dotación"
             body( view:"mailSolicitudes",
                     model:[sol: sol])
-            inline 'logo','image/png', new File('images/logo-login.png').readBytes()
-//            inline 'logo','image/png', new File('./web-app/images/logo-login.png').readBytes()
+            inline 'logo','image/png', new File('//images/logo-login.png').readBytes()
+//            inline 'logo','image/png', new File('./web-app///images/logo-login.png').readBytes()
         }
 
         redirect(action: "listaSolicitudesEstacion",id: sol.estacion.codigo)
@@ -316,8 +316,8 @@ class SolicitudesController extends Shield {
                     subject "Solicitud aprobada"
                     body( view:"solicitudAprobada",
                             model:[sol: sol])
-                    inline 'logo','image/png', new File('images/logo-login.png').readBytes()
-//                    inline 'logo','image/png', new File('./web-app/images/logo-login.png').readBytes()
+                    inline 'logo','image/png', new File('//images/logo-login.png').readBytes()
+//                    inline 'logo','image/png', new File('./web-app///images/logo-login.png').readBytes()
                 }
                 flash.message="Solicitud aprobada"
                 redirect(action: "verSolicitud",params: ["pedido":sol.id])
