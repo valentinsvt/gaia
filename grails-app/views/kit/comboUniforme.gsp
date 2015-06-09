@@ -1,1 +1,0 @@
-<g:select name="uniformes" id="uniforme" from="${uniformes}" optionKey="codigo" optionValue="descripcion" class="form-control input-sm"></g:select>
