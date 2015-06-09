@@ -15,6 +15,7 @@
     .cabecera{
         cursor: pointer;
     }
+
     </style>
 </head>
 <body>
@@ -81,7 +82,7 @@
             ${sol.estacion}
         </div>
     </div>
-    <div class="row">
+    <div class="row" style="margin-bottom: 20px">
         <div class="col-md-1">
             <label>Estado</label>
         </div>
@@ -102,7 +103,7 @@
         <div class="col-md-2">
             <label>Certificado IESS</label>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-2">
             <a href="#" data-file="${certificado?.path}"
                data-ref="Certificado del IESS"
                data-codigo=""
@@ -111,59 +112,64 @@
                 <i class="fa fa-search"></i> Ver
             </a>
         </div>
+        <div class="col-md-2">
+            <label>Número de operadores</label>
+        </div>
+        <div class="col-md-1">
+            ${gaia.uniformes.NominaEstacion.countByEstacionAndEstado(sol.estacion,"A")} <i class="fa fa-user"></i>
+        </div>
     </div>
+
     <div class="row">
-        <div class="col-md-12">
-            <table class="table table-striped table-bordered">
+        <div class="col-md-10">
+            <table class="table table-bordered table-striped">
                 <thead>
                 <tr class="cabecera">
                     <th colspan="6">
-                        Detalle del pedido (Resumindo)
+                        Detalle resumido
                     </th>
                 </tr>
                 <tr class="tbody">
-                    <th>#</th>
-                    <th>Cédula</th>
-                    <th>Nombre</th>
-                    <th>Sexo</th>
-                    <th>Kit</th>
-                    <th>Dotación</th>
+                    <th>Uniforme</th>
+                    <th>Tallas</th>
+                    <th>Cantidad</th>
                 </tr>
                 </thead>
                 <tbody class="tbody">
-                <g:each in="${detalle}" var="d" status="i">
+                <g:each in="${resumen}" var="r">
                     <tr>
-                        <td style="text-align: center;width: 30px">${i+1}</td>
-                        <td>${d.empleado.cedula}</td>
-                        <td>${d.empleado.nombre}</td>
-                        <td style="text-align: center">${d.empleado.sexo}</td>
-                        <td>${d.kit.nombre}</td>
+                        <td>${r.key}</td>
                         <td>
-                            ${d.kit.getListaUiformes(d.empleado)}
+                            <ul class="pys">
+                                <g:each in="${r.value['detalle']}" var="d">
+                                    <li>${d}</li>
+                                </g:each>
+                            </ul>
                         </td>
+                        <td style="text-align: right;font-weight: bold">${r.value["cantidad"]}</td>
                     </tr>
                 </g:each>
                 </tbody>
             </table>
         </div>
     </div>
-    <elm:message tipo="info" clase="">
-        Si los precios de la tabla están desactualizados por favor actualícelos antes de aprobar la solicitud
-    </elm:message>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-10" >
+            <elm:message tipo="info" clase="" >
+                Si los precios de la tabla están desactualizados por favor actualícelos antes de aprobar la solicitud
+            </elm:message>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-10">
             <table class="table table-bordered">
                 <thead>
                 <tr class="cabecera">
-                    <th colspan="10">
-                        Detalle del pedido (Detallado)
+                    <th colspan="6">
+                        Detalle del pedido
                     </th>
                 </tr>
                 <tr class="tbody">
-                    <th>#</th>
-                    <th>Cédula</th>
-                    <th>Nombre</th>
-                    <th>Sexo</th>
                     <th>Uniforme</th>
                     <th>Talla</th>
                     <th>Cantidad</th>
@@ -177,41 +183,41 @@
                 <tbody class="tbody">
                 <g:set var="cont" value="${1}"></g:set>
                 <g:set var="total" value="${0}"></g:set>
+                <g:set var="anterior" value="${null}"></g:set>
+                <g:set var="totalParcial" value="${0}"></g:set>
                 <g:each in="${detalle}" var="d" status="i">
-                    <g:each in="${gaia.uniformes.DetalleKit.findAllByKit(d.kit)}" var="dt" status="j">
-                        <g:set var="total" value="${total+=dt.cantidad*dt.uniforme.precio}"></g:set>
-                        <tr class="${i%2==0?'even':'odd'}">
-                            <td style="text-align: center;width: 30px">${cont}</td>
-                            <td>${d.empleado.cedula}</td>
-                            <td>${d.empleado.nombre}</td>
-                            <td style="text-align: center">${d.empleado.sexo}</td>
-                            <td>${dt.uniforme.descripcion}</td>
-                            <td>
-                                <g:set var="talla" value="${gaia.uniformes.EmpleadoTalla.findByEmpleadoAndUniforme(d.empleado,dt.uniforme)}"/>
-                                ${talla?.talla}
 
-                            </td>
-                            <td style="text-align: right">${dt.cantidad}</td>
-                            <td style="text-align: right">
-                                <g:formatNumber number="${dt.uniforme.precio}" type="currency" currencySymbol="\$"/>
-                            </td>
-                            <td style="text-align: right">
-                                <g:formatNumber number="${dt.cantidad*dt.uniforme.precio}" type="currency" currencySymbol="\$"/>
-                            </td>
-                            <td style="text-align: center">
-                                <input type="checkbox" value="1" class="chk" checked
-                                       uniforme="${dt.uniforme.codigo}"  cantidad="${dt.cantidad}"
-                                       empleado="${d.empleado.id}" talla="${talla?.talla.codigo}" >
-                            </td>
-                        </tr>
+                    <g:set var="total" value="${total+=d.cantidad*d.uniforme.precio}"></g:set>
+                    <g:if test="${anterior!=d.uniforme.descripcion}">
                         <g:set var="cont" value="${cont+=1}"></g:set>
-                    </g:each>
-
+                        <g:set var="anterior" value="${d.uniforme.descripcion}"></g:set>
+                        <g:set var="td" value="${d.uniforme.descripcion}"></g:set>
+                    </g:if>
+                    <g:else>
+                        <g:set var="td" value=""></g:set>
+                    </g:else>
+                    <tr class="${cont%2==0?'even':'odd'}">
+                        <td>${td}</td>
+                        <td>
+                            ${d.talla}
+                        </td>
+                        <td style="text-align: right">${d.cantidad}</td>
+                        <td style="text-align: right">
+                            <g:formatNumber number="${d.uniforme.precio}" type="currency" currencySymbol="\$"/>
+                        </td>
+                        <td style="text-align: right">
+                            <g:formatNumber number="${d.cantidad*d.uniforme.precio}" type="currency" currencySymbol="\$"/>
+                        </td>
+                        <td style="text-align: center">
+                            <input type="checkbox" value="1" class="chk" checked
+                                   iden="${d.id}">
+                        </td>
+                    </tr>
                 </g:each>
                 </tbody>
-                <tfoot>
+                <tfoot class="tbody">
                 <tr>
-                    <td colspan="8" style="font-weight: bold">TOTAL</td>
+                    <td colspan="4" style="font-weight: bold">TOTAL</td>
                     <td style="font-weight: bold;text-align: right">
                         <g:formatNumber number="${total}" type="currency" currencySymbol="\$"/>
                     </td>
@@ -314,11 +320,7 @@
         var data = ""
         $(".chk").each(function(){
             if(this.checked){
-                var uniforme = $(this).attr("uniforme")
-                var talla = $(this).attr("talla")
-                var empleado = $(this).attr("empleado")
-                var cantidad = $(this).attr("cantidad")
-                data+=""+uniforme+";"+talla+";"+empleado+";"+cantidad+"W"
+                data+=$(this).attr("iden")+";"
             }
         });
         if(data==""){

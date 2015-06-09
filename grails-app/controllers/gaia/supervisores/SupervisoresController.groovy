@@ -67,13 +67,20 @@ class SupervisoresController  extends Shield{
         }
 
         def cliente = Cliente.findByCodigoAndTipo(params.codigo,1)
+        def estacion = Estacion.findByCodigoAndAplicacion(params.codigo,1)
         def responsable = Responsable.findByLogin(session.usuario.login)
         def supervisor = Inspector.findByCodigo(responsable.codigoSupervisor)
         def analisis
+        def fecha1 = new Date().parse("dd-MM-yyyy","01-"+lastMonth.format("MM-yyyy"))
+        def fecha2 = new Date().parse("dd-MM-yyyy","31-"+lastMonth.format("MM-yyyy"))
+        def fecha3 = new Date().parse("dd-MM-yyyy","01-"+lastYear.format("MM-yyyy"))
+        def fecha4 = new Date().parse("dd-MM-yyyy","31-"+lastYear.format("MM-yyyy"))
+        println "fecha 1 "+fecha1
+        println "fecha 2 "+fecha2
         analisis=Analisis.withCriteria {
             eq("supervisor",supervisor)
-            between("fecha",new Date().parse("dd-MM-yyyy","01-"+lastMonth.format("MM-yyyy")),new Date().parse("dd-MM-yyyy","31-"+lastMonth.format("MM-yyyy")))
-            eq("estacion",cliente)
+            between("fecha",fecha1,fecha2)
+            eq("estacion",estacion)
         }
         if(analisis.size()>0)
             analisis=analisis.first()
@@ -81,11 +88,11 @@ class SupervisoresController  extends Shield{
             analisis=null
         def ventasActual = 0
         def ventasAnterior = 0
-        Factura.findAllByClienteAndFechaBetween(cliente,new Date().parse("dd-MM-yyyy","01-"+lastMonth.format("MM-yyyy")),new Date().parse("dd-MM-yyyy","31-"+lastMonth.format("MM-yyyy"))).each {f->
+        Factura.findAllByClienteAndFechaBetween(cliente,fecha1,fecha2).each {f->
             if(f.condicion=='1')
                 ventasActual+=f.pago
         }
-        Factura.findAllByClienteAndFechaBetween(cliente,new Date().parse("dd-MM-yyyy","01-"+lastYear.format("MM-yyyy")),new Date().parse("dd-MM-yyyy","31-"+lastYear.format("MM-yyyy"))).each {f->
+        Factura.findAllByClienteAndFechaBetween(cliente,fecha3,fecha4).each {f->
             if(f.condicion=='1')
                 ventasAnterior+=f.pago
         }

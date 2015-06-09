@@ -3,6 +3,7 @@ package gaia.alertas
 import gaia.documentos.Documento
 import gaia.estaciones.Estacion
 import gaia.seguridad.Persona
+import gaia.seguridad.Sistema
 
 /**
  * Clase para conectar con la tabla 'alertas' de la base de datos
@@ -50,6 +51,8 @@ class Alerta {
      */
     int id_remoto
 
+    Sistema sistema
+
     /**
      * Define los campos que se van a ignorar al momento de hacer logs
      */
@@ -75,6 +78,7 @@ class Alerta {
             id_remoto column: 'aleridrm'
             estacion column: 'stcn__id'
             documento column: 'dcmt__id'
+            sistema column: 'stma__id'
         }
     }
 
@@ -92,6 +96,7 @@ class Alerta {
         accion(nullable: true, blank: true)
         id_remoto(nullable: true, blank: true)
         documento(nullable: true,blank:true)
+        sistema(nullable: true,blank:true)
     }
 
     /**

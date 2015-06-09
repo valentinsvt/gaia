@@ -65,7 +65,7 @@ class DetallePintura  implements Serializable{
         def total = 0
         def detalles = SubDetallePintura.findAllByDetallePintura(this)
         detalles.each {
-                total+=it.total
+            total+=it.total
         }
         return total.toDouble().round(2)
     }
@@ -80,5 +80,34 @@ class DetallePintura  implements Serializable{
         return total.toDouble().round(2)
     }
 
+    def getTotalItem(ItemImagen item){
+        def total = 0
+        def detalles = SubDetallePintura.findAllByDetallePinturaAndItem(this,item)
+        detalles.each {
+            total+=it.total
+        }
+        return total.toDouble().round(2)
+    }
+
+    def getMapaItems(mapa){
+
+        SubDetallePintura.findAllByDetallePintura(this).each {
+            if(!mapa[it.item.descripcion])
+                mapa.put(it.item.descripcion,it.total)
+            else
+                mapa[it.item.descripcion]+=it.total
+        }
+        return mapa
+    }
+    def getCantidadYPrecioItem(ItemImagen item){
+        def total = 0
+        def cant = 0
+        def detalles = SubDetallePintura.findAllByDetallePinturaAndItem(this,item)
+        detalles.each {
+            total+=it.total
+            cant+=it.cantidad
+        }
+        return [total,cant]
+    }
 
 }

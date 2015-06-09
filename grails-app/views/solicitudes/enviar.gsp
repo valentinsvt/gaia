@@ -16,6 +16,9 @@
     .header-flow-item{
         width: 33%;
     }
+    .odd{
+        background: #E3E6F2;
+    }
     </style>
 </head>
 <body>
@@ -106,10 +109,10 @@
                     <div class="row">
                         <div class="col-md-12">
                             <g:if test="${detalle.size()>0}">
-                                <table class="table table-striped table-bordered">
+                                <table class="table  table-bordered">
                                     <thead>
                                     <tr>
-                                        <th colspan="5">
+                                        <th colspan="7">
                                             Detalle del pedido
                                         </th>
                                     </tr>
@@ -118,19 +121,28 @@
                                         <th>Cédula</th>
                                         <th>Nombre</th>
                                         <th>Sexo</th>
-                                        <th>Dotación</th>
+                                        <th>Uniforme</th>
+                                        <th>Talla</th>
+                                        <th>Cantidad</th>
                                     </tr>
                                     </thead>
                                     <tbody>
+                                    <g:set var="anterior" value="${null}"></g:set>
+                                    <g:set var="cont" value="${0}"></g:set>
                                     <g:each in="${detalle}" var="d" status="i">
-                                        <tr>
+                                        <g:if test="${anterior!=d.empleado.id}">
+                                            <g:set var="anterior" value="${d.empleado.id}"></g:set>
+                                            <g:set var="cont" value="${cont+1}"></g:set>
+                                        </g:if>
+                                        <g:else></g:else>
+                                        <tr class="${cont%2!=0?'odd':''}">
                                             <td style="text-align: center;width: 30px">${i+1}</td>
                                             <td>${d.empleado.cedula}</td>
                                             <td>${d.empleado.nombre}</td>
                                             <td style="text-align: center">${d.empleado.sexo}</td>
-                                            <td>
-                                                ${d.kit.getListaUiformes(d.empleado)}
-                                            </td>
+                                            <td>${d.uniforme}</td>
+                                            <td>${d.talla}</td>
+                                            <td style="text-align: right">${d.cantidad}</td>
                                         </tr>
                                     </g:each>
                                     </tbody>
@@ -151,36 +163,8 @@
     </div>
 </elm:container>
 <script type="text/javascript">
-    function verKit(id) {
-        openLoader()
-        $.ajax({
-            type: "POST",
-            url: "${createLink(controller:'solicitudes', action:'verKit')}",
-            data: {
-                id: id
-            },
-            success: function (msg) {
-                closeLoader()
-                bootbox.dialog({
-                    title: "Detalle del kit",
-                    message: msg,
-                    buttons: {
-                        ok: {
-                            label: "Cerrar",
-                            className: "btn-primary",
-                            callback: function () {
-                            }
-                        }
-                    }
-                });
-            }
-        });
-        return false
-    }
-    $(".ver").click(function(){
-        var id = $(""+$(this).attr("kit")).val()
-        verKit(id)
-    })
+
+
     $("#guardar").click(function(){
         $(".frmPedido").submit()
     });

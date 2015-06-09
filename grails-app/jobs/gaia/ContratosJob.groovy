@@ -34,7 +34,7 @@ class ContratosJob {
             if (contratos.size() > 0) {
                 dash.ultimoContrato = contratos.first().fin
             } else {
-                if (cliente.fechaTerminaContrato!= null) {
+                if (cliente?.fechaTerminaContrato!= null) {
                     dash.ultimoContrato = cliente.fechaTerminaContrato
                 }
             }

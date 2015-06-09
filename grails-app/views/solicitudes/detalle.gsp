@@ -16,35 +16,20 @@
     .header-flow-item{
         width: 33%;
     }
+    select{
+        border-radius: 5px;
+        padding: 2px;
+    }
+    .titulo{
+        cursor: pointer;
+    }
+    .panel-body{
+        padding: 5px;
+        margin-top: 0px;
+    }
     </style>
 </head>
 <body>
-<div class="pdf-viewer">
-    <div class="pdf-content" >
-        <div class="pdf-container" id="doc"></div>
-        <div class="pdf-handler" >
-            <i class="fa fa-arrow-right"></i>
-        </div>
-        <div class="pdf-header" id="data">
-            N. Referencia: <span id="referencia-pdf" class="data"></span>
-            Código: <span id="codigo" class="data"></span>
-            Tipo: <span id="tipo" class="data"></span>
-
-
-
-        </div>
-        <div id="msgNoPDF">
-            <p>No tiene configurado el plugin de lectura de PDF en este navegador.</p>
-
-            <p>
-                Puede
-                <a class="text-info" target="_blank" style="color: white" href="http://get.adobe.com/es/reader/">
-                    <u>descargar Adobe Reader aquí</u>
-                </a>
-            </p>
-        </div>
-    </div>
-</div>
 <div class="btn-toolbar toolbar" style="margin-top: 10px;margin-bottom: 0;margin-left: -20px">
     <div class="btn-group">
         <a href="${g.createLink(controller: 'uniformes',action: 'listaSemaforos')}" class="btn btn-default ">
@@ -79,10 +64,7 @@
                     <input type="hidden" name="id" value="${solicitud?.id}">
                     <input type="hidden" name="estacion" value="${estacion.codigo}">
                     <input type="hidden" name="data" value="" id="datos">
-                    <elm:message tipo="info" clase="">
-                        Seleccione el tipo de Kit para cada empleado y cuando haya finalizado de un clic en el botón guardar
-                    </elm:message>
-                    <div class="row">
+                    <div class="row" style="margin-bottom: 10px">
                         <div class="col-md-2">
                             <label>Periodo de dotación: </label>
                         </div>
@@ -90,52 +72,78 @@
                             <g:select name="periodo" from="${gaia.Contratos.esicc.PeriodoDotacion.list([sort: 'codigo',order: 'desc'])}"
                                       optionKey="codigo" optionValue="descripcion" class="form-control input-sm periodo"/>
                         </div>
+                        <div class="col-md-4"></div>
+                        <div class="col-md-1 ">
+                            <a href="#" id="ayuda" class="btn btn-warning btn-sm" style="width: 100%">
+                                <i class="fa fa-question"></i> Ayuda
+                            </a>
+                        </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-10">
+                    <g:each in="${nomina}" var="n" status="i">
+                        <div class="row" style="margin-top: 0px">
+                            <div class="col-md-10">
+                                <div class="panel panel-warning panel_${n.id}">
+                                    <div class="panel-heading titulo">${n.cedula} - ${n.nombre} - ${n.sexo}</div>
+                                    <div class="panel-body">
+                                        <div class="row contenido" style="margin-top: 0px" >
+                                            <div class="col-md-12">
+                                                <table class="table table-bordered table-striped " style="font-size: 11px">
+                                                    <thead>
+                                                    <tr>
+                                                        <th>Uniforme</th>
+                                                        <th>Talla</th>
+                                                        <th>Cantidad</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <g:each in="${gaia.Contratos.esicc.Uniforme.findAllByTipoInList(['U',n.sexo],[sort: 'descripcion',order: 'desc'])}" var="u">
+                                                        <g:if test="${u.codigo!=8}">
+                                                            <tr>
+                                                                <td>${u.descripcion}</td>
+                                                                <td style="text-align: center">${n.getTalla(u)}</td>
+                                                                <td style="width: 60px">
+                                                                    <g:set var="valor" value="${n.getCantidadSolicitudUniforme(solicitud,u)}"></g:set>
+                                                                    <g:select name="cant" from="${0..maximos[u.codigo.toString()]}"
+                                                                              class="u_${u.codigo} cantidad emp_${n.id} emp_${n.id}_${u.codigo} ${valor?'valor':''}"
+                                                                              talla="${n.getTalla(u).codigo}" uniforme="${u.codigo}" empleado="${n.id}"
+                                                                              min="0" max="${maximos[u.codigo.toString()]}"
+                                                                              value="${(u.codigo == 2 || u.codigo==3)?'1':valor}"
+                                                                              disabled="${(u.codigo == 2 || u.codigo==3)?true:false}"
+                                                                    >
+                                                                    </g:select>
 
-                            <g:if test="${nomina.size()>0}">
-                                <table class="table table-striped table-bordered">
-                                    <thead>
-                                    <tr>
-                                        <th colspan="7">
-                                            Lista de empleados de la estación ${estacion.nombre}
-                                        </th>
-                                    </tr>
-                                    <tr>
-                                        <th>Cédula</th>
-                                        <th>Nombre</th>
-                                        <th>Sexo</th>
-                                        <th>Kit</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <g:each in="${nomina}" var="emp">
-                                        <tr>
-                                            <td>${emp.cedula}</td>
-                                            <td>${emp.nombre}</td>
-                                            <td style="text-align: center">${emp.sexo}</td>
-                                            <td style="width: 300px">
-                                                <div class="input-group">
-                                                    <g:select name="kit" from="${Kit.findAllByGenero(emp.sexo)}" optionKey="id" emp="${emp.id}"
-                                                              optionValue="nombre" class="form-control kit input-sm" id="cmb_${emp.id}" value="${gaia.uniformes.DetallePedido.findByEmpleadoAndPedido(emp,solicitud)?.kit?.id}"/>
-                                                    <span class="input-group-addon ver" style="cursor: pointer" kit="#cmb_${emp.id}"  id="basic-addon2">
-                                                        <i class="fa fa-search"></i> Ver kit
-                                                    </span>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    </g:each>
-                                    </tbody>
-                                </table>
-                            </g:if>
+                                                                </td>
+                                                            </tr>
+                                                        </g:if>
+                                                    </g:each>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <div class="row contenido" style="margin-top: 0px">
+                                            <div class="col-md-2">
+                                                <a href="#" class="guardar btn btn-success btn-sm" grupo="emp_${n.id}" emp="${n.id}" >
+                                                    <i class="fa fa-save"></i> Guardar
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </g:each>
+                    <div class="row">
+                        <div class="col-md-10" id="detalle">
+
                         </div>
                     </div>
                     <g:if test="${!errores}">
                         <div class="row">
                             <div class="col-md-1">
-                                <a href="#" class="btn btn-success" id="guardar">
-                                    <i class="fa fa-save"></i>   Guardar
+                                <a href="#" class="btn btn-success" id="continuar">
+                                    Continuar  <i class="fa fa-arrow-right"></i>
                                 </a>
                             </div>
                         </div>
@@ -146,44 +154,267 @@
     </div>
 </elm:container>
 <script type="text/javascript">
-    function verKit(id) {
+    function checkPendientes(){
+        $(".valor").each(function(){
+            var panel = $(this).parents(".panel_"+$(this).attr("empleado"))
+            if(!panel.hasClass("panel-success")){
+                panel.addClass("panel-success")
+                panel.removeClass("panel-warning")
+            }
+        })
+    };
+
+    function cargarDetalle() {
         openLoader()
         $.ajax({
             type: "POST",
-            url: "${createLink(controller:'solicitudes', action:'verKit')}",
+            url: "${createLink(controller:'solicitudes', action:'detallePedido')}",
             data: {
-                id: id
+                id: "${solicitud?.id}"
             },
             success: function (msg) {
                 closeLoader()
-                bootbox.dialog({
-                    title: "Detalle del kit",
-                    message: msg,
-                    buttons: {
-                        ok: {
-                            label: "Cerrar",
-                            className: "btn-primary",
-                            callback: function () {
-                            }
-                        }
-                    }
-                });
+                $("#detalle").html(msg)
             }
         });
-        return false
     }
-    $(".ver").click(function(){
-        var id = $(""+$(this).attr("kit")).val()
-        verKit(id)
+
+
+    checkPendientes()
+    $(".u_1").change(function(){
+
+        var emp = $(this).attr("empleado")
+        var textfield = $(".emp_"+emp+"_9")
+        if(textfield.val()*1 + $(this).val()*1 >2){
+            textfield.val(0)
+        }
+        $(".emp_"+emp+"_10").change()
     })
-    $("#guardar").click(function(){
-        var data = ""
-        $(".kit").each(function(){
-            data+=$(this).attr("emp")+";"+$(this).val()+"W"
-        })
-        $("#datos").val(data)
-        $(".frmPedido").submit()
+    $(".u_9").change(function(){
+        var emp = $(this).attr("empleado")
+        var textfield = $(".emp_"+emp+"_1")
+        if(textfield.val()*1 + $(this).val()*1 >2){
+            textfield.val(0)
+        }
+        $(".emp_"+emp+"_10").change()
+    })
+
+    $(".u_4").change(function(){
+
+        var emp = $(this).attr("empleado")
+        var textfield = $(".emp_"+emp+"_7")
+        if(textfield.val()*1 + $(this).val()*1 >2){
+            textfield.val(0)
+        }
+        $(".emp_"+emp+"_10").change()
+    })
+    $(".u_7").change(function(){
+        var emp = $(this).attr("empleado")
+        var textfield = $(".emp_"+emp+"_4")
+        if(textfield.val()*1 + $(this).val()*1 >2){
+            textfield.val(0)
+        }
+        $(".emp_"+emp+"_10").change()
+    })
+    /*Validacion de Camisetas hombres*/
+    $(".u_10").change(function(){
+        var emp = $(this).attr("empleado")
+        var pantalones = $(".emp_"+emp+"_9").val()*1
+        var overoles = $(".emp_"+emp+"_1").val()*1
+        var valor = $(this).val()*1
+        var valorPar = $(".emp_"+emp+"_11").val()*1
+        var par = $(".emp_"+emp+"_11")
+        var max = pantalones*2+overoles
+        if(pantalones+overoles==0) {
+            $(this).val(0)
+            bootbox.alert("Primero seleccione la cantidad de pantalones y/o overoles a entregarse al empleado")
+        }
+        if(valor>max) {
+            $(this).val(max)
+            par.val(0)
+        }else{
+            if(valor+valorPar>max)
+                par.val(max-valor)
+        }
+    })
+    $(".u_11").change(function(){
+        var emp = $(this).attr("empleado")
+        var pantalones = $(".emp_"+emp+"_9").val()*1
+        var overoles = $(".emp_"+emp+"_1").val()*1
+        var valor = $(this).val()*1
+        var valorPar = $(".emp_"+emp+"_10").val()*1
+        var par = $(".emp_"+emp+"_10")
+        var max = pantalones*2+overoles
+        if(pantalones+overoles==0) {
+            $(this).val(0)
+            bootbox.alert("Primero seleccione la cantidad de pantalones y/o overoles a entregarse al empleado")
+        }
+        if(valor>max) {
+            $(this).val(max)
+            par.val(0)
+        }else{
+            if(valor+valorPar>max)
+                par.val(max-valor)
+        }
+    })
+    /*fin Validacion de Camisetas hombres*/
+    /*Validacion de Camisetas mujer*/
+    $(".u_5").change(function(){
+        var emp = $(this).attr("empleado")
+        var pantalones = $(".emp_"+emp+"_7").val()*1
+        var overoles = $(".emp_"+emp+"_4").val()*1
+        var valor = $(this).val()*1
+        var valorPar = $(".emp_"+emp+"_6").val()*1
+        var par = $(".emp_"+emp+"_6")
+        var max = pantalones*2+overoles
+        if(pantalones+overoles==0) {
+            $(this).val(0)
+            bootbox.alert("Primero seleccione la cantidad de pantalones y/o overoles a entregarse al empleado")
+        }
+        if(valor>max) {
+            $(this).val(max)
+            par.val(0)
+        }else{
+            if(valor+valorPar>max)
+                par.val(max-valor)
+        }
+    })
+    $(".u_6").change(function(){
+        var emp = $(this).attr("empleado")
+        var pantalones = $(".emp_"+emp+"_7").val()*1
+        var overoles = $(".emp_"+emp+"_4").val()*1
+        var valor = $(this).val()*1
+        var valorPar = $(".emp_"+emp+"_5").val()*1
+        var par = $(".emp_"+emp+"_5")
+        var max = pantalones*2+overoles
+        if(pantalones+overoles==0) {
+            $(this).val(0)
+            bootbox.alert("Primero seleccione la cantidad de pantalones y/o overoles a entregarse al empleado")
+        }
+        if(valor>max) {
+            $(this).val(max)
+            par.val(0)
+        }else{
+            if(valor+valorPar>max)
+                par.val(max-valor)
+        }
+    })
+    /*fin Validacion de Camisetas mujer*/
+
+
+
+
+    $(".guardar").click(function(){
+        openLoader()
+        var emp = $(this).attr("emp")
+        var pantalonesH = $(".emp_"+emp+"_9").val()*1
+        var overolesH = $(".emp_"+emp+"_1").val()*1
+        var pantalonesM = $(".emp_"+emp+"_7").val()*1
+        var overolesM = $(".emp_"+emp+"_4").val()*1
+        var camisetasHombres =  $(".emp_"+emp+"_10").val()*1+$(".emp_"+emp+"_11").val()*1
+        var camisetasMujeres =$(".emp_"+emp+"_5").val()*1+$(".emp_"+emp+"_6").val()*1
+        if(isNaN(pantalonesH))
+            pantalonesH=0
+        if(isNaN(pantalonesM))
+            pantalonesM=0
+        if(isNaN(overolesH))
+            overolesH=0
+        if(isNaN(overolesM))
+            overolesM=0
+        if(isNaN(camisetasHombres))
+            camisetasHombres=0
+        if(isNaN(camisetasMujeres))
+            camisetasMujeres=0
+        var totalPantalones= pantalonesH+pantalonesM+overolesH+overolesM
+        var msg ="<ul>"
+        if(totalPantalones!=2){
+            msg+="<li>Ingrese una cantidad correcta de pantalones y/o overoles. El empleado puede recibir: 1 pantalón y 1 overol, 2 pantalones, ó 2 overoles </li>"
+        }
+        var max = (pantalonesH+pantalonesM)*2+(overolesH+overolesM)
+        if(camisetasHombres+camisetasMujeres!=max){
+            msg+="<li>Ingrese una cantidad correcta de camisetas. " +
+                    "Recuerde que el empleado debe recibir 2 camisetas por pantalón ó 1 por overol. " +
+                    "Las camisetas pueden ser de manga corta y manga larga indistintamente.</li>"
+        }
+        if(msg=="<ul>"){
+            var emp = $(this).attr("grupo")
+            var data = ""
+            $("."+emp).each(function(){
+                data+=$(this).attr("empleado")+";"+$(this).attr("uniforme")+";"+$(this).attr("talla")+";"+$(this).val()+"W"
+                $(this).addClass("valor")
+            });
+            $.ajax({
+                type: "POST",
+                url: "${createLink(controller:'solicitudes', action:'saveDetalle')}",
+                data: {
+                    id: "${solicitud?.id}",
+                    data:data
+                },
+                success: function (msg) {
+                    checkPendientes()
+                    closeLoader()
+                    log("Datos guardados","success")
+                }
+            });
+        }else{
+            closeLoader()
+            msg+="</ul>"
+            bootbox.alert({
+                title   : "Errores",
+                class : "modal-error",
+                message: "<p style='font-weight: bold'>Por favor, corrija los siguientes errores:</p> "+msg
+            })
+        }
+        return false
+
+    })
+    //    cargarDetalle()
+    $(".titulo").click(function(){
+        $(this).parent().find(".contenido").toggle()
+    })
+    $("#continuar").click(function(){
+        var emps = ${nomina.size()}
+        var paneles = $(".panel-success").size()
+        if(emps==paneles){
+            location.href="${g.createLink(controller: 'solicitudes',action: 'enviar',id: solicitud.id)}"
+        }else{
+            var msg = "Error, todavía tiene empleados sin dotación asignada. " +
+                    "Por favor ingrese la cantidad de cada uniforme para cada empleado y después presione el botón " +
+                    '<a href="#" class=" btn btn-success btn-sm"><i class="fa fa-save"></i> Guardar</a><br/><br/>'+"" +
+                    "Los empleados que ya tienen la dotación asignada aparecen con un recuadro de color verde, así:" +
+                    " <div class='panel panel-success '><div class='panel-heading titulo'>1234567890 - Nombre Apellido - M</div></div><br/>" +
+                    "Aquellos que NO tienen la dotación asignada aparecen con un recuadro de color naranja, así:" +
+                    " <div class='panel panel-warning '><div class='panel-heading titulo'>1234567890 - Nombre Apellido - M</div></div><br/>" +
+                    "<p>Para más información de un clic en el botón de ayuda</p>"
+            bootbox.alert({
+                title   : "Errores",
+                class : "modal-error",
+                message: msg
+            })
+        }
     });
+    $("#ayuda").click(function(){
+        var msg = "<p>En está pantalla cada recuadro representa a un empleado de la estación. Para continuar el proceso de la solicitud " +
+                "debe registrar la cantidad de cada uniforme para cada empleado y después presionar el botón " +
+                '<a href="#" class=" btn btn-success btn-sm"><i class="fa fa-save"></i> Guardar</a></p>'+"" +
+                "<p>Este proceso debe repetirse por cada empleado que se muestra en pantalla.</p>" +
+                "<p>A cada empleado se le puede asignar: <ul>" +
+                "<li>1 Botas</li>" +
+                "<li>1 Gorra</li>" +
+                "<li>1 pantalón y 1 overol, 2 pantalones, ó 2 overoles</li>" +
+                "<li>Se entregan hasta 2 camisetas por pantalón y una por cada overol</li>" +
+                "</ul></p>" +
+                "Los empleados que ya tienen la dotación asignada correctamente aparecen con un recuadro de color verde, así:" +
+                " <div class='panel panel-success '><div class='panel-heading titulo'>1234567890 - Nombre Apellido - M</div></div><br/>" +
+                "Aquellos que NO tienen la dotación asignada aparecen con un recuadro de color naranja, así:" +
+                " <div class='panel panel-warning '><div class='panel-heading titulo'>1234567890 - Nombre Apellido - M</div></div><br/>"
+        bootbox.alert({
+            title   : "Ayuda",
+            class : "modal-lg",
+            message: msg
+        })
+        return false
+    })
 </script>
 </body>
 </html>

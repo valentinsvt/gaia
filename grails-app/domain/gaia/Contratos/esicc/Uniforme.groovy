@@ -36,4 +36,18 @@ class Uniforme {
     String toString(){
         return  "${this.descripcion}"
     }
+
+    String toStringCorto(){
+        def parts = this.descripcion.split(" ")
+        if(parts.size()<=2)
+            return this.descripcion
+        else{
+            def nombre =""
+            nombre=parts[0].substring(0,3)+". "
+            nombre+=parts[1].substring(0,3)+". "
+            nombre+=parts[2].substring(0,3)+". "
+            nombre+=this.tipo
+            return nombre
+        }
+    }
 }

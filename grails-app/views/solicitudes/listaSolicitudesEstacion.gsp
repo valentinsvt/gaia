@@ -19,6 +19,7 @@
         </g:link>
     </div>
 </div>
+<elm:message tipo="${flash.tipo}" clase="${flash.clase}">${flash.message}</elm:message>
 <elm:container titulo="Historial de solicitudes de dotación de la estación ${estacion.nombre}">
     <div class="row">
         <div class="col-md-10">

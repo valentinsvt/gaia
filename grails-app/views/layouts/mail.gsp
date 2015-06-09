@@ -14,9 +14,8 @@
 
 <body>
 
-<div class="container" id="mass-container" style="position: relative;border: 1px solid black;border-radius: 5px">
-    <g:layoutBody/>
-</div>
-<mn:stickyFooter/>
+
+<g:layoutBody/>
+
 </body>
 </html>

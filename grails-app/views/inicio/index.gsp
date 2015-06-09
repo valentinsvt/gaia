@@ -3,6 +3,10 @@
 <head>
     <meta name="layout" content="main"/>
     <title>P&S</title>
+    %{--<link rel="stylesheet" type="text/css" href="${g.resource(dir: 'js/plugins/CircularNavigation/css',file: 'normalize.css')}"/>--}%
+    %{--<link rel="stylesheet" type="text/css" href="${g.resource(dir: 'js/plugins/CircularNavigation/css',file: 'demo.css')}" />--}%
+    %{--<link rel="stylesheet" type="text/css" href="${g.resource(dir: 'js/plugins/CircularNavigation/css',file: 'component1.css')}" />--}%
+    %{--<script src="${g.resource(dir: 'js/plugins/CircularNavigation/js',file: 'modernizr-2.6.2.min.js')}"></script>--}%
     <style type="text/css">
     .inicio img {
         height : 190px;
@@ -81,6 +85,7 @@
     .menu-link:hover{
         color: #FEDF39;
     }
+
     </style>
     <link href="${g.resource(dir: 'css/custom/', file: 'dashboard.css')}" rel="stylesheet" type="text/css">
 </head>
@@ -145,7 +150,23 @@
 <div class="barra">
 
 </div>
-
+%{--<div class="component">--}%
+    %{--<!-- Start Nav Structure -->--}%
+    %{--<button class="cn-button" id="cn-button">+</button>--}%
+    %{--<div class="cn-wrapper" id="cn-wrapper">--}%
+        %{--<ul style="position: relative">--}%
+            %{--<li><a href="#" style="z-index: 1500"><span class="icon-picture"></span></a></li>--}%
+            %{--<li><a href="#" style="z-index: 1500"><span class="icon-headphones"></span></a></li>--}%
+            %{--<li><a href="#" style="z-index: 1500"><span class="icon-home"></span></a></li>--}%
+            %{--<li><a href="#" style="z-index: 1500"><span class="icon-facetime-video"></span></a></li>--}%
+            %{--<li><a href="#"><span class="icon-envelope-alt"></span></a></li>--}%
+        %{--</ul>--}%
+    %{--</div>--}%
+    %{--<div id="cn-overlay" class="cn-overlay"></div>--}%
+    %{--<!-- End Nav Structure -->--}%
+%{--</div>--}%
+%{--<script src="${g.resource(dir: 'js/plugins/CircularNavigation/js',file: 'polyfills.js')}"></script>--}%
+%{--<script src="${g.resource(dir: 'js/plugins/CircularNavigation/js',file: 'demo1.js')}"></script>--}%
 <script type="text/javascript">
     $(".menu-boton").click(function(){
         var band=false

@@ -20,6 +20,14 @@
         <g:link controller="solicitudes" action="listaSolicitudesEstacion" id="${sol.estacion.codigo}" class="btn btn-default">
             <i class="fa fa-folder"></i> Solicitudes
         </g:link>
+        <g:if test="${sol.estado=='A'}">
+            <a href="#" id="imprimir" class="btn btn-default">
+                <i class="fa fa-print"></i> Imprimir
+            </a>
+            <a href="#" id="imprimirActa" class="btn btn-default">
+                <i class="fa fa-print"></i> Imprimir acta
+            </a>
+        </g:if>
     </div>
 </div>
 <elm:container  titulo="Detalle de la solicitud #${sol.id}">
@@ -71,95 +79,78 @@
                 Pendiente de envío
             </g:if>
         </div>
+        <div class="col-md-2">
+            <label>Número de operadores</label>
+        </div>
+        <div class="col-md-1">
+            ${gaia.uniformes.NominaEstacion.countByEstacionAndEstado(sol.estacion,"A")} <i class="fa fa-user"></i>
+        </div>
     </div>
+
     <div class="row">
-        <div class="col-md-12">
-            <table class="table table-striped table-bordered">
+        <div class="col-md-10">
+            <table class="table table-striped  table-bordered">
                 <thead>
-                <tr>
-                    <th colspan="5">
-                        Detalle del pedido (solicitado)
+                <tr class="cabecera">
+                    <th colspan="9">
+                        Detalle del pedido
                     </th>
                 </tr>
-                <tr>
+                <tr class="tbody">
                     <th>#</th>
                     <th>Cédula</th>
                     <th>Nombre</th>
                     <th>Sexo</th>
-                    <th>Dotación</th>
+                    <th>Uniforme</th>
+                    <th>Talla</th>
+                    <th>Cantidad</th>
+                    <th>P. Unitario</th>
+                    <th>Total</th>
                 </tr>
                 </thead>
-                <tbody>
-                <g:each in="${detalle}" var="d" status="i">
+                <tbody class="tbody">
+                <g:set var="total" value="${0}"></g:set>
+                <g:each in="${subdetalle}" var="s" status="i">
                     <tr>
-                        <td style="text-align: center;width: 30px">${i+1}</td>
-                        <td>${d.empleado.cedula}</td>
-                        <td>${d.empleado.nombre}</td>
-                        <td style="text-align: center">${d.empleado.sexo}</td>
-                        <td>
-                            ${d.kit.getListaUiformes(d.empleado)}
+                        <td style="text-align: center">${i+1}</td>
+                        <td>${s.empleado.cedula}</td>
+                        <td>${s.empleado.nombre}</td>
+                        <td>${s.empleado.sexo}</td>
+                        <td style="font-size: 11px">${s.uniforme.descripcion}</td>
+                        <td>${s.talla.talla}</td>
+                        <td style="text-align: right">${s.cantidad}</td>
+                        <td style="text-align: right">
+                            <g:formatNumber number="${s.precio}" type="currency" currencySymbol="\$"/>
+                        </td>
+                        <td style="text-align: right">
+                            <g:set var="total" value="${total+=s.cantidad*s.precio}"></g:set>
+                            <g:formatNumber number="${s.cantidad*s.precio}" type="currency" currencySymbol="\$"/>
                         </td>
                     </tr>
                 </g:each>
                 </tbody>
+                <tfoot>
+                <tr>
+                    <td colspan="8" style="font-weight: bold">TOTAL</td>
+                    <td style="text-align: right;font-weight: bold">
+                        <g:formatNumber number="${total}" type="currency" currencySymbol="\$"/>
+                    </td>
+                </tr>
+                </tfoot>
             </table>
         </div>
     </div>
-    <g:if test="${sol.estado=='A'}">
-        <div class="row">
-            <div class="col-md-12">
-                <table class="table table-striped  table-bordered">
-                    <thead>
-                    <tr class="cabecera">
-                        <th colspan="9">
-                            Detalle del pedido (Aprobado)
-                        </th>
-                    </tr>
-                    <tr class="tbody">
-                        <th>#</th>
-                        <th>Cédula</th>
-                        <th>Nombre</th>
-                        <th>Sexo</th>
-                        <th>Uniforme</th>
-                        <th>Talla</th>
-                        <th>Cantidad</th>
-                        <th>P. Unitario</th>
-                        <th>Total</th>
-                    </tr>
-                    </thead>
-                    <tbody class="tbody">
-                    <g:set var="total" value="${0}"></g:set>
-                    <g:each in="${subdetalle}" var="s" status="i">
-                        <tr>
-                            <td style="text-align: center">${i+1}</td>
-                            <td>${s.empleado.cedula}</td>
-                            <td>${s.empleado.nombre}</td>
-                            <td>${s.empleado.sexo}</td>
-                            <td style="font-size: 11px">${s.uniforme.descripcion}</td>
-                            <td>${s.talla.talla}</td>
-                            <td style="text-align: right">${s.cantidad}</td>
-                            <td style="text-align: right">
-                                <g:formatNumber number="${s.precio}" type="currency" currencySymbol="\$"/>
-                            </td>
-                            <td style="text-align: right">
-                                <g:set var="total" value="${total+=s.cantidad*s.precio}"></g:set>
-                                <g:formatNumber number="${s.cantidad*s.precio}" type="currency" currencySymbol="\$"/>
-                            </td>
-                        </tr>
-                    </g:each>
-                    </tbody>
-                    <tfoot>
-                    <tr>
-                        <td colspan="8" style="font-weight: bold">TOTAL</td>
-                        <td style="text-align: right;font-weight: bold">
-                            <g:formatNumber number="${total}" type="currency" currencySymbol="\$"/>
-                        </td>
-                    </tr>
-                    </tfoot>
-                </table>
-            </div>
-        </div>
-    </g:if>
+
 </elm:container>
+<script type="text/javascript">
+    $("#imprimir").click(function(){
+        var url = "${createLink(controller: 'reportesDotacion',action: 'imprimeSolicitud',id: sol.id)}" ;
+        location.href = "${g.createLink(controller:'pdf',action:'pdfLink')}?url=" + url;
+    })
+    $("#imprimirActa").click(function(){
+        var url = "${createLink(controller: 'reportesDotacion',action: 'imprimeActa',id: sol.id)}" ;
+        location.href = "${g.createLink(controller:'pdf',action:'pdfLink')}?url=" + url;
+    })
+</script>
 </body>
 </html>
