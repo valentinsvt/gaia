@@ -212,12 +212,13 @@ class SolicitudesController extends Shield {
         sol.save(flush: true)
         mailService.sendMail {
             multipart true
-            to "valentinsvt@hotmail.com"
-//            to "diego.perez@petroleosyservicios.com"
+//            to "valentinsvt@hotmail.com"
+            to "diego.perez@petroleosyservicios.com"
             subject "Nueva solicitud de dotación"
             body( view:"mailSolicitudes",
                     model:[sol: sol])
-            inline 'logo','image/png', new File('./web-app/images/logo-login.png').readBytes()
+            inline 'logo','image/png', new File('./images/logo-login.png').readBytes()
+//            inline 'logo','image/png', new File('./web-app/images/logo-login.png').readBytes()
         }
 
         redirect(action: "listaSolicitudesEstacion",id: sol.estacion.codigo)
@@ -310,12 +311,13 @@ class SolicitudesController extends Shield {
                 }
                 mailService.sendMail {
                     multipart true
-                    to "valentinsvt@hotmail.com"
-//                   to mail
+//                    to "valentinsvt@hotmail.com"
+                     to mail
                     subject "Solicitud aprobada"
                     body( view:"solicitudAprobada",
                             model:[sol: sol])
-                    inline 'logo','image/png', new File('./web-app/images/logo-login.png').readBytes()
+                    inline 'logo','image/png', new File('./images/logo-login.png').readBytes()
+//                    inline 'logo','image/png', new File('./web-app/images/logo-login.png').readBytes()
                 }
                 flash.message="Solicitud aprobada"
                 redirect(action: "verSolicitud",params: ["pedido":sol.id])
