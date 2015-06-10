@@ -94,7 +94,7 @@ class EstadoDeCuentaController extends Shield{
     }
 
     def enviar (){
-        println "params "+params
+        //println "params "+params
         def data = params.data?.split(";")
         data.each {d->
             if(d!=""){
@@ -103,6 +103,7 @@ class EstadoDeCuentaController extends Shield{
                     estado.mensaje="Programado para envío"
                     if(params.copia)
                         estado.copiaEmail=params.copia
+                    estado.intentos=0
                     estado.save(flush: true)
                 }
 

@@ -73,8 +73,8 @@
                     </g:else>
                 </g:else>
             </td>
-            <td>${e.envio?.format("dd-MM-yyyy")}</td>
-            <td>${e.ultimaEjecucion?.format("dd-MM-yyyy")}</td>
+            <td>${e.envio?.format("dd-MM-yyyy HH:mm:ss")}</td>
+            <td>${e.ultimaEjecucion?.format("dd-MM-yyyy HH:mm:ss")}</td>
             <td>${e.usuario}</td>
             <td>${e.mensaje}</td>
             <td>
