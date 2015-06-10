@@ -82,8 +82,8 @@ class HeaderFooter implements PdfPageEvent{
 //                    ((document.right() - document.left()) / 2
 //                            + document.leftMargin()), (float)(document.top() + 10),(float) 0);
 
-            String imageUrl = this.img;
-            Image image = Image.getInstance( new File('/images/logo-login.png').readBytes());
+//            String imageUrl = this.img;
+            Image image = Image.getInstance(this.img);
 //            Image image = Image.getInstance( new File('./web-app//images/logo-login.png').readBytes());
             image.setAbsolutePosition(40f, 722f);
             document.add(image);

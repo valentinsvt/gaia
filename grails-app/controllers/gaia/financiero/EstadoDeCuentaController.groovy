@@ -183,16 +183,16 @@ class EstadoDeCuentaController extends Shield{
                 }
             }
             def pruebas = ["valentinsvt@hotmail.com"]
-            println "email estacion "+e.cliente.codigo+"  "+emails
+           // println "aqui !! email estacion "+e.cliente.codigo+"  "+emails
             Byte[] pdfData = file.readBytes()
             mailService.sendMail {
                 multipart true
-                to pruebas
-//                    to emails
+//                to pruebas
+                to emails
                 subject "Estado de cuenta PyS";
                 attachBytes "Estado-de-cuenta-${e.mes}.pdf", "application/x-pdf", pdfData
                 body( view:"/estadoDeCuenta/estadoDeCuenta")
-                inline 'logo','image/png', new File('/images/logo-login.png').readBytes()
+                inline 'logo','image/png', grailsApplication.mainContext.getResource('/images/logo-login.png').getFile().readBytes()
 //                inline 'logo','image/png', new File('./web-app//images/logo-login.png').readBytes()
             }
             e.envio=new Date()

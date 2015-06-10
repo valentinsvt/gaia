@@ -55,17 +55,17 @@ class EstadosDeCuentaService {
             new File(path).mkdirs()
             def nombre = "EDC-${estado.cliente.codigo}-${estado.mes}-${new Date().format('ddMMyyyyHHmmss')}.pdf"
             def writer = PdfWriter.getInstance(document, new FileOutputStream(path + nombre));
-            def img ="/images/logo-login.png";
+            def img =grailsApplication.mainContext.getResource('/images/logo-login.png').getFile()
 //            def img ="./web-app//images/logo-login.png";
             //  println "fecha " + fecha + "  codigo  " + codigo + " img  " + img
-            writer.setPageEvent(new HeaderFooter(r, img, fecha,estado.usuario));
+            writer.setPageEvent(new HeaderFooter(r, img.readBytes(), fecha,estado.usuario));
             Font header = new Font(Font.FontFamily.HELVETICA, 12, Font.UNDERLINE | Font.BOLD);
             Font titulo = new Font(Font.FontFamily.HELVETICA, 9, Font.BOLD);
             Font contenido = new Font(Font.FontFamily.HELVETICA, 8);
             document.open();
             String imageUrl = "/images/logo-login.png";
 //            String imageUrl = "./web-app//images/logo-login.png";
-            Image image = Image.getInstance( new File('/images/logo-login.png').readBytes());
+            Image image = Image.getInstance(img.readBytes());
 //            Image image = Image.getInstance( new File('./web-app//images/logo-login.png').readBytes());
             image.setAbsolutePosition(40f, 722f);
             document.add(image);
