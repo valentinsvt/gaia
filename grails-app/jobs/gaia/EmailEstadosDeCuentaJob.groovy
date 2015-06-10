@@ -21,7 +21,7 @@ class EmailEstadosDeCuentaJob {
 //        def g = grailsApplication.mainContext.getBean('org.codehaus.groovy.grails.plugins.web.taglib.ApplicationTagLib')
         def estados = EstadoDeCuenta.findAll("from EstadoDeCuenta where path is not null and envio is null and mensaje='Programado para envío' and intentos<4 order by registro ",[max:15])
         estados.each {e->
-            try{
+            //try{
 
                 def file=grailsApplication.mainContext.getResource(e.path).getFile()
                 println "mandando email "+e.id+"  "+grailsApplication.mainContext.getResource('/images/logo-login.png').getFile()+"  "+file
@@ -61,13 +61,13 @@ class EmailEstadosDeCuentaJob {
                 e.mensaje="Correo enviado"
                 e.intentos++
                 e.save(flush: true)
-            }catch (ex){
-                e.mensaje="Falló el envío: "+ex
-                e.envio=null
-                e.intentos++
-                e.save(flush: true)
-                println "error mail "+ex.printStackTrace()
-            }
+//            }catch (ex){
+//                e.mensaje="Falló el envío: "+ex
+//                e.envio=null
+//                e.intentos++
+//                e.save(flush: true)
+//                println "error mail "+ex.printStackTrace()
+//            }
 
         }
     }
