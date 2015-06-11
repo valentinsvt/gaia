@@ -192,7 +192,7 @@ class EstadoDeCuentaController extends Shield{
                 multipart true
 //                to pruebas
                 to emails
-                subject "Estado de cuenta PyS";
+                subject "Estado de cuenta PyS - Cliente: "+e.cliente.nombre;
                 attachBytes "Estado-de-cuenta-${e.mes}.pdf", "application/x-pdf", pdfData
                 body( view:"/estadoDeCuenta/estadoDeCuenta")
                 inline 'logo','image/png', grailsApplication.mainContext.getResource('/images/logo-login.png').getFile().readBytes()
@@ -240,7 +240,7 @@ class EstadoDeCuentaController extends Shield{
                 multipart true
 //                to pruebas
                 to emails
-                subject "Estado de cuenta PyS";
+                subject "Estado de cuenta PyS - Cliente: "+e.cliente.nombre;
                 attachBytes "Estado-de-cuenta-${e.mes}.pdf", "application/x-pdf", pdfData
                 body( view:"/estadoDeCuenta/estadoDeCuenta")
                 inline 'logo','image/png', grailsApplication.mainContext.getResource('/images/logo-login.png').getFile().readBytes()
