@@ -94,17 +94,19 @@ class EstadoDeCuentaController extends Shield{
     }
 
     def enviar (){
-        //println "params "+params
+        println "params "+params
         def data = params.data?.split(";")
         data.each {d->
             if(d!=""){
                 def estado = EstadoDeCuenta.get(d)
-                if(estado.path && estado.envio==null){
+                if(estado.path){
                     estado.mensaje="Programado para envío"
                     if(params.copia)
                         estado.copiaEmail=params.copia
                     estado.intentos=0
-                    estado.save(flush: true)
+                    estado.envio=null
+                    if(!estado.save(flush: true))
+                        println "error save estado enviar "+estado.errors
                 }
 
             }
@@ -208,5 +210,52 @@ class EstadoDeCuentaController extends Shield{
         redirect(action: "estadosPorEstacion",controller: "estadoDeCuenta",params: params)
     }
 
+
+    def funcionEnviar(EstadoDeCuenta e){
+
+        try{
+            def file=grailsApplication.mainContext.getResource(e.path).getFile()
+            def parts = e.cliente.email
+            if(parts)
+                parts=e.cliente.email.split(",")
+            def emails = []
+            parts.each {p->
+                if(p!=""){
+                    emails.add(p)
+                }
+            }
+            if(e.copiaEmail){
+                parts=e.copiaEmail.split(",")
+                parts.each {p->
+                    if(p!=""){
+                        emails.add(p)
+                    }
+
+                }
+            }
+            def pruebas = ["valentinsvt@hotmail.com"]
+            // println "aqui !! email estacion "+e.cliente.codigo+"  "+emails
+            Byte[] pdfData = file.readBytes()
+            mailService.sendMail {
+                multipart true
+//                to pruebas
+                to emails
+                subject "Estado de cuenta PyS";
+                attachBytes "Estado-de-cuenta-${e.mes}.pdf", "application/x-pdf", pdfData
+                body( view:"/estadoDeCuenta/estadoDeCuenta")
+                inline 'logo','image/png', grailsApplication.mainContext.getResource('/images/logo-login.png').getFile().readBytes()
+//                inline 'logo','image/png', new File('./web-app//images/logo-login.png').readBytes()
+            }
+            e.envio=new Date()
+            e.mensaje="Correo enviado"
+            e.save(flush: true)
+        }catch (ex){
+            e.mensaje="Falló el envío: "+ex
+            e.envio=null
+            e.save(flush: true)
+            println "error mail "+ex
+        }
+
+    }
 
 }

@@ -52,6 +52,7 @@ grails.project.dependency.resolution = {
         // runtime 'mysql:mysql-connector-java:5.1.29'
         // runtime 'org.postgresql:postgresql:9.3-1101-jdbc41'
         test "org.grails:grails-datastore-test-support:1.0.2-grails-2.4"
+        compile 'org.springframework:spring-test:3.0.3.RELEASE'
     }
 
     plugins {
@@ -64,6 +65,7 @@ grails.project.dependency.resolution = {
         compile ":asset-pipeline:1.9.9"
         compile ":quartz:1.0.2"
         compile ":mysql-connectorj:5.1.22.1"
+
         compile ":quartz-monitor:1.0"
         compile ":mail:1.0.7"
         // plugins needed at runtime but not for compilation
