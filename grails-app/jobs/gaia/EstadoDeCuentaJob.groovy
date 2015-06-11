@@ -7,7 +7,7 @@ import org.codehaus.groovy.grails.web.servlet.GrailsApplicationAttributes as GA
 
 class EstadoDeCuentaJob {
     static triggers = {
-        simple name: 'estadoDeCuentaJob', startDelay: 1000*2, repeatInterval: 1000*60*3
+        simple name: 'estadoDeCuentaJob', startDelay: 1000*60*1, repeatInterval: 1000*60*3
     }
 
 

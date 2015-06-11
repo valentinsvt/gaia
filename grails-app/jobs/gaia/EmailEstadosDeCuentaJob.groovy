@@ -11,7 +11,7 @@ import org.springframework.context.ApplicationContext
 class EmailEstadosDeCuentaJob {
     ApplicationContext applicationContext
     static triggers = {
-        simple name: 'emailEstados', startDelay: 1000*60*1, repeatInterval: 1000*60*1
+        simple name: 'emailEstados', startDelay: 1000*60*3, repeatInterval: 1000*60*5
     }
 
     def execute() {
