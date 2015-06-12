@@ -173,14 +173,14 @@ class EstadoDeCuentaController extends Shield{
             def emails = []
             parts.each {p->
                 if(p!=""){
-                    emails.add(p)
+                    emails.add(p.toLowerCase())
                 }
             }
             if(e.copiaEmail){
                 parts=e.copiaEmail.split(",")
                 parts.each {p->
                     if(p!=""){
-                        emails.add(p)
+                        emails.add(p.toLowerCase())
                     }
 
                 }
