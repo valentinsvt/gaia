@@ -186,7 +186,7 @@ class EstadoDeCuentaController extends Shield{
                 }
             }
             def pruebas = ["valentinsvt@hotmail.com"]
-           // println "aqui !! email estacion "+e.cliente.codigo+"  "+emails
+            // println "aqui !! email estacion "+e.cliente.codigo+"  "+emails
             Byte[] pdfData = file.readBytes()
             mailService.sendMail {
                 multipart true
@@ -221,36 +221,60 @@ class EstadoDeCuentaController extends Shield{
             def emails = []
             parts.each {p->
                 if(p!=""){
-                    emails.add(p)
+                    emails.add(p.toLowerCase())
                 }
             }
             if(e.copiaEmail){
                 parts=e.copiaEmail.split(",")
                 parts.each {p->
                     if(p!=""){
-                        emails.add(p)
+                        emails.add(p.toLowerCase())
                     }
 
                 }
             }
-            def pruebas = ["valentinsvt@hotmail.com"]
+           // def pruebas = ["valentinsvt@hotmail.com","valentinsvt@gmail.com"]
             // println "aqui !! email estacion "+e.cliente.codigo+"  "+emails
-            Byte[] pdfData = file.readBytes()
-            mailService.sendMail {
-                multipart true
-//                to pruebas
-                to emails
-                subject "Estado de cuenta PyS - Cliente: "+e.cliente.nombre;
-                attachBytes "Estado-de-cuenta-${e.mes}.pdf", "application/x-pdf", pdfData
-                body( view:"/estadoDeCuenta/estadoDeCuenta")
-                inline 'logo','image/png', grailsApplication.mainContext.getResource('/images/logo-login.png').getFile().readBytes()
-//                inline 'logo','image/png', new File('./web-app//images/logo-login.png').readBytes()
+            def para
+            def copia = []
+            if(emails.size()>0){
+                emails = emails.reverse()
+                para = emails.pop()
+                copia = emails
             }
+            println "para "+para+" copia "+copia+" "+copia.size()
+            Byte[] pdfData = file.readBytes()
+            if(copia.size()>0){
+                mailService.sendMail {
+                    multipart true
+                    to para
+//                to emails
+                    bcc copia
+                    subject "Estado de cuenta PyS - Cliente: "+e.cliente.nombre;
+                    attachBytes "Estado-de-cuenta-${e.mes}.pdf", "application/x-pdf", pdfData
+                    body( view:"/estadoDeCuenta/estadoDeCuenta")
+                    inline 'logo','image/png', grailsApplication.mainContext.getResource('/images/logo-login.png').getFile().readBytes()
+//                inline 'logo','image/png', new File('./web-app//images/logo-login.png').readBytes()
+                }
+            }else{
+                mailService.sendMail {
+                    multipart true
+                    to para
+//                to emails
+                    subject "Estado de cuenta PyS - Cliente: "+e.cliente.nombre;
+                    attachBytes "Estado-de-cuenta-${e.mes}.pdf", "application/x-pdf", pdfData
+                    body( view:"/estadoDeCuenta/estadoDeCuenta")
+                    inline 'logo','image/png', grailsApplication.mainContext.getResource('/images/logo-login.png').getFile().readBytes()
+//                inline 'logo','image/png', new File('./web-app//images/logo-login.png').readBytes()
+                }
+            }
+
             e.envio=new Date()
             e.mensaje="Correo enviado"
             e.save(flush: true)
         }catch (ex){
-            e.mensaje="Falló el envío: "+ex
+            if(e.intentos>2)
+                e.mensaje="Falló el envío: "+ex
             e.envio=null
             e.save(flush: true)
             println "error mail "+ex

@@ -28,6 +28,7 @@ class EmailEstadosDeCuentaJob {
         def estados = EstadoDeCuenta.findAll("from EstadoDeCuenta where path is not null and envio is null and mensaje='Programado para envío' and intentos<4 order by registro ",[max:15])
         estados.each {e->
             println "email "+e.id+"  "+e.cliente.codigo
+            e.intentos++
             controller.funcionEnviar(e)
         }
     }

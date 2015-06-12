@@ -109,10 +109,10 @@ class EstadosDeCuentaService {
             cell = new PdfPCell(new Paragraph(estado.cliente.nombre, contenido));
             cell.setBorder(0)
             table.addCell(cell);
-            cell = new PdfPCell(new Paragraph("OFICIAL CTA.", titulo));
+            cell = new PdfPCell(new Paragraph(" ", titulo));
             cell.setBorder(0)
             table.addCell(cell);
-            cell = new PdfPCell(new Paragraph(r["OFICIAL"], contenido));
+            cell = new PdfPCell(new Paragraph(" ", contenido));
             cell.setBorder(0)
             table.addCell(cell);
             cell = new PdfPCell(new Paragraph("CÓDIGO", titulo));
@@ -124,7 +124,7 @@ class EstadosDeCuentaService {
             cell = new PdfPCell(new Paragraph("", titulo));
             cell.setBorder(0)
             table.addCell(cell);
-            cell = new PdfPCell(new Paragraph("EXT " + r["EXTOFIC"] + " " + r["CIUOFIC"], contenido));
+            cell = new PdfPCell(new Paragraph("", contenido));
             cell.setBorder(0)
             table.addCell(cell);
             cell = new PdfPCell(new Paragraph("DIRECCIÓN", titulo));
