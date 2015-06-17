@@ -60,11 +60,9 @@ class AlertaController extends Shield {
             }
 
         } else {
-            if(session.tipo=="usuario") {
-                list = Alerta.findAllByPersonaAndFechaRecibidoIsNull(session.usuario, params)
-            }else{
-                list = Alerta.findAllByEstacionAndFechaRecibidoIsNull(session.usuario, params)
-            }
+
+            list = Alerta.findAllByPersonaAndFechaRecibidoIsNull(session.usuario, params)
+
         }
         if (!all && params.offset.toInteger() > 0 && list.size() == 0) {
             params.offset = params.offset.toInteger() - 1

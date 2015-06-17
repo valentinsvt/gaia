@@ -14,6 +14,7 @@ class Factura {
     Integer plazo
     Double volumen
     Double pago
+    Producto producto
     static auditable = false
     static mapping = {
         datasource 'erp'
@@ -32,6 +33,7 @@ class Factura {
             plazo column: 'PLAZO_VENTA'
             volumen column: 'VOLUMEN_VENTA'
             pago column: 'PAGO_FACTURA'
+            producto column: 'CODIGO_PRODUCTO'
         }
     }
     static constraints = {

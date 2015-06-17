@@ -8,6 +8,8 @@ class CumplimientoSupervisor {
     Date fecha
     String observaciones
     ObjetivoSupervisores objetivo
+    String path
+    String mes
     static auditable = [ignore: []]
 
     /**
@@ -23,11 +25,15 @@ class CumplimientoSupervisor {
             fecha column: 'cmspfcha'
             observaciones column: 'cmspobsr'
             objetivo column: 'obsp__id'
+            path column: 'cmsppath'
+            mes column: 'cmsp_mes'
         }
     }
 
     static constraints = {
         observaciones(size: 1..200,nullable: true,blank: true)
+        path(size: 1..100,nullable: true,blank: true)
+        mes(size: 1..10,nullable: true,blank: true)
     }
 
 }

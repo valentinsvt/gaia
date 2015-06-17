@@ -45,7 +45,6 @@
                     </div>
                 </div>
             </th>
-
             <th>Historial</th>
             <th>Análisis de ventas</th>
         </tr>

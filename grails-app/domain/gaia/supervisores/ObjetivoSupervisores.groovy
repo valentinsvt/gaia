@@ -8,7 +8,7 @@ class ObjetivoSupervisores {
     String meta
     String objetivo
     String periocidad
-
+    String tipo /*C-> check , S-> supervisor tiene que subir*/
     static auditable = [ignore: []]
 
     /**
@@ -27,6 +27,7 @@ class ObjetivoSupervisores {
             codigo column: 'obspcdgo'
             nombre column: 'obspnmbr'
             periocidad column: 'obspprcd'
+            tipo column: 'obsptipo'
 
         }
     }
@@ -37,5 +38,6 @@ class ObjetivoSupervisores {
         nombre(size: 1..50,nullable: true,blank: true)
         periocidad(size: 1..1,nullable: true,blank: true)
         codigo(size: 1..4,nullable: true,blank: true)
+        tipo(size: 1..1,nullable: true,blank: true)
     }
 }

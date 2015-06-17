@@ -21,11 +21,15 @@
 </head>
 
 <body>
-<elm:container titulo="Objetivos asesores de servicio al cliente, mes de ${meses[mesint-1]}">
+<elm:message tipo="info" clase="">
+    Los objetivos: ${obj.nombre.join(", ")} deben ser registrados por un funcionario de la unidad de Distribución, si el sistema muestra
+    como objetivo no cumplido por favor comuniquese con dicha unidad.
+</elm:message>
+<elm:container titulo="Objetivos del supervisor: ${supervisor.nombre}, mes de ${meses[mesint-1]}">
     <div class="row">
         <div class="col-md-12">
             <table class="table  table-condensed table-bordered table-hover">
-                <thead>
+                <thead style="font-size: 11px">
                 <tr>
                     <th>Supervisor</th>
                     <g:each in="${objetivos}" var="o">
@@ -42,7 +46,7 @@
                             <g:if test="${o.codigo=='VTES'}">
                                 <g:set var="an" value="${s.getAnalisisVentas(fecha)}"></g:set>
                                 <g:if test="${an[0].size()>0}">
-                                    <td style="text-align: center" title="${an[0].size()} / ${an[1]} Análisis registrados">
+                                    <td style="text-align: center" title="${an[0].size()} de ${an[1]} Análisis registrados">
                                         <div class="circle-card " style="background: ${colores[an[2]?.toInteger()]}"></div>
                                     </td>
                                 </g:if>
@@ -72,7 +76,18 @@
             </table>
         </div>
     </div>
-
+    <div class="row">
+        <div class="col-md-2">
+            <a href="${g.createLink(controller: 'supervisores',action: 'listaSemaforos')}" class="btn btn-info">
+               <i class="fa icon-line-graph"></i> Registrar analisis de ventas
+            </a>
+        </div>
+        <div class="col-md-2">
+            <a href="${g.createLink(controller: 'supervisores',action: 'registrarCumplimiento')}" class="btn btn-info">
+                <i class="fa fa-check"></i> Registrar otros objetivos
+            </a>
+        </div>
+    </div>
 </elm:container>
 </body>
 </html>
