@@ -101,4 +101,8 @@ class Documento {
         return false
     }
 
+    String toString(){
+        return "${this.tipo.nombre}: ${this.referencia}"
+    }
+
 }

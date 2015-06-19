@@ -45,16 +45,17 @@
                             Estación
                         </label>
                     </div>
-                    <div class="col-md-5">
+                    <div class="col-md-2">
                         ${estacion.nombre}
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-1">
                         <label>
-                            Fecha de registro
+                            Documento padre
                         </label>
                     </div>
-                    <div class="col-md-3">
-                        ${new java.util.Date().format("dd-MM-yyyy")}
+                    <div class="col-md-7">
+                        <g:select name="padre.id" from="${gaia.documentos.Documento.findAllByEstacion(estacion)}"
+                                  optionKey="id" noSelection="['':'Seleccione']" class="form-control input-sm"></g:select>
                     </div>
                 </div>
                 <div class="row" style="">
