@@ -1,22 +1,23 @@
 package gaia.seguridad
 
 import gaia.Contratos.Adendum
+import gaia.Contratos.Cliente
 import gaia.Contratos.DashBoardContratos
-import gaia.Contratos.Egreso
-import gaia.Contratos.TipoContrato
+import gaia.facturacion.Factura
+import gaia.pintura.DetallePintura
 import gaia.Contratos.esicc.Pedido
 import gaia.Contratos.esicc.PeriodoDotacion
 import gaia.documentos.Dashboard
 import gaia.documentos.Inspector
 import gaia.documentos.InspectorEstacion
 import gaia.estaciones.Estacion
-import gaia.pintura.DetallePintura
 import groovy.sql.Sql
 
 
-class PruebasController{
+class PruebasController extends Shield{
     def dataSource_erp
     def dataSource
+    def mailService
     def links(){
 
         def usuario = Persona.findByLogin("OROZCOP")
@@ -27,13 +28,18 @@ class PruebasController{
         token=usuario.login+"|"+perfil.codigo.encodeAsMD5()+"|"+token+"|"+usuario.password
         def linkUsu = "" +g.createLink(action: 'remoteLogin',controller: 'login')+"?token="+token
         def linkEstacion
-        usuario = Persona.findByLogin("ZAPATAV")
+        usuario = Persona.findByLogin("ANDRADEW")
         perfil = Perfil.findByCodigo("2")
         println "usuario "+usuario.nombre
         token =""
         token+= new Date().format("ddMMyyyy").encodeAsMD5()
         token=usuario.login+"|"+perfil.codigo.encodeAsMD5()+"|"+token+"|"+usuario.password
         linkEstacion = "" +g.createLink(action: 'remoteLogin',controller: 'login')+"?token="+token
+//        mailService.sendMail {
+//            to "valentinsvt@hotmail.com"
+//            subject "Hello Fred"
+//            body 'How are you?'
+//        }
         [linkUsu:linkUsu,linkEstacion:linkEstacion]
 
     }
@@ -201,5 +207,303 @@ class PruebasController{
         }
         render "ok"
     }
+
+    def pruebaStres(){
+        def clientes = Cliente.findAllByTipo(1)
+        def ventasActual = 0
+        def ventasAnterior = 0
+        def cliente = Cliente.findByCodigoAndTipo("01010008",1)
+        def fecha1 = new Date().parse("dd-MM-yyyy","01-04-2015")
+        def fecha2 = new Date().parse("dd-MM-yyyy","31-04-2015")
+        def fecha3 = new Date().parse("dd-MM-yyyy","01-04-2014")
+        def fecha4 = new Date().parse("dd-MM-yyyy","31-04-2014")
+        Factura.findAllByClienteAndFechaBetween(cliente,fecha1,fecha2).each {f->
+            if(f.condicion=='1')
+                ventasActual+=f.pago
+        }
+        Factura.findAllByClienteAndFechaBetween(cliente,fecha3,fecha4).each {f->
+            if(f.condicion=='1')
+                ventasAnterior+=f.pago
+        }
+        println "prueba ${cliente} "+clientes.size()+" "+ventasActual+" "+ventasAnterior
+        render "ventas  "+ventasActual+"  "+ventasAnterior
+    }
+
+
+    def migra3(){
+        def sql =  new Sql(dataSource_erp)
+        def band = false
+        def co
+        sql.eachRow("sp_tables".toString()){r->          
+            if(r["table_type"]=="TABLE") {
+                try{
+                    sql.eachRow("select count(*) as co from PYS_2..${r['table_name']}".toString()){rd->
+                        co=rd["co"]
+                    }
+                    if(band){
+                        def s = "insert into PYS..${r['table_name']} select * from PYS_2..${r['table_name']}"
+                        println "ejecutando "+s
+                        sql.execute(s.toString());
+                    }
+                }catch (e){
+
+                }
+
+            }
+        }
+    }
+
+
+    def migracion(){
+        def sql =  new Sql(dataSource_erp)
+        def cont = 0
+        def tables = []
+        def hechas=[]
+        def error = []
+        def sp=[]
+        def co=0
+        def cd=0
+        def band = false
+
+        sql.eachRow("sp_tables".toString()){r->
+            sp.add(r['table_name'])
+
+            if(r["table_type"]=="TABLE") {
+
+                try{
+                    sql.eachRow("select count(*) as co,(select count(*) as cd from PYS..${r['table_name']}) as ca  from PYS_3..${r['table_name']}".toString()){rd->
+                        co=rd["co"]
+                        cd=rd["ca"]
+                    }
+                    println "table "+r['table_name']+"  "+co+" -- "+cd
+                    if(cd<co){
+                        def s = "insert into PYS..${r['table_name']} select * from PYS_3..${r['table_name']}"
+                        println "ejecutando "+s
+                        sql.execute(s.toString());
+                        println "ejecuto "
+                    }
+                }catch (e){
+                    println "error "+e
+                }
+
+            }
+        }
+
+        sql.eachRow("sp_helpconstraint"){r->
+            tables.add(0,r["name"])
+        }
+        println "sp "+sp.size()+"   "+tables.size()
+        def inserto = []
+        while(tables.size()!=(hechas.size()+error.size())){
+            println "iteracion "+cont
+            cont++
+            tables.each {t->
+                band = false
+                inserto=[]
+                co=0
+                cd=0
+                // println "tabla "+t
+                if(!hechas.contains(t) && !error.contains(t)){
+                    // println "no esta copiada"
+                    try{
+                        sql.eachRow("select count(*) as co,(select count(*) as cd from PYS..${t}) as ca  from PYS_3..${t}".toString()){r->
+                            co=r["co"]
+                            cd=r["ca"]
+                        }
+//                        println "registros en PYS2 "+co+" ----  PYS "+cd
+                    }catch (e){
+                        band=true
+                        error.add(t)
+                    }
+                    if(!band){
+                        if(cd<co){
+                            try{
+                                def s = "insert into PYS..${t} select * from PYS_3..${t}"
+                                println "TIENE QUE INSERTAR   "+t+"  "+s
+                                sql.execute(s.toString());
+                                hechas.add(t)
+                                inserto.add(t)
+                            }catch (e){
+                                println "catch ${t}--> "+e
+                            }
+                        }else{
+                            hechas.add(t)
+                        }
+                    }
+
+                }
+
+            }
+            println "----------------- fin iter!!! ---${tables.size()}  Hechas "+hechas.size()+" error  "+error.size()
+            println "inserto  "+inserto
+            if(cont>5)
+                break;
+        }
+
+        println "-------------->>>> fin "+cont+" "+tables.size()
+        sql.close()
+        render "termino"
+
+    }
+
+    def checkTablas(){
+        def sql =  new Sql(dataSource_erp)
+        def tables= [:]
+
+        sql.eachRow("sp_tables".toString()){r->
+            if(r["table_type"]=="TABLE") {
+                tables.put(r['table_name'],[])
+                try{
+                    sql.eachRow("select count(*) as co,(select count(*) as cd from PYS..${r['table_name']}) as ca  from PYS_3..${r['table_name']}".toString()){rd->
+                        tables[r['table_name']][0]=rd["co"]
+                        tables[r['table_name']][1]=rd["ca"]
+                    }
+
+                }catch (e){
+                    println "error "+e
+                }
+
+            }
+        }
+
+        [tables:tables]
+
+    }
+
+    def borrarTablas(){
+        response.sendError(403)
+        return
+
+//        def sql =  new Sql(dataSource_erp)
+//        def tables= []
+//        def borradas = []
+//        def cont = 0
+//        def delete=""
+//        sql.eachRow("sp_tables".toString()){r->
+//            if(r["table_type"]=="TABLE") {
+//                tables.add(r["table_name"])
+//                delete = "delete from " + r["table_name"]
+//                try {
+//                    println "ejecutando " + delete
+//                    sql.execute(delete.toString())
+//                    borradas.add(r["table_name"])
+//                    println "borradas " + r["table_name"]
+//                } catch (e) {
+//                    println "error detele"
+//                }
+//            }
+//        }
+//        println "entra al while!!! "
+//        while (borradas.size()<tables.size()){
+//            println "iteracion "+cont+"  "+borradas.size()+"  "+tables.size()
+//            tables.each {t->
+//                if(!borradas.contains(t)){
+//                    try {
+//                        delete="delete from "+t
+//                       // println "ejecutando "+delete
+//                        sql.execute(delete.toString())
+//                        borradas.add(t)
+//                        //println "borradas "+t
+//                    }catch (e){
+//                        //println "error detele"
+//                    }
+//                }
+//            }
+//            if(cont>5)
+//                break
+//            cont++
+//        }
+
+    }
+
+
+
+    def migrar2(){
+        def sql =  new Sql(dataSource_erp)
+        def cont = 0
+        def tables = []
+        def hechas=[]
+        def error = []
+        def sp=[]
+        def co=0
+        def cd=0
+        def band = false
+
+        sql.eachRow("sp_tables".toString()){r->
+            sp.add(r['table_name'])
+
+            if(r["table_type"]=="TABLE") {
+
+                try{
+                    sql.eachRow("select count(*) as co,(select count(*) as cd from PYS..${r['table_name']}) as ca  from PYS_3..${r['table_name']}".toString()){rd->
+                        co=rd["co"]
+                        cd=rd["ca"]
+                    }
+                    println "table "+r['table_name']+"  "+co+" -- "+cd
+                    if(cd<co){
+                        def s = "insert into PYS..${r['table_name']} select * from PYS_3..${r['table_name']}"
+                        println "ejecutando "+s
+                        sql.execute(s.toString());
+                        println "ejecuto "
+                    }
+                }catch (e){
+                    tables.add(r["table_type"])
+                    println "error "+e
+                }
+
+            }
+        }
+        def inserto = []
+        while(tables.size()<(hechas.size()+error.size())){
+            println "iteracion "+cont
+            cont++
+            tables.each {t->
+                band = false
+                inserto=[]
+                co=0
+                cd=0
+                // println "tabla "+t
+                if(!hechas.contains(t) && !error.contains(t)){
+                    // println "no esta copiada"
+                    try{
+                        sql.eachRow("select count(*) as co,(select count(*) as cd from PYS..${t}) as ca  from PYS_3..${t}".toString()){r->
+                            co=r["co"]
+                            cd=r["ca"]
+                        }
+//                        println "registros en PYS2 "+co+" ----  PYS "+cd
+                    }catch (e){
+                        band=true
+                        error.add(t)
+                    }
+                    if(!band){
+                        if(cd<co){
+                            try{
+                                def s = "insert into PYS..${t} select * from PYS_3..${t}"
+                                println "TIENE QUE INSERTAR   "+t+"  "+s
+                                sql.execute(s.toString());
+                                hechas.add(t)
+                                inserto.add(t)
+                            }catch (e){
+                                println "catch ${t}--> "+e
+                            }
+                        }else{
+                            hechas.add(t)
+                        }
+                    }
+
+                }
+
+            }
+            println "----------------- fin iter!!! ---${tables.size()}  Hechas "+hechas.size()+" error  "+error.size()
+            println "inserto  "+inserto
+            if(cont>2)
+                break;
+        }
+
+        println "-------------->>>> fin "+cont+" "+tables.size()
+        sql.close()
+        render "termino"
+    }
+
 
 }
