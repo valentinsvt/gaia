@@ -2,7 +2,6 @@ package gaia.seguridad
 
 import gaia.Contratos.Adendum
 import gaia.Contratos.DashBoardContratos
-import gaia.Contratos.DetallePintura
 import gaia.Contratos.Egreso
 import gaia.Contratos.TipoContrato
 import gaia.Contratos.esicc.Pedido
@@ -11,10 +10,11 @@ import gaia.documentos.Dashboard
 import gaia.documentos.Inspector
 import gaia.documentos.InspectorEstacion
 import gaia.estaciones.Estacion
+import gaia.pintura.DetallePintura
 import groovy.sql.Sql
 
 
-class PruebasController extends Shield{
+class PruebasController{
     def dataSource_erp
     def dataSource
     def links(){
