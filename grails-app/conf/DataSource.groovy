@@ -24,7 +24,7 @@ environments {
             password = ""
         }
         dataSource_erp {
-            pooled = false
+            pooled = true
             driverClassName ="com.sybase.jdbc4.jdbc.SybDriver"
             username = "sa"
             password = "eldia2k"
@@ -44,7 +44,7 @@ environments {
         }
 
         dataSource_nomina {
-            pooled = false
+            pooled = true
             driverClassName ="com.sybase.jdbc4.jdbc.SybDriver"
             username = "sa"
             password = ""
@@ -85,7 +85,7 @@ environments {
             }
         }
         dataSource_erp {
-            pooled = false
+            pooled = true
             driverClassName ="com.sybase.jdbc4.jdbc.SybDriver"
             username = "sa"
             password = ""
@@ -94,7 +94,7 @@ environments {
             url = "jdbc:sybase:Tds:192.168.2.7:5000/PYS"
         }
         dataSource_nomina {
-            pooled = false
+            pooled = true
             driverClassName ="com.sybase.jdbc4.jdbc.SybDriver"
             username = "sa"
             password = ""
