@@ -27,10 +27,10 @@ environments {
             pooled = false
             driverClassName ="com.sybase.jdbc4.jdbc.SybDriver"
             username = "sa"
-            password = ""
+            password = "eldia2k"
             dialect = org.hibernate.dialect.SybaseDialect
             dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
-            url = "jdbc:sybase:Tds:192.168.2.100:5000/PYS"
+            url = "jdbc:sybase:Tds:192.168.2.7:5000/PYS"
 //            properties {
 //                validationQuery="select 1"
 //                testWhileIdle=true
@@ -50,7 +50,7 @@ environments {
             password = ""
             dialect = org.hibernate.dialect.SybaseDialect
             dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
-            url = "jdbc:sybase:Tds:192.168.2.100:5000/NOMINA"
+            url = "jdbc:sybase:Tds:192.168.2.7:5000/NOMINA"
 //            properties {
 //                validationQuery="select 1"
 //                testWhileIdle=true
@@ -91,7 +91,7 @@ environments {
             password = ""
             dialect = org.hibernate.dialect.SybaseDialect
             dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
-            url = "jdbc:sybase:Tds:192.168.2.100:5000/PYS"
+            url = "jdbc:sybase:Tds:192.168.2.7:5000/PYS"
         }
         dataSource_nomina {
             pooled = false
@@ -100,7 +100,7 @@ environments {
             password = ""
             dialect = org.hibernate.dialect.SybaseDialect
             dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
-            url = "jdbc:sybase:Tds:192.168.2.100:5000/NOMINA"
+            url = "jdbc:sybase:Tds:192.168.2.7:5000/NOMINA"
 //            properties {
 //                validationQuery="select 1"
 //                testWhileIdle=true
