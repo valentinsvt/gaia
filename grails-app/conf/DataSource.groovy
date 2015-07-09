@@ -92,6 +92,18 @@ environments {
             dialect = org.hibernate.dialect.SybaseDialect
             dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
             url = "jdbc:sybase:Tds:192.168.2.7:5000/PYS"
+            properties {
+                validationQuery="select 1"
+                testWhileIdle=true
+                minEvictableIdleTimeMillis=1000 * 60 * 10
+                timeBetweenEvictionRunsMillis=1000 * 60 * 10
+                numTestsPerEvictionRun=3
+                testOnBorrow=true
+                testWhileIdle=false
+                testOnReturn=true
+                jdbcInterceptors="ConnectionState"
+                maxActive = -1
+            }
         }
         dataSource_nomina {
             pooled = true
@@ -101,17 +113,18 @@ environments {
             dialect = org.hibernate.dialect.SybaseDialect
             dbCreate = "update" // one of 'create', 'create-drop', 'update', 'validate', ''
             url = "jdbc:sybase:Tds:192.168.2.7:5000/NOMINA"
-
-//            properties {
-//                validationQuery="select 1"
-//                testWhileIdle=true
-//                minEvictableIdleTimeMillis=1000 * 60 * 10
-//                timeBetweenEvictionRunsMillis=1000 * 60 * 10
-//                numTestsPerEvictionRun=3
-//                testOnBorrow=true
-//                testWhileIdle=false
-//                testOnReturn=true
-//            }
+            properties {
+                validationQuery="select 1"
+                testWhileIdle=true
+                minEvictableIdleTimeMillis=1000 * 60 * 10
+                timeBetweenEvictionRunsMillis=1000 * 60 * 10
+                numTestsPerEvictionRun=3
+                testOnBorrow=true
+                testWhileIdle=false
+                testOnReturn=true
+                jdbcInterceptors="ConnectionState"
+                maxActive = -1
+            }
         }
     }
 }
