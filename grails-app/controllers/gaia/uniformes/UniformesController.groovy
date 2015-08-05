@@ -144,6 +144,7 @@ class UniformesController {
         def msg = ""
 
         if(f && !f.empty){
+            println "no es empty "+f
             def nombre = f.getOriginalFilename()
             def parts2 = nombre.split("\\.")
             nombre = ""
@@ -156,7 +157,7 @@ class UniformesController {
             }
             def path = servletContext.getRealPath("/") + "certificados/" + estacion.codigo + "/"
             def pathLocal = "certificados/" + estacion.codigo + "/"
-            if(ext2 == 'pdf'){
+            if(ext2 == 'pdf' || ext2 == 'PDF'){
                 /* upload */
                 new File(path).mkdirs()
                 if (f && !f.empty) {

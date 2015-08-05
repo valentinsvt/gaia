@@ -13,7 +13,7 @@
 </head>
 
 <body>
-<div class="pdf-viewer">
+<div class="pdf-viewer" style="width: 46%">
     <div class="pdf-content" >
         <div class="pdf-container" id="doc"></div>
         <div class="pdf-handler" >
@@ -113,7 +113,7 @@
 
     </g:form>
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-6">
             <table class="table table-condensed">
                 <thead style="border:none !important;">
                 <tr style="border: none !important;">

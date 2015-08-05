@@ -44,7 +44,10 @@
                     </div>
                 </div>
             </th>
-
+            <th>
+                Solicitud<br/>
+                enviada?
+            </th>
             <th class="td-semaforo">
                 Dotación de unfirmes<br>
                 <div class="circle-card card-bg-green circle-btn equipo-green" title="Filtrar por color verde" mostrar="green-equipo"></div>
@@ -62,9 +65,13 @@
         <g:each in="${dash}" var="d" status="">
 
             <g:set var="colorUniforme" value="${d.getColorSemaforoUniforme()}"></g:set>
+            <g:set var="enviada" value="${d.getSolEnivada()}"></g:set>
 
             <tr data-id="${d.estacion.codigo}" class=" tr-info   ${colorUniforme[1]} ">
                 <td class="desc">${d.estacion}</td>
+                <td class="" style="text-align: center;width: 60px">
+                    <div class="circle-card ${enviada}" ></div>
+                </td>
                 <td class="td-semaforo" style="text-align: left">
                     <div class="circle-card ${colorUniforme[0]}" ></div>
                     ${d.ultimoUniforme?d.ultimoUniforme?.format("dd-MM-yyyy"):'N.A.'}

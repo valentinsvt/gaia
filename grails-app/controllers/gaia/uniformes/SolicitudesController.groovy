@@ -91,7 +91,9 @@ class SolicitudesController extends Shield {
 
     def saveDetalle(){
         //println "params "+params
-//        data+=$(this).attr("empleado")+";"+$(this).attr("uniforme")+";"+$(this).attr("talla")+";"+$(this).val()+"W"
+        //data+=$(this).attr("empleado")+";"+$(this).attr("uniforme")+";"+$(this).attr("talla")+";"+$(this).val()+"W"
+        //sql de verificacion
+        //select s.pdun__id,s.nmes__id,n.nmesnmbr,n.estn__id,u.uni_descripcion,s.sbpdcnta from sbpd s,nmes n ,uniforme u where s.pdun__id=16 and s.nmes__id=n.pdun__id and s.unfr__id=u.uni_codigo;
 
         def sol = PedidoUniformes.get(params.id)
         def data = params.data.split("W")
@@ -111,15 +113,17 @@ class SolicitudesController extends Shield {
                 def talla = Tallas.findByCodigo(datos[2])
                 def cantidad = datos[3].toInteger()
                 if(cantidad>0){
-                    def sb=new SubDetallePedido()
-                    sb.pedido=sol
-                    sb.empleado=empleado
-                    sb.uniforme=uniforme
-                    sb.talla=talla
-                    sb.estacion=sol.estacion
-                    sb.cantidad=cantidad
-                    if(!sb.save(flush: true))
-                        println "error save sub detalle"
+                    if(empleado.estacion.codigo==sol.estacion.codigo){
+                        def sb=new SubDetallePedido()
+                        sb.pedido=sol
+                        sb.empleado=empleado
+                        sb.uniforme=uniforme
+                        sb.talla=talla
+                        sb.estacion=sol.estacion
+                        sb.cantidad=cantidad
+                        if(!sb.save(flush: true))
+                            println "error save sub detalle"
+                    }
                 }
 
 
@@ -144,26 +148,26 @@ class SolicitudesController extends Shield {
                 def tallaGorra = n.getTalla(gorra)
                 def tallaBota = n.getTalla(bota)
                 if(tallaGorra && tallaBota){
-                    def dBota = new SubDetallePedido()
-                    dBota.pedido=pedido
-                    dBota.estacion=estacion
-                    dBota.empleado=n
-                    dBota.cantidad=1
-                    dBota.talla=tallaBota
-                    dBota.uniforme=bota
-                    if(!dBota.save(flush: true))
-                        println "error save bota "+dBota.errors
-                    def dGorra = new SubDetallePedido()
-                    dGorra.pedido=pedido
-                    dGorra.estacion=estacion
-                    dGorra.empleado=n
-                    dGorra.cantidad=1
-                    dGorra.talla=tallaGorra
-                    dGorra.uniforme=gorra
-                    if(!dGorra.save(flush: true))
-                        println "error save gorra "+dGorra.errors
-                    detalle.add(dBota)
-                    detalle.add(dGorra)
+//                    def dBota = new SubDetallePedido()
+//                    dBota.pedido=pedido
+//                    dBota.estacion=estacion
+//                    dBota.empleado=n
+//                    dBota.cantidad=1
+//                    dBota.talla=tallaBota
+//                    dBota.uniforme=bota
+//                    if(!dBota.save(flush: true))
+//                        println "error save bota "+dBota.errors
+//                    def dGorra = new SubDetallePedido()
+//                    dGorra.pedido=pedido
+//                    dGorra.estacion=estacion
+//                    dGorra.empleado=n
+//                    dGorra.cantidad=1
+//                    dGorra.talla=tallaGorra
+//                    dGorra.uniforme=gorra
+//                    if(!dGorra.save(flush: true))
+//                        println "error save gorra "+dGorra.errors
+//                    detalle.add(dBota)
+//                    detalle.add(dGorra)
                 }else{
                     error = true
                     return
@@ -185,7 +189,7 @@ class SolicitudesController extends Shield {
         def detalle = []
         def error=false
         if(nomina.size()==0){
-            redirect(action: "detalle",params: [id:estacion.codigo,pedido: sol])
+            redirect(action: "detalle",params: [id:estacion.codigo,pedido: sol.id])
             return
         }
         nomina.each {n->
@@ -198,7 +202,7 @@ class SolicitudesController extends Shield {
             }
         }
         if(error) {
-            redirect(action: "detalle", params: [id: estacion.codigo, pedido: sol])
+            redirect(action: "detalle", params: [id: estacion.codigo, pedido: sol.id])
             return
         }
         [sol:sol,estacion: estacion,detalle: detalle]
@@ -287,11 +291,11 @@ class SolicitudesController extends Shield {
 
     def aprobarSolicitud(){
 //        println "aprobar "+params
-        if(session.usuario.password!=params.auth.encodeAsMD5()) {
-            flash.message = "Contraseña incorrecta "
-//            redirect(action: "revisar",params:[pedido:params.id])
-//            return
-        }
+//        if(session.usuario.password!=params.auth.encodeAsMD5()) {
+//            flash.message = "Contraseña incorrecta "
+////            redirect(action: "revisar",params:[pedido:params.id])
+////            return
+//        }
         def sol = PedidoUniformes.get(params.id)
         def mail = sol.supervisor.mail
 

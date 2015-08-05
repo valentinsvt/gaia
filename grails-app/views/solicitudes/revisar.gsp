@@ -327,7 +327,7 @@
             bootbox.alert("Error: Seleccione al menos un registro en la tabla de detalle o niegue la solicitud")
         }else{
             $("#datos").val(data)
-            $(".dlg-aprobar").modal("show")
+            $(".frmAprobar").submit()
         }
 
         return false

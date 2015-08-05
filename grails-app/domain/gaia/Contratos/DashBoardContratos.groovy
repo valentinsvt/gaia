@@ -1,8 +1,10 @@
 package gaia.Contratos
 
+import gaia.Contratos.esicc.PeriodoDotacion
 import gaia.estaciones.Estacion
 import gaia.pintura.DetallePintura
 import gaia.pintura.SubDetallePintura
+import gaia.uniformes.PedidoUniformes
 
 class DashBoardContratos {
 
@@ -108,6 +110,21 @@ class DashBoardContratos {
             }
         }
         return ["Pintura":p,"Rotulación":r,"Mantenimiento":m,"factura":pintura?.numeroFactura]
+    }
+
+    def getSolEnivada(){
+        def colores = ["card-bg-green", "svt-bg-warning", "svt-bg-danger"]
+        def periodo = PeriodoDotacion.list([sort: "codigo", order: "desc",max:2])?.first()
+        def pedido=PedidoUniformes.findByPeriodoAndEstacion(periodo,this.estacion)
+        if(!pedido)
+            return colores[2]
+        else{
+            if(pedido.estado!="S"){
+                return colores[1]
+            }else{
+                return colores[0]
+            }
+        }
     }
 
 

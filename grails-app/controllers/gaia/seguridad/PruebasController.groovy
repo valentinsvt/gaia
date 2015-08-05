@@ -14,7 +14,7 @@ import gaia.estaciones.Estacion
 import groovy.sql.Sql
 
 
-class PruebasController extends Shield{
+class PruebasController{
     def dataSource_erp
     def dataSource
     def mailService
@@ -28,7 +28,7 @@ class PruebasController extends Shield{
         token=usuario.login+"|"+perfil.codigo.encodeAsMD5()+"|"+token+"|"+usuario.password
         def linkUsu = "" +g.createLink(action: 'remoteLogin',controller: 'login')+"?token="+token
         def linkEstacion
-        usuario = Persona.findByLogin("ANDRADEW")
+        usuario = Persona.findByLogin("MOLINAJ")
         perfil = Perfil.findByCodigo("2")
         println "usuario "+usuario.nombre
         token =""
@@ -42,6 +42,21 @@ class PruebasController extends Shield{
 //        }
         [linkUsu:linkUsu,linkEstacion:linkEstacion]
 
+    }
+
+
+    def cargaDash(){
+        Estacion.findAll("from Estacion where aplicacion = 1 and estado='A' and tipo=1").each {
+            def dash = Dashboard.findByEstacion(it)
+            if(!dash){
+                dash=new Dashboard()
+                dash.estacion=it
+                if(!dash.save(flush: true))
+                    println "error save dash "+dash.errors
+                else
+                    println " add dash "+it.codigo+"  "+it.nombre
+            }
+        }
     }
 
     def listado(){
@@ -80,7 +95,10 @@ class PruebasController extends Shield{
         def sql =  new Sql(dataSource_erp)
         sql.eachRow("select * from SUPERVISORES".toString()){r->
             println "row "+r
-            def sup = new Inspector()
+            def sup
+            sup = Inspector.findByMail(r["EMAIL_SUPERVISOR"])
+            if(!sup)
+                sup= new Inspector()
             sup.codigo=r["CODIGO_SUPERVISOR"]
             sup.mail=r["EMAIL_SUPERVISOR"]
             sup.nombre=r["NOMBRE_SUPERVISOR"]
@@ -234,7 +252,7 @@ class PruebasController extends Shield{
         def sql =  new Sql(dataSource_erp)
         def band = false
         def co
-        sql.eachRow("sp_tables".toString()){r->          
+        sql.eachRow("sp_tables".toString()){r->
             if(r["table_type"]=="TABLE") {
                 try{
                     sql.eachRow("select count(*) as co from PYS_2..${r['table_name']}".toString()){rd->
