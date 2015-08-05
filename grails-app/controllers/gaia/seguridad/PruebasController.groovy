@@ -14,7 +14,7 @@ import gaia.estaciones.Estacion
 import groovy.sql.Sql
 
 
-class PruebasController{
+class PruebasController extends Shield{
     def dataSource_erp
     def dataSource
     def mailService
