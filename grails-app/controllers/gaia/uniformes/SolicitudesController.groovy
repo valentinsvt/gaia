@@ -46,6 +46,7 @@ class SolicitudesController extends Shield {
     }
 
     def detalle() {
+        //println "params.id "+params
         def estacion = Estacion.findByCodigoAndAplicacion(params.id, 1)
         def nomina = NominaEstacion.findAllByEstacionAndEstado(estacion, "A")
         def pedido
@@ -54,7 +55,7 @@ class SolicitudesController extends Shield {
         if (params.pedido && params.pedido != "")
             pedido = PedidoUniformes.get(params.pedido)
         else {
-            pedido = PedidoUniformes.findByEstado("P")
+            pedido = PedidoUniformes.findByEstadoAndEstacion("P",estacion)
             if (!pedido) {
                 def periodo = PeriodoDotacion.list([sort: "codigo", order: "desc"])?.first()
                 pedido=PedidoUniformes.findByPeriodoAndEstacion(periodo,estacion)
@@ -90,7 +91,7 @@ class SolicitudesController extends Shield {
     }
 
     def saveDetalle(){
-        //println "params "+params
+        println "params!!! "+params
         //data+=$(this).attr("empleado")+";"+$(this).attr("uniforme")+";"+$(this).attr("talla")+";"+$(this).val()+"W"
         //sql de verificacion
         //select s.pdun__id,s.nmes__id,n.nmesnmbr,n.estn__id,u.uni_descripcion,s.sbpdcnta from sbpd s,nmes n ,uniforme u where s.pdun__id=16 and s.nmes__id=n.pdun__id and s.unfr__id=u.uni_codigo;
@@ -113,6 +114,7 @@ class SolicitudesController extends Shield {
                 def talla = Tallas.findByCodigo(datos[2])
                 def cantidad = datos[3].toInteger()
                 if(cantidad>0){
+                   // println " "+empleado.estacion.nombre+" (${empleado.estacion.codigo}) ----   "+sol.estacion.nombre+"(${sol.estacion.codigo})  "
                     if(empleado.estacion.codigo==sol.estacion.codigo){
                         def sb=new SubDetallePedido()
                         sb.pedido=sol
