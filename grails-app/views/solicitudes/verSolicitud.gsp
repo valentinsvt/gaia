@@ -27,6 +27,9 @@
             <a href="#" id="imprimirActa" class="btn btn-default">
                 <i class="fa fa-print"></i> Imprimir acta
             </a>
+            <a href="#" id="revertir"  class="btn btn-default">
+                <i class="fa fa-times"></i> Revertir aprobación
+            </a>
         </g:if>
     </div>
 </div>
@@ -150,6 +153,29 @@
     $("#imprimirActa").click(function(){
         var url = "${createLink(controller: 'reportesDotacion',action: 'imprimeActa',id: sol.id)}" ;
         location.href = "${g.createLink(controller:'pdf',action:'pdfLink')}?url=" + url;
+    })
+    $("#revertir").click(function(){
+        bootbox.confirm("Está seguro",function(result){
+            if(result){
+                openLoader()
+                $.ajax({
+                    type: "POST",
+                    url: "${createLink(controller:'solicitudes', action:'revertir')}",
+                    data: {
+                        id: "${sol?.id}"
+                    },
+                    success: function (msg) {
+                        closeLoader()
+                        if(msg=="ok"){
+                            location.reload(true)
+                        }else{
+                            bootbox.alert("Ha ocurrido un error, no se puede revertir la aprobación de la solicitud")
+                        }
+                    }
+                });
+            }
+        })
+        return false
     })
 </script>
 </body>

@@ -70,7 +70,19 @@ class ReportesDotacionController {
         def subdetalle = SubDetallePedido.findAllByPedido(sol)
         subdetalle=subdetalle.sort{it.uniforme.descripcion}
         def fecha = new Date()
-        [sol:sol,subdetalle:subdetalle,fecha:fecha]
+        def datos = [:]
+        subdetalle.each {s->
+            if(!datos[""+s.uniforme.descripcion]){
+                datos.put(""+s.uniforme.descripcion,[:])
+            }
+            if(!datos[""+s.uniforme.descripcion][s.talla.talla]){
+                datos[""+s.uniforme.descripcion].put(s.talla.talla,s.cantidad)
+            }else{
+                datos[""+s.uniforme.descripcion][s.talla.talla]+=s.cantidad
+            }
+        }
+//        println "datos "+datos
+        [sol:sol,subdetalle:subdetalle,fecha:fecha,datos:datos]
     }
 
     def dotacionesPorItemPdf(){

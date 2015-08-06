@@ -63,19 +63,25 @@ uniforme para la ${sol.estacion.nombre}, según se detalla a continuación:</p>
     </thead>
     <tbody class="tbody">
     <g:set var="anterior" value="${null}"></g:set>
-    <g:each in="${subdetalle}" var="s" status="i">
-        <g:if test="${anterior!=s.uniforme.descripcion}">
-            <g:set var="anterior" value="${s.uniforme.descripcion}"></g:set>
-            <g:set var="td" value="${s.uniforme.descripcion}"></g:set>
-        </g:if>
-        <g:else>
-            <g:set var="td" value=""></g:set>
-        </g:else>
+    <g:each in="${datos}" var="s" status="i">
         <tr>
-            <td style="width: 30%">${td}</td>
-            <td style="text-align: center">${s.talla.talla}</td>
-            <td style="text-align: center">${s.cantidad}</td>
-        </tr>
+            <td style="width: 30%">${s.key}</td>
+            <g:each in="${s.value}" var="j" status="k">
+                <g:if test="${k==0}">
+                    <td style="text-align: center">${j.key}</td>
+                    <td style="text-align: center">${j.value}</td>
+                    </tr>
+                </g:if>
+                <g:else>
+                    <tr>
+                        <td style="width: 30%"></td>
+                        <td style="text-align: center">${j.key}</td>
+                        <td style="text-align: center">${j.value}</td>
+                    </tr>
+                </g:else>
+
+            </g:each>
+
     </g:each>
     </tbody>
 </table>

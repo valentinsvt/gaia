@@ -291,6 +291,26 @@ class SolicitudesController extends Shield {
         [sol:sol,detalle: detalle,certificado: certificado,resumen:tablaResumida]
     }
 
+    def revertir(){
+        def sol = PedidoUniformes.get(params.id)
+        if(sol.estado!="A")
+            response.sendError(403)
+        else {
+            sol.estado = "P"
+            if (sol.save(flush: true)) {
+                SubDetallePedido.findAllByPedido(sol).each {sub->
+                    sub.precio=0
+                    if(!sub.save(flush: true))
+                        println "error save subdetalle "+sub.errors
+                }
+
+            }else{
+                render "error"
+            }
+        }
+        render("ok")
+    }
+
     def aprobarSolicitud(){
 //        println "aprobar "+params
 //        if(session.usuario.password!=params.auth.encodeAsMD5()) {
@@ -456,5 +476,7 @@ class SolicitudesController extends Shield {
 
         [supervisor:supervisor,datos: datos]
     }
+
+
 
 }

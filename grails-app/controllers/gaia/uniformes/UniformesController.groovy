@@ -11,8 +11,9 @@ import gaia.documentos.InspectorEstacion
 import gaia.documentos.Responsable
 import gaia.estaciones.Estacion
 import gaia.parametros.Parametros
+import gaia.seguridad.Shield
 
-class UniformesController {
+class UniformesController extends Shield{
 
     static sistema="UNFR"
 

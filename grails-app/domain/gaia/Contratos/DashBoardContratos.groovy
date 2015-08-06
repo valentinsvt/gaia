@@ -119,10 +119,14 @@ class DashBoardContratos {
         if(!pedido)
             return colores[2]
         else{
-            if(pedido.estado!="S"){
-                return colores[1]
-            }else{
+            if(pedido.estado=="S"){
                 return colores[0]
+            }
+            if(pedido.estado=="A"){
+                return colores[0]
+            }
+            if(pedido.estado=="P") {
+                return colores[1]
             }
         }
     }
