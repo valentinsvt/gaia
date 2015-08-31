@@ -13,6 +13,8 @@ import gaia.documentos.Responsable
 import gaia.estaciones.Estacion
 import gaia.parametros.Parametros
 import gaia.seguridad.Shield
+import gaia.uniformes.PedidoUniformes
+import gaia.uniformes.SubDetallePedido
 
 class ContratosController extends Shield {
     static final sistema="CNTR"
@@ -61,7 +63,7 @@ class ContratosController extends Shield {
         inicial["fin"] = cliente.fechaTerminaContrato
 
 
-        def uniformes = Pedido.findAllByEstacion(estacion,[sort:"fecha",order: "desc"])
+        def uniformes = PedidoUniformes.findAllByEstacion(estacion,[sort:"registro",order: "desc"])
         def pinturas = DetallePintura.findAllByCliente(cliente,[sort: "fin",order: "desc"])
 
 
@@ -72,8 +74,8 @@ class ContratosController extends Shield {
 
     def verUniforme(){
 
-        def pedido = Pedido.findByCodigo(params.dotacion)
-        def detalle = Dotacion.findAllByPedido(pedido)
+        def pedido = PedidoUniformes.get(params.dotacion)
+        def detalle = SubDetallePedido.findAllByPedido(pedido)
         [pedido:pedido,detalle:detalle]
 
     }

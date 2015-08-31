@@ -13,7 +13,7 @@ class EmailEstadosDeCuentaJob {
     static triggers = {
         simple name: 'emailEstados', startDelay: 1000*60*3, repeatInterval: 1000*60*5
     }
-
+    final static descripcion=""
     def execute() {
         println "email job"
         def ctx = ServletContextHolder.servletContext.getAttribute(GrailsApplicationAttributes.APPLICATION_CONTEXT)

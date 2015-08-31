@@ -10,7 +10,7 @@ class EstadoDeCuentaJob {
         simple name: 'estadoDeCuentaJob', startDelay: 1000*60*1, repeatInterval: 1000*60*3
     }
 
-
+    final static descripcion=""
     def execute() {
         println "estados de cuenta job"
         def ctx = SCH.servletContext.getAttribute(GA.APPLICATION_CONTEXT)

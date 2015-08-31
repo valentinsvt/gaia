@@ -18,7 +18,7 @@ class CronjobsController extends Shield {
         listJobGroups?.each {jobGroup ->
             quartzScheduler.getJobKeys(jobGroupEquals(jobGroup))?.each {jobKey ->
                 def jobName = jobKey.name
-                def descripcion = Class.forName(jobKey.name).newInstance().descripcion
+                def descripcion = Class.forName(jobKey.name).newInstance()?.descripcion
                 List<Trigger> triggers = quartzScheduler.getTriggersOfJob(jobKey)
                 if (triggers) {
                     triggers.each {trigger ->

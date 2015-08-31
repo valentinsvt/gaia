@@ -7,6 +7,7 @@ import gaia.pintura.DetallePintura
 import gaia.Contratos.esicc.Pedido
 import gaia.Contratos.esicc.PeriodoDotacion
 import gaia.estaciones.Estacion
+import gaia.uniformes.PedidoUniformes
 import groovy.sql.Sql
 
 
@@ -21,7 +22,7 @@ class ContratosJob {
     def execute() {
         println "Ejecución contratosJob "+new Date().format("dd-MM-yyyy HH:mm:ss")
         def periodo = PeriodoDotacion.findByEstado("A")
-        //println "periodo  "+periodo
+        println "periodo  "+periodo.fecha
         /*Indicador de los contratos*/
         Estacion.findAll("from Estacion where aplicacion = 1 and estado='A' and tipo=1").each { estacion ->
             def dash = DashBoardContratos.findByEstacion(estacion)
@@ -48,12 +49,15 @@ class ContratosJob {
             /*Indicador de la dotación semestral*/
 
 
-            def pedido = Pedido.findAllByEstacionAndPeriodo(estacion,periodo)
-            //println " estacion ${dash.estacion}   pedido--> "+pedido
+            def pedido = PedidoUniformes.findAllByEstacionAndPeriodo(estacion,periodo)
+//            println " estacion ${dash.estacion}   pedido--> "+pedido
             if(pedido.size()>0){
                 pedido.each {p->
                     if(p.estado=="A")
-                        dash.ultimoUniforme=periodo.fecha
+                        if(!periodo.fecha)
+                            dash.ultimoUniforme=p.registro
+                        else
+                            dash.ultimoUniforme=periodo.fecha
                 }
             }else{
                 dash.ultimoUniforme=null

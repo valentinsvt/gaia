@@ -12,11 +12,12 @@ import gaia.documentos.Responsable
 import gaia.estaciones.Estacion
 import gaia.parametros.Parametros
 import gaia.seguridad.Shield
+import groovy.sql.Sql
 
 class UniformesController extends Shield{
 
     static sistema="UNFR"
-
+    def dataSource_erp
     def index() {
         redirect(action: "dash")
     }
@@ -54,6 +55,8 @@ class UniformesController extends Shield{
         def estaciones
         def dash
         def dias = Parametros.getDiasContrato()
+        def supervisores = getSupervisores()
+        supervisores=supervisores.sort{it.nombre}
         def check = new Date().plus(dias)
         if (session.tipo == "cliente") {
             def responsable = Responsable.findByLogin(session.usuario.login)
@@ -61,10 +64,15 @@ class UniformesController extends Shield{
             estaciones = InspectorEstacion.findAllByInspector(supervisor)
             dash = DashBoardContratos.findAllByEstacionInList(estaciones.estacion, [sort: "id"])
         } else {
-            dash = DashBoardContratos.list([sort: "id"])
+            if(!params.sup || params.sup=="") {
+                dash = DashBoardContratos.list([sort: "id"])
+            }else{
+                estaciones = InspectorEstacion.findAllByInspector(Inspector.get(params.sup))
+                dash = DashBoardContratos.findAllByEstacionInList(estaciones.estacion, [sort: "id"])
+            }
         }
 
-        [dash: dash, search: params.search, check: check]
+        [dash: dash, search: params.search, check: check,supervisores:supervisores,sup:params.sup]
     }
 
     def showEstacion(){
@@ -74,7 +82,7 @@ class UniformesController extends Shield{
 //        } else {
         estacion = Estacion.findByCodigoAndAplicacion(params.id, 1)//        }
         def dash = DashBoardContratos.findByEstacion(estacion)
-        def uniformes = Pedido.findAllByEstacion(estacion,[sort:"fecha",order: "desc"])
+        def uniformes = PedidoUniformes.findAllByEstacion(estacion,[sort:"registro",order: "desc"])
 
         def cliente = Cliente.findByCodigoAndTipo(params.id,1)
 
@@ -109,6 +117,13 @@ class UniformesController extends Shield{
         def empleado = NominaEstacion.findByCedula(params.cedula)
         if(!empleado)
             empleado=new NominaEstacion()
+        else{
+            if(params.sexo!=empleado.sexo){
+                EmpleadoTalla.findAllByEmpleado(empleado).each {
+                    it.delete(flush: true)
+                }
+            }
+        }
         empleado.nombre=params.nombre
         empleado.sexo=params.sexo
         empleado.cedula=params.cedula
@@ -250,6 +265,21 @@ class UniformesController extends Shield{
         }
         render("ok")
 
+    }
+
+    def getSupervisores(){
+        def sql = "select distinct c.CODIGO_SUPERVISOR,s.NOMBRE_SUPERVISOR\n" +
+                "from CLIENTE c,SUPERVISORES s \n" +
+                "where   c.CODIGO_SUPERVISOR=s.CODIGO_SUPERVISOR \n" +
+                "and  TIPO_CLIENTE=1 \n" +
+                "and ESTADO_CLIENTE = 'A' \n" +
+                "order by 2"
+        def cn = new Sql(dataSource_erp)
+        def sups = []
+        cn.eachRow(sql.toString()){r->
+            sups.add(Inspector.findByCodigo(r["CODIGO_SUPERVISOR"]))
+        }
+        return sups
     }
 
 }

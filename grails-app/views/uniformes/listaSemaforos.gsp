@@ -8,7 +8,7 @@
     <style>
     .td-semaforo{
         text-align: center;
-        width: 110px;
+        width: 80px;
     }
     .circle-card{
         width: 22px ;
@@ -16,6 +16,9 @@
     }
     .circle-btn{
         cursor: pointer;
+    }
+    .table{
+        font-size: 10px !important;
     }
     .highlight { background-color: yellow; }
     </style>
@@ -36,15 +39,18 @@
                             </span>
                         </div>
                     </div>
-                    <div class="col-md-2">
-                        Estación
+                    <div class="col-md-6">
+                        <g:select name="sup" id="sup" class="form-control input-sm"
+                                  noSelection="['':'Supervisor']" from="${supervisores}"
+                                  optionKey="id" optionValue="nombre" value="${sup}"
+                        />
                     </div>
-                    <div class="col-md-3 col-md-offset-2">
-                        <a href="#" class="btn btn-primary btn-sm" id="reset"><i class="fa fa-refresh"></i> Resetear filtros</a>
+                    <div class="col-md-1" style="text-align: left">
+                        <a href="#" class="btn btn-primary btn-sm" id="reset" title="Resetear filtros"><i class="fa fa-refresh"></i></a>
                     </div>
                 </div>
             </th>
-            <th>
+            <th style="width: 40px">
                 Solicitud<br/>
                 enviada?
             </th>
@@ -55,10 +61,10 @@
                 <div class="circle-card svt-bg-danger circle-btn equipo-red" title="Filtrar por color rojo" mostrar="red-equipo"></div>
             </th>
 
-            <th style="width: 70px">Ver</th>
-            <th style="width: 70px">Empleados</th>
-            <th style="width: 70px">Solicitar</th>
-            <th style="width: 70px">Solicitudes</th>
+            <th style="width: 40px">Ver</th>
+            <th style="width: 40px">Empleados</th>
+            <th style="width: 40px">Solicitar</th>
+            <th style="width: 50px">Solicitudes</th>
         </tr>
         </thead>
         <tbody>
@@ -69,7 +75,7 @@
 
             <tr data-id="${d.estacion.codigo}" class=" tr-info   ${colorUniforme[1]} ">
                 <td class="desc">${d.estacion}</td>
-                <td class="" style="text-align: center;width: 60px">
+                <td class="" style="text-align: center;width: 40px">
                     <div class="circle-card ${enviada}" ></div>
                 </td>
                 <td class="td-semaforo" style="text-align: left">
@@ -203,6 +209,9 @@
             }
         });
     });
+    $("#sup").change(function(){
+        location.href="${g.createLink(action: 'listaSemaforos')}/?sup="+$(this).val()
+    })
 </script>
 </body>
 </html>

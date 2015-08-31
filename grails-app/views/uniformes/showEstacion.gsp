@@ -140,14 +140,14 @@
                             <g:set var="total" value="${total+uniforme.getTotal()}"></g:set>
 
                             <tr class="tr-info">
-                                <td style="text-align: center">${gaia.documentos.Inspector.findByCodigo(uniforme.supervisor).nombre}</td>
+                                <td style="text-align: center">${uniforme.supervisor?.nombre}</td>
                                 <td style="text-align: center">${uniforme.periodo}</td>
                                 <td style="text-align: right">${uniforme.estado}</td>
-                                <td style="text-align: center">${uniforme.fecha?.format('dd-MM-yyyy')}</td>
+                                <td style="text-align: center">${uniforme.registro?.format('dd-MM-yyyy')}</td>
                                 <td style="text-align: center">${uniforme.estado=="A"?uniforme.periodo.fecha?.format("dd-MM-yyyy"):'N.A.'}</td>
-                                <td style="text-align: right">${uniforme.getTotal()}</td>
+                                <td style="text-align: right"><g:formatNumber number="${uniforme.getTotal()}" type="currency" currencySymbol=""/></td>
                                 <td style="text-align: center;width: 50px">
-                                    <a href="#" title="Ver" class="ver-uniforme btn btn-sm btn-primary" iden="${uniforme.codigo}">
+                                    <a href="#" title="Ver" class="ver-uniforme btn btn-sm btn-primary" iden="${uniforme.id}">
                                         <i class="fa fa-search"></i>
                                     </a>
                                 </td>
@@ -155,7 +155,7 @@
                         </g:each>
                         <tr>
                             <td colspan="5" style="font-weight: bold">TOTAL</td>
-                            <td style="text-align: right;font-weight: bold">${total.toDouble().round(2)}</td>
+                            <td style="text-align: right;font-weight: bold"><g:formatNumber number="${total.toDouble().round(2)}" type="currency" currencySymbol=""/></td>
                         </tr>
                         </tbody>
                     </table>
@@ -343,6 +343,7 @@
         })
         $(".fa-info-circle").attr("title","Importante")
         $(".ver-uniforme").click(function(){
+            openLoader()
             $.ajax({
                 type    : "POST",
                 url     : "${createLink(controller:'contratos', action:'verUniforme')}",

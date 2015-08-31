@@ -38,4 +38,13 @@ class PedidoUniformes {
         estado(size: 1..1)
         observaciones(size: 1..255,blank: true,nullable: true)
     }
+
+
+    def getTotal(){
+        def tot = 0
+        SubDetallePedido.findAllByPedido(this).each {
+            tot+=it.precio*it.cantidad
+        }
+        return tot
+    }
 }

@@ -43,8 +43,10 @@ class NominaEstacion {
     def getTalla(Uniforme uniforme){
         def talla = null
         def t = EmpleadoTalla.findByEmpleadoAndUniforme(this,uniforme)
-        if(t.talla)
+        if(t)
             talla=t.talla
+        else
+            println "no talla "+this.id+"  "+uniforme.codigo
         return talla
     }
 
