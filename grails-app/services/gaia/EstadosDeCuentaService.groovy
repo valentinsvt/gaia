@@ -287,7 +287,7 @@ class EstadosDeCuentaService {
             cell.setHorizontalAlignment(Element.ALIGN_RIGHT)
             table.addCell(cell);
             total += r["FC_PAGODIRECTO"]
-            cell = new PdfPCell(new Paragraph("(+) NOTAS DE CRÉDITO", contenido));
+            cell = new PdfPCell(new Paragraph("(-) NOTAS DE CRÉDITO", contenido));
             cell.setBorder(0)
             table.addCell(cell);
             cell = new PdfPCell(new Paragraph("", contenido));
@@ -301,7 +301,7 @@ class EstadosDeCuentaService {
             cell.setHorizontalAlignment(Element.ALIGN_RIGHT)
             table.addCell(cell);
             total += r["FC_NOTASCREDITO"]
-            cell = new PdfPCell(new Paragraph("(-) NOTAS DE DEBITO", contenido));
+            cell = new PdfPCell(new Paragraph("(+) NOTAS DE DEBITO", contenido));
             cell.setBorder(0)
             table.addCell(cell);
             cell = new PdfPCell(new Paragraph("", contenido));
@@ -443,7 +443,7 @@ class EstadosDeCuentaService {
             table.addCell(cell);
             total -= r["PR_PAGODIRECTO"]
 
-            cell = new PdfPCell(new Paragraph("(+) NOTAS DE CRÉDITO", contenido));
+            cell = new PdfPCell(new Paragraph("(-) NOTAS DE CRÉDITO", contenido));
             cell.setBorder(0)
             table.addCell(cell);
             cell = new PdfPCell(new Paragraph("", contenido));
@@ -457,7 +457,7 @@ class EstadosDeCuentaService {
             cell.setHorizontalAlignment(Element.ALIGN_RIGHT)
             table.addCell(cell);
             total -= r["PR_NOTASCREDITO"]
-            cell = new PdfPCell(new Paragraph("(-) NOTAS DE DEBITO", contenido));
+            cell = new PdfPCell(new Paragraph("(+) NOTAS DE DEBITO", contenido));
             cell.setBorder(0)
             table.addCell(cell);
             cell = new PdfPCell(new Paragraph("", contenido));
