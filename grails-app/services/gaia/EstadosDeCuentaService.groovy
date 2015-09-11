@@ -930,7 +930,7 @@ class EstadosDeCuentaService {
                 document.add(p);
                 table = new PdfPTable(11);
                 table.setWidthPercentage(95.toFloat())
-                cell = new PdfPCell(new Paragraph("Transacción", titulo));
+                cell = new PdfPCell(new Paragraph("Tran.", titulo));
                 cell.setBorder(0)
                 table.addCell(cell);
                 cell = new PdfPCell(new Paragraph("Fecha Tran.", titulo));
@@ -944,7 +944,7 @@ class EstadosDeCuentaService {
                 cell.setBorder(0)
                 cell.setHorizontalAlignment(Element.ALIGN_RIGHT)
                 table.addCell(cell);
-                cell = new PdfPCell(new Paragraph("Pagon Int.", titulo));
+                cell = new PdfPCell(new Paragraph("Pago Int.", titulo));
                 cell.setBorder(0)
                 cell.setHorizontalAlignment(Element.ALIGN_RIGHT)
                 table.addCell(cell);
@@ -973,10 +973,8 @@ class EstadosDeCuentaService {
                 cell.setHorizontalAlignment(Element.ALIGN_RIGHT)
                 table.addCell(cell);
                 data.each { d ->
+//                    println "data "+ d
                     cell = new PdfPCell(new Paragraph(d["DESCRIPCION"], contenido));
-                    cell.setBorder(0)
-                    table.addCell(cell);
-                    cell = new PdfPCell(new Paragraph(d[""].format("dd/MM/yyyy"), contenido));
                     cell.setBorder(0)
                     table.addCell(cell);
                     cell = new PdfPCell(new Paragraph(d["FECHA_TRANSACCION"].format("dd/MM/yyyy"), contenido));
@@ -984,6 +982,7 @@ class EstadosDeCuentaService {
                     table.addCell(cell);
                     cell = new PdfPCell(new Paragraph(formatNumber(number: d["VALOR_TRANSACCION"], minFractionDigits: 2), contenido));
                     cell.setBorder(0)
+                    cell.setHorizontalAlignment(Element.ALIGN_RIGHT)
                     table.addCell(cell);
                     cell = new PdfPCell(new Paragraph(formatNumber(number: d["ABONO"], minFractionDigits: 2), contenido));
                     cell.setBorder(0)
@@ -1009,7 +1008,7 @@ class EstadosDeCuentaService {
                     cell.setBorder(0)
                     cell.setHorizontalAlignment(Element.ALIGN_RIGHT)
                     table.addCell(cell);
-                    cell = new PdfPCell(new Paragraph(formatNumber(number: d["CHEQUE_NUMERO"], minFractionDigits: 2), contenido));
+                    cell = new PdfPCell(new Paragraph(""+(d["CHEQUE_NUMERO"]?:''), contenido));
                     cell.setBorder(0)
                     cell.setHorizontalAlignment(Element.ALIGN_RIGHT)
                     table.addCell(cell);
@@ -1034,43 +1033,45 @@ class EstadosDeCuentaService {
                 document.add(p);
                 table = new PdfPTable(6);
                 table.setWidthPercentage(95.toFloat())
-                cell = new PdfPCell(new Paragraph("No. Factura", titulo));
+                cell = new PdfPCell(new Paragraph("Banco", titulo));
                 cell.setBorder(0)
                 table.addCell(cell);
-                cell = new PdfPCell(new Paragraph("Fecha Venta", titulo));
+                cell = new PdfPCell(new Paragraph("No. Cuenta", titulo));
                 cell.setBorder(0)
                 table.addCell(cell);
-                cell = new PdfPCell(new Paragraph("Fecha Vcto.", titulo));
+                cell = new PdfPCell(new Paragraph("No. Cheque", titulo));
                 cell.setBorder(0)
                 table.addCell(cell);
-                cell = new PdfPCell(new Paragraph("Producto", titulo));
+                cell = new PdfPCell(new Paragraph("Valor", titulo));
                 cell.setBorder(0)
                 table.addCell(cell);
-                cell = new PdfPCell(new Paragraph("Volumen", titulo));
+                cell = new PdfPCell(new Paragraph("Comision", titulo));
                 cell.setBorder(0)
                 table.addCell(cell);
-                cell = new PdfPCell(new Paragraph("Total Factura", titulo));
+                cell = new PdfPCell(new Paragraph("Interes", titulo));
                 cell.setBorder(0)
                 cell.setHorizontalAlignment(Element.ALIGN_RIGHT)
                 table.addCell(cell);
                 data.each { d ->
-                    cell = new PdfPCell(new Paragraph(d["NUMERO_FACTURA"], contenido));
+//                    println "data2 "+d
+                    cell = new PdfPCell(new Paragraph(d["DESCRIPCION_BANCO"], contenido));
                     cell.setBorder(0)
                     table.addCell(cell);
-                    cell = new PdfPCell(new Paragraph(d["FECHA_VENTA"].format("dd/MM/yyyy"), contenido));
+                    cell = new PdfPCell(new Paragraph(d["NUMERO_DE_CUENTA"], contenido));
                     cell.setBorder(0)
                     table.addCell(cell);
-                    cell = new PdfPCell(new Paragraph(d["FECHA_VENCIMIENTO"].format("dd/MM/yyyy"), contenido));
+                    cell = new PdfPCell(new Paragraph(""+d["CHEQUE_NUMERO"], contenido));
                     cell.setBorder(0)
                     table.addCell(cell);
-                    cell = new PdfPCell(new Paragraph(d["NOMBRE_PRODUCTO"], contenido));
-                    cell.setBorder(0)
-                    table.addCell(cell);
-                    cell = new PdfPCell(new Paragraph(formatNumber(number: d["VOLUMEN_VENTA"], minFractionDigits: 3), contenido));
+                    cell = new PdfPCell(new Paragraph(formatNumber(number: d["VALOR"], minFractionDigits: 2), contenido));
                     cell.setBorder(0)
                     cell.setHorizontalAlignment(Element.ALIGN_RIGHT)
                     table.addCell(cell);
-                    cell = new PdfPCell(new Paragraph(formatNumber(number: d["PAGO_FACTURA"], minFractionDigits: 2), contenido));
+                    cell = new PdfPCell(new Paragraph(formatNumber(number: d["COMISION"], minFractionDigits: 3), contenido));
+                    cell.setBorder(0)
+                    cell.setHorizontalAlignment(Element.ALIGN_RIGHT)
+                    table.addCell(cell);
+                    cell = new PdfPCell(new Paragraph(formatNumber(number: d["PAGO_INTERES"], minFractionDigits: 2), contenido));
                     cell.setBorder(0)
                     cell.setHorizontalAlignment(Element.ALIGN_RIGHT)
                     table.addCell(cell);
