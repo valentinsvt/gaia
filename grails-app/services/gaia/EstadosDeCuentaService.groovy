@@ -356,7 +356,7 @@ class EstadosDeCuentaService {
             cell.setBorder(0)
             cell.setHorizontalAlignment(Element.ALIGN_RIGHT)
             table.addCell(cell);
-            total += r["PR_SALDOANTERIOR"] /*TODO verificar*/
+//            total += r["PR_SALDOANTERIOR"] /*TODO verificar*/
             cell = new PdfPCell(new Paragraph("(-) DESCUENTO VIA GALONAJE", contenido));
             cell.setBorder(0)
             table.addCell(cell);
@@ -370,7 +370,7 @@ class EstadosDeCuentaService {
             cell.setBorder(0)
             cell.setHorizontalAlignment(Element.ALIGN_RIGHT)
             table.addCell(cell);
-            total -= r["PR_DCTOGALONAJE"]
+//            total -= r["PR_DCTOGALONAJE"]
 
             cell = new PdfPCell(new Paragraph("\t CAPITAL", contenido));
             cell.setBorder(0)
@@ -399,7 +399,7 @@ class EstadosDeCuentaService {
             cell = new PdfPCell(new Paragraph("", contenido));
             cell.setBorder(0)
             table.addCell(cell);
-            total +=  r["PR_INTERES"]
+//            total +=  r["PR_INTERES"]
             cell = new PdfPCell(new Paragraph("\t\t SALDO DE CAPITAL", contenido));
             cell.setBorder(0)
             table.addCell(cell);
@@ -409,11 +409,11 @@ class EstadosDeCuentaService {
             cell = new PdfPCell(new Paragraph("", contenido));
             cell.setBorder(0)
             table.addCell(cell);
-            cell = new PdfPCell(new Paragraph(formatNumber(number: r["PR_CAPITAL"] + r["PR_INTERES"], minFractionDigits: 2), contenido));
+            cell = new PdfPCell(new Paragraph(formatNumber(number:r["PR_SALDOANTERIOR"] - r["PR_CAPITAL"]  , minFractionDigits: 2), contenido));
             cell.setBorder(0)
             cell.setHorizontalAlignment(Element.ALIGN_RIGHT)
             table.addCell(cell);
-
+            total = r["PR_SALDOANTERIOR"] - r["PR_CAPITAL"]
             cell = new PdfPCell(new Paragraph("(+) ENTREGAS DE CAPITAL", contenido));
             cell.setBorder(0)
             table.addCell(cell);
@@ -456,7 +456,7 @@ class EstadosDeCuentaService {
             cell.setBorder(0)
             cell.setHorizontalAlignment(Element.ALIGN_RIGHT)
             table.addCell(cell);
-            total += r["PR_NOTASCREDITO"]
+            total -= r["PR_NOTASCREDITO"]
             cell = new PdfPCell(new Paragraph("(-) NOTAS DE DEBITO", contenido));
             cell.setBorder(0)
             table.addCell(cell);
@@ -470,7 +470,7 @@ class EstadosDeCuentaService {
             cell.setBorder(0)
             cell.setHorizontalAlignment(Element.ALIGN_RIGHT)
             table.addCell(cell);
-            total -= r["PR_NOTASDEBITO"]
+            total += r["PR_NOTASDEBITO"]
             cell = new PdfPCell(new Paragraph("Saldo al ${r['FECHA_FIN'].format('dd/MM/yyyy')}", titulo));
             cell.setBorder(0)
             table.addCell(cell);
@@ -1156,7 +1156,7 @@ class EstadosDeCuentaService {
         def data = []
 //        println "sql "+sql
         cn.eachRow(sql.toString()){r->
-           // println "r "+r
+            // println "r "+r
             data.add(r.toRowResult())
         }
         return data
