@@ -47,7 +47,7 @@ class Documento {
         descripcion(nullable: false,blank:false,size: 1..512)
         path(nullable: false,blank:false,size: 1..100)
         codigo(nullable: false,blank:false,size: 1..10)
-        referencia(nullable: false,blank:false,size: 1..20)
+        referencia(nullable: false,blank:false,size: 1..100)
         consultor(nullable: true,blank:true)
         estado(nullable: true,blank:true)
 

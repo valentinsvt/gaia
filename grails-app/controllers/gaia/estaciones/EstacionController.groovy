@@ -65,7 +65,8 @@ class EstacionController extends Shield {
             def supervisor = Inspector.findByCodigo(responsable.codigoSupervisor)
             estaciones=InspectorEstacion.findAllByInspector(supervisor)
 //            println "estaciones- "+estaciones.estacion+"  "
-            dash = Dashboard.findAllByEstacionInList(estaciones.estacion,[sort: "id"])
+            dash = Dashboard.findAllByEstacionInList(estaciones.estacion)
+            dash = dash.sort{it.estacion.nombre}
 //            println "dash "+dash
         }else{
             dash = Dashboard.list([sort: "id"])

@@ -72,8 +72,8 @@
                             Número de referencia
                         </label>
                     </div>
-                    <div class="col-md-2">
-                        <input type="text" name="referencia" class="form-control input-sm required" maxlength="20" value="${doc?.referencia}">
+                    <div class="col-md-3">
+                        <input type="text" name="referencia" class="form-control input-sm required" maxlength="100" value="${doc?.referencia}">
                     </div>
                 </div>
                 <div class="row" style="">

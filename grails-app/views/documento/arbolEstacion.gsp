@@ -274,6 +274,57 @@
                     });
                 }
             }
+            var eliminar = {
+                label  : "Borrar",
+                icon   : "fa fa-trash text-danger",
+                action : function () {
+                    $("#doc").html('  <div>Mostrando observaciones del documento</div>');
+                    bootbox.dialog({
+                        title   : "Eliminar documento",
+                        message : "<i class='fa fa-check fa-3x pull-left text-success text-shadow'></i><p>" +
+                                "¿Está seguro que desea eliminar el documento?. Está acción no puede deshacerse</p>",
+                        buttons : {
+                            cancelar : {
+                                label     : "Cancelar",
+                                className : "btn-default",
+                                callback  : function () {
+                                    var pathFile = $node.data("file");
+                                    var path = "${resource()}/" + pathFile;
+                                    var myPDF = new PDFObject({
+                                        url           : path,
+                                        pdfOpenParams : {
+                                            navpanes  : 1,
+                                            statusbar : 0,
+                                            view      : "FitW"
+                                        }
+                                    }).embed("doc");
+                                }
+                            },
+                            eliminar : {
+                                label     : "<i class='fa fa-check'></i> Eliminar",
+                                className : "btn-danger",
+                                callback  : function () {
+                                    openLoader("Eliminando el documento");
+                                    $.ajax({
+                                        type    : "POST",
+                                        url     : '${createLink(controller:'documento', action:'eliminarDocumento_ajax')}',
+                                        data    : {
+                                            id : nodeId
+                                        },
+                                        success : function (msg) {
+                                            location.reload(true)
+                                        },
+                                        error   : function () {
+                                            log("Ha ocurrido un error interno", "Error");
+                                            closeLoader();
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    });
+                }
+            }
             var caducar = {
                 label  : "Caducar",
                 icon   : "fa fa-times text-danger",
@@ -359,6 +410,7 @@
                 if (!estado) {
                     <g:if test="${session.tipo=='usuario'}">
                     items.aprobar = aprobar;
+                    items.eliminar=eliminar;
                     </g:if>
                 }
                 <g:if test="${session.tipo=='usuario'}">

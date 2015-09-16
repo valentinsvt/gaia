@@ -128,11 +128,11 @@ class DocumentoController extends Shield {
             params.selected = params.id
         } else {
 //            println "es estacion: " + params
-            if (session.tipo == "cliente") {
-//                println "es cliente"
-                params.combo = false
-                params.codigo = session.usuario.codigo
-            }
+//            if (session.tipo == "cliente") {
+////                println "es cliente"
+//                params.combo = false
+//                params.codigo = session.usuario.codigo
+//            }
             if (!params.codigo) {
                 def estacion =  Estacion.findAllByAplicacionAndEstado(1,'A',[sort: 'nombre', max: 1]).first()
                 params.codigo =estacion.codigo
@@ -274,6 +274,15 @@ class DocumentoController extends Shield {
             render "ok"
         }
 
+    }
+    def eliminarDocumento_ajax(){
+        if (request.method != "POST") {
+            response.sendError(403)
+        } else {
+            def documento = Documento.get(params.id)
+            documento.delete(flush: true)
+            render "ok"
+        }
     }
 
     def caducarDocumento() {
