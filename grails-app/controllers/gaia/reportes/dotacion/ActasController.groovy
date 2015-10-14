@@ -74,7 +74,7 @@ class ActasController extends Shield{
                 document.add(p)
                 document.add(new Paragraph("\n"));
                 p = new Paragraph("A los ${fecha.format('dd')} días de ${meses[fecha.format('MM')]} del ${fecha.format('yyyy')}, se realiza la entrega recepción de la" +
-                        " dotación de uniforme para la E/S VALLE DEL" +
+                        " dotación de uniforme para la " +
                         "${pedido.estacion.nombre}, según se detalla a continuación:",contenido)
                 document.add(p)
                 document.add(new Paragraph("\n"));
