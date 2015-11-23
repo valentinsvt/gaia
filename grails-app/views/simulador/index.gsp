@@ -5,12 +5,20 @@
     <title>Simulador</title>
     <style>
     .pys{
-        background: #ffff00;
-        color: blue;
+        background: #fffb03;
+        color: #ff111d;
+        font-weight: bold;
     }
     .petro{
         background: #2e6cff;
         color: #ffffff;
+        font-weight: bold;
+    }
+    .bg-pys{
+        background: rgba(252, 248, 193,0.3);
+    }
+    .bg-petro{
+        background: rgba(63,110, 252,0.1);
     }
     .textfield{
         width: 100%;
@@ -28,16 +36,22 @@
         font-weight: bold;
     }
     .table td{
-        padding: 2px !important;
+        padding: 0px !important;
     }
     .bold{
         font-weight: bold;
+    }
+    .addon{
+        width: 90% !important;
+    }
+    .borde{
+        border: 1px solid black !important;
     }
     </style>
 </head>
 <body>
 <div class="row" style="margin-top: -10px">
-<div class="col-md-12">
+<div class="col-md-12" id="contenido">
 <table class="table table-condensed table-bordered" style="font-size: 10px">
 <tr>
     <td style="width: 250px"></td>
@@ -141,28 +155,36 @@
     <td class=" bold">MARGEN
     </td>
     <td style="text-align: right" class="numero">
-        <input type="text" class="textfield bold" id="E1" value="1.400000">
+        <span style="float: left" class="bold">%</span>
+        <input type="text" class="textfield bold addon" id="E1" value="1.40">
     </td>
     <td style="text-align: right" class="numero">
-        <input type="text" class="textfield bold" id="E2" value="1.400000" >
+        <span style="float: left" class="bold">%</span>
+        <input type="text" class="textfield bold addon" id="E2" value="1.40" >
     </td>
     <td style="text-align: right" class="numero">
-        <input type="text" class="textfield bold" id="E3" value="1.400000" >
+        <span style="float: left" class="bold">%</span>
+        <input type="text" class="textfield bold addon" id="E3" value="1.40" >
     </td>
     <td style="text-align: right" class="numero">
-        <input type="text" class="textfield bold" id="E4" value="1.400000"  >
+        <span style="float: left" class="bold">%</span>
+        <input type="text" class="textfield bold addon" id="E4" value="1.40"  >
     </td>
     <td style="text-align: right" class="numero">
-        <input type="text" class="textfield bold" id="E5"  value="2.250000">
+        <span style="float: left" class="bold">%</span>
+        <input type="text" class="textfield bold addon" id="E5"  value="2.25">
     </td>
     <td style="text-align: right" class="numero">
-        <input type="text" class="textfield bold" id="E6"  value="5.900000">
+        <span style="float: left" class="bold">%</span>
+        <input type="text" class="textfield bold addon" id="E6"  value="5.90">
     </td>
     <td style="text-align: right" class="numero">
-        <input type="text" class="textfield bold" id="E7" value="1.100000">
+        <span style="float: left" class="bold">%</span>
+        <input type="text" class="textfield bold addon" id="E7" value="1.10">
     </td>
     <td style="text-align: right" class="numero">
-        <input type="text" class="textfield bold" id="E8" value="2.250000">
+        <span style="float: left" class="bold">%</span>
+        <input type="text" class="textfield bold addon" id="E8" value="2.25">
     </td>
 </tr>
 <tr numero="6">
@@ -312,14 +334,14 @@
 <tr numero="18">
     <td>UTILIDAD FINANCIERA BRUTA (%)
     </td>
-    <td style="text-align: right" class="numero"><input type="text" id="R1" class="textfield bold" variables="#Q1;#M1" formula="#Q1/#M1*100"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="R2" class="textfield bold" variables="#Q2;#M2" formula="#Q2/#M2*100"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="R3" class="textfield bold" variables="#Q3;#M3" formula="#Q3/#M3*100"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="R4" class="textfield bold" variables="#Q4;#M4" formula="#Q4/#M4*100"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="R5" class="textfield bold" variables="#Q5;#M5" formula="#Q5/#M5*100"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="R6" class="textfield bold" variables="#Q6;#M6" formula="#Q6/#M6*100"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="R7" class="textfield bold" variables="#Q7;#M7" formula="#Q7/#M7*100"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="R8" class="textfield bold" variables="#Q8;#M8" formula="#Q8/#M8*100"></td>
+    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="R1" class="textfield bold addon" decimales="2" variables="#Q1;#M1" formula="#Q1/#M1*100"></td>
+    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="R2" class="textfield bold addon" decimales="2" variables="#Q2;#M2" formula="#Q2/#M2*100"></td>
+    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="R3" class="textfield bold addon" decimales="2" variables="#Q3;#M3" formula="#Q3/#M3*100"></td>
+    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="R4" class="textfield bold addon" decimales="2" variables="#Q4;#M4" formula="#Q4/#M4*100"></td>
+    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="R5" class="textfield bold addon" decimales="2" variables="#Q5;#M5" formula="#Q5/#M5*100"></td>
+    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="R6" class="textfield bold addon" decimales="2" variables="#Q6;#M6" formula="#Q6/#M6*100"></td>
+    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="R7" class="textfield bold addon" decimales="2" variables="#Q7;#M7" formula="#Q7/#M7*100"></td>
+    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="R8" class="textfield bold addon" decimales="2" variables="#Q8;#M8" formula="#Q8/#M8*100"></td>
 </tr>
 <tr numero="19">
     <td class=" bold">GALONES VENDIDOS AL MES
@@ -336,122 +358,146 @@
 <tr numero="20">
     <td class=" bold">UTILIDAD BRUTA POR PRODUCTO
     </td>
-    <td style="text-align: right" class="numero"><input type="text" id="T1" class="textfield bold" variables="#S1;#Q1" formula="#S1*#Q1"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="T2" class="textfield bold" variables="#S2;#Q2" formula="#S2*#Q2"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="T3" class="textfield bold" variables="#S3;#Q3" formula="#S3*#Q3"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="T4" class="textfield bold" variables="#S4;#Q4" formula="#S4*#Q4"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="T5" class="textfield bold" variables="#S5;#Q5" formula="#S5*#Q5"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="T6" class="textfield bold" variables="#S6;#Q6" formula="#S6*#Q6"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="T7" class="textfield bold" variables="#S7;#Q7" formula="#S7*#Q7"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="T8" class="textfield bold" variables="#S8;#Q8" formula="#S8*#Q8"></td>
+    <td style="text-align: right" class="numero"><input type="text" id="T1" class="textfield bold" variables="#S1;#Q1" formula="#S1*#Q1" decimales="2"></td>
+    <td style="text-align: right" class="numero"><input type="text" id="T2" class="textfield bold" variables="#S2;#Q2" formula="#S2*#Q2" decimales="2"></td>
+    <td style="text-align: right" class="numero"><input type="text" id="T3" class="textfield bold" variables="#S3;#Q3" formula="#S3*#Q3" decimales="2"></td>
+    <td style="text-align: right" class="numero"><input type="text" id="T4" class="textfield bold" variables="#S4;#Q4" formula="#S4*#Q4" decimales="2"></td>
+    <td style="text-align: right" class="numero"><input type="text" id="T5" class="textfield bold" variables="#S5;#Q5" formula="#S5*#Q5" decimales="2"></td>
+    <td style="text-align: right" class="numero"><input type="text" id="T6" class="textfield bold" variables="#S6;#Q6" formula="#S6*#Q6" decimales="2"></td>
+    <td style="text-align: right" class="numero"><input type="text" id="T7" class="textfield bold" variables="#S7;#Q7" formula="#S7*#Q7" decimales="2"></td>
+    <td style="text-align: right" class="numero"><input type="text" id="T8" class="textfield bold" variables="#S8;#Q8" formula="#S8*#Q8" decimales="2"></td>
 </tr>
 <tr numero="21">
     <td class=" bold">UTILIDAD BRUTA TOTAL MES (USD)
     </td>
-    <td style="text-align: right" class="numero"><input type="text" id="U1" class="textfield"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="U2" class="textfield"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="U3" class="textfield"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="U4" class="textfield" variables="#T1;#T2;#T3;#T4" formula="#T1+#T2+#T3+#T4"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="U5" class="textfield"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="U6" class="textfield"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="U7" class="textfield"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="U8" class="textfield" variables="#T5;#T6;#T7;#T8" formula="#T5+#T6+#T7+#T8"></td>
+    <td style="text-align: right" class="numero" colspan="4"><input type="text" id="U4" class="textfield" variables="#T1;#T2;#T3;#T4" formula="#T1+#T2+#T3+#T4" decimales="2"></td>
+
+    <td style="text-align: right" class="numero" colspan="4"><input type="text" id="U8" class="textfield" variables="#T5;#T6;#T7;#T8" formula="#T5+#T6+#T7+#T8" decimales="2"></td>
 </tr>
 <tr numero="22">
     <td>COMERCIALIZADORA
     </td>
-    <td style="text-align: right" class="numero"><input type="text" id="V1" class="textfield bold" variables="#D1;#G1" formula="#G1/#D1*100"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="V2" class="textfield bold" variables="#D2;#G2" formula="#G2/#D2*100"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="V3" class="textfield bold" variables="#D3;#G3" formula="#G3/#D3*100"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="V4" class="textfield bold" variables="#D4;#G4" formula="#G4/#D4*100"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="V5" class="textfield bold" variables="#D5;#G5" formula="#G5/#D5*100"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="V6" class="textfield bold" variables="#D6;#G6" formula="#G6/#D6*100"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="V7" class="textfield bold" variables="#D7;#G7" formula="#G7/#D7*100"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="V8" class="textfield bold" variables="#D8;#G8" formula="#G8/#D8*100"></td>
+    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="V1" class="textfield bold  addon" variables="#D1;#G1" formula="#G1/#D1*100" decimales="2"></td>
+    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="V2" class="textfield bold addon" variables="#D2;#G2" formula="#G2/#D2*100" decimales="2"></td>
+    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="V3" class="textfield bold addon" variables="#D3;#G3" formula="#G3/#D3*100" decimales="2"></td>
+    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="V4" class="textfield bold addon" variables="#D4;#G4" formula="#G4/#D4*100" decimales="2"></td>
+    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="V5" class="textfield bold addon" variables="#D5;#G5" formula="#G5/#D5*100" decimales="2"></td>
+    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="V6" class="textfield bold addon" variables="#D6;#G6" formula="#G6/#D6*100" decimales="2"></td>
+    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="V7" class="textfield bold addon" variables="#D7;#G7" formula="#G7/#D7*100" decimales="2"></td>
+    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="V8" class="textfield bold addon" variables="#D8;#G8" formula="#G8/#D8*100" decimales="2"></td>
 </tr>
 <tr numero="23">
     <td>ESTACIÒN DE SERVICIO
     </td>
-    <td style="text-align: right" class="numero"><input type="text" id="W1" class="textfield bold" variables="#V1" formula="100-#V1"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="W2" class="textfield bold" variables="#V2" formula="100-#V2"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="W3" class="textfield bold" variables="#V3" formula="100-#V3"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="W4" class="textfield bold" variables="#V4" formula="100-#V4"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="W5" class="textfield bold" variables="#V5" formula="100-#V5"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="W6" class="textfield bold" variables="#V6" formula="100-#V6"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="W7" class="textfield bold" variables="#V7" formula="100-#V7"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="W8" class="textfield bold" variables="#V8" formula="100-#V8"></td>
+    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="W1" class="textfield bold addon" variables="#V1" formula="100-#V1"  decimales="2"></td>
+    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="W2" class="textfield bold addon" variables="#V2" formula="100-#V2" decimales="2"></td>
+    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="W3" class="textfield bold addon" variables="#V3" formula="100-#V3" decimales="2"></td>
+    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="W4" class="textfield bold addon" variables="#V4" formula="100-#V4" decimales="2"></td>
+    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="W5" class="textfield bold addon" variables="#V5" formula="100-#V5" decimales="2"></td>
+    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="W6" class="textfield bold addon" variables="#V6" formula="100-#V6" decimales="2"></td>
+    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="W7" class="textfield bold addon" variables="#V7" formula="100-#V7" decimales="2"></td>
+    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="W8" class="textfield bold addon" variables="#V8" formula="100-#V8"></td>
 </tr>
 <tr numero="24">
     <td class=" bold">RUBRO
     </td>
-    <td style="text-align: right" class="numero"><input type="text" class="textfield bold">EXTRA</td>
-    <td style="text-align: right" class="numero"><input type="text" class="textfield bold">SUPER</td>
-    <td style="text-align: right" class="numero"><input type="text" class="textfield bold">DIESEL</td>
-    <td style="text-align: right" class="numero"><input type="text" class="textfield bold">ECOPAIS</td>
-    <td style="text-align: right" class="numero"><input type="text" class="textfield bold">EXTRA</td>
-    <td style="text-align: right" class="numero"><input type="text" class="textfield bold">SUPER</td>
-    <td style="text-align: right" class="numero"><input type="text" class="textfield bold">DIESEL</td>
-    <td style="text-align: right" class="numero"><input type="text" class="textfield bold">ECOPAIS</td>
+    <td style="text-align: right" class="numero bold">EXTRA</td>
+    <td style="text-align: right" class="numero bold">SUPER</td>
+    <td style="text-align: right" class="numero bold">DIESEL</td>
+    <td style="text-align: right" class="numero bold">ECOPAIS</td>
+    <td style="text-align: right" class="numero bold">EXTRA</td>
+    <td style="text-align: right" class="numero bold">SUPER</td>
+    <td style="text-align: right" class="numero bold">DIESEL</td>
+    <td style="text-align: right" class="numero bold">ECOPAIS</td>
 </tr>
 <tr numero="25">
     <td class=" bold">UTILIDAD ANUAL DE LA ESTACIÓN
     </td>
-    <td style="text-align: right" class="numero"><input type="text" id="X1" class="textfield" variables="#T1" formula="#T1*12" ></td>
-    <td style="text-align: right" class="numero"><input type="text" id="X2" class="textfield" variables="#T2" formula="#T2*12"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="X3" class="textfield" variables="#T3" formula="#T3*12"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="X4" class="textfield" variables="#T4" formula="#T4*12"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="X5" class="textfield" variables="#T5" formula="#T5*12"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="X6" class="textfield" variables="#T6" formula="#T6*12"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="X7" class="textfield" variables="#T7" formula="#T7*12"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="X8" class="textfield" variables="#T8" formula="#T8*12"></td>
+    <td style="text-align: right" class="numero"><input type="text" id="X1" class="textfield" variables="#T1" formula="#T1*12" decimales="2" ></td>
+    <td style="text-align: right" class="numero"><input type="text" id="X2" class="textfield" variables="#T2" formula="#T2*12" decimales="2"></td>
+    <td style="text-align: right" class="numero"><input type="text" id="X3" class="textfield" variables="#T3" formula="#T3*12" decimales="2"></td>
+    <td style="text-align: right" class="numero"><input type="text" id="X4" class="textfield" variables="#T4" formula="#T4*12" decimales="2"></td>
+    <td style="text-align: right" class="numero"><input type="text" id="X5" class="textfield" variables="#T5" formula="#T5*12" decimales="2"></td>
+    <td style="text-align: right" class="numero"><input type="text" id="X6" class="textfield" variables="#T6" formula="#T6*12" decimales="2"></td>
+    <td style="text-align: right" class="numero"><input type="text" id="X7" class="textfield" variables="#T7" formula="#T7*12" decimales="2"></td>
+    <td style="text-align: right" class="numero"><input type="text" id="X8" class="textfield" variables="#T8" formula="#T8*12" decimales="2"></td>
 </tr>
 <tr numero="25">
     <td class=" bold">TOTAL
     </td>
-    <td style="text-align: right" class="numero" colspan="4"><input type="text" id="Y1" class="textfield bold" variables="#X1;#X2;#X3;#X4" formula="#X1+#X2+#X3+#X4" ></td>
-    <td style="text-align: right" class="numero" colspan="4"><input type="text" id="Y2" class="textfield bold" variables="#X5;#X6;#X7;#X8" formula="#X5+#X6+#X7+#X8" ></td>
+    <td style="text-align: right" class="numero" colspan="4"><input type="text" id="Y1" class="textfield bold" variables="#X1;#X2;#X3;#X4" formula="#X1+#X2+#X3+#X4" decimales="2" ></td>
+    <td style="text-align: right" class="numero" colspan="4"><input type="text" id="Y5" class="textfield bold" variables="#X5;#X6;#X7;#X8" formula="#X5+#X6+#X7+#X8" decimales="2" ></td>
 </tr>
 <tr numero="26">
     <td class=" bold">BENEFICIOS PYS
     </td>
-    <td style="text-align: right" class="numero"><input type="text"  class="textfield" value="Seguro"  ></td>
-    <td style="text-align: right" class="numero"><input type="text" class="textfield" value="Imagen"  ></td>
-    <td style="text-align: right" class="numero"><input type="text"  class="textfield" value="Uniforme"  ></td>
-    <td style="text-align: right" class="numero"><input type="text"  class="textfield" value="Total"  ></td>
-    <td style="text-align: right" class="numero"><input type="text"  class="textfield" value=""  ></td>
-    <td style="text-align: right" class="numero"><input type="text"  class="textfield" value=""  ></td>
-    <td style="text-align: right" class="numero"><input type="text"  class="textfield" value=""  ></td>
-    <td style="text-align: right" class="numero"><input type="text"  class="textfield" value=""  ></td>
-    <td style="text-align: right" class="numero"><input type="text"  class="textfield" value=""  ></td>
+    <td style="text-align: right" class="numero"><input type="text"  class="textfield bold disabled" value="Seguro" disabled ></td>
+    <td style="text-align: right" class="numero"><input type="text" class="textfield bold disabled" value="Imagen" disabled ></td>
+    <td style="text-align: right" class="numero"><input type="text"  class="textfield bold disabled" value="Uniforme" disabled ></td>
+    <td style="text-align: right" class="numero"><input type="text"  class="textfield bold disabled" value="Total" disabled ></td>
+    <td style="text-align: right" class="numero"><input type="text"  class="textfield disabled" value="" disabled ></td>
+    <td style="text-align: right" class="numero"><input type="text"  class="textfield disabled" value="" disabled ></td>
+    <td style="text-align: right" class="numero"><input type="text"  class="textfield disabled" value=""  disabled></td>
+    <td style="text-align: right" class="numero"><input type="text"  class="textfield disabled" value="" disabled ></td>
 </tr>
 <tr numero="27">
     <td class=" bold">
     </td>
-    <td style="text-align: right" class="numero"><input type="text"  class="textfield" value="5000"  ></td>
-    <td style="text-align: right" class="numero"><input type="text" class="textfield" value="2500"  ></td>
-    <td style="text-align: right" class="numero"><input type="text"  class="textfield" value="700"  ></td>
-    <td style="text-align: right" class="numero"><input type="text" id="BN1" class="textfield bold" value="8200"  ></td>
-    <td style="text-align: right" class="numero"><input type="text"  class="textfield" value=""  ></td>
-    <td style="text-align: right" class="numero"><input type="text"  class="textfield" value=""  ></td>
-    <td style="text-align: right" class="numero"><input type="text"  class="textfield" value=""  ></td>
-    <td style="text-align: right" class="numero"><input type="text"  class="textfield" value=""  ></td>
-    <td style="text-align: right" class="numero"><input type="text"  class="textfield" value=""  ></td>
+    <td style="text-align: right" class="numero"><input type="text" id="BN2"  class="textfield" value="5000"  ></td>
+    <td style="text-align: right" class="numero"><input type="text" id="BN3"  class="textfield" value="2500"  ></td>
+    <td style="text-align: right" class="numero"><input type="text" id="BN4"   class="textfield" value="700"  ></td>
+    <td style="text-align: right" class="numero"><input type="text" id="BN1" class="textfield bold" variables="#BN2;#BN3;#BN4" formula="#BN2+#BN3+#BN4" value="8200" decimales="2"  ></td>
+    <td style="text-align: right" class="numero"><input type="text"  class="textfield disabled" value=""  disabled ></td>
+    <td style="text-align: right" class="numero"><input type="text"  class="textfield disabled" value="" disabled ></td>
+    <td style="text-align: right" class="numero"><input type="text"  class="textfield disabled" value="" disabled ></td>
+    <td style="text-align: right" class="numero"><input type="text"  class="textfield disabled" value="" disabled ></td>
 </tr>
 <tr numero="28">
     <td class=" bold" colspan="4">
         UTILIDAD ANUAL FINAL
     </td>
-    <td style="text-align: right" class="numero"><input type="text"  class="textfield bold" variables="#BN1;#Y1" formula="#BN1+#Y1"  ></td>
-    <td style="text-align: right" class="numero"><input type="text"  class="textfield" value=""  ></td>
-    <td style="text-align: right" class="numero"><input type="text"  class="textfield" value=""  ></td>
-    <td style="text-align: right" class="numero"><input type="text"  class="textfield" value=""  ></td>
-    <td style="text-align: right" class="numero"><input type="text"  class="textfield" value=""  ></td>
-    <td style="text-align: right" class="numero"><input type="text"  class="textfield" value=""  ></td>
+    <td style="text-align: right" class="numero"><input type="text" id="1" class="textfield bold" variables="#BN1;#Y1" formula="#BN1+#Y1" decimales="2"  ></td>
+    <td style="text-align: right" class="numero"><input type="text"  class="textfield disabled" value="" disabled ></td>
+    <td style="text-align: right" class="numero"><input type="text"  class="textfield disabled" value="" disabled ></td>
+    <td style="text-align: right" class="numero"><input type="text"  class="textfield disabled" value="" disabled ></td>
+    <td style="text-align: right" class="numero"><input type="text"  class="textfield disabled" value="" disabled ></td>
 </tr>
 </table>
 </div>
 </div>
+<div class="row">
+    <div class="col-md-1">
+        <a href="#" id="pantalla" class="btn btn-info btn-sm">
+            <i class="fa fa-desktop"></i>
+        </a>
+    </div>
+</div>
 <script>
+    $("#pantalla").click(function(){
+        document.getElementById("contenido").webkitRequestFullscreen();
+        $("#contenedor").css({"overflow":"auto",width:"100%"})
+    })
+    function colores(){
+        $("input").each(function(){
+            var id = $(this).attr("id")
+            if(id!="" && id!=undefined){
+                if(id.indexOf("1")>-1 || id.indexOf("2")>-1 || id.indexOf("3")>-1 || id.indexOf("4")>-1){
+                    $(this).addClass("bg-pys")
+                }else{
+                    $(this).addClass("bg-petro")
+                }
+            }
+            var formula = $(this).attr("formula")
+            if(!$(this).hasClass("disabled")){
+                if(formula=="" || formula==undefined){
+                    $(this).addClass("borde")
+                }
+            }
+
+
+        });
+    }
+    colores()
     $("input").blur(function(){
         var row = $(this).parent().parent().attr("numero")
 //        console.log(row)
@@ -462,6 +508,11 @@
                 r=r*1
                 if(r>=row*1){
                     $(this).find("input").each(function(){
+                        var decimales = $(this).attr("decimales")
+                        if(isNaN(decimales) || decimales=="")
+                            decimales=5
+                        else
+                            decimales=decimales*1
                         var formula = $(this).attr("formula")
                         if(formula!="" && formula!=undefined){
                             var variables = $(this).attr("variables")
@@ -473,7 +524,7 @@
 //                                   console.log(valor)
                                 formula=formula.replace(""+this,valor)
                             })
-                            $(this).val(eval(formula).toFixed(6))
+                            $(this).val(eval(formula).toFixed(decimales))
                         }
                     })
                 }
