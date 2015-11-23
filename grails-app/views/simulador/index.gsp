@@ -59,7 +59,7 @@
         PYS
     </td>
     <td colspan="4" class="petro" style="text-align: center">
-        PETROCOMERCIAL
+        OTRA COMERCIALIZADORA
     </td>
 </tr>
 <tr>
