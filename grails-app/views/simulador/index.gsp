@@ -14,11 +14,21 @@
         color: #ffffff;
         font-weight: bold;
     }
-    .bg-pys{
-        background: rgba(252, 248, 193,0.3);
+    /*.bg-pys{*/
+        /*background: rgba(252, 248, 193,0.3);*/
+    /*}*/
+    /*.bg-petro{*/
+        /*background: rgba(63,110, 252,0.1);*/
+    /*}*/
+
+    .bg-ganacia{
+        background: rgba(200, 252, 141, 0.55);
     }
-    .bg-petro{
-        background: rgba(63,110, 252,0.1);
+    .bg-venta{
+        background: rgba(26, 172, 252, 0.20);
+    }
+    .bg-compra{
+        background: rgba(252, 239, 107, 0.30);
     }
     .textfield{
         width: 100%;
@@ -26,7 +36,7 @@
         margin: 0px;
         padding: 2px;
         border: 0px;
-
+        background: transparent;
     }
     .numero{
         width: 90px;
@@ -45,14 +55,14 @@
         width: 90% !important;
     }
     .borde{
-        border: 1px solid black !important;
+        border-right: 1px solid black !important;
     }
     </style>
 </head>
 <body>
 <div class="row" style="margin-top: -10px">
 <div class="col-md-12" id="contenido">
-<table class="table table-condensed table-bordered" style="font-size: 10px">
+<table class="table table-condensed table-bordered" style="font-size: 11px">
 <tr>
     <td style="width: 250px"></td>
     <td colspan="4" class="pys" style="text-align: center">
@@ -128,29 +138,30 @@
     </td>
 </tr>
 <tr numero="3 ">
-    <td class=" bold">P.V.P REFERENCIAL INCL. IVA
+    <td class=" bold">MARGEN TOTAL DE COMERCIALIZACIÓN
     </td>
-    <td style="text-align: right" class="numero"><input type="text" class="textfield" id="C1" value="1.480170"></td>
-    <td style="text-align: right" class="numero"><input type="text" class="textfield" id="C2" value="2.009000"></td>
-    <td style="text-align: right" class="numero"><input type="text" class="textfield" id="C3" value="1.037000"></td>
-    <td style="text-align: right" class="numero"><input type="text" class="textfield" id="C4" value="1.480170"></td>
-    <td style="text-align: right" class="numero"><input type="text" class="textfield" id="C5" value="1.480170"></td>
-    <td style="text-align: right" class="numero"><input type="text" class="textfield" id="C6" value="2.009000"></td>
-    <td style="text-align: right" class="numero"><input type="text" class="textfield" id="C7" value="1.037000"></td>
-    <td style="text-align: right" class="numero"><input type="text" class="textfield" id="C8" value="1.480170"></td>
+    <td style="text-align: right" class="numero"><input type="text" class="textfield "  id="C1" value="0.17100" ></td>
+    <td style="text-align: right" class="numero"><input type="text" class="textfield " id="C2" value="0.42000"></td>
+    <td style="text-align: right" class="numero"><input type="text" class="textfield " id="C3"  value="0.13700"></td>
+    <td style="text-align: right" class="numero"><input type="text" class="textfield " id="C4"  value="0.17100"></td>
+    <td style="text-align: right" class="numero"><input type="text" class="textfield "  id="C5"  value="0.17100"></td>
+    <td style="text-align: right" class="numero"><input type="text" class="textfield "  id="C6"  value="0.38000"></td>
+    <td style="text-align: right" class="numero"><input type="text" class="textfield "  id="C7"   value="0.13700"></td>
+    <td style="text-align: right" class="numero"><input type="text" class="textfield "  id="C8"  value="0.17100"></td>
 </tr>
 <tr numero="4 ">
-    <td class=" bold">MARGEN DE COMERCIALIZACION A REPARTIR
+    <td class=" bold">P.V.P REFERENCIAL INCL. IVA
     </td>
-    <td style="text-align: right" class="numero"><input type="text" class="textfield bold"  id="D1" variables="#A1;#B1;#C1" formula="#C1-#B1-#A1"></td>
-    <td style="text-align: right" class="numero"><input type="text" class="textfield bold" id="D2" variables="#A2;#B2;#C2" formula="#C2-#B2-#A2"></td>
-    <td style="text-align: right" class="numero"><input type="text" class="textfield bold" id="D3" variables="#A3;#B3;#C3" formula="#C3-#B3-#A3"></td>
-    <td style="text-align: right" class="numero"><input type="text" class="textfield bold" id="D4" variables="#A4;#B4;#C4" formula="#C4-#B4-#A4"></td>
-    <td style="text-align: right" class="numero"><input type="text" class="textfield bold"  id="D5"  variables="#A5;#B5;#C5" formula="#C5-#B5-#A5"></td>
-    <td style="text-align: right" class="numero"><input type="text" class="textfield bold"  id="D6"  variables="#A6;#B6;#C6" formula="#C6-#B6-#A6"></td>
-    <td style="text-align: right" class="numero"><input type="text" class="textfield bold"  id="D7"  variables="#A7;#B7;#C7" formula="#C7-#B7-#A7"></td>
-    <td style="text-align: right" class="numero"><input type="text" class="textfield bold"  id="D8" variables="#A8;#B8;#C8" formula="#C8-#B8-#A8"></td>
+    <td style="text-align: right" class="numero"><input type="text" class="textfield bold" id="D1" variables="#A1;#B1;#C1" formula="#C1+#B1+#A1"></td>
+    <td style="text-align: right" class="numero"><input type="text" class="textfield bold" id="D2" variables="#A2;#B2;#C2" formula="#C2+#B2+#A2"></td>
+    <td style="text-align: right" class="numero"><input type="text" class="textfield bold" id="D3" variables="#A3;#B3;#C3" formula="#C3+#B3+#A3"></td>
+    <td style="text-align: right" class="numero"><input type="text" class="textfield bold" id="D4" variables="#A4;#B4;#C4" formula="#C4+#B4+#A4"></td>
+    <td style="text-align: right" class="numero"><input type="text" class="textfield bold" id="D5" variables="#A5;#B5;#C5" formula="#C5+#B5+#A5"></td>
+    <td style="text-align: right" class="numero"><input type="text" class="textfield bold" id="D6" variables="#A6;#B6;#C6" formula="#C6+#B6+#A6"></td>
+    <td style="text-align: right" class="numero"><input type="text" class="textfield bold" id="D7" variables="#A7;#B7;#C7" formula="#C7+#B7+#A7"></td>
+    <td style="text-align: right" class="numero"><input type="text" class="textfield bold" id="D8" variables="#A8;#B8;#C8" formula="#C8+#B8+#A8"></td>
 </tr>
+
 <tr numero="5">
     <td class=" bold">MARGEN
     </td>
@@ -187,8 +198,9 @@
         <input type="text" class="textfield bold addon" id="E8" value="2.25">
     </td>
 </tr>
-<tr numero="6">
-    <td class=" bold">PRECIO EX TERMINAL PCO.
+<tr><td colspan="9">&nbsp;</td></tr>
+<tr numero="6" class="bg-compra">
+    <td class=" bold ">PRECIO EX TERMINAL PCO.
     </td>
     <td style="text-align: right" class="numero"><input type="text" id="F1" class="textfield" value="1.168900"></td>
     <td style="text-align: right" class="numero"><input type="text" id="F2" class="textfield" value="1.500000"></td>
@@ -199,7 +211,7 @@
     <td style="text-align: right" class="numero"><input type="text" id="F7" class="textfield" value="0.804200"></td>
     <td style="text-align: right" class="numero"><input type="text" id="F8" class="textfield" value="1.168900"></td>
 </tr>
-<tr numero="7">
+<tr numero="7"  class="bg-compra">
     <td>MARGEN DE GANANCIA DE COMERCIALIZADORA
     </td>
     <td style="text-align: right" class="numero"><input type="text" id="G1" class="textfield" variables="#F1;#E1" formula="#F1*#E1/100"></td>
@@ -211,7 +223,7 @@
     <td style="text-align: right" class="numero"><input type="text" id="G7" class="textfield" variables="#F7;#E7" formula="#F7*#E7/100"></td>
     <td style="text-align: right" class="numero"><input type="text" id="G8" class="textfield" variables="#F8;#E8" formula="#F8*#E8/100"></td>
 </tr>
-<tr numero="8">
+<tr numero="8"  class="bg-compra">
     <td>PRECIO PRODUCTO
     </td>
     <td style="text-align: right" class="numero"><input type="text" id="H1" class="textfield bold"  variables="#G1;#F1" formula="#F1+#G1"></td>
@@ -223,7 +235,7 @@
     <td style="text-align: right" class="numero"><input type="text" id="H7" class="textfield bold" variables="#G7;#F7" formula="#F7+#G7"></td>
     <td style="text-align: right" class="numero"><input type="text" id="H8" class="textfield bold" variables="#G8;#F8" formula="#F8+#G8"></td>
 </tr>
-<tr numero="9">
+<tr numero="9"  class="bg-compra">
     <td>12% I.V.A.
     </td>
     <td style="text-align: right" class="numero"><input type="text" id="I1" class="textfield" variables="#H1" formula="#H1*0.12"></td>
@@ -235,7 +247,7 @@
     <td style="text-align: right" class="numero"><input type="text" id="I7" class="textfield" variables="#H7" formula="#H7*0.12"></td>
     <td style="text-align: right" class="numero"><input type="text" id="I8" class="textfield" variables="#H8" formula="#H8*0.12"></td>
 </tr>
-<tr numero="10">
+<tr numero="10"  class="bg-compra">
     <td class=" bold">SUBTOTAL
     </td>
     <td style="text-align: right" class="numero"><input type="text" id="J1" class="textfield bold" variables="#I1;#H1" formula="#I1+#H1"></td>
@@ -247,7 +259,7 @@
     <td style="text-align: right" class="numero"><input type="text" id="J7" class="textfield bold" variables="#I7;#H7" formula="#I7+#H7"></td>
     <td style="text-align: right" class="numero"><input type="text" id="J8" class="textfield bold" variables="#I8;#H8" formula="#I8+#H8"></td>
 </tr>
-<tr numero="11">
+<tr numero="11"  class="bg-compra">
     <td>RETENC. 12% I.V.A. PRESUN.
     </td>
     <td style="text-align: right" class="numero"><input type="text" id="K1" class="textfield" variables="#N1;#H1" formula="(#N1-#H1)*0.12"></td>
@@ -259,7 +271,7 @@
     <td style="text-align: right" class="numero"><input type="text" id="K7" class="textfield" variables="#N7;#H7" formula="(#N7-#H7)*0.12"></td>
     <td style="text-align: right" class="numero"><input type="text" id="K8" class="textfield" variables="#N8;#H8" formula="(#N8-#H8)*0.12"></td>
 </tr>
-<tr numero="12">
+<tr numero="12"  class="bg-compra">
     <td>RETENCION 3*1000
     </td>
     <td style="text-align: right" class="numero"><input type="text"  id="L1" class="textfield" variables="#H1" formula="#H1*(3/1000)"></td>
@@ -271,7 +283,7 @@
     <td style="text-align: right" class="numero"><input type="text" id="L7" class="textfield" variables="#H7" formula="#H7*(3/1000)"></td>
     <td style="text-align: right" class="numero"><input type="text" id="L8" class="textfield" variables="#H8" formula="#H8*(3/1000)"></td>
 </tr>
-<tr numero="13">
+<tr numero="13"  class="bg-compra">
     <td class=" bold">TOTAL
     </td>
     <td style="text-align: right" class="numero"><input type="text" id="M1" class="textfield bold"  variables="#J1;#K1;#L1" formula="#J1+#K1+#L1"></td>
@@ -283,19 +295,20 @@
     <td style="text-align: right" class="numero"><input type="text" id="M7" class="textfield bold" variables="#J7;#K7;#L7" formula="#J7+#K7+#L7"></td>
     <td style="text-align: right" class="numero"><input type="text" id="M8" class="textfield bold" variables="#J8;#K8;#L8" formula="#J8+#K8+#L8"></td>
 </tr>
-<tr numero="14">
+<tr><td colspan="9">&nbsp;</td></tr>
+<tr numero="14"  class="bg-venta">
     <td>PRECIO VENTA PRODUCTO
     </td>
-    <td style="text-align: right" class="numero"><input type="text" id="N1" class="textfield bold" value="1.321580"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="N2" class="textfield bold" value="1.793750"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="N3" class="textfield bold" value="0.925890"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="N4" class="textfield bold" value="1.321580"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="N5" class="textfield bold" value="1.321580"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="N6" class="textfield bold" value="1.793750"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="N7" class="textfield bold" value="0.925890"></td>
-    <td style="text-align: right" class="numero"><input type="text" id="N8" class="textfield bold" value="1.321580"></td>
+    <td style="text-align: right" class="numero"><input type="text" id="N1" class="textfield bold" variables="#D1" formula="#D1/1.12"></td>
+    <td style="text-align: right" class="numero"><input type="text" id="N2" class="textfield bold" variables="#D2" formula="#D2/1.12"></td>
+    <td style="text-align: right" class="numero"><input type="text" id="N3" class="textfield bold" variables="#D3" formula="#D3/1.12"></td>
+    <td style="text-align: right" class="numero"><input type="text" id="N4" class="textfield bold" variables="#D4" formula="#D4/1.12"></td>
+    <td style="text-align: right" class="numero"><input type="text" id="N5" class="textfield bold" variables="#D5" formula="#D5/1.12"></td>
+    <td style="text-align: right" class="numero"><input type="text" id="N6" class="textfield bold" variables="#D6" formula="#D6/1.12"></td>
+    <td style="text-align: right" class="numero"><input type="text" id="N7" class="textfield bold" variables="#D7" formula="#D7/1.12"></td>
+    <td style="text-align: right" class="numero"><input type="text" id="N8" class="textfield bold" variables="#D8" formula="#D8/1.12"></td>
 </tr>
-<tr numero="15">
+<tr numero="15"  class="bg-venta">
     <td>12% IV.A.
     </td>
     <td style="text-align: right" class="numero"><input type="text" id="O1" class="textfield" variables="#N1" formula="#N1*0.12"></td>
@@ -307,7 +320,7 @@
     <td style="text-align: right" class="numero"><input type="text" id="O7" class="textfield" variables="#N7" formula="#N7*0.12"></td>
     <td style="text-align: right" class="numero"><input type="text" id="O8" class="textfield" variables="#N8" formula="#N8*0.12"></td>
 </tr>
-<tr numero="16">
+<tr numero="16"  class="bg-venta">
     <td class=" bold">PRECIO DE VENTA AL PUBLICO REFEREN.
     </td>
     <td style="text-align: right" class="numero"><input type="text" id="P1" class="textfield bold" variables="#N1;#O1" formula="#N1+#O1"></td>
@@ -319,7 +332,8 @@
     <td style="text-align: right" class="numero"><input type="text" id="P7" class="textfield bold" variables="#N7;#O7" formula="#N7+#O7"></td>
     <td style="text-align: right" class="numero"><input type="text" id="P8" class="textfield bold" variables="#N8;#O8" formula="#N8+#O8"></td>
 </tr>
-<tr numero="17">
+<tr><td colspan="9">&nbsp;</td></tr>
+<tr numero="17" class="bg-ganacia">
     <td>UTILIDAD FINANCIERA BRUTA GANANCIA ESTACIÓN X GALON
     </td>
     <td style="text-align: right" class="numero"><input type="text" id="Q1" class="textfield bold" variables="#P1;#M1" formula="#P1-#M1"></td>
@@ -331,7 +345,7 @@
     <td style="text-align: right" class="numero"><input type="text" id="Q7" class="textfield bold" variables="#P7;#M7" formula="#P7-#M7"></td>
     <td style="text-align: right" class="numero"><input type="text" id="Q8" class="textfield bold" variables="#P8;#M8" formula="#P8-#M8"></td>
 </tr>
-<tr numero="18">
+<tr numero="18" class="bg-ganacia">
     <td>UTILIDAD FINANCIERA BRUTA (%)
     </td>
     <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="R1" class="textfield bold addon" decimales="2" variables="#Q1;#M1" formula="#Q1/#M1*100"></td>
@@ -343,7 +357,7 @@
     <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="R7" class="textfield bold addon" decimales="2" variables="#Q7;#M7" formula="#Q7/#M7*100"></td>
     <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="R8" class="textfield bold addon" decimales="2" variables="#Q8;#M8" formula="#Q8/#M8*100"></td>
 </tr>
-<tr numero="19">
+<tr numero="19" class="bg-ganacia">
     <td class=" bold">GALONES VENDIDOS AL MES
     </td>
     <td style="text-align: right" class="numero"><input type="text" id="S1" class="textfield bold" value="60000"></td>
@@ -355,7 +369,7 @@
     <td style="text-align: right" class="numero"><input type="text" id="S7" class="textfield bold" value="108000"></td>
     <td style="text-align: right" class="numero"><input type="text" id="S8" class="textfield bold" value="60000"></td>
 </tr>
-<tr numero="20">
+<tr numero="20" class="bg-ganacia">
     <td class=" bold">UTILIDAD BRUTA POR PRODUCTO
     </td>
     <td style="text-align: right" class="numero"><input type="text" id="T1" class="textfield bold" variables="#S1;#Q1" formula="#S1*#Q1" decimales="2"></td>
@@ -367,37 +381,14 @@
     <td style="text-align: right" class="numero"><input type="text" id="T7" class="textfield bold" variables="#S7;#Q7" formula="#S7*#Q7" decimales="2"></td>
     <td style="text-align: right" class="numero"><input type="text" id="T8" class="textfield bold" variables="#S8;#Q8" formula="#S8*#Q8" decimales="2"></td>
 </tr>
-<tr numero="21">
+<tr numero="21" class="bg-ganacia">
     <td class=" bold">UTILIDAD BRUTA TOTAL MES (USD)
     </td>
     <td style="text-align: right" class="numero" colspan="4"><input type="text" id="U4" class="textfield" variables="#T1;#T2;#T3;#T4" formula="#T1+#T2+#T3+#T4" decimales="2"></td>
 
     <td style="text-align: right" class="numero" colspan="4"><input type="text" id="U8" class="textfield" variables="#T5;#T6;#T7;#T8" formula="#T5+#T6+#T7+#T8" decimales="2"></td>
 </tr>
-<tr numero="22">
-    <td>COMERCIALIZADORA
-    </td>
-    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="V1" class="textfield bold  addon" variables="#D1;#G1" formula="#G1/#D1*100" decimales="2"></td>
-    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="V2" class="textfield bold addon" variables="#D2;#G2" formula="#G2/#D2*100" decimales="2"></td>
-    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="V3" class="textfield bold addon" variables="#D3;#G3" formula="#G3/#D3*100" decimales="2"></td>
-    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="V4" class="textfield bold addon" variables="#D4;#G4" formula="#G4/#D4*100" decimales="2"></td>
-    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="V5" class="textfield bold addon" variables="#D5;#G5" formula="#G5/#D5*100" decimales="2"></td>
-    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="V6" class="textfield bold addon" variables="#D6;#G6" formula="#G6/#D6*100" decimales="2"></td>
-    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="V7" class="textfield bold addon" variables="#D7;#G7" formula="#G7/#D7*100" decimales="2"></td>
-    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="V8" class="textfield bold addon" variables="#D8;#G8" formula="#G8/#D8*100" decimales="2"></td>
-</tr>
-<tr numero="23">
-    <td>ESTACIÒN DE SERVICIO
-    </td>
-    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="W1" class="textfield bold addon" variables="#V1" formula="100-#V1"  decimales="2"></td>
-    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="W2" class="textfield bold addon" variables="#V2" formula="100-#V2" decimales="2"></td>
-    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="W3" class="textfield bold addon" variables="#V3" formula="100-#V3" decimales="2"></td>
-    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="W4" class="textfield bold addon" variables="#V4" formula="100-#V4" decimales="2"></td>
-    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="W5" class="textfield bold addon" variables="#V5" formula="100-#V5" decimales="2"></td>
-    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="W6" class="textfield bold addon" variables="#V6" formula="100-#V6" decimales="2"></td>
-    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="W7" class="textfield bold addon" variables="#V7" formula="100-#V7" decimales="2"></td>
-    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="W8" class="textfield bold addon" variables="#V8" formula="100-#V8"></td>
-</tr>
+<tr><td colspan="9">&nbsp;</td></tr>
 <tr numero="24">
     <td class=" bold">RUBRO
     </td>
@@ -461,6 +452,31 @@
     <td style="text-align: right" class="numero"><input type="text"  class="textfield disabled" value="" disabled ></td>
     <td style="text-align: right" class="numero"><input type="text"  class="textfield disabled" value="" disabled ></td>
     <td style="text-align: right" class="numero"><input type="text"  class="textfield disabled" value="" disabled ></td>
+</tr>
+<tr><td colspan="9">&nbsp;</td></tr>
+<tr numero="22">
+    <td>COMERCIALIZADORA
+    </td>
+    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="V1" class="textfield bold  addon" variables="#D1;#G1" formula="#G1/#D1*100" decimales="2"></td>
+    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="V2" class="textfield bold addon" variables="#D2;#G2" formula="#G2/#D2*100" decimales="2"></td>
+    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="V3" class="textfield bold addon" variables="#D3;#G3" formula="#G3/#D3*100" decimales="2"></td>
+    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="V4" class="textfield bold addon" variables="#D4;#G4" formula="#G4/#D4*100" decimales="2"></td>
+    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="V5" class="textfield bold addon" variables="#D5;#G5" formula="#G5/#D5*100" decimales="2"></td>
+    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="V6" class="textfield bold addon" variables="#D6;#G6" formula="#G6/#D6*100" decimales="2"></td>
+    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="V7" class="textfield bold addon" variables="#D7;#G7" formula="#G7/#D7*100" decimales="2"></td>
+    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="V8" class="textfield bold addon" variables="#D8;#G8" formula="#G8/#D8*100" decimales="2"></td>
+</tr>
+<tr numero="23">
+    <td>ESTACIÒN DE SERVICIO
+    </td>
+    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="W1" class="textfield bold addon" variables="#V1" formula="100-#V1"  decimales="2"></td>
+    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="W2" class="textfield bold addon" variables="#V2" formula="100-#V2" decimales="2"></td>
+    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="W3" class="textfield bold addon" variables="#V3" formula="100-#V3" decimales="2"></td>
+    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="W4" class="textfield bold addon" variables="#V4" formula="100-#V4" decimales="2"></td>
+    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="W5" class="textfield bold addon" variables="#V5" formula="100-#V5" decimales="2"></td>
+    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="W6" class="textfield bold addon" variables="#V6" formula="100-#V6" decimales="2"></td>
+    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="W7" class="textfield bold addon" variables="#V7" formula="100-#V7" decimales="2"></td>
+    <td style="text-align: right" class="numero"><span style="float: left" class="bold">%</span><input type="text" id="W8" class="textfield bold addon" variables="#V8" formula="100-#V8"></td>
 </tr>
 </table>
 </div>
