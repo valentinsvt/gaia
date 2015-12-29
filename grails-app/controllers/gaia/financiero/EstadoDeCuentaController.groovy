@@ -22,9 +22,9 @@ class EstadoDeCuentaController extends Shield{
         def meses = [:]
         (mes-1).times {m->
             if(m<9)
-                meses.put("0"+(m+1)+new Date().format("YYYY"),g.formatDate(date: new Date().parse("dd-MM-yyyy","01-0"+(m+1)+"-"+anio),format: "MMMM",locale: "es"))
+                meses.put("0"+(m+1)+new Date().format("yyyy"),g.formatDate(date: new Date().parse("dd-MM-yyyy","01-0"+(m+1)+"-"+anio),format: "MMMM",locale: "es"))
             else
-                meses.put(""+(m+1)+new Date().format("YYYY"),g.formatDate(date:new Date().parse("dd-MM-yyyy","01-"+(m+1)+"-"+anio),format: "MMMM",locale: "es"))
+                meses.put(""+(m+1)+new Date().format("yyyy"),g.formatDate(date:new Date().parse("dd-MM-yyyy","01-"+(m+1)+"-"+anio),format: "MMMM",locale: "es"))
         }
         [supervisores:supervisores,meses:meses]
 
@@ -58,6 +58,7 @@ class EstadoDeCuentaController extends Shield{
         def ldom = calendar.getActualMaximum(GregorianCalendar.DAY_OF_MONTH)
         def c = Cliente.findAllBySupervisorAndTipo(params.supervisor,1)
         def estados = EstadoDeCuenta.findAllByClienteInListAndMes(c,params.mes,[sort: "registro"])
+        //println "mes "+params.mes+" estados "+estados
         [estados:estados,supervisor:supervisor,mes:ldom,nextEstado:nextEstado,nextEmail:nextEmail]
 
     }
@@ -123,9 +124,9 @@ class EstadoDeCuentaController extends Shield{
         def meses = [:]
         (mes-1).times {m->
             if(m<9)
-                meses.put("0"+(m+1)+new Date().format("YYYY"),g.formatDate(date: new Date().parse("dd-MM-yyyy","01-0"+(m+1)+"-"+anio),format: "MMMM",locale: "es"))
+                meses.put("0"+(m+1)+new Date().format("yyyy"),g.formatDate(date: new Date().parse("dd-MM-yyyy","01-0"+(m+1)+"-"+anio),format: "MMMM",locale: "es"))
             else
-                meses.put(""+(m+1)+new Date().format("YYYY"),g.formatDate(date:new Date().parse("dd-MM-yyyy","01-"+(m+1)+"-"+anio),format: "MMMM",locale: "es"))
+                meses.put(""+(m+1)+new Date().format("yyyy"),g.formatDate(date:new Date().parse("dd-MM-yyyy","01-"+(m+1)+"-"+anio),format: "MMMM",locale: "es"))
         }
         [clientes:clientes,meses: meses]
     }
