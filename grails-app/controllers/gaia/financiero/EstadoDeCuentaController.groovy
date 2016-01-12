@@ -18,14 +18,26 @@ class EstadoDeCuentaController extends Shield{
         def supervisores = estadosDeCuentaService.getSupervisores()
         //estadosDeCuentaService.generaPdf(financiero.get(35))
         def mes = new Date().format("MM").toInteger()
-        def anio = new Date().format("yyyy").toInteger()
+        def anio = new Date().format("YYYY").toInteger()
+
+        if (mes == 1) {
+            mes = 13
+            anio--
+        }
+
+        println "mes "+mes
+        println "anio "+anio
         def meses = [:]
         (mes-1).times {m->
             if(m<9)
-                meses.put("0"+(m+1)+new Date().format("yyyy"),g.formatDate(date: new Date().parse("dd-MM-yyyy","01-0"+(m+1)+"-"+anio),format: "MMMM",locale: "es"))
+                //meses.put("0"+(m+1)+new Date().format("yyyy"),g.formatDate(date: new Date().parse("dd-MM-yyyy","01-0"+(m+1)+"-"+anio),format: "MMMM",locale: "es"))
+                meses.put("0"+(m+1)+anio,g.formatDate(date: new Date().parse("dd-MM-yyyy","01-0"+(m+1)+"-"+anio),format: "MMMM",locale: "es"))
             else
-                meses.put(""+(m+1)+new Date().format("yyyy"),g.formatDate(date:new Date().parse("dd-MM-yyyy","01-"+(m+1)+"-"+anio),format: "MMMM",locale: "es"))
+                //meses.put(""+(m+1)+new Date().format("yyyy"),g.formatDate(date:new Date().parse("dd-MM-yyyy","01-"+(m+1)+"-"+anio),format: "MMMM",locale: "es"))
+                meses.put(""+(m+1)+anio,g.formatDate(date:new Date().parse("dd-MM-yyyy","01-"+(m+1)+"-"+anio),format: "MMMM",locale: "es"))
         }
+
+        println "meses " + meses
         [supervisores:supervisores,meses:meses]
 
     }
