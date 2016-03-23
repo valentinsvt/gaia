@@ -131,19 +131,27 @@ class EstadoDeCuentaController extends Shield{
 
     def consultaEstado(){
         def clientes = Cliente.findAll("from Cliente  where tipo=1 and estado = 'A'")
-        def mes = new Date().format("MM").toInteger()
+        def mes = 13 //new Date().format("MM").toInteger()
         def anio = new Date().format("yyyy").toInteger()
+
+        System.out.println("meses: " + mes)
+        System.out.print("anio: " + anio)
+
         def meses = [:]
         (mes-1).times {m->
             if(m<9)
-                meses.put("0"+(m+1)+new Date().format("yyyy"),g.formatDate(date: new Date().parse("dd-MM-yyyy","01-0"+(m+1)+"-"+anio),format: "MMMM",locale: "es"))
+                //meses.put("0"+(m+1)+new Date().format("yyyy"),g.formatDate(date: new Date().parse("dd-MM-yyyy","01-0"+(m+1)+"-"+anio),format: "MMMM",locale: "es"))
+                meses.put("0"+(m+1)+"2015",g.formatDate(date: new Date().parse("dd-MM-yyyy","01-0"+(m+1)+"-"+anio),format: "MMMM",locale: "es"))
             else
-                meses.put(""+(m+1)+new Date().format("yyyy"),g.formatDate(date:new Date().parse("dd-MM-yyyy","01-"+(m+1)+"-"+anio),format: "MMMM",locale: "es"))
+                //meses.put(""+(m+1)+new Date().format("yyyy"),g.formatDate(date:new Date().parse("dd-MM-yyyy","01-"+(m+1)+"-"+anio),format: "MMMM",locale: "es"))
+                meses.put(""+(m+1)+"2015",g.formatDate(date:new Date().parse("dd-MM-yyyy","01-"+(m+1)+"-"+anio),format: "MMMM",locale: "es"))
         }
         [clientes:clientes,meses: meses]
     }
 
     def estadosPorEstacion(){
+
+        System.out.print("mes esatdos: " + params.mes)
 
         def cliente = Cliente.findByCodigoAndTipo(params.cliente,1)
         def estados = EstadoDeCuenta.findAllByClienteAndMes(cliente,params.mes)
@@ -198,7 +206,8 @@ class EstadoDeCuentaController extends Shield{
 
                 }
             }
-            def pruebas = ["valentinsvt@hotmail.com"]
+            def pruebas = ["david.heroiza@petroleosyservicios.com"]
+            println "emails " + emails
             // println "aqui !! email estacion "+e.cliente.codigo+"  "+emails
             Byte[] pdfData = file.readBytes()
             mailService.sendMail {
