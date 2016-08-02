@@ -155,6 +155,9 @@ class EstadoDeCuentaController extends Shield{
 
         def cliente = Cliente.findByCodigoAndTipo(params.cliente,1)
         def estados = EstadoDeCuenta.findAllByClienteAndMes(cliente,params.mes)
+
+        println "estados: " + estados.get(0).path
+
         [estados:estados,cliente:cliente]
 
 
@@ -206,7 +209,7 @@ class EstadoDeCuentaController extends Shield{
 
                 }
             }
-            def pruebas = ["david.heroiza@petroleosyservicios.com"]
+            def pruebas = ["david.herdoiza@petroleosyservicios.com"]
             println "emails " + emails
             // println "aqui !! email estacion "+e.cliente.codigo+"  "+emails
             Byte[] pdfData = file.readBytes()

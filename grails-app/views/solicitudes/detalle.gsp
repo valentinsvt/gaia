@@ -95,14 +95,14 @@
                                                     </tr>
                                                     </thead>
                                                     <tbody>
-                                                    <g:each in="${gaia.Contratos.esicc.Uniforme.findAllByTipoInList(['U',n.sexo],[sort: 'descripcion',order: 'desc'])}" var="u">
+                                                    <g:each in="${gaia.Contratos.esicc.Uniforme.findAllByTipoInListAndEstado(['U',n.sexo],1,[sort: 'descripcion',order: 'desc'])}" var="u">
                                                         <g:if test="${u.codigo!=8}">
                                                             <tr>
                                                                 <td>${u.descripcion}</td>
                                                                 <td style="text-align: center">${n.getTalla(u)}</td>
                                                                 <td style="width: 60px">
                                                                     <g:set var="valor" value="${n.getCantidadSolicitudUniforme(solicitud,u)}"></g:set>
-                                                                    <g:select name="cant" from="${0..maximos[u.codigo.toString()]}"
+                                                                    <g:select name="cant" from="${0..2}"
                                                                               class="u_${u.codigo} cantidad emp_${n.id} emp_${n.id}_${u.codigo} ${valor?'valor':''}"
                                                                               talla="${n.getTalla(u).codigo}" uniforme="${u.codigo}" empleado="${n.id}"
                                                                               min="0" max="${maximos[u.codigo.toString()]}"
@@ -307,9 +307,9 @@
         openLoader()
         var emp = $(this).attr("emp")
         var pantalonesH = $(".emp_"+emp+"_9").val()*1
-        var overolesH = $(".emp_"+emp+"_1").val()*1
+        var overolesH = 0 //$(".emp_"+emp+"_1").val()*1
         var pantalonesM = $(".emp_"+emp+"_7").val()*1
-        var overolesM = $(".emp_"+emp+"_4").val()*1
+        var overolesM = 0 //$(".emp_"+emp+"_4").val()*1
         var camisetasHombres =  $(".emp_"+emp+"_10").val()*1+$(".emp_"+emp+"_11").val()*1
         var camisetasMujeres =$(".emp_"+emp+"_5").val()*1+$(".emp_"+emp+"_6").val()*1
         if(isNaN(pantalonesH))
@@ -324,16 +324,23 @@
             camisetasHombres=0
         if(isNaN(camisetasMujeres))
             camisetasMujeres=0
-        var totalPantalones= pantalonesH+pantalonesM+overolesH+overolesM
+        var totalPantalones= pantalonesH+pantalonesM//+overolesH+overolesM
         var msg ="<ul>"
         if(totalPantalones!=2){
-            msg+="<li>Ingrese una cantidad correcta de pantalones y/o overoles. El empleado puede recibir: 1 pantalón y 1 overol, 2 pantalones, ó 2 overoles </li>"
+            msg+="<li>Ingrese una cantidad correcta de pantalones. El empleado puede recibir 2 pantalones </li>"
         }
-        var max = (pantalonesH+pantalonesM)*2+(overolesH+overolesM)
-        if(camisetasHombres+camisetasMujeres!=max){
+        var max = (pantalonesH+pantalonesM)//*2+(overolesH+overolesM)
+
+        //alert("pantalonesH " + pantalonesH)
+        //alert("pantalonesM " + pantalonesM)
+        //alert("camisetasHombres " + pantalonesM)
+        //alert("camisetasMujeres " + pantalonesM)
+        //alert("max " + max)
+
+        if(camisetasHombres+camisetasMujeres>max){
+
             msg+="<li>Ingrese una cantidad correcta de camisetas. " +
-                    "Recuerde que el empleado debe recibir 2 camisetas por pantalón ó 1 por overol. " +
-                    "Las camisetas pueden ser de manga corta y manga larga indistintamente.</li>"
+                    "Recuerde que el empleado debe recibir únicamente 2 camisetas.</li>"
         }
         if(msg=="<ul>"){
             var emp = $(this).attr("grupo")
@@ -400,8 +407,8 @@
                 "<p>A cada empleado se le puede asignar: <ul>" +
                 "<li>1 Botas</li>" +
                 "<li>1 Gorra</li>" +
-                "<li>1 pantalón y 1 overol, 2 pantalones, ó 2 overoles</li>" +
-                "<li>Se entregan hasta 2 camisetas por pantalón y una por cada overol</li>" +
+                "<li>2 pantalones</li>" +
+                "<li>2 camisetas</li>" +
                 "</ul></p>" +
                 "Los empleados que ya tienen la dotación asignada correctamente aparecen con un recuadro de color verde, así:" +
                 " <div class='panel panel-success '><div class='panel-heading titulo'>1234567890 - Nombre Apellido - M</div></div><br/>" +
