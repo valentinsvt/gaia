@@ -49,6 +49,11 @@
         </td>
     </tr>
     <tr>
+        <td colspan="2">
+            Adicionalmente, le recordamos que los documentos electrónicos emitidos por la comercializadora, los puede descargar desde el sitio web <a href="www1.efacturaecuador.com">www1.efacturaecuador.com</a>
+        </td>
+    </tr>
+    <tr>
         <td colspan="2" >
             Favor no responda a este correo ya que ha sido enviado desde una dirección que no admite correo de entrada. Todo el contenido de este correo es enviado a nuestros clientes con un objetivo exclusivamente informativo.
         </td>
