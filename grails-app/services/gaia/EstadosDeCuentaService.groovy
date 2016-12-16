@@ -490,7 +490,7 @@ class EstadosDeCuentaService {
 
             /*Galones*/
             document.add(new Paragraph("\n"));
-            p = new Paragraph("VOLÚMEN EN GALONES", titulo);
+            p = new Paragraph("VOLUMEN EN GALONES", titulo);
             p.setAlignment(Element.ALIGN_CENTER);
             document.add(p);
             table = new PdfPTable(6);
@@ -514,7 +514,7 @@ class EstadosDeCuentaService {
             cell.setBorder(0)
             cell.setHorizontalAlignment(Element.ALIGN_RIGHT)
             table.addCell(cell);
-            cell = new PdfPCell(new Paragraph("DIESEL 1", titulo));
+            cell = new PdfPCell(new Paragraph("ECO PAIS", titulo));
             cell.setBorder(0)
             cell.setHorizontalAlignment(Element.ALIGN_RIGHT)
             table.addCell(cell);
@@ -538,7 +538,7 @@ class EstadosDeCuentaService {
             cell.setBorder(0)
             cell.setHorizontalAlignment(Element.ALIGN_RIGHT)
             table.addCell(cell);
-            cell = new PdfPCell(new Paragraph(formatNumber(number: r["ASI_DIESEL1"], minFractionDigits: 2), contenido));
+            cell = new PdfPCell(new Paragraph(formatNumber(number: r["ASI_ECOPAIS"], minFractionDigits: 2), contenido));
             cell.setBorder(0)
             cell.setHorizontalAlignment(Element.ALIGN_RIGHT)
             table.addCell(cell);
@@ -564,7 +564,7 @@ class EstadosDeCuentaService {
             cell.setBorder(0)
             cell.setHorizontalAlignment(Element.ALIGN_RIGHT)
             table.addCell(cell);
-            cell = new PdfPCell(new Paragraph(formatNumber(number: r["FA_DIESEL1"], minFractionDigits: 2), contenido));
+            cell = new PdfPCell(new Paragraph(formatNumber(number: r["FA_ECOAPIS"], minFractionDigits: 2), contenido));
             cell.setBorder(0)
             cell.setHorizontalAlignment(Element.ALIGN_RIGHT)
             table.addCell(cell);
@@ -590,7 +590,7 @@ class EstadosDeCuentaService {
             cell.setBorder(0)
             cell.setHorizontalAlignment(Element.ALIGN_RIGHT)
             table.addCell(cell);
-            cell = new PdfPCell(new Paragraph(formatNumber(number: r["FA_ACDIESEL1"], minFractionDigits: 2), contenido));
+            cell = new PdfPCell(new Paragraph(formatNumber(number: r["FA_ACECOPAIS"], minFractionDigits: 2), contenido));
             cell.setBorder(0)
             cell.setHorizontalAlignment(Element.ALIGN_RIGHT)
             table.addCell(cell);
@@ -616,7 +616,7 @@ class EstadosDeCuentaService {
             cell.setBorder(0)
             cell.setHorizontalAlignment(Element.ALIGN_RIGHT)
             table.addCell(cell);
-            cell = new PdfPCell(new Paragraph(formatNumber(number: r["PVP_DIESEL1"], minFractionDigits: 3), contenido));
+            cell = new PdfPCell(new Paragraph(formatNumber(number: r["PVP_ECOPAIS"], minFractionDigits: 3), contenido));
             cell.setBorder(0)
             cell.setHorizontalAlignment(Element.ALIGN_RIGHT)
             table.addCell(cell);
@@ -1212,6 +1212,7 @@ class EstadosDeCuentaService {
                 "         ESTADOCTA.FA_SUPER,   \n" +
                 "         ESTADOCTA.FA_DIESEL1,   \n" +
                 "         ESTADOCTA.FA_DIESELPR,   \n" +
+                "         ESTADOCTA.FA_ECOPAIS,   \n" +
                 "         CLIENTE.NOMBRE_CLIENTE,\n" +
                 "\t\t\tTASA1 = (SELECT TASA1 FROM OFICIALCTA WHERE ESTADO_OFICIAL = 'A'),\n" +
                 "\t\t\tTASA2 = (SELECT TASA2 FROM OFICIALCTA WHERE ESTADO_OFICIAL =  'A'),\n" +
@@ -1277,6 +1278,7 @@ class EstadosDeCuentaService {
                 "         ESTADOCTA.FA_SUPER,   \n" +
                 "         ESTADOCTA.FA_DIESEL1,   \n" +
                 "         ESTADOCTA.FA_DIESELPR,   \n" +
+                "         ESTADOCTA.FA_ECOPAIS,   \n" +
                 "         CLIENTE.NOMBRE_CLIENTE,\n" +
                 "\t\t\tTASA1 = (SELECT TASA1 FROM OFICIALCTA WHERE ESTADO_OFICIAL = 'A'),\n" +
                 "\t\t\tTASA2 = (SELECT TASA2 FROM OFICIALCTA WHERE ESTADO_OFICIAL =  'A'),\n" +
@@ -1313,22 +1315,26 @@ class EstadosDeCuentaService {
                 "         ESTADOCTA.FA_SUPER,   \n" +
                 "         ESTADOCTA.FA_DIESEL1,   \n" +
                 "         ESTADOCTA.FA_DIESELPR,   \n" +
+                "         ESTADOCTA.FA_ECOPAIS,   \n" +
                 "         CLIENTE.NOMBRE_CLIENTE,\n" +
                 "         ESTADOCTA.FA_ACEXTRA,   \n" +
                 "         ESTADOCTA.FA_ACDIESEL2,   \n" +
                 "         ESTADOCTA.FA_ACSUPER,   \n" +
                 "         ESTADOCTA.FA_ACDIESEL1,   \n" +
                 "         ESTADOCTA.FA_ACDIESELPR,\n" +
+                "         ESTADOCTA.FA_ACECOPAIS,\n" +
                 "\t\t\tESTADOCTA.PVP_EXTRA,\n" +
                 "\t\t\tESTADOCTA.PVP_DIESEL2,\n" +
                 "\t\t\tESTADOCTA.PVP_SUPER,\n" +
                 "\t\t\tESTADOCTA.PVP_DIESEL1,\n" +
                 "\t\t\tESTADOCTA.PVP_DIESELPR,\n" +
+                "\t\t\tESTADOCTA.PVP_ECOPAIS,\n" +
                 "\t\t\tESTADOCTA.ASI_EXTRA,\n" +
                 "\t\t\tESTADOCTA.ASI_DIESEL2,\n" +
                 "\t\t\tESTADOCTA.ASI_SUPER,\n" +
                 "\t\t\tESTADOCTA.ASI_DIESEL1,\n" +
                 "\t\t\tESTADOCTA.ASI_DIESELPR,\n" +
+                "\t\t\tESTADOCTA.ASI_ECOPAIS,\n" +
                 "\t\t\tESTADOCTA.FECHA_CREA\n" +
                 "    FROM ESTADOCTA,   \n" +
                 "         CLIENTE \n" +

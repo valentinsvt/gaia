@@ -84,6 +84,7 @@ class InspectorController extends Shield {
      * Acción llamada con ajax que muestra un formaulario para crear o modificar un elemento
      */
     def form_ajax() {
+        println "params.id: " + params.id
         def inspectorInstance = new Inspector()
         if (params.id) {
             inspectorInstance = Inspector.get(params.id)
@@ -165,6 +166,7 @@ class InspectorController extends Shield {
     }
 
     def listEstacion_ajax() {
+        println "listEstacion_ajax"
         def estacion = Estacion.findByCodigo(params.codigo)
         def inspectores = InspectorEstacion.findAllByEstacion(estacion)
         return [estacion: estacion, inspectores: inspectores]
@@ -174,6 +176,7 @@ class InspectorController extends Shield {
      * Acción llamada con ajax que permite eliminar un elemento
      */
     def deleteInspector_ajax() {
+        println "deleteInspector_ajax"
         if (params.id) {
             def inspectorInstance = InspectorEstacion.get(params.id)
             if (!inspectorInstance) {
@@ -195,6 +198,7 @@ class InspectorController extends Shield {
     } //delete para eliminar via ajax
 
     def addInspector_ajax() {
+        println "addInspector_ajax"
         def estacion = Estacion.findByCodigo(params.codigo)
         def inspector = Inspector.get(params.ins)
 

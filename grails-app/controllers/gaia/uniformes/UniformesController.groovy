@@ -86,6 +86,9 @@ class UniformesController extends Shield{
 
         def cliente = Cliente.findByCodigoAndTipo(params.id,1)
 
+        //println "uniformes "+uniformes.supervisor.codigo
+        //println "cliente " + estacion.getCodigoSupervisor()
+
         [estacion: estacion, params: params,dash:dash,uniformes:uniformes,cliente:cliente]
 
     }
