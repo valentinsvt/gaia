@@ -564,7 +564,7 @@ class EstadosDeCuentaService {
             cell.setBorder(0)
             cell.setHorizontalAlignment(Element.ALIGN_RIGHT)
             table.addCell(cell);
-            cell = new PdfPCell(new Paragraph(formatNumber(number: r["FA_ECOAPIS"], minFractionDigits: 2), contenido));
+            cell = new PdfPCell(new Paragraph(formatNumber(number: r["FA_ECOPAIS"], minFractionDigits: 2), contenido));
             cell.setBorder(0)
             cell.setHorizontalAlignment(Element.ALIGN_RIGHT)
             table.addCell(cell);
