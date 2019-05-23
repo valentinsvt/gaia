@@ -50,7 +50,7 @@ class SolicitudesController extends Shield {
         def estacion = Estacion.findByCodigoAndAplicacion(params.id, 1)
         def nomina = NominaEstacion.findAllByEstacionAndEstado(estacion, "A")
         def pedido
-        def maximos = ["9": 2, "1": 2, "10": 4, "11": 4, "2": 1, "3": 1, "6": 4, "5": 4, "4": 2, "7": 2]
+        def maximos = ["9": 2, "1": 2, "10": 4, "11": 1, "2": 1, "3": 1, "6": 4, "5": 1, "4": 2, "7": 2]
 
         if (params.pedido && params.pedido != "")
             pedido = PedidoUniformes.get(params.pedido)

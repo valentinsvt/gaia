@@ -310,8 +310,10 @@
         var overolesH = 0 //$(".emp_"+emp+"_1").val()*1
         var pantalonesM = $(".emp_"+emp+"_7").val()*1
         var overolesM = 0 //$(".emp_"+emp+"_4").val()*1
-        var camisetasHombres =  $(".emp_"+emp+"_10").val()*1+$(".emp_"+emp+"_11").val()*1
-        var camisetasMujeres =$(".emp_"+emp+"_5").val()*1+$(".emp_"+emp+"_6").val()*1
+        var camisetasHombres =  $(".emp_"+emp+"_10").val()*1 //$(".emp_"+emp+"_10").val()*1+$(".emp_"+emp+"_11").val()*1
+        var camisetasMujeres = $(".emp_"+emp+"_6").val()*1 //$(".emp_"+emp+"_5").val()*1+$(".emp_"+emp+"_6").val()*1
+        var chompasHombres =  $(".emp_"+emp+"_11").val()*1
+        var chompasMujeres = $(".emp_"+emp+"_5").val()*1
         if(isNaN(pantalonesH))
             pantalonesH=0
         if(isNaN(pantalonesM))
@@ -324,6 +326,11 @@
             camisetasHombres=0
         if(isNaN(camisetasMujeres))
             camisetasMujeres=0
+        if (isNaN(chompasHombres))
+            chompasHombres=0
+        if (isNaN(chompasMujeres))
+            chompasMujeres=0
+
         var totalPantalones= pantalonesH+pantalonesM//+overolesH+overolesM
         var msg ="<ul>"
         if(totalPantalones!=2){
@@ -342,6 +349,12 @@
             msg+="<li>Ingrese una cantidad correcta de camisetas. " +
                     "Recuerde que el empleado debe recibir únicamente 2 camisetas.</li>"
         }
+
+        if (chompasHombres+chompasMujeres>1){
+            msg+="<li>Ingrese una cantidad correcta de chompas. " +
+                    "Recuerde que el empleado debe recibir únicamente 1 chompa.</li>"
+        }
+
         if(msg=="<ul>"){
             var emp = $(this).attr("grupo")
             var data = ""
