@@ -290,9 +290,10 @@
         if(total==0){
             bootbox.alert("La cantidad y el valor unitario deben ser números mayores a cero")
         }else{
-            if($("."+item).size()>0){
-                bootbox.alert("El item "+texto+" ya esta registrado en la sección de detalle")
-            }else{
+            //Se modifica 21 junio 2019 para ingresar ítems duplicados
+            //if($("."+item).size()>0){
+            //    bootbox.alert("El item "+texto+" ya esta registrado en la sección de detalle")
+            //}else{
                 tr.attr("item",item)
                 tr.attr("cantidad",cantidad)
                 tr.attr("valor",valor)
@@ -316,7 +317,7 @@
                     return false
                 })
                 calculaTotal()
-            }
+            //}
 
         }
 
