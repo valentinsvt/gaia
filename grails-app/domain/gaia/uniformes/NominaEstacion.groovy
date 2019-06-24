@@ -36,7 +36,7 @@ class NominaEstacion {
     static constraints = {
         estado(size: 1..1)
         nombre(size: 1..100)
-        cedula(size: 1..10)
+        cedula(size: 1..15)
         sexo(inList: ["M","F"],size: 1..1)
     }
 

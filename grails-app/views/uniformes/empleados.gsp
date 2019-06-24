@@ -130,7 +130,7 @@
                         <input type="text" id="nombre" class="form-control input-sm">
                     </td>
                     <td>
-                        <input type="text" id="cedula" class="form-control input-sm digits " maxlength="10">
+                        <input type="text" id="cedula" class="form-control input-sm digits " maxlength="15">
                     </td>
                     <td>
                         <select id="sexo" class="form-control input-sm">
@@ -236,7 +236,7 @@
         var cedula = $("#cedula").val()
         var sexo = $("#sexo").val()
         if(nombre!="" || cedula!=""){
-            if(check_cedula(cedula)){
+            //if(check_cedula(cedula)){
                 $.ajax({
                     type: "POST",
                     url: "${createLink(controller:'uniformes', action:'addEmpleado')}",
@@ -253,9 +253,9 @@
 
                     }
                 });
-            }else{
-                bootbox.alert("Por favor, ingrese una cédula valida")
-            }
+            //}else{
+            //    bootbox.alert("Por favor, ingrese una cédula valida")
+            //}
 
         }else{
             bootbox.alert("Por favor, ingrese el nombre y cédula del empleado")
