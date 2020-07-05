@@ -55,7 +55,7 @@ class EstadosDeCuentaService {
             new File(path).mkdirs()
             def nombre = "EDC-${estado.cliente.codigo}-${estado.mes}-${new Date().format('ddMMyyyyHHmmss')}.pdf"
             def writer = PdfWriter.getInstance(document, new FileOutputStream(path + nombre));
-            def img =grailsApplication.mainContext.getResource('/images/logo-login.png').getFile()
+            def img =grailsApplication.mainContext.getResource('/images/logo.png').getFile()
 //            def img ="./web-app//images/logo-login.png";
             //  println "fecha " + fecha + "  codigo  " + codigo + " img  " + img
             writer.setPageEvent(new HeaderFooter(r, img.readBytes(), fecha,estado.usuario));
@@ -182,6 +182,7 @@ class EstadosDeCuentaService {
 
             /*Contingencia*/
             def total = 0
+            /*
             p = new Paragraph("FONDO DE CONTINGENCIA", titulo);
             p.setAlignment(Element.ALIGN_CENTER);
             document.add(p);
@@ -331,6 +332,7 @@ class EstadosDeCuentaService {
             table.addCell(cell);
 
             document.add(table)
+            */
             /*fin contingencia*/
 
             /*asistencia*/
@@ -442,7 +444,6 @@ class EstadosDeCuentaService {
             cell.setHorizontalAlignment(Element.ALIGN_RIGHT)
             table.addCell(cell);
             total -= r["PR_PAGODIRECTO"]
-
             cell = new PdfPCell(new Paragraph("(-) NOTAS DE CRÉDITO", contenido));
             cell.setBorder(0)
             table.addCell(cell);
@@ -471,6 +472,120 @@ class EstadosDeCuentaService {
             cell.setHorizontalAlignment(Element.ALIGN_RIGHT)
             table.addCell(cell);
             total += r["PR_NOTASDEBITO"]
+            /*Se agrega al estado de cuenta los nuevos rubros*/
+            /*05 julio 2020 */
+            cell = new PdfPCell(new Paragraph("(+) CREDITO COMBUSTIBLE", contenido));
+            cell.setBorder(0)
+            table.addCell(cell);
+            cell = new PdfPCell(new Paragraph("", contenido));
+            cell.setBorder(0)
+            table.addCell(cell);
+            cell = new PdfPCell(new Paragraph("", contenido));
+            cell.setBorder(0)
+            table.addCell(cell);
+            cell = new PdfPCell(new Paragraph(formatNumber(number: r["PR_CREDITOCOMBUSTIBLE"], minFractionDigits: 2), contenido));
+            cell.setBorder(0)
+            cell.setHorizontalAlignment(Element.ALIGN_RIGHT)
+            table.addCell(cell);
+            total += r["PR_CREDITOCOMBUSTIBLE"]
+            cell = new PdfPCell(new Paragraph("(+) SISTEMA DE FACTURACION", contenido));
+            cell.setBorder(0)
+            table.addCell(cell);
+            cell = new PdfPCell(new Paragraph("", contenido));
+            cell.setBorder(0)
+            table.addCell(cell);
+            cell = new PdfPCell(new Paragraph("", contenido));
+            cell.setBorder(0)
+            table.addCell(cell);
+            cell = new PdfPCell(new Paragraph(formatNumber(number: r["PR_CONTROLSYSTEM"], minFractionDigits: 2), contenido));
+            cell.setBorder(0)
+            cell.setHorizontalAlignment(Element.ALIGN_RIGHT)
+            table.addCell(cell);
+            total += r["PR_CONTROLSYSTEM"]
+            cell = new PdfPCell(new Paragraph("(+) FACTURACION ELECTRONICA", contenido));
+            cell.setBorder(0)
+            table.addCell(cell);
+            cell = new PdfPCell(new Paragraph("", contenido));
+            cell.setBorder(0)
+            table.addCell(cell);
+            cell = new PdfPCell(new Paragraph("", contenido));
+            cell.setBorder(0)
+            table.addCell(cell);
+            cell = new PdfPCell(new Paragraph(formatNumber(number: r["PR_FACTURAELECTRONICA"], minFractionDigits: 2), contenido));
+            cell.setBorder(0)
+            cell.setHorizontalAlignment(Element.ALIGN_RIGHT)
+            table.addCell(cell);
+            total += r["PR_FACTURAELECTRONICA"]
+            cell = new PdfPCell(new Paragraph("(+) SURTIDORES", contenido));
+            cell.setBorder(0)
+            table.addCell(cell);
+            cell = new PdfPCell(new Paragraph("", contenido));
+            cell.setBorder(0)
+            table.addCell(cell);
+            cell = new PdfPCell(new Paragraph("", contenido));
+            cell.setBorder(0)
+            table.addCell(cell);
+            cell = new PdfPCell(new Paragraph(formatNumber(number: r["PR_SURTIDORES"], minFractionDigits: 2), contenido));
+            cell.setBorder(0)
+            cell.setHorizontalAlignment(Element.ALIGN_RIGHT)
+            table.addCell(cell);
+            total += r["PR_SURTIDORES"]
+            cell = new PdfPCell(new Paragraph("(+) DEVOLUCION PAGO EXCESO", contenido));
+            cell.setBorder(0)
+            table.addCell(cell);
+            cell = new PdfPCell(new Paragraph("", contenido));
+            cell.setBorder(0)
+            table.addCell(cell);
+            cell = new PdfPCell(new Paragraph("", contenido));
+            cell.setBorder(0)
+            table.addCell(cell);
+            cell = new PdfPCell(new Paragraph(formatNumber(number: r["PR_PAGOEXCESO"], minFractionDigits: 2), contenido));
+            cell.setBorder(0)
+            cell.setHorizontalAlignment(Element.ALIGN_RIGHT)
+            table.addCell(cell);
+            total += r["PR_PAGOEXCESO"]
+            cell = new PdfPCell(new Paragraph("(+) VENDING", contenido));
+            cell.setBorder(0)
+            table.addCell(cell);
+            cell = new PdfPCell(new Paragraph("", contenido));
+            cell.setBorder(0)
+            table.addCell(cell);
+            cell = new PdfPCell(new Paragraph("", contenido));
+            cell.setBorder(0)
+            table.addCell(cell);
+            cell = new PdfPCell(new Paragraph(formatNumber(number: r["PR_VENDING"], minFractionDigits: 2), contenido));
+            cell.setBorder(0)
+            cell.setHorizontalAlignment(Element.ALIGN_RIGHT)
+            table.addCell(cell);
+            total += r["PR_VENDING"]
+            cell = new PdfPCell(new Paragraph("(+) MEDICION DE TANQUES", contenido));
+            cell.setBorder(0)
+            table.addCell(cell);
+            cell = new PdfPCell(new Paragraph("", contenido));
+            cell.setBorder(0)
+            table.addCell(cell);
+            cell = new PdfPCell(new Paragraph("", contenido));
+            cell.setBorder(0)
+            table.addCell(cell);
+            cell = new PdfPCell(new Paragraph(formatNumber(number: r["PR_MEDICIONTANQUES"], minFractionDigits: 2), contenido));
+            cell.setBorder(0)
+            cell.setHorizontalAlignment(Element.ALIGN_RIGHT)
+            table.addCell(cell);
+            total += r["PR_MEDICIONTANQUES"]
+            cell = new PdfPCell(new Paragraph("(+) PAYGAS / SMARTPAY", contenido));
+            cell.setBorder(0)
+            table.addCell(cell);
+            cell = new PdfPCell(new Paragraph("", contenido));
+            cell.setBorder(0)
+            table.addCell(cell);
+            cell = new PdfPCell(new Paragraph("", contenido));
+            cell.setBorder(0)
+            table.addCell(cell);
+            cell = new PdfPCell(new Paragraph(formatNumber(number: r["PR_PAYGAS"], minFractionDigits: 2), contenido));
+            cell.setBorder(0)
+            cell.setHorizontalAlignment(Element.ALIGN_RIGHT)
+            table.addCell(cell);
+            total += r["PR_PAYGAS"]
             cell = new PdfPCell(new Paragraph("Saldo al ${r['FECHA_FIN'].format('dd/MM/yyyy')}", titulo));
             cell.setBorder(0)
             table.addCell(cell);
