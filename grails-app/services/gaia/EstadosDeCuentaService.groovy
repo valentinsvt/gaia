@@ -1395,7 +1395,7 @@ class EstadosDeCuentaService {
                 "         ESTADOCTA.FA_DIESELPR,   \n" +
                 "         ESTADOCTA.FA_ECOPAIS,   \n" +
                 "         CLIENTE.NOMBRE_CLIENTE,\n" +
-                "\t\t\tTASA1 = (SELECT TASA1 FROM OFICIALCTA WHERE ESTADO_OFICIAL = 'A'),\n" +
+        "\t\t\tTASA1 = (SELECT TASA1 FROM OFICIALCTA WHERE ESTADO_OFICIAL = 'A'),\n" +
                 "\t\t\tTASA2 = (SELECT TASA2 FROM OFICIALCTA WHERE ESTADO_OFICIAL =  'A'),\n" +
                 "\t\t\tTASA3 = (SELECT TASA3 FROM OFICIALCTA WHERE ESTADO_OFICIAL =  'A'),\n" +
                 "\t\t\tTASA4 = (SELECT TASA4 FROM OFICIALCTA WHERE ESTADO_OFICIAL =  'A'),\n"+
@@ -1450,7 +1450,15 @@ class EstadosDeCuentaService {
                 "\t\t\tESTADOCTA.ASI_DIESEL1,\n" +
                 "\t\t\tESTADOCTA.ASI_DIESELPR,\n" +
                 "\t\t\tESTADOCTA.ASI_ECOPAIS,\n" +
-                "\t\t\tESTADOCTA.FECHA_CREA\n" +
+                "\t\t\tESTADOCTA.FECHA_CREA,\n" +
+                "         ESTADOCTA.PR_CONTROLSYSTEM,\n" +
+                "         ESTADOCTA.PR_FACTURAELECTRONICA,\n" +
+                "         ESTADOCTA.PR_SURTIDORES,\n" +
+                "         ESTADOCTA.PR_PAGOEXCESO,\n" +
+                "         ESTADOCTA.PR_VENDING,\n" +
+                "         ESTADOCTA.PR_MEDICIONTANQUES,\n" +
+                "         ESTADOCTA.PR_PAYGAS,\n" +
+                "         ESTADOCTA.PR_CREDITOCOMBUSTIBLE\n" +
                 "    FROM ESTADOCTA,   \n" +
                 "         CLIENTE \n" +
                 "   WHERE ( CLIENTE.CODIGO_CLIENTE = ESTADOCTA.CODIGO_CLIENTE ) and  \n" +
