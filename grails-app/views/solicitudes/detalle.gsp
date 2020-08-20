@@ -371,6 +371,7 @@
             $("."+emp).each(function(){
                 data+=$(this).attr("empleado")+";"+$(this).attr("uniforme")+";"+$(this).attr("talla")+";"+$(this).val()+"W"
                 $(this).addClass("valor")
+                alert("data " + data)
             });
             $.ajax({
                 type: "POST",
