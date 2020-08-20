@@ -106,7 +106,7 @@
                                                                               class="u_${u.codigo} cantidad emp_${n.id} emp_${n.id}_${u.codigo} ${valor?'valor':''}"
                                                                               talla="${n.getTalla(u).codigo}" uniforme="${u.codigo}" empleado="${n.id}"
                                                                               min="0" max="${maximos[u.codigo.toString()]}"
-                                                                              value="${(u.codigo == 2 || u.codigo==3)?'1':valor}"
+                                                                              value="${(u.codigo == 2 || u.codigo==3)?'1':(u.codigo == 1)?'4':valor}"
                                                                               disabled="${(u.codigo == 2 || u.codigo==3)?true:false}"
                                                                     >
                                                                     </g:select>
