@@ -102,7 +102,7 @@
                                                                 <td style="text-align: center">${n.getTalla(u)}</td>
                                                                 <td style="width: 60px">
                                                                     <g:set var="valor" value="${n.getCantidadSolicitudUniforme(solicitud,u)}"></g:set>
-                                                                    <g:select name="cant" from="${0..2}"
+                                                                    <g:select name="cant" from="${0..4}"
                                                                               class="u_${u.codigo} cantidad emp_${n.id} emp_${n.id}_${u.codigo} ${valor?'valor':''}"
                                                                               talla="${n.getTalla(u).codigo}" uniforme="${u.codigo}" empleado="${n.id}"
                                                                               min="0" max="${maximos[u.codigo.toString()]}"
