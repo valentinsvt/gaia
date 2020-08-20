@@ -220,7 +220,7 @@ class EstadoDeCuentaController extends Shield{
                 subject "Estado de cuenta PyS - Cliente: "+e.cliente.nombre;
                 attachBytes "Estado-de-cuenta-${e.mes}.pdf", "application/x-pdf", pdfData
                 body( view:"/estadoDeCuenta/estadoDeCuenta")
-                inline 'logo','image/png', grailsApplication.mainContext.getResource('/images/logo-login.png').getFile().readBytes()
+                inline 'logo','image/png', grailsApplication.mainContext.getResource('/images/logo.png').getFile().readBytes()
 //                inline 'logo','image/png', new File('./web-app//images/logo-login.png').readBytes()
             }
             e.envio=new Date()
