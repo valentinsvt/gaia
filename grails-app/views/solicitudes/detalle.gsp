@@ -314,6 +314,8 @@
         var camisetasMujeres = $(".emp_"+emp+"_6").val()*1 //$(".emp_"+emp+"_5").val()*1+$(".emp_"+emp+"_6").val()*1
         var chompasHombres =  $(".emp_"+emp+"_11").val()*1
         var chompasMujeres = $(".emp_"+emp+"_5").val()*1
+        var mascarillas = $(".emp_"+emp+"_1").val()*1
+
         if(isNaN(pantalonesH))
             pantalonesH=0
         if(isNaN(pantalonesM))
@@ -330,13 +332,16 @@
             chompasHombres=0
         if (isNaN(chompasMujeres))
             chompasMujeres=0
+        if (isNaN(mascarillas))
+            mascarillas = 0
 
         var totalPantalones= pantalonesH+pantalonesM//+overolesH+overolesM
         var msg ="<ul>"
-        if(totalPantalones!=2){
-            msg+="<li>Ingrese una cantidad correcta de pantalones. El empleado puede recibir 2 pantalones </li>"
-        }
-        var max = (pantalonesH+pantalonesM)//*2+(overolesH+overolesM)
+        //Se modifica para dejar grabar las mascarillas
+        //if(totalPantalones!=2){
+        //    msg+="<li>Ingrese una cantidad correcta de pantalones. El empleado puede recibir 2 pantalones </li>"
+        //}
+        //var max = (pantalonesH+pantalonesM)//*2+(overolesH+overolesM)
 
         //alert("pantalonesH " + pantalonesH)
         //alert("pantalonesM " + pantalonesM)
@@ -344,15 +349,20 @@
         //alert("camisetasMujeres " + pantalonesM)
         //alert("max " + max)
 
-        if(camisetasHombres+camisetasMujeres>max){
+        //if(camisetasHombres+camisetasMujeres>max){
 
-            msg+="<li>Ingrese una cantidad correcta de camisetas. " +
-                    "Recuerde que el empleado debe recibir únicamente 2 camisetas.</li>"
-        }
+        //    msg+="<li>Ingrese una cantidad correcta de camisetas. " +
+        //            "Recuerde que el empleado debe recibir únicamente 2 camisetas.</li>"
+        //}
 
-        if (chompasHombres+chompasMujeres>1){
-            msg+="<li>Ingrese una cantidad correcta de chompas. " +
-                    "Recuerde que el empleado debe recibir únicamente 1 chompa.</li>"
+        //if (chompasHombres+chompasMujeres>1){
+        //    msg+="<li>Ingrese una cantidad correcta de chompas. " +
+        //            "Recuerde que el empleado debe recibir únicamente 1 chompa.</li>"
+        //}
+
+        if (mascarillas<4){
+            msg+="<li>Ingrese una cantidad correcta de mascarillas. " +
+                    "Recuerde que el empleado debe recibir 4 mascarillas.</li>"
         }
 
         if(msg=="<ul>"){
