@@ -317,19 +317,19 @@
         var mascarillas = $(".emp_"+emp+"_1").val()*1
 
         if(isNaN(pantalonesH))
-            pantalonesH=0
+            pantalonesH=1
         if(isNaN(pantalonesM))
-            pantalonesM=0
+            pantalonesM=1
         if(isNaN(overolesH))
             overolesH=0
         if(isNaN(overolesM))
             overolesM=0
         if(isNaN(camisetasHombres))
-            camisetasHombres=0
+            camisetasHombres=1
         if(isNaN(camisetasMujeres))
-            camisetasMujeres=0
+            camisetasMujeres=1
         if (isNaN(chompasHombres))
-            chompasHombres=0
+            chompasHombres=1
         if (isNaN(chompasMujeres))
             chompasMujeres=0
         if (isNaN(mascarillas))
@@ -337,11 +337,12 @@
 
         var totalPantalones= pantalonesH+pantalonesM//+overolesH+overolesM
         var msg ="<ul>"
+
         //Se modifica para dejar grabar las mascarillas
-        //if(totalPantalones!=2){
-        //    msg+="<li>Ingrese una cantidad correcta de pantalones. El empleado puede recibir 2 pantalones </li>"
-        //}
-        //var max = (pantalonesH+pantalonesM)//*2+(overolesH+overolesM)
+        if(totalPantalones!=2){
+            msg+="<li>Ingrese una cantidad correcta de pantalones. El empleado puede recibir 2 pantalones </li>"
+        }
+        var max = (pantalonesH+pantalonesM)//*2+(overolesH+overolesM)
 
         //alert("pantalonesH " + pantalonesH)
         //alert("pantalonesM " + pantalonesM)
@@ -349,16 +350,16 @@
         //alert("camisetasMujeres " + pantalonesM)
         //alert("max " + max)
 
-        //if(camisetasHombres+camisetasMujeres>max){
+        if(camisetasHombres+camisetasMujeres>max){
 
-        //    msg+="<li>Ingrese una cantidad correcta de camisetas. " +
-        //            "Recuerde que el empleado debe recibir únicamente 2 camisetas.</li>"
-        //}
+            msg+="<li>Ingrese una cantidad correcta de camisetas. " +
+                    "Recuerde que el empleado debe recibir únicamente 2 camisetas.</li>"
+        }
 
-        //if (chompasHombres+chompasMujeres>1){
-        //    msg+="<li>Ingrese una cantidad correcta de chompas. " +
-        //            "Recuerde que el empleado debe recibir únicamente 1 chompa.</li>"
-        //}
+        if (chompasHombres+chompasMujeres>1){
+            msg+="<li>Ingrese una cantidad correcta de chompas. " +
+                    "Recuerde que el empleado debe recibir únicamente 1 chompa.</li>"
+        }
 
         if (mascarillas<4){
             msg+="<li>Ingrese una cantidad correcta de mascarillas. " +
@@ -371,7 +372,6 @@
             $("."+emp).each(function(){
                 data+=$(this).attr("empleado")+";"+$(this).attr("uniforme")+";"+$(this).attr("talla")+";"+$(this).val()+"W"
                 $(this).addClass("valor")
-                alert("data " + data)
             });
             $.ajax({
                 type: "POST",
