@@ -60,7 +60,7 @@
             </div>
             <div class="flow-body">
                 <g:form class="frmPedido" action="guardarSolicitud">
-                    <input type="hidden" name="id" value="${solicitud?.id}">
+                    <input type="text" name="id" value="${solicitud?.id}">
                     <input type="hidden" name="estacion" value="${estacion.codigo}">
                     <input type="hidden" name="data" value="" id="datos">
                     <div class="row" style="margin-bottom: 10px">

@@ -93,7 +93,6 @@ class SolicitudesController extends Shield {
     }
 
     def saveDetalle(){
-        Console.log("params:"+"${params}");
         println "params!!! "+params
         //data+=$(this).attr("empleado")+";"+$(this).attr("uniforme")+";"+$(this).attr("talla")+";"+$(this).val()+"W"
         //sql de verificacion
