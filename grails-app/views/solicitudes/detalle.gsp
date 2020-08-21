@@ -60,7 +60,7 @@
             </div>
             <div class="flow-body">
                 <g:form class="frmPedido" action="guardarSolicitud">
-                    <input type="text" name="id" value="${solicitud?.id}">
+                    <input type="hidden" name="id" value="${solicitud?.id}">
                     <input type="hidden" name="estacion" value="${estacion.codigo}">
                     <input type="hidden" name="data" value="" id="datos">
                     <div class="row" style="margin-bottom: 10px">
@@ -107,7 +107,7 @@
                                                                               talla="${n.getTalla(u).codigo}" uniforme="${u.codigo}" empleado="${n.id}"
                                                                               min="0" max="${maximos[u.codigo.toString()]}"
                                                                               value="${(u.codigo == 2 || u.codigo==3)?'1':(u.codigo == 1)?'4':valor}"
-                                                                              disabled="${(u.codigo == 2 || u.codigo==3)?true:false}"
+                                                                              disabled="${(u.codigo == 2 || u.codigo==3 || u.codigo==1)?true:false}"
                                                                     >
                                                                     </g:select>
 
@@ -373,6 +373,9 @@
                 data+=$(this).attr("empleado")+";"+$(this).attr("uniforme")+";"+$(this).attr("talla")+";"+$(this).val()+"W"
                 $(this).addClass("valor")
             });
+            var id = $("#id").val();
+            alert("Id " + id)
+
             $.ajax({
                 type: "POST",
                 url: "${createLink(controller:'solicitudes', action:'saveDetalle')}",
