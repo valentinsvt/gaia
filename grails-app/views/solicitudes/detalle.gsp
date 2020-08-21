@@ -38,7 +38,7 @@
 </div>
 <elm:container tipo="horizontal" titulo="Estación: ${solicitud?.id}" >
     <div class="panel panel-info" style="margin-top: 20px">
-        <div class="panel-heading">Solcitar dotación de uniformes</div>
+        <div class="panel-heading">Solicitar dotación de uniformes</div>
         <div class="panel-body" style="padding:0px">
             <div class="header-flow">
                 <g:link action="solicitar" id="${estacion.codigo}">
