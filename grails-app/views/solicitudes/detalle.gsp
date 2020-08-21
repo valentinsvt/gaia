@@ -333,7 +333,7 @@
         if (isNaN(chompasMujeres))
             chompasMujeres=0
         if (isNaN(mascarillas))
-            mascarillas = 0
+            mascarillas = 4
 
         var totalPantalones= pantalonesH+pantalonesM//+overolesH+overolesM
         var msg ="<ul>"
