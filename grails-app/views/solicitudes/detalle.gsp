@@ -38,7 +38,7 @@
 </div>
 <elm:container tipo="horizontal" titulo="Estación: ${estacion.nombre}" >
     <div class="panel panel-info" style="margin-top: 20px">
-        <div class="panel-heading">Solicitar dotación de uniformes</div>
+        <div class="panel-heading">Solcitar dotación de uniformes</div>
         <div class="panel-body" style="padding:0px">
             <div class="header-flow">
                 <g:link action="solicitar" id="${estacion.codigo}">
@@ -102,12 +102,12 @@
                                                                 <td style="text-align: center">${n.getTalla(u)}</td>
                                                                 <td style="width: 60px">
                                                                     <g:set var="valor" value="${n.getCantidadSolicitudUniforme(solicitud,u)}"></g:set>
-                                                                    <g:select name="cant" from="${0..4}"
+                                                                    <g:select name="cant" from="${0..2}"
                                                                               class="u_${u.codigo} cantidad emp_${n.id} emp_${n.id}_${u.codigo} ${valor?'valor':''}"
                                                                               talla="${n.getTalla(u).codigo}" uniforme="${u.codigo}" empleado="${n.id}"
                                                                               min="0" max="${maximos[u.codigo.toString()]}"
-                                                                              value="${(u.codigo == 2 || u.codigo==3)?'1':(u.codigo == 1)?'4':valor}"
-                                                                              disabled="${(u.codigo == 2 || u.codigo==3 || u.codigo==1)?true:false}"
+                                                                              value="${(u.codigo == 2 || u.codigo==3)?'1':valor}"
+                                                                              disabled="${(u.codigo == 2 || u.codigo==3)?true:false}"
                                                                     >
                                                                     </g:select>
 
@@ -314,31 +314,25 @@
         var camisetasMujeres = $(".emp_"+emp+"_6").val()*1 //$(".emp_"+emp+"_5").val()*1+$(".emp_"+emp+"_6").val()*1
         var chompasHombres =  $(".emp_"+emp+"_11").val()*1
         var chompasMujeres = $(".emp_"+emp+"_5").val()*1
-        var mascarillas = $(".emp_"+emp+"_1").val()*1
-
         if(isNaN(pantalonesH))
-            pantalonesH=1
+            pantalonesH=0
         if(isNaN(pantalonesM))
-            pantalonesM=1
+            pantalonesM=0
         if(isNaN(overolesH))
             overolesH=0
         if(isNaN(overolesM))
             overolesM=0
         if(isNaN(camisetasHombres))
-            camisetasHombres=1
+            camisetasHombres=0
         if(isNaN(camisetasMujeres))
-            camisetasMujeres=1
+            camisetasMujeres=0
         if (isNaN(chompasHombres))
-            chompasHombres=1
+            chompasHombres=0
         if (isNaN(chompasMujeres))
             chompasMujeres=0
-        if (isNaN(mascarillas))
-            mascarillas = 4
 
         var totalPantalones= pantalonesH+pantalonesM//+overolesH+overolesM
         var msg ="<ul>"
-
-        //Se modifica para dejar grabar las mascarillas
         if(totalPantalones!=2){
             msg+="<li>Ingrese una cantidad correcta de pantalones. El empleado puede recibir 2 pantalones </li>"
         }
@@ -361,11 +355,6 @@
                     "Recuerde que el empleado debe recibir únicamente 1 chompa.</li>"
         }
 
-        if (mascarillas<4){
-            msg+="<li>Ingrese una cantidad correcta de mascarillas. " +
-                    "Recuerde que el empleado debe recibir 4 mascarillas.</li>"
-        }
-
         if(msg=="<ul>"){
             var emp = $(this).attr("grupo")
             var data = ""
@@ -373,9 +362,6 @@
                 data+=$(this).attr("empleado")+";"+$(this).attr("uniforme")+";"+$(this).attr("talla")+";"+$(this).val()+"W"
                 $(this).addClass("valor")
             });
-            var id = $("#id").val();
-            alert("Id " + id)
-
             $.ajax({
                 type: "POST",
                 url: "${createLink(controller:'solicitudes', action:'saveDetalle')}",
