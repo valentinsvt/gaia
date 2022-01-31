@@ -161,7 +161,7 @@ class ActasController extends Shield{
                 cell.setBorder(0)
                 cell.setHorizontalAlignment(Element.ALIGN_LEFT)
                 tabla.addCell(cell);
-                cell = new PdfPCell(new Paragraph("ING. DIEGO PÉREZ REINOSO\nCoordinador administrativo",contenido));
+                cell = new PdfPCell(new Paragraph("EC. MIGUEL NARVAEZ\nCoordinador administrativo",contenido));
                 cell.setBorder(0)
                 cell.setBorderWidthTop(1)
                 cell.setHorizontalAlignment(Element.ALIGN_LEFT)

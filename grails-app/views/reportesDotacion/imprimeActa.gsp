@@ -102,7 +102,7 @@ uniforme para la ${sol.estacion.nombre}, según se detalla a continuación:</p>
         <td style="width: 30%;height: 100px;border-bottom: 1px solid #000000"></td>
     </tr>
     <tr>
-        <td style="width: 30%;">SR. DIEGO PÉREZ</td>
+        <td style="width: 30%;">EC. MIGUEL NARVAEZ</td>
         <td style="width: 20px;"></td>
         <td style="width: 30%;">SR. ${sol.supervisor.nombre.toUpperCase()}</td>
         <td style="width: 20px;"></td>
